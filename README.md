@@ -17,10 +17,15 @@ This monorepo includes a modern customer-facing website, an admin CMS, a robust 
 ## 📁 Project Structure
 
 ecommerce-app-PERN/
+
 ├── backend/ # Node.js + Express API
+
 ├── cms/ # Admin panel for managing products, orders, users
+
 ├── website/ # Customer-facing eCommerce frontend
+
 ├── documentation/ # Technical and usage documentation
+
 └── README.md
 
 ---
