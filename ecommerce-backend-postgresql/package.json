@@ -8,6 +8,7 @@
     "version": "update-changelog && git add CHANGELOG.md",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "build": "npm run lint && npm run prettier && echo 'Build steps go here...'",
     "prettier": "prettier --check **/*.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js"
   },

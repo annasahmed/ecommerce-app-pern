@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			image: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -23,11 +27,20 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			phone: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			user_type: {
+				type: DataTypes.ENUM('website', 'mobile'),
+				allowNull: false,
+			},
 			is_logged: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
 			},
+
 			...baseFields,
 		},
 		{
@@ -37,15 +50,15 @@ module.exports = (sequelize, DataTypes) => {
 			 */
 			tableName: 'app_user',
 			timestamps: true,
-			defaultScope: {
-				attributes: { exclude: ['password'] },
-			},
-			// if want to get password then use user.scope('withPassword').findOne()
-			scopes: {
-				withPassword: {
-					attributes: {},
-				},
-			},
+			// defaultScope: {
+			// 	attributes: { exclude: ['password'] },
+			// },
+			// // if want to get password then use user.scope('withPassword').findOne()
+			// scopes: {
+			// 	withPassword: {
+			// 		attributes: {},
+			// 	},
+			// },
 			...baseScopes(true),
 		}
 	);
