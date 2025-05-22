@@ -1,22 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-	const role_to_permission = sequelize.define(
-		'role_to_permission',
+	const product_to_category = sequelize.define(
+		'product_to_category',
 		{
-			role_id: {
+			product_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'role',
+					model: 'product',
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
-			permission_id: {
+			category_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'permission',
+					model: 'category',
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
@@ -28,22 +28,22 @@ module.exports = (sequelize, DataTypes) => {
 			 * By default, sequelize will automatically transform all passed model names into plural
 			 * References: https://sequelize.org/master/manual/model-basics.html#table-name-inference
 			 */
-			tableName: 'role_to_permission',
+			tableName: 'product_to_category',
 			timestamps: true,
 		}
 	);
-	role_to_permission.associate = (models) => {
-		role_to_permission.belongsTo(models.role, {
-			foreignKey: 'role_id',
+	product_to_category.associate = (models) => {
+		product_to_category.belongsTo(models.product, {
+			foreignKey: 'product_id',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
-		role_to_permission.belongsTo(models.permission, {
-			foreignKey: 'permission_id',
+		product_to_category.belongsTo(models.category, {
+			foreignKey: 'category_id',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
 	};
 
-	return role_to_permission;
+	return product_to_category;
 };

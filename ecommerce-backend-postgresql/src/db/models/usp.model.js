@@ -2,8 +2,8 @@ const { baseFields, baseScopes, baseAssociation } = require('./base_model');
 const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
-	const parent_category = sequelize.define(
-		'parent_category',
+	const usp = sequelize.define(
+		'usp',
 		{
 			id: {
 				type: DataTypes.INTEGER,
@@ -42,10 +42,6 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			icon: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -59,21 +55,20 @@ module.exports = (sequelize, DataTypes) => {
 			...baseFields,
 		},
 		{
-			tableName: 'parent_category',
+			tableName: 'usp',
 			timestamps: true,
 			...baseScopes(),
 		}
 	);
 
-	parent_category.associate = (models) => {
-		parent_category.belongsTo(models.user, {
+	usp.associate = (models) => {
+		usp.belongsTo(models.user, {
 			foreignKey: 'user_id',
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});
-		parent_category.hasMany(models.category);
-		baseAssociation(parent_category, models);
+		baseAssociation(usp, models);
 	};
 
-	return parent_category;
+	return usp;
 };

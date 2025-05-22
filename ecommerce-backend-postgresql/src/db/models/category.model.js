@@ -86,6 +86,9 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});
+		category.belongsToMany(models.product, {
+			through: 'product_to_category',
+		});
 		baseAssociation(category, models);
 	};
 
