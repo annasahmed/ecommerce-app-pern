@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 			slug: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				uninque: true,
+				unique: true,
 				validate: {
 					isValidOption(value) {
 						modelValidators.validateSlug(value);
@@ -66,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'user_id',
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
+		});
+		usp.belongsToMany(models.product, {
+			through: 'product_to_usp',
 		});
 		baseAssociation(usp, models);
 	};

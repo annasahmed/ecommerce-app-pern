@@ -3,42 +3,69 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('app_user', {
+		await queryInterface.createTable('product', {
 			id: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 			},
-			name: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			image: {
+			sku: {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
-			email: {
+			slug: {
 				type: Sequelize.STRING,
 				allowNull: false,
 				unique: true,
 			},
-			password: {
-				type: Sequelize.STRING,
+			cost_price: {
+				type: Sequelize.FLOAT,
 				allowNull: false,
 			},
-			phone: {
-				type: Sequelize.STRING,
+			stock: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+			},
+			sale_price: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			discount_percentage: {
+				type: Sequelize.FLOAT,
 				allowNull: true,
 			},
-			user_type: {
-				type: Sequelize.ENUM('website', 'mobile'),
+			thumbnail: {
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			is_logged: {
+			images: {
+				type: Sequelize.ARRAY(Sequelize.STRING),
+				allowNull: true,
+				defaultValue: [],
+			},
+			is_featured: {
 				type: Sequelize.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
+			},
+			meta_title: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			meta_description: {
+				type: Sequelize.TEXT,
+				allowNull: false,
+			},
+			user_id: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			status: {
 				type: Sequelize.BOOLEAN,
@@ -73,6 +100,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('app_user');
+		await queryInterface.dropTable('product');
 	},
 };

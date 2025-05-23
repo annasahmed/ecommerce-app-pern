@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 			slug: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				uninque: true,
+				unique: true,
 				validate: {
 					isValidOption(value) {
 						modelValidators.validateSlug(value);
@@ -90,6 +90,9 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		product.belongsToMany(models.category, {
 			through: 'product_to_category',
+		});
+		product.belongsToMany(models.usp, {
+			through: 'product_to_usp',
 		});
 		product.hasMany(models.product_translation);
 		baseAssociation(product, models);

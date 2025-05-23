@@ -3,49 +3,42 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('info', {
+		await queryInterface.createTable('address', {
 			id: {
-				type: Sequelize.INTEGER,
+				type: DataTypes.INTEGER,
 				allowNull: false,
-				autoIncrement: true,
 				primaryKey: true,
+				autoIncrement: true,
 			},
-			title: {
-				type: Sequelize.STRING,
+			street: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			city: {
+				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			link: {
-				type: Sequelize.TEXT,
-				allowNull: true,
-			},
-			user_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
-			status: {
-				type: Sequelize.BOOLEAN,
+			country: {
+				type: DataTypes.STRING,
 				allowNull: false,
-				defaultValue: true,
 			},
-			deleted_by: {
+			postal_code: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			type: {
+				type: DataTypes.ENUM('general', 'shipping', 'billing'), // use general for both/all
+				allowNull: false,
+			},
+			app_user_id: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
-					model: 'user',
+					model: 'app_user',
 					key: 'id',
 				},
-				onDelete: 'SET NULL',
+				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
-			},
-			deleted_at: {
-				type: Sequelize.DATE,
-				allowNull: true,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -61,6 +54,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('info');
+		await queryInterface.dropTable('address');
 	},
 };

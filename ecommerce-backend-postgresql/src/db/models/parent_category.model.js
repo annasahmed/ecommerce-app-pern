@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 			slug: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				uninque: true,
+				unique: true,
 				validate: {
 					isValidOption(value) {
 						modelValidators.validateSlug(value);

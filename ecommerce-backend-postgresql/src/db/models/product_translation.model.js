@@ -14,11 +14,12 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			excerpt: {
 				type: DataTypes.TEXT,
-				allowNull: false,
+				allowNull: true,
+
 			},
 			description: {
 				type: DataTypes.TEXT,
-				allowNull: false,
+				allowNull: true,
 			},
 			product_id: {
 				type: DataTypes.INTEGER,

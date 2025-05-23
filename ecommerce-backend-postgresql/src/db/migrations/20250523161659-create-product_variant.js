@@ -3,49 +3,52 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('app_user', {
+		await queryInterface.createTable('product_variant', {
 			id: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 			},
-			name: {
+			sku: {
 				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			attributes: {
+				type: Sequelize.JSONB, // e.g., { "size": "M", "color": "Red" }
 				allowNull: false,
+			},
+			cost_price: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			stock: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+			},
+			sale_price: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			discount_percentage: {
+				type: Sequelize.FLOAT,
+				allowNull: true,
 			},
 			image: {
 				type: Sequelize.STRING,
-				allowNull: true,
-			},
-			email: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true,
-			},
-			password: {
-				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			phone: {
-				type: Sequelize.STRING,
-				allowNull: true,
-			},
-			user_type: {
-				type: Sequelize.ENUM('website', 'mobile'),
+			product_id: {
+				type: Sequelize.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'product',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
+				onUpdate: 'CASCADE',
 			},
-			is_logged: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: false,
-			},
-			status: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: true,
-			},
-			deleted_by: {
+			user_id: {
 				type: Sequelize.INTEGER,
 				allowNull: true,
 				references: {
@@ -55,9 +58,10 @@ module.exports = {
 				onDelete: 'SET NULL',
 				onUpdate: 'CASCADE',
 			},
-			deleted_at: {
-				type: Sequelize.DATE,
-				allowNull: true,
+			status: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: true,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -73,6 +77,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('app_user');
+		await queryInterface.dropTable('product_variant');
 	},
 };

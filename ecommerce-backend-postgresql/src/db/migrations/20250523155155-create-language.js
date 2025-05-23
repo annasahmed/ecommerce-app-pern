@@ -3,20 +3,42 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('role', {
+		await queryInterface.createTable('language', {
 			id: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 			},
 			name: {
 				type: Sequelize.STRING,
 				allowNull: false,
-				unique: true,
 			},
-			description: {
+			country: {
 				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			flag: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			status: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: true,
+			},
+			deleted_by: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
+			},
+			deleted_at: {
+				type: Sequelize.DATE,
 				allowNull: true,
 			},
 			created_at: {
@@ -33,6 +55,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('role');
+		await queryInterface.dropTable('language');
 	},
 };

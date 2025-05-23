@@ -3,61 +3,44 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('app_user', {
+		await queryInterface.createTable('product_translation', {
 			id: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 			},
-			name: {
+			title: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			image: {
-				type: Sequelize.STRING,
+			excerpt: {
+				type: Sequelize.TEXT,
 				allowNull: true,
 			},
-			email: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true,
-			},
-			password: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			phone: {
-				type: Sequelize.STRING,
+			description: {
+				type: Sequelize.TEXT,
 				allowNull: true,
 			},
-			user_type: {
-				type: Sequelize.ENUM('website', 'mobile'),
+			product_id: {
+				type: Sequelize.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'product',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
+				onUpdate: 'CASCADE',
 			},
-			is_logged: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: false,
-			},
-			status: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: true,
-			},
-			deleted_by: {
+			language_id: {
 				type: Sequelize.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'user',
+					model: 'language',
 					key: 'id',
 				},
 				onDelete: 'SET NULL',
 				onUpdate: 'CASCADE',
-			},
-			deleted_at: {
-				type: Sequelize.DATE,
-				allowNull: true,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -73,6 +56,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('app_user');
+		await queryInterface.dropTable('product_translation');
 	},
 };

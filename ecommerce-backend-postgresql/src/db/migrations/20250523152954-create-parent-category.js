@@ -3,42 +3,39 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('app_user', {
+		await queryInterface.createTable('parent_category', {
 			id: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				autoIncrement: true,
-				primaryKey: true,
 			},
-			name: {
-				type: Sequelize.STRING,
+			title: {
+				type: Sequelize.JSONB,
 				allowNull: false,
 			},
-			image: {
-				type: Sequelize.STRING,
+			description: {
+				type: Sequelize.JSONB,
 				allowNull: true,
 			},
-			email: {
+			slug: {
 				type: Sequelize.STRING,
 				allowNull: false,
 				unique: true,
 			},
-			password: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			phone: {
+			icon: {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
-			user_type: {
-				type: Sequelize.ENUM('website', 'mobile'),
-				allowNull: false,
-			},
-			is_logged: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: false,
+			user_id: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			status: {
 				type: Sequelize.BOOLEAN,
@@ -73,6 +70,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('app_user');
+		await queryInterface.dropTable('parent_category');
 	},
 };
