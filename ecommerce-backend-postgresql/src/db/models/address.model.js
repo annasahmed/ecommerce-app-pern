@@ -1,4 +1,4 @@
-const { baseFields, baseScopes } = require('./base_model');
+const { baseScopes } = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {
 	const address = sequelize.define(

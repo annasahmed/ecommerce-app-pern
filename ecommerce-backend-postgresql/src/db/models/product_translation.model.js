@@ -1,6 +1,3 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
-const modelValidators = require('./model_validators');
-
 module.exports = (sequelize, DataTypes) => {
 	const product_translation = sequelize.define(
 		'product_translation',
