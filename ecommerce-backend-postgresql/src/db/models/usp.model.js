@@ -69,6 +69,8 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		usp.belongsToMany(models.product, {
 			through: 'product_to_usp',
+			foreignKey: 'usp_id',
+			otherKey: 'product_id',
 		});
 		baseAssociation(usp, models);
 	};

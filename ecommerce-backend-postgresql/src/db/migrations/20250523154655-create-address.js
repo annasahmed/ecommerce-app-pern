@@ -5,29 +5,29 @@ module.exports = {
 	async up(queryInterface, Sequelize) {
 		await queryInterface.createTable('address', {
 			id: {
-				type: DataTypes.INTEGER,
+				type: Sequelize.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true,
 			},
 			street: {
-				type: DataTypes.STRING,
+				type: Sequelize.STRING,
 				allowNull: true,
 			},
 			city: {
-				type: DataTypes.STRING,
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			country: {
-				type: DataTypes.STRING,
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			postal_code: {
-				type: DataTypes.STRING,
+				type: Sequelize.STRING,
 				allowNull: false,
 			},
 			type: {
-				type: DataTypes.ENUM('general', 'shipping', 'billing'), // use general for both/all
+				type: Sequelize.ENUM('general', 'shipping', 'billing'), // use general for both/all
 				allowNull: false,
 			},
 			app_user_id: {

@@ -12,12 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				unique: true,
-			}, // name attribute is for validation and checking
-			title: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-			}, // title attribute is to display
+			},
 			description: {
 				type: DataTypes.STRING,
 				allowNull: true,
@@ -36,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
 	permission.associate = (models) => {
 		permission.belongsToMany(models.role, {
 			through: 'role_to_permission',
+			foreignKey: 'permission_id',
+			otherKey: 'role_id',
 		});
 	};
 

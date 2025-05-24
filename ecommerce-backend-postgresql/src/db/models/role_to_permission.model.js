@@ -32,18 +32,18 @@ module.exports = (sequelize, DataTypes) => {
 			timestamps: true,
 		}
 	);
-	role_to_permission.associate = (models) => {
-		role_to_permission.belongsTo(models.role, {
-			foreignKey: 'role_id',
-			onDelete: 'CASCADE',
-			onUpdate: 'CASCADE',
-		});
-		role_to_permission.belongsTo(models.permission, {
-			foreignKey: 'permission_id',
-			onDelete: 'CASCADE',
-			onUpdate: 'CASCADE',
-		});
-	};
+	// role_to_permission.associate = (models) => {
+	// 	role_to_permission.belongsTo(models.role, {
+	// 		foreignKey: 'role_id',
+	// 		onDelete: 'CASCADE',
+	// 		onUpdate: 'CASCADE',
+	// 	});
+	// 	role_to_permission.belongsTo(models.permission, {
+	// 		foreignKey: 'permission_id',
+	// 		onDelete: 'CASCADE',
+	// 		onUpdate: 'CASCADE',
+	// 	});
+	// };
 
 	return role_to_permission;
 };

@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
 			phone: {
 				type: DataTypes.STRING,
 				allowNull: true,
+				validate: {
+					isNumeric: true,
+				},
 			},
 			user_type: {
 				type: DataTypes.ENUM('website', 'mobile'),

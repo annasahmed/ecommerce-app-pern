@@ -88,6 +88,8 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		category.belongsToMany(models.product, {
 			through: 'product_to_category',
+			foreignKey: 'category_id',
+			otherKey: 'product_id',
 		});
 		baseAssociation(category, models);
 	};

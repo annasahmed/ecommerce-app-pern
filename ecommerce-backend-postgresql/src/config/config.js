@@ -80,6 +80,7 @@ module.exports = {
 	},
 	sqlDB: {
 		username: envVars.SQL_USERNAME,
+		user: envVars.SQL_USERNAME,
 		host: envVars.SQL_HOST,
 		database: envVars.SQL_DATABASE_NAME,
 		password: envVars.SQL_PASSWORD,
