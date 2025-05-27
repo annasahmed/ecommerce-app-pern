@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'SET NULL',
 				onUpdate: 'CASCADE',
 			},
-			...baseFields.status,
+			status: baseFields.status,
 		},
 		{
 			tableName: 'product_variant',

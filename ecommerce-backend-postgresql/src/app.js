@@ -58,7 +58,7 @@ app.use((req, _, next) => {
 });
 
 // jwt authentication
-app.use(jwt());
+// app.use(jwt());
 
 app.use(setUserMiddleware); // Fetches user from DB & sets full `req.user`
 
@@ -66,6 +66,18 @@ app.use(setUserMiddleware); // Fetches user from DB & sets full `req.user`
 if (config.env === 'production') {
 	app.use('/v1/auth', authLimiter);
 }
+// Apply the formatter middleware
+app.use(responseFormatter);
+
+// Example route
+// app.get('/v1/', async (req, res) => {
+// 	try {
+// 		// Some logic here
+// 		res.success({ user: 'Annas' }, 'Fetched successfully');
+// 	} catch (err) {
+// 		res.error(err, 'Failed to fetch user');
+// 	}
+// });
 
 // v1 api routes
 app.use('/v1', routes);
@@ -75,7 +87,6 @@ app.use((req, res, next) => {
 	next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
-app.use(responseFormatter);
 // convert error to ApiError, if needed
 app.use(errorConverter);
 

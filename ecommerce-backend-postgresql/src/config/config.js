@@ -100,6 +100,8 @@ module.exports = {
 			freezeTableName: true,
 			// Column names will be underscored.
 			underscored: true,
+			createdAt: 'created_at',
+			updatedAt: 'updated_at',
 		},
 	},
 	email: {

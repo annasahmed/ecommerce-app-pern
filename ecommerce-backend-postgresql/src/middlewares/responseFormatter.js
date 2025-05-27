@@ -1,37 +1,47 @@
-const logger = require("../config/logger");
+const logger = require('../config/logger');
 
-const responseFormatter = async ({ response }, next) => {
-    try {
-        // Proceed to the next middleware or controller action
-        await next();
+// middlewares/responseFormatter.js
 
-        // If response has already been sent, no need to modify
-        if (response.finished) {
-            return;
-        }
+const responseFormatter = (req, res, next) => {
+	const oldSend = res.send;
 
-        const originalResponse = response.getBody();
-        const statusCode = response.getStatus();
+	res.send = function (body) {
+		// Don't format error responses (e.g., already formatted by errorHandler)
+		if (res.statusCode >= 400) {
+			return oldSend.call(this, body);
+		}
 
-        // Format the response based on status codes
-        const formattedResponse = {
-            code: statusCode,
-            data: statusCode >= 200 && statusCode < 300 ? originalResponse : null,
-            error: statusCode >= 400 ? originalResponse : null,
-        };
+		let data = body;
 
-        // Logging for all responses
-        logger.info({
-            message: `Response Sent: ${JSON.stringify(formattedResponse)}`,
-            statusCode,
-        });
+		// Try to parse body if it's a JSON string
+		try {
+			data = typeof body === 'string' ? JSON.parse(body) : body;
+		} catch (_) {
+			// leave as-is if it's not JSON string
+		}
 
-        // Send the formatted response to the client
-        response.status(statusCode).json(formattedResponse);
-    } catch (err) {
-        // If there is any error in the responseFormatter, pass it to next error handler
-        next(err);
-    }
+		// If already formatted, don't wrap again
+		if (
+			data &&
+			typeof data === 'object' &&
+			data.code &&
+			(data.message || data.error)
+		) {
+			return oldSend.call(this, body);
+		}
+
+		// Format successful response
+		const formattedResponse = {
+			code: res.statusCode,
+			message: res.statusMessage || 'Success',
+			error: false,
+			data,
+		};
+
+		return oldSend.call(this, formattedResponse);
+	};
+
+	next();
 };
 
-module.exports = responseFormatter
+module.exports = responseFormatter;

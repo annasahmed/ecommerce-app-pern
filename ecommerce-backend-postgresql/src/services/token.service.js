@@ -38,7 +38,7 @@ async function generateAuthTokens({ userId, roleId }, isCmsUser) {
 	await db.token.create({
 		token: refreshToken, // only refresh token
 		type: 'refresh',
-		expires: refreshTokenExpires,
+		expires_at: refreshTokenExpires,
 		type: tokenTypes.REFRESH,
 		...(isCmsUser ? { user_id: userId } : { app_user_id: userId }),
 	});

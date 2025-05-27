@@ -24,13 +24,35 @@ const baseFields = {
 
 const baseScopes = (withPassword) => ({
 	defaultScope: {
-		...(!withPassword ? {} : { attributes: { exclude: ['password'] } }),
+		...(!withPassword
+			? {
+					attributes: {
+						exclude: ['deleted_at', 'deleted_by', 'status'],
+					},
+			  }
+			: {
+					attributes: {
+						exclude: [
+							'password',
+							'deleted_at',
+							'deleted_by',
+							'status',
+						],
+					},
+			  }),
 		where: {
 			deleted_at: null,
 			status: true,
 		},
 	},
 	scopes: {
+		// defaultScope: {
+		// 	...(!withPassword ? {} : { attributes: { exclude: ['password'] } }),
+		// 	where: {
+		// 		deleted_at: null,
+		// 		status: true,
+		// 	},
+		// },
 		withDeleted: {}, // returns everything
 		withPassword: {
 			attributes: {},
@@ -51,6 +73,15 @@ const baseScopes = (withPassword) => ({
 			where: {
 				status: false,
 			},
+		},
+		active: {
+			where: {
+				deleted_at: null,
+				status: true,
+			},
+		},
+		onlyId: {
+			attributes: ['id'],
 		},
 	},
 });
