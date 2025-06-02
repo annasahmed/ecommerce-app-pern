@@ -38,7 +38,7 @@ const MainDrawer = ({ children, product }) => {
 				<FiX className="mx-auto" />
 			</button>
 
-			<div className="flex flex-col w-full h-full justify-between">
+			<div className="flex flex-col w-full h-full justify-between bg-white">
 				{children}
 			</div>
 		</Drawer>

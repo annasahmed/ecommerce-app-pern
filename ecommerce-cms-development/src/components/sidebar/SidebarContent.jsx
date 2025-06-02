@@ -32,7 +32,8 @@ const SidebarContent = () => {
 				const validSubRoutes = route.routes.filter((subRoute) => {
 					const routeKey = subRoute.path.split("?")[0].split("/")[1];
 					// console.log("subRoute", routeKey);
-					return accessList.includes(routeKey);
+					// return accessList.includes(routeKey);
+					return true;
 				});
 
 				// Only include the route if it has valid sub-routes
@@ -43,7 +44,8 @@ const SidebarContent = () => {
 			}
 			// Handle top-level route: check root path part
 			const routeKey = route.path?.split("?")[0].split("/")[1];
-			return routeKey && accessList.includes(routeKey) ? route : null;
+			// return routeKey && accessList.includes(routeKey) ? route : null;
+			return routeKey ? route : null;
 		})
 		.filter(Boolean);
 
@@ -53,9 +55,23 @@ const SidebarContent = () => {
 				className=" text-customGray-900 dark:text-customGray-200"
 				href="/dashboard">
 				{mode === "dark" ? (
-					<img src={"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png"} alt="eCom-store" width="135" className="pl-6" />
+					<img
+						src={
+							"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png"
+						}
+						alt="eCom-store"
+						width="135"
+						className="pl-6"
+					/>
 				) : (
-					<img src={"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png"} alt="eCom-store" width="135" className="pl-6" />
+					<img
+						src={
+							"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png"
+						}
+						alt="eCom-store"
+						width="135"
+						className="pl-6"
+					/>
 				)}
 			</a>
 			<ul className="mt-8">

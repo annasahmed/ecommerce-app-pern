@@ -5,6 +5,7 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 const SelectLanguage = ({ handleLanguageChange }) => {
 	const { languages, langError, langLoading } = useUtilsFunction();
+	console.log(languages, "chkking languages");
 
 	return (
 		<ul className="dropdown-content w-full">

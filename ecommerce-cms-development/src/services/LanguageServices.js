@@ -2,11 +2,11 @@ import requests from './httpService';
 
 const LanguageServices = {
   getAllLanguages: async () => {
-    return requests.get('/language/all');
+    return requests.get('/language');
   },
 
   getShowingLanguage: async () => {
-    return requests.get('/language/show');
+    return requests.get('/language');
   },
 
   getLanguageById: async (id) => {
