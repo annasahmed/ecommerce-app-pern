@@ -66,13 +66,15 @@ const BulkActionDrawer = ({
 	};
 
 	const renderCategories = (categories) => {
+		console.log(categories, "chkkina");
+
 		let myCategories = [];
 		for (let category of categories) {
 			myCategories.push({
-				title: showingTranslateValue(category?.name),
+				title: showingTranslateValue(category?.title),
 				key: category._id,
-				children:
-					category.children.length > 0 && renderCategories(category.children),
+				// children:
+				// 	category.children.length > 0 && renderCategories(category.children),
 			});
 		}
 
@@ -80,6 +82,7 @@ const BulkActionDrawer = ({
 	};
 
 	const findObject = (obj, target) => {
+		return obj;
 		return obj._id === target
 			? obj
 			: obj?.children?.reduce(

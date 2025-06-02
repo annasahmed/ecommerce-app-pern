@@ -26,6 +26,7 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 import NotFoundTwo from "@/components/table/NotFoundTwo";
 import NotificationServices from "@/services/NotificationServices";
 import SelectLanguage from "@/components/form/selectOption/SelectLanguage";
+import { notifyError } from "@/utils/toast";
 
 const Header = () => {
 	const { toggleSidebar, handleLanguageChange, setNavBar, navBar, currLang } =

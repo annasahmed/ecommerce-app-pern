@@ -42,8 +42,8 @@ const ParentCategory = ({
       myCategories.push({
         title: showingTranslateValue(category.name),
         key: category._id,
-        children:
-          category?.children?.length > 0 && renderCategories(category.children),
+        // children:
+        //   category?.children?.length > 0 && renderCategories(category.children),
       });
     }
 

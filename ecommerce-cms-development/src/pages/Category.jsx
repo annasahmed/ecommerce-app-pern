@@ -97,9 +97,9 @@ const Category = () => {
 				isCheck={isCheck}
 			/>
 
-			<MainDrawer>
+			{/* <MainDrawer>
 				<CategoryDrawer id={serviceId} data={data} lang={lang} />
-			</MainDrawer>
+			</MainDrawer> */}
 
 			<AnimatedContent>
 				<Card className="min-w-0 shadow-xs overflow-hidden bg-customWhite dark:bg-customGray-800 mb-5">
