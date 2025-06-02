@@ -31,12 +31,13 @@ const responseFormatter = (req, res, next) => {
 		}
 
 		// Format successful response
-		const formattedResponse = {
-			code: res.statusCode,
-			message: res.statusMessage || 'Success',
-			error: false,
-			data,
-		};
+		const formattedResponse = data;
+		// const formattedResponse = {
+		// 	code: res.statusCode,
+		// 	message: res.statusMessage || 'Success',
+		// 	error: false,
+		// 	data,
+		// };
 
 		return oldSend.call(this, formattedResponse);
 	};

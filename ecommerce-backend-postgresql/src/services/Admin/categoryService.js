@@ -4,6 +4,21 @@ const createBaseService = require('../../utils/baseService.js');
 const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError.js');
 
+const validations = async (req) => {
+	if (data.parentCategoryId) {
+		const exist = await db.parent_category
+			.scope(['onlyId', 'active'])
+			.findOne({
+				where: { id: data.parentCategoryId },
+			});
+		if (!exist)
+			throw new ApiError(
+				httpStatus.NOT_FOUND,
+				`Parent category does not exists`
+			);
+	}
+};
+
 const categoryService = createBaseService(db.category, {
 	name: 'Category',
 	checkDuplicateSlug: true,
@@ -26,21 +41,6 @@ const categoryService = createBaseService(db.category, {
 	},
 	validations,
 });
-
-const validations = async (req) => {
-	if (data.parentCategoryId) {
-		const exist = await db.parent_category
-			.scope(['onlyId', 'active'])
-			.findOne({
-				where: { id: data.parentCategoryId },
-			});
-		if (!exist)
-			throw new ApiError(
-				httpStatus.NOT_FOUND,
-				`Parent category does not exists`
-			);
-	}
-};
 
 // Using userId logic from request
 async function createCategory(req) {

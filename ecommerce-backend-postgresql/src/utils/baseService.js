@@ -138,12 +138,13 @@ function createBaseService(model, options = {}) {
 			});
 			const parsedRows = pickLanguageFields(data.rows, lang);
 
-			return {
-				total: data.count,
-				records: parsedRows,
-				limit: limit,
-				page: page,
-			};
+			return parsedRows;
+			// return {
+			// 	total: data.count,
+			// 	records: parsedRows,
+			// 	limit: limit,
+			// 	page: page,
+			// };
 		},
 	};
 }

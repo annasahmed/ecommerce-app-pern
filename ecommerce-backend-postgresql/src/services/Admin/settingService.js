@@ -1,6 +1,5 @@
-// services/settingService.js
-const db = require('../models');
-const Setting = db.settings;
+const db = require('../../db/models');
+const Setting = db.setting;
 
 const createSetting = async (data) => {
 	return await Setting.create(data);
