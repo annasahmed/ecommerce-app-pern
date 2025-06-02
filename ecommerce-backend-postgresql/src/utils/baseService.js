@@ -10,6 +10,7 @@ function createBaseService(model, options = {}) {
 		formatUpdateData = (data) => data,
 		checkDuplicateSlug = false,
 		useSoftDelete = true,
+		validations = () => {},
 	} = options;
 
 	const getLang = (req) =>
@@ -33,6 +34,7 @@ function createBaseService(model, options = {}) {
 		},
 
 		async create(data, userId) {
+			await validations(data);
 			if (checkDuplicateSlug && data.slug) {
 				const exists = await model.findOne({
 					where: { slug: data.slug },
@@ -54,6 +56,7 @@ function createBaseService(model, options = {}) {
 		async update(id, data, userId) {
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
+			await validations(data);
 
 			if (checkDuplicateSlug && data.slug) {
 				const exists = await model.findOne({

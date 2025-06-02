@@ -5,6 +5,7 @@ const ApiError = require('../utils/ApiError');
 module.exports = function checkPermission(permissionName) {
 	return async function (req, res, next) {
 		try {
+			// return next(); // uncomment this to start working
 			const userId = req.user?.id;
 
 			if (!userId) {

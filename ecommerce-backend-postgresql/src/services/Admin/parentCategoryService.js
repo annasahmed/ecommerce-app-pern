@@ -23,8 +23,8 @@ const parentCategoryService = createBaseService(db.parent_category, {
 
 // Using userId logic from request
 async function createParentCategory(req) {
-	// const userId = commonUtils.getUserId(req);
-	return parentCategoryService.create(req.body, 2);
+	const userId = commonUtils.getUserId(req);
+	return parentCategoryService.create(req.body, userId);
 }
 
 async function updateParentCategory(req) {
