@@ -4,7 +4,7 @@ const createBaseService = require('../../utils/baseService.js');
 const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError.js');
 
-const validations = async (req) => {
+const validations = async (data) => {
 	if (data.parentCategoryId) {
 		const exist = await db.parent_category
 			.scope(['onlyId', 'active'])

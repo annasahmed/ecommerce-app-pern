@@ -151,6 +151,7 @@ function createBaseService(model, options = {}) {
 
 module.exports = createBaseService;
 function pickLanguageFields(data, lang = 'en', fallbackLang = 'en') {
+	return data;
 	if (Array.isArray(data)) {
 		return data.map((item) => pickLanguageFields(item, lang, fallbackLang));
 	}
