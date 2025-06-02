@@ -7,9 +7,16 @@ const getUserId = (req) => {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'User Id is required');
 	}
 };
+const softDelete = async (model, id, deletedByUserId) => {
+	return await model.update(
+		{ deleted_at: new Date(), deleted_by: deletedByUserId },
+		{ where: { id } }
+	);
+};
 
 const commonUtils = {
 	getUserId,
+	softDelete,
 };
 
 module.exports = commonUtils;

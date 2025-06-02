@@ -1,4 +1,6 @@
+const httpStatus = require('http-status');
 const db = require('../db/models');
+const ApiError = require('../utils/ApiError');
 
 module.exports = function checkPermission(permissionName) {
 	return async function (req, res, next) {
@@ -6,9 +8,10 @@ module.exports = function checkPermission(permissionName) {
 			const userId = req.user?.id;
 
 			if (!userId) {
-				return res
-					.status(401)
-					.json({ message: 'Unauthorized: User not found' });
+				throw new ApiError(
+					httpStatus.UNAUTHORIZED,
+					'Unauthorized: User not found'
+				);
 			}
 
 			const currentUser = await db.user.findByPk(userId, {
@@ -22,15 +25,25 @@ module.exports = function checkPermission(permissionName) {
 			});
 
 			if (!currentUser || !currentUser.roles.length) {
-				return res
-					.status(403)
-					.json({ message: 'Forbidden: No permission' });
+				throw new ApiError(
+					httpStatus.FORBIDDEN,
+					'Forbidden: No permission'
+				);
 			}
 
 			return next();
 		} catch (error) {
 			console.error('Permission check failed:', error);
-			return res.status(500).json({ message: 'Internal Server Error' });
+			if (error instanceof ApiError) {
+				return next(error);
+			}
+
+			return next(
+				new ApiError(
+					httpStatus.INTERNAL_SERVER_ERROR,
+					'Internal Server Error'
+				)
+			);
 		}
 	};
 };

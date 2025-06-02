@@ -4,36 +4,32 @@ const db = require('../db/models/index.js');
 const { tokenTypes } = require('./tokens.js');
 
 // Better error-safe isRevoked
-async function isRevoked(req, payload, done) {
+async function isRevoked(req, token) {
 	try {
-		const token = req.headers.authorization?.split(' ')[1];
-		if (!token) return done(null, true); // No token, revoke by default
+		const jwtToken = req.headers.authorization?.split(' ')[1];
+		if (!jwtToken) return true;
 
-		// Determine if it's a refresh token request (e.g. via endpoint)
 		const isRefreshRoute = req.originalUrl.includes('/refresh-token');
 
 		if (!isRefreshRoute) {
-			// If it's not a refresh route, assume it's an access token and allow
-			return done(null, false);
+			// It's an access token route, don't revoke
+			return false;
 		}
 
-		// Refresh token check in DB
 		const savedToken = await db.token.findOne({
 			where: {
-				token,
+				token: jwtToken,
 				type: tokenTypes.REFRESH,
 				revoked: false,
 			},
 		});
 
-		// If not found or revoked, deny
-		if (!savedToken) return done(null, true);
-
-		// Token is valid
-		return done(null, false);
+		// Revoke if not found
+		return !savedToken;
 	} catch (err) {
 		console.error('JWT isRevoked Error:', err.message);
-		return done(err, true); // default to revoked on error
+		// Revoke on error for safety
+		return true;
 	}
 }
 
@@ -49,7 +45,7 @@ function jwt() {
 		},
 	}).unless({
 		path: [
-			/\/v[1-9](\d)*\/(auth|docs|delete)\/.*/, // Public routes
+			/\/v[1-9](\d)*\/(auth|admin\/auth|docs|delete)\/.*/, // Public routes
 		],
 	});
 }

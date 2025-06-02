@@ -94,14 +94,7 @@ const baseAssociation = (modelName, models) => {
 	});
 };
 
-// export const addSoftDelete = (model) => {
-//     model.softDelete = async function (id, deletedByUserId) {
-//         return await model.update(
-//             { deleted_at: new Date(), deleted_by: deletedByUserId },
-//             { where: { id } }
-//         );
-//     };
-// };
+
 
 module.exports = {
 	baseAssociation,

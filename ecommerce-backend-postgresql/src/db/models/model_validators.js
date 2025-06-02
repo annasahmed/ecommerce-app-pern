@@ -1,4 +1,5 @@
 const stringWithTranslation = (value, attribute = 'title') => {
+	if (value == null) return;
 	if (typeof value !== 'object' || Array.isArray(value)) {
 		throw new Error(`${attribute} must be an object`);
 	}
