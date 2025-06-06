@@ -253,7 +253,7 @@ const Header = () => {
 																	}
 																	className="flex items-center"
 																	onClick={() =>
-																		handleNotificationStatusChange(value._id)
+																		handleNotificationStatusChange(value.id)
 																	}>
 																	<Avatar
 																		className="mr-2 md:block bg-customGray-50 border border-customGray-200"
@@ -296,7 +296,7 @@ const Header = () => {
 																	<button
 																		type="button"
 																		onClick={() =>
-																			handleNotificationDelete(value._id)
+																			handleNotificationDelete(value.id)
 																		}
 																		className="px-2 group-hover:text-customBlue-500 text-customRed-500 focus:outline-none">
 																		<FiTrash2 />

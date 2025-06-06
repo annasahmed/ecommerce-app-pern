@@ -34,11 +34,11 @@ const useCategorySubmit = (id, data) => {
 
 	// console.log("resData", resData);
 
-	const onSubmit = async ({ name, description }) => {
+	const onSubmit = async ({ title, description }) => {
 		try {
 			setIsSubmitting(true);
 			const nameTranslates = await handlerTextTranslateHandler(
-				name,
+				title,
 				language,
 				resData?.title,
 			);
@@ -51,19 +51,19 @@ const useCategorySubmit = (id, data) => {
 			);
 
 			const categoryData = {
-				name: {
+				title: {
 					...nameTranslates,
-					[language]: name,
+					[language]: title,
 				},
 				description: {
 					...descriptionTranslates,
 					[language]: description ? description : "",
 				},
-				parentId: checked ? checked : undefined,
-				parentName: selectCategoryName ? selectCategoryName : "Home",
+				parentCategoryId: checked ? checked : undefined,
+				// parentName: selectCategoryName ? selectCategoryName : "Home",
 
 				icon: imageUrl,
-				status: published ? "show" : "hide",
+				status: published,
 				lang: language,
 			};
 
@@ -95,7 +95,7 @@ const useCategorySubmit = (id, data) => {
 	const handleSelectLanguage = (lang) => {
 		setLanguage(lang);
 		if (Object.keys(resData).length > 0) {
-			setValue("name", resData.name[lang ? lang : "en"]);
+			setValue("title", resData.title[lang ? lang : "en"]);
 			setValue("description", resData.description[lang ? lang : "en"]);
 		}
 	};
@@ -103,23 +103,23 @@ const useCategorySubmit = (id, data) => {
 	useEffect(() => {
 		if (!isDrawerOpen) {
 			setResData({});
-			setValue("name");
-			setValue("parentId");
-			setValue("parentName");
+			setValue("title");
+			setValue("parentCategoryId");
+			// setValue("parentName");
 			setValue("description");
 			setValue("icon");
 			setImageUrl("");
 			setPublished(true);
-			clearErrors("name");
-			clearErrors("parentId");
-			clearErrors("parentName");
+			clearErrors("title");
+			clearErrors("parentCategoryId");
+			// clearErrors("parentName");
 			clearErrors("description");
 			setSelectCategoryName("Home");
 			setLanguage(lang);
 			setValue("language", language);
 
-			if (data !== undefined && data[0]?._id !== undefined) {
-				setChecked(data[0]._id);
+			if (data !== undefined && data[0]?.id !== undefined) {
+				setChecked(data[0].id);
 			}
 			return;
 		}
@@ -131,18 +131,18 @@ const useCategorySubmit = (id, data) => {
 
 					if (res) {
 						setResData(res);
-						setValue("name", res.title[language ? language : "en"]);
+						setValue("title", res.title[language ? language : "en"]);
 						setValue(
 							"description",
 							res.description[language ? language : "en"],
 						);
 						setValue("language", language);
-						setValue("parentId", res.parentId);
-						setValue("parentName", res.parentName);
-						setSelectCategoryName(res.parentName);
-						setChecked(res.parentId);
+						setValue("parentCategoryId", res.parent_category_id);
+						// setValue("parentName", res.parentName);
+						// setSelectCategoryName(res.parentName);
+						// setChecked(res.parentId);
 						setImageUrl(res.icon);
-						setPublished(res.status === "show" ? true : false);
+						setPublished(res.status || false);
 					}
 				} catch (err) {
 					notifyError(err ? err.response.data.message : err.message);

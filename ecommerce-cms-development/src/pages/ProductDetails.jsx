@@ -47,7 +47,7 @@ const ProductDetails = () => {
 
 			const varTitle = attribue?.filter((att) =>
 				// res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-				res.includes(att._id),
+				res.includes(att.id),
 			);
 
 			setVariantTitle(varTitle);
@@ -100,7 +100,7 @@ const ProductDetails = () => {
 								<p className="uppercase font-serif font-medium text-customGray-500 dark:text-customGray-400 text-sm">
 									{t("Sku")} :{" "}
 									<span className="font-bold text-customGray-500 dark:text-customGray-500">
-										{/* {data?._id !== undefined && data?._id.substring(18, 24)} */}
+										{/* {data?.id !== undefined && data?.id.substring(18, 24)} */}
 										{data?.sku}
 									</span>
 								</p>

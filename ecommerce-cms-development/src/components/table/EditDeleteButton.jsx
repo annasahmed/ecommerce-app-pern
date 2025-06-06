@@ -23,7 +23,7 @@ const EditDeleteButton = ({
 				{children?.length > 0 ? (
 					<>
 						<Link
-							to={`/categories/${parent?._id}`}
+							to={`/categories/${parent?.id}`}
 							className="p-2 cursor-pointer text-customGray-400 hover:text-customTeal-600 focus:outline-none">
 							<Tooltip
 								id="view"

@@ -70,7 +70,7 @@ const AttributeListTable = ({
 												);
 
 												const attributeName = attributeData?.find(
-													(v) => v._id === variant[att?._id],
+													(v) => v.id === variant[att?.id],
 												)?.name;
 												if (attributeName === undefined) {
 													return attributeName?.en;

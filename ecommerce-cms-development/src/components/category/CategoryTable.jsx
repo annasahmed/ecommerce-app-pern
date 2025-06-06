@@ -27,12 +27,11 @@ const CategoryTable = ({
 
 	const handleClick = (e) => {
 		const { id, checked } = e.target;
-		setIsCheck([...isCheck, id]);
+		setIsCheck([...isCheck, parseInt(id)]);
 		if (!checked) {
-			setIsCheck(isCheck.filter((item) => item !== id));
+			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
 		}
 	};
-
 	return (
 		<>
 			{isCheck?.length < 1 && (
@@ -50,9 +49,9 @@ const CategoryTable = ({
 							<CheckBox
 								type="checkbox"
 								name="category"
-								id={category.id}
+								id={parseInt(category.id)}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(category.id)}
+								isChecked={isCheck?.includes(parseInt(category.id))}
 							/>
 						</TableCell>
 
@@ -64,7 +63,7 @@ const CategoryTable = ({
 								<Avatar
 									className="hidden mr-3 md:block bg-customGray-50 p-1"
 									src={category?.icon}
-									alt={category?.title}
+									alt={showingTranslateValue(category?.title)}
 								/>
 							) : (
 								<Avatar

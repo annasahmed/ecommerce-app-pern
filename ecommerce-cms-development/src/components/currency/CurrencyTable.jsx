@@ -12,72 +12,72 @@ import ShowHideButton from "@/components/table/ShowHideButton";
 // import { SidebarContext } from '../context/SidebarContext';
 
 const CurrencyTable = ({ currency, isCheck, setIsCheck }) => {
-  const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
-  // console.log('currency',currency)
+	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
+	// console.log('currency',currency)
 
-  const handleClick = (e) => {
-    const { id, checked } = e.target;
+	const handleClick = (e) => {
+		const { id, checked } = e.target;
 
-    setIsCheck([...isCheck, id]);
-    if (!checked) {
-      setIsCheck(isCheck.filter((item) => item !== id));
-    }
-  };
+		setIsCheck([...isCheck, id]);
+		if (!checked) {
+			setIsCheck(isCheck.filter((item) => item !== id));
+		}
+	};
 
-  return (
-    <>
-      {isCheck.length < 1 && <DeleteModal id={serviceId} title={title} />}
+	return (
+		<>
+			{isCheck.length < 1 && <DeleteModal id={serviceId} title={title} />}
 
-      <MainDrawer>
-        <CurrencyDrawer id={serviceId} />
-      </MainDrawer>
+			<MainDrawer>
+				<CurrencyDrawer id={serviceId} />
+			</MainDrawer>
 
-      <TableBody>
-        {currency?.map((currency) => (
-          <TableRow key={currency._id}>
-            <TableCell>
-              <CheckBox
-                type="checkbox"
-                name={currency.symbol}
-                id={currency._id}
-                handleClick={handleClick}
-                isChecked={isCheck.includes(currency._id)}
-              />
-            </TableCell>
+			<TableBody>
+				{currency?.map((currency) => (
+					<TableRow key={currency.id}>
+						<TableCell>
+							<CheckBox
+								type="checkbox"
+								name={currency.symbol}
+								id={currency.id}
+								handleClick={handleClick}
+								isChecked={isCheck.includes(currency.id)}
+							/>
+						</TableCell>
 
-            <TableCell className="text-center">
-              <span className="font-medium text-sm">{currency.name}</span>
-            </TableCell>
+						<TableCell className="text-center">
+							<span className="font-medium text-sm">{currency.name}</span>
+						</TableCell>
 
-            {/* <TableCell className="text-center">
+						{/* <TableCell className="text-center">
               <span className="font-medium text-sm">{currency.iso_code}</span>
             </TableCell> */}
 
-            <TableCell className="text-center">
-              <span className="font-medium text-sm">{currency.symbol}</span>
-            </TableCell>
+						<TableCell className="text-center">
+							<span className="font-medium text-sm">{currency.symbol}</span>
+						</TableCell>
 
-            <TableCell className="text-center">
-              <ShowHideButton
-                id={currency._id}
-                status={currency.status}
-                currencyStatusName="status"
-              />
-            </TableCell>
+						<TableCell className="text-center">
+							<ShowHideButton
+								id={currency.id}
+								status={currency.status}
+								currencyStatusName="status"
+							/>
+						</TableCell>
 
-            <TableCell>
-              <EditDeleteButton
-                title={currency.name}
-                id={currency._id}
-                handleUpdate={handleUpdate}
-                handleModalOpen={handleModalOpen}
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </>
-  );
+						<TableCell>
+							<EditDeleteButton
+								title={currency.name}
+								id={currency.id}
+								handleUpdate={handleUpdate}
+								handleModalOpen={handleModalOpen}
+							/>
+						</TableCell>
+					</TableRow>
+				))}
+			</TableBody>
+		</>
+	);
 };
 
 export default CurrencyTable;

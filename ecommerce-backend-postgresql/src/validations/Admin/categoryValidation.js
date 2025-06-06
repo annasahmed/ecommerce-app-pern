@@ -5,9 +5,10 @@ const createCategory = {
 	body: Joi.object().keys({
 		parentCategoryId: Joi.number().required(),
 		title: Joi.object().required(),
-		description: Joi.object(),
+		description: Joi.object().allow(null),
 		slug: Joi.string().custom(validateSlug).required(),
-		icon: Joi.string(),
+		icon: Joi.string().allow(null),
+		status: Joi.boolean(),
 	}),
 };
 
@@ -17,10 +18,11 @@ const updateCategory = {
 	}),
 	body: Joi.object().keys({
 		parentCategoryId: Joi.number().optional(),
-		title: Joi.object(),
-		description: Joi.object(),
-		slug: Joi.string().custom(validateSlug),
-		icon: Joi.string(),
+		title: Joi.object().optional(),
+		description: Joi.object().allow(null).optional(),
+		slug: Joi.string().custom(validateSlug).optional(),
+		icon: Joi.string().allow(null),
+		status: Joi.boolean(),
 	}),
 };
 

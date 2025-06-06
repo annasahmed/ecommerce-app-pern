@@ -187,6 +187,7 @@
 	"All": " All",
 	"Categoryformenu": "Category for menu",
 	"SelectCategory": "Select Category",
+	"SelectParentCategory": "Select Parent Category",
 	"catIdTbl": "ID",
 	"catIconTbl": "Icon",
 	"catParentTbl": "PARENT",

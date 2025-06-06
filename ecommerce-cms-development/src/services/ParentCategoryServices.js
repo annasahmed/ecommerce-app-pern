@@ -6,7 +6,7 @@ const ParentCategoryServices = {
 	},
 
 	getAllCategories: async () => {
-		return requests.get("/parent-category/all");
+		return requests.get("/parent-category");
 	},
 
 	getCategoryById: async (id) => {

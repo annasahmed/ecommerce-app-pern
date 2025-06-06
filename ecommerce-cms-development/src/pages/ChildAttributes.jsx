@@ -66,7 +66,7 @@ const ChildAttributes = () => {
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(data?.variants?.map((value) => value._id));
+		setIsCheck(data?.variants?.map((value) => value.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}
@@ -74,7 +74,7 @@ const ChildAttributes = () => {
 
 	// attributes filtering except this id
 	useEffect(() => {
-		const data = attributes?.filter((value) => value._id !== id);
+		const data = attributes?.filter((value) => value.id !== id);
 		setAttributeData(data);
 	}, [attributes, id]);
 

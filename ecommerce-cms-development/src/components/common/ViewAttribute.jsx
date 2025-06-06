@@ -27,7 +27,7 @@ const ViewAttribute = ({ attribute }) => {
 				}>
 				<div className="px-8 py-4">
 					{attribute.variants.map((att, i) => (
-						<ul key={att._id}>
+						<ul key={att.id}>
 							<li className="text-sm">
 								{i + 1}){" "}
 								<span className="ml-2 hover:text-customTeal-500">
@@ -40,7 +40,7 @@ const ViewAttribute = ({ attribute }) => {
 
 				<div className="flex justify-end">
 					<Link
-						to={`/attributes/${attribute._id}`}
+						to={`/attributes/${attribute.id}`}
 						className="absolute bottom-0 right-0 focus:outline-none active:outline-none text-sm py-1 px-2 rounded-sm bg-customTeal-500 text-customGray-100 hover:bg-customTeal-600">
 						View
 					</Link>

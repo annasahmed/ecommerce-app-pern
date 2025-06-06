@@ -70,7 +70,7 @@ const Category = () => {
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(data[0]?.children.map((li) => li._id));
+		setIsCheck(data[0]?.children.map((li) => li.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}

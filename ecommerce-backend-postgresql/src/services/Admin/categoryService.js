@@ -27,6 +27,7 @@ const categoryService = createBaseService(db.category, {
 		description: data.description,
 		slug: data.slug,
 		icon: data.icon,
+		status: data.status,
 		parent_category_id: data.parentCategoryId,
 	}),
 	formatUpdateData: (data) => {
@@ -35,6 +36,7 @@ const categoryService = createBaseService(db.category, {
 		if (data.description) toUpdate.description = data.description;
 		if (data.slug) toUpdate.slug = data.slug;
 		if (data.icon) toUpdate.icon = data.icon;
+		if (data.status !== undefined) toUpdate.status = data.status;
 		if (data.parentCategoryId)
 			toUpdate.parent_category_id = data.parentCategoryId;
 		return toUpdate;

@@ -17,7 +17,7 @@ const createCategory = catchAsync(async (req, res) => {
 });
 
 const softDeleteCategory = catchAsync(async (req, res) => {
-	await adminCategoryService.softDeleteCategoryById(req.params.categoryId);
+	await adminCategoryService.softDeleteCategoryById(req);
 	res.send({ success: true });
 });
 const permanentDeleteCategory = catchAsync(async (req, res) => {

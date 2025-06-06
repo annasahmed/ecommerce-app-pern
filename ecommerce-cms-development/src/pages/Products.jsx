@@ -74,7 +74,7 @@ const Products = () => {
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(data?.products.map((li) => li._id));
+		setIsCheck(data?.products.map((li) => li.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}

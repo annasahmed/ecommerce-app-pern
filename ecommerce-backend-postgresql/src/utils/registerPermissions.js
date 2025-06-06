@@ -23,7 +23,7 @@ async function registerPermissions(
 		await adminRole.addPermission(perm);
 	}
 
-	console.su(
+	console.log(
 		`✅ Permissions for module "${moduleName}" registered and assigned to admin.`
 	);
 }

@@ -5,33 +5,33 @@ import useAsync from "@/hooks/useAsync";
 import OrderServices from "@/services/OrderServices";
 
 const RevenueChart = () => {
-  const { data } = useAsync(OrderServices.getBestSellerProductChart);
+	const { data } = useAsync(OrderServices.getBestSellerProductChart);
 
-  const PieOption = {
-    data: {
-      datasets: [
-        {
-          data: data?.bestSellingProduct?.map((selling) => selling.count),
-          backgroundColor: ["#10B981", "#3B82F6", "#F97316", "#0EA5E9"],
-          label: "Dataset 1",
-        },
-      ],
-      labels: data?.bestSellingProduct?.map((selling) => selling._id),
-    },
-    options: {
-      responsive: true,
-      cutoutPercentage: 80,
-    },
-    legend: {
-      display: false,
-    },
-  };
+	const PieOption = {
+		data: {
+			datasets: [
+				{
+					data: data?.bestSellingProduct?.map((selling) => selling.count),
+					backgroundColor: ["#10B981", "#3B82F6", "#F97316", "#0EA5E9"],
+					label: "Dataset 1",
+				},
+			],
+			labels: data?.bestSellingProduct?.map((selling) => selling.id),
+		},
+		options: {
+			responsive: true,
+			cutoutPercentage: 80,
+		},
+		legend: {
+			display: false,
+		},
+	};
 
-  return (
-    <div>
-      <Pie {...PieOption} className="chart" />
-    </div>
-  );
+	return (
+		<div>
+			<Pie {...PieOption} className="chart" />
+		</div>
+	);
 };
 
 export default RevenueChart;

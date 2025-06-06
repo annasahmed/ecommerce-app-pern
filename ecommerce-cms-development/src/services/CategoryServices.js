@@ -22,11 +22,11 @@ const CategoryServices = {
 	},
 
 	updateCategory: async (id, body) => {
-		return requests.put(`/category/${id}`, body);
+		return requests.patch(`/category/${id}`, body);
 	},
 
 	updateStatus: async (id, body) => {
-		return requests.put(`/category/${id}`, body);
+		return requests.patch(`/category/${id}`, body);
 	},
 
 	deleteCategory: async (id, body) => {

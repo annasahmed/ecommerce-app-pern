@@ -72,7 +72,7 @@ const BulkActionDrawer = ({
 		for (let category of categories) {
 			myCategories.push({
 				title: showingTranslateValue(category?.title),
-				key: category._id,
+				key: category.id,
 				// children:
 				// 	category.children.length > 0 && renderCategories(category.children),
 			});
@@ -83,7 +83,7 @@ const BulkActionDrawer = ({
 
 	const findObject = (obj, target) => {
 		return obj;
-		return obj._id === target
+		return obj.id === target
 			? obj
 			: obj?.children?.reduce(
 					(acc, obj) => acc ?? findObject(obj, target),
@@ -442,7 +442,7 @@ const BulkActionDrawer = ({
 													</option>
 
 													{attributes?.map((value, index) => (
-														<option key={index + 1} value={value._id}>
+														<option key={index + 1} value={value.id}>
 															{showingTranslateValue(value?.name)}
 														</option>
 													))}

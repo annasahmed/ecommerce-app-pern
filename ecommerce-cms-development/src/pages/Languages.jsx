@@ -51,7 +51,7 @@ const Languages = () => {
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(data?.map((li) => li._id));
+		setIsCheck(data?.map((li) => li.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}

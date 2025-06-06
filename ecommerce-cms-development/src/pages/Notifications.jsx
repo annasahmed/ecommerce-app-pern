@@ -126,7 +126,7 @@ const Notifications = () => {
 	// handle select all
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(data?.map((li) => li._id));
+		setIsCheck(data?.map((li) => li.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}
@@ -234,10 +234,10 @@ const Notifications = () => {
 														<TableCell style={{ padding: 0 }}>
 															<CheckBox
 																type="checkbox"
-																name={value?._id}
-																id={value._id}
+																name={value?.id}
+																id={value.id}
 																handleClick={handleClick}
-																isChecked={isCheck?.includes(value._id)}
+																isChecked={isCheck?.includes(value.id)}
 															/>
 														</TableCell>
 
@@ -252,7 +252,7 @@ const Notifications = () => {
 																}
 																className="flex items-center"
 																onClick={() =>
-																	handleNotificationStatusChange(value._id)
+																	handleNotificationStatusChange(value.id)
 																}>
 																<Avatar
 																	className="mr-2 md:block hidden bg-customGray-50 border border-customGray-200"
@@ -308,7 +308,7 @@ const Notifications = () => {
 															<div className="group inline-block relative">
 																<button
 																	onClick={() =>
-																		handleNotificationDelete(value._id)
+																		handleNotificationDelete(value.id)
 																	}
 																	type="button"
 																	className="px-2 group-hover:text-customBlue-500 text-customRed-500 focus:outline-none">

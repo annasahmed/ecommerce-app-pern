@@ -20,7 +20,7 @@ const EditProfile = () => {
 	} = useContext(AdminContext);
 
 	const { register, handleSubmit, onSubmit, errors, imageUrl, setImageUrl } =
-		useStaffSubmit(adminInfo._id);
+		useStaffSubmit(adminInfo.id);
 
 	return (
 		<>

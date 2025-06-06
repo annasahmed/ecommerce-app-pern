@@ -91,7 +91,7 @@ const Orders = () => {
 			// console.log("handleDownloadOrders", res);
 			const exportData = res?.orders?.map((order) => {
 				return {
-					_id: order._id,
+					_id: order.id,
 					invoice: order.invoice,
 					subTotal: getNumberTwo(order.subTotal),
 					shippingCost: getNumberTwo(order.shippingCost),

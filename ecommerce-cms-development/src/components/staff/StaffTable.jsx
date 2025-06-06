@@ -61,7 +61,7 @@ const StaffTable = ({ staffs, lang }) => {
 
 			<TableBody>
 				{staffs?.map((staff) => (
-					<TableRow key={staff._id}>
+					<TableRow key={staff.id}>
 						<TableCell>
 							<div className="flex items-center">
 								<Avatar
@@ -99,7 +99,7 @@ const StaffTable = ({ staffs, lang }) => {
 
 						<TableCell className="text-center">
 							<ActiveInActiveButton
-								id={staff?._id}
+								id={staff?.id}
 								staff={staff}
 								option="staff"
 								status={staff.status}
@@ -119,7 +119,7 @@ const StaffTable = ({ staffs, lang }) => {
 									/>
 								</button>
 								<EditDeleteButton
-									id={staff._id}
+									id={staff.id}
 									staff={staff}
 									isSubmitting={isSubmitting}
 									handleUpdate={handleUpdate}

@@ -27,22 +27,17 @@ const baseScopes = (withPassword) => ({
 		...(!withPassword
 			? {
 					attributes: {
-						exclude: ['deleted_at', 'deleted_by', 'status'],
+						exclude: ['deleted_at', 'deleted_by'],
 					},
 			  }
 			: {
 					attributes: {
-						exclude: [
-							'password',
-							'deleted_at',
-							'deleted_by',
-							'status',
-						],
+						exclude: ['password', 'deleted_at', 'deleted_by'],
 					},
 			  }),
 		where: {
 			deleted_at: null,
-			status: true,
+			// status: true,
 		},
 	},
 	scopes: {
@@ -93,8 +88,6 @@ const baseAssociation = (modelName, models) => {
 		onUpdate: 'CASCADE',
 	});
 };
-
-
 
 module.exports = {
 	baseAssociation,

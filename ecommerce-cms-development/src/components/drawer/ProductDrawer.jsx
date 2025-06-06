@@ -395,7 +395,7 @@ const ProductDrawer = ({ id }) => {
 									/>
 
 									{attributes?.map((attribute, i) => (
-										<div key={attribute._id}>
+										<div key={attribute.id}>
 											<div className="flex w-full h-10 justify-between font-sans rounded-tl rounded-tr bg-customGray-200 px-4 py-3 text-left text-sm font-normal text-customGray-700 hover:bg-customGray-200">
 												{"Select"}
 												{showingTranslateValue(attribute?.title)}

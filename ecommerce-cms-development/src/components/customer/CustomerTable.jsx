@@ -29,11 +29,11 @@ const CustomerTable = ({ customers }) => {
 
 			<TableBody>
 				{customers?.map((user) => (
-					<TableRow key={user._id}>
+					<TableRow key={user.id}>
 						<TableCell>
 							<span className="font-semibold uppercase text-xs">
 								{" "}
-								{user?._id?.substring(20, 24)}
+								{user?.id?.substring(20, 24)}
 							</span>
 						</TableCell>
 						<TableCell>
@@ -55,7 +55,7 @@ const CustomerTable = ({ customers }) => {
 							<div className="flex justify-end text-right">
 								<div className="p-2 cursor-pointer text-customGray-400 hover:text-customTeal-600">
 									{" "}
-									<Link to={`/customer-order/${user._id}`}>
+									<Link to={`/customer-order/${user.id}`}>
 										<Tooltip
 											id="view"
 											Icon={FiZoomIn}
@@ -67,7 +67,7 @@ const CustomerTable = ({ customers }) => {
 
 								<EditDeleteButton
 									title={user.name}
-									id={user._id}
+									id={user.id}
 									handleUpdate={handleUpdate}
 									handleModalOpen={handleModalOpen}
 								/>

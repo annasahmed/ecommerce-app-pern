@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const ApiError = require('./ApiError');
 const { getOffset } = require('./query');
 const config = require('../config/config');
+const { pickLanguageFields } = require('./languageUtils');
 
 function createBaseService(model, options = {}) {
 	const {
@@ -14,7 +15,7 @@ function createBaseService(model, options = {}) {
 	} = options;
 
 	const getLang = (req) =>
-		req?.query?.lang || req?.headers?.['accept-language'] || 'ur';
+		req?.query?.lang || req?.headers?.['accept-language'] || 'en';
 
 	return {
 		async getById(id, scope = 'defaultScope') {
@@ -150,26 +151,3 @@ function createBaseService(model, options = {}) {
 }
 
 module.exports = createBaseService;
-function pickLanguageFields(data, lang = 'en', fallbackLang = 'en') {
-	return data;
-	if (Array.isArray(data)) {
-		return data.map((item) => pickLanguageFields(item, lang, fallbackLang));
-	}
-
-	if (typeof data !== 'object' || data === null) return data;
-
-	const result = {};
-	for (const key in data) {
-		const value = data[key];
-		if (
-			value &&
-			typeof value === 'object' &&
-			(value.hasOwnProperty(lang) || value.hasOwnProperty(fallbackLang))
-		) {
-			result[key] = value[lang] || value[fallbackLang];
-		} else {
-			result[key] = value;
-		}
-	}
-	return result;
-}

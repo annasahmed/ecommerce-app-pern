@@ -48,7 +48,7 @@ const ChildCategory = () => {
 	useEffect(() => {
 		const getAncestors = (target, children, ancestors = []) => {
 			for (let node of children) {
-				if (node._id === target) {
+				if (node.id === target) {
 					return ancestors.concat(node);
 				}
 				const found = getAncestors(
@@ -65,7 +65,7 @@ const ChildCategory = () => {
 
 		const findChildArray = (obj, target) => {
 			// console.log('obj', obj);
-			return obj._id === target
+			return obj.id === target
 				? obj
 				: obj?.children?.reduce(
 						(acc, obj) => acc ?? findChildArray(obj, target),
@@ -95,7 +95,7 @@ const ChildCategory = () => {
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(childCategory?.map((li) => li._id));
+		setIsCheck(childCategory?.map((li) => li.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}
@@ -128,7 +128,7 @@ const ChildCategory = () => {
 									<FiChevronRight />{" "}
 								</li>
 								<li className="text-sm pl-1 transition duration-200 ease-in cursor-pointer text-customBlue-700 hover:text-customTeal-500 font-semibold ">
-									<Link to={`/categories/${child._id}`}>
+									<Link to={`/categories/${child.id}`}>
 										{showingTranslateValue(child?.name)}
 									</Link>
 								</li>

@@ -65,9 +65,9 @@ const CouponTable = ({ isCheck, coupons, setIsCheck }) => {
 							<CheckBox
 								type="checkbox"
 								name={coupon?.title?.en}
-								id={coupon._id}
+								id={coupon.id}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(coupon._id)}
+								isChecked={isCheck?.includes(coupon.id)}
 							/>
 						</TableCell>
 
@@ -116,7 +116,7 @@ const CouponTable = ({ isCheck, coupons, setIsCheck }) => {
 						)}
 
 						<TableCell className="text-center">
-							<ShowHideButton id={coupon._id} status={coupon.status} />
+							<ShowHideButton id={coupon.id} status={coupon.status} />
 						</TableCell>
 
 						<TableCell>
@@ -143,7 +143,7 @@ const CouponTable = ({ isCheck, coupons, setIsCheck }) => {
 
 						<TableCell>
 							<EditDeleteButton
-								id={coupon?._id}
+								id={coupon?.id}
 								isCheck={isCheck}
 								handleUpdate={handleUpdate}
 								handleModalOpen={handleModalOpen}

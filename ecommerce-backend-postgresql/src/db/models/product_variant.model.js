@@ -57,16 +57,6 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
-			user_id: {
-				type: DataTypes.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
 			status: baseFields.status,
 		},
 		{
@@ -77,11 +67,6 @@ module.exports = (sequelize, DataTypes) => {
 	);
 
 	product_variant.associate = (models) => {
-		product_variant.belongsTo(models.user, {
-			foreignKey: 'user_id',
-			onDelete: 'SET NULL',
-			onUpdate: 'CASCADE',
-		});
 		product_variant.belongsTo(models.product, {
 			foreignKey: 'product_id',
 			onDelete: 'CASCADE',

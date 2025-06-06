@@ -41,19 +41,19 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
 
 			<TableBody>
 				{attributes?.map((attribute) => (
-					<TableRow key={attribute._id}>
+					<TableRow key={attribute.id}>
 						<TableCell>
 							<CheckBox
 								type="checkbox"
 								name="attribute"
-								id={attribute._id}
+								id={attribute.id}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(attribute._id)}
+								isChecked={isCheck?.includes(attribute.id)}
 							/>
 						</TableCell>
 
 						<TableCell className="font-semibold uppercase text-xs">
-							{attribute?._id?.substring(20, 24)}
+							{attribute?.id?.substring(20, 24)}
 						</TableCell>
 
 						<TableCell className="font-medium text-sm">
@@ -69,12 +69,12 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
 						</TableCell>
 
 						<TableCell className="text-center">
-							<ShowHideButton id={attribute._id} status={attribute.status} />
+							<ShowHideButton id={attribute.id} status={attribute.status} />
 						</TableCell>
 
 						<TableCell className="flex justify-center">
 							<Link
-								to={`/attributes/${attribute._id}`}
+								to={`/attributes/${attribute.id}`}
 								className="p-2 cursor-pointer text-customGray-400 hover:text-customTeal-600 focus:outline-none">
 								<Tooltip
 									id="edit values"
@@ -87,7 +87,7 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
 
 						<TableCell>
 							<EditDeleteButton
-								id={attribute._id}
+								id={attribute.id}
 								isCheck={isCheck}
 								setIsCheck={setIsCheck}
 								handleUpdate={handleUpdate}

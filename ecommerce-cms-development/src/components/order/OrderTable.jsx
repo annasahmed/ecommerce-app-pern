@@ -58,15 +58,15 @@ const OrderTable = ({ orders }) => {
 						</TableCell>
 
 						<TableCell className="text-center">
-							<SelectStatus id={order._id} order={order} />
+							<SelectStatus id={order.id} order={order} />
 						</TableCell>
 
 						<TableCell className="text-right flex justify-end">
 							<div className="flex justify-between items-center">
-								<PrintReceipt orderId={order._id} />
+								<PrintReceipt orderId={order.id} />
 
 								<span className="p-2 cursor-pointer text-customGray-400 hover:text-customTeal-600">
-									<Link to={`/order/${order._id}`}>
+									<Link to={`/order/${order.id}`}>
 										<Tooltip
 											id="view"
 											Icon={FiZoomIn}

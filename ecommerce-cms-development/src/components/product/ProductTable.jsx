@@ -53,9 +53,9 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
 							<CheckBox
 								type="checkbox"
 								name={product?.title?.en}
-								id={product._id}
+								id={product.id}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(product._id)}
+								isChecked={isCheck?.includes(product.id)}
 							/>
 						</TableCell>
 
@@ -120,7 +120,7 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
 						</TableCell>
 						<TableCell>
 							<Link
-								to={`/product/${product._id}`}
+								to={`/product/${product.id}`}
 								className="flex justify-center text-customGray-400 hover:text-customTeal-600">
 								<Tooltip
 									id="view"
@@ -131,12 +131,12 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
 							</Link>
 						</TableCell>
 						<TableCell className="text-center">
-							<ShowHideButton id={product._id} status={product.status} />
+							<ShowHideButton id={product.id} status={product.status} />
 							{/* {product.status} */}
 						</TableCell>
 						<TableCell>
 							<EditDeleteButton
-								id={product._id}
+								id={product.id}
 								product={product}
 								isCheck={isCheck}
 								handleUpdate={handleUpdate}

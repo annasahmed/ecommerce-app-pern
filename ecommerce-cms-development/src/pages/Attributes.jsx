@@ -70,7 +70,7 @@ const Attributes = () => {
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
-		setIsCheck(data.map((value) => value._id));
+		setIsCheck(data.map((value) => value.id));
 		if (isCheckAll) {
 			setIsCheck([]);
 		}

@@ -15,7 +15,7 @@ const SelectLanguage = ({ handleLanguageChange }) => {
 					<li
 						className="cursor-pointer flex items-center space-x-2 p-2 hover:bg-customGray-100 rounded-md"
 						onClick={() => handleLanguageChange(lang)}
-						key={lang._id}>
+						key={lang.id}>
 						{/* Flag */}
 						<div
 							className="flag bg-start"
