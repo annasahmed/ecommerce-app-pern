@@ -1,13 +1,17 @@
+import ImageDark from "@/assets/img/login-office-dark.jpeg";
+import ImageLight from "@/assets/img/login-office.jpeg";
+import PrimaryButtonWithLoader from "@/components/button/PrimaryButtonWithLoader";
 import InputField from "@/components/form/InputField";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { ImFacebook, ImGoogle } from "react-icons/im";
+import useLoginApis from "./useLoginApis";
+import { Link } from "react-router";
 
 const Login = () => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { t } = useTranslation();
+
+	const { loading, login, register, handleSubmit, errors } = useLoginApis();
+
 	return (
 		<div className="flex items-center min-h-screen p-6 bg-customGray-50 dark:bg-customGray-900">
 			<div className="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-customWhite rounded-lg shadow-xl dark:bg-customGray-800">
@@ -28,10 +32,10 @@ const Login = () => {
 					</div>
 					<main className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
 						<div className="w-full">
-							<h1 className="mb-6 text-2xl font-semibold text-customGray-700 dark:text-customGray-200">
+							<h1 className="mb-6 text-2xl font-semibold font-['Open_Sans']/ text-customGray-700 dark:text-customGray-200">
 								Login
 							</h1>
-							<form onSubmit={handleSubmit(onSubmit)}>
+							<form onSubmit={handleSubmit(login)}>
 								<InputField
 									required={true}
 									register={register}
@@ -56,7 +60,7 @@ const Login = () => {
 									errorName={errors.password}
 								/>
 
-								{loading ? (
+								{/* {loading ? (
 									<CMButton
 										disabled={loading}
 										type="submit"
@@ -71,7 +75,14 @@ const Login = () => {
 										to="/dashboard">
 										{t("LoginTitle")}
 									</Button>
-								)}
+								)} */}
+								<PrimaryButtonWithLoader
+									disabled={loading}
+									type="submit"
+									className="mt-4 h-12 w-full"
+									to="/dashboard"
+									text={t("LoginTitle")}
+								/>
 								<hr className="my-10" />
 								<button
 									disabled

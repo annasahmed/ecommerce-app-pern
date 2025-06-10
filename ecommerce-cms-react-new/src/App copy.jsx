@@ -10,7 +10,7 @@ import {
 import PrivateRoute from "@/components/login/PrivateRoute";
 import AccessibleNavigationAnnouncer from "@/components/AccessibleNavigationAnnouncer";
 const Layout = lazy(() => import("@/layout/Layout"));
-const Login = lazy(() => import("@/pages/Login"));
+const Login = lazy(() => import("@/pages/login/Login"));
 const SignUp = lazy(() => import("@/pages/SignUp"));
 const ForgetPassword = lazy(() => import("@/pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("@/pages/ResetPassword"));

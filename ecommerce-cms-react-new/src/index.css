@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 @theme {
+	--font-sans: Open Sans, sans-serif;
+	--font-serif: Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+		"Liberation Mono", "Courier New", monospace;
+
 	/* --spacing-2.5: 1px; */
 
 	/* width */
@@ -22,6 +28,13 @@
 	/* colors */
 	--color-light: #ffffff;
 	--color-dark: #000000;
+
+	--color-customWhite: #ffffff;
+	--color-customBlack: #000000;
+
+	--color-midnight: #121063;
+	--color-tahiti: #3ab7bf;
+	--color-bermuda: #78dcca;
 
 	--color-customTeal-100: #ccfbf1;
 	--color-customTeal-500: #14b8a6;
@@ -66,8 +79,20 @@
 	--color-customGray-600: #4b5563;
 	--color-customGray-700: #374151;
 	--color-customGray-800: #1f2937;
+	--color-customGray-900: #1f2937;
 
 	/* shadow */
 	--shadow-bottom: 0 5px 6px -7px rgba(0, 0, 0, 0.6),
 		0 2px 4px -5px rgba(0, 0, 0, 0.06);
+}
+
+:root {
+	--customWhite: #ffffff;
+	--customBlack: #000000;
+}
+
+*,
+:before,
+:after {
+	border-color: #e5e7eb;
 }
