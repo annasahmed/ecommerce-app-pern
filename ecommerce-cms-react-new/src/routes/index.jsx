@@ -3,6 +3,10 @@ export const routes = [
 		path: "/dashboard",
 		element: () => <p>protected dashboard</p>,
 	},
+	{
+		path: "/categories",
+		element: () => <p>protected categories</p>,
+	},
 ];
 // export const routes = [
 // 	{

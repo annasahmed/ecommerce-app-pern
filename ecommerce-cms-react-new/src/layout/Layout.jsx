@@ -1,9 +1,10 @@
 import { routes } from "@/routes";
-import React, { useContext, useEffect, Suspense, lazy } from "react";
+import React, { useContext, useEffect, Suspense, lazy, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router";
 
 // import Main from "@/layout/Main";
-// import Header from "@/components/header/Header";
+import Header from "@/components/header/Header";
+import Sidebar from "@/components/sidebar/Sidebar";
 // import Sidebar from "@/components/sidebar/Sidebar";
 // import { SidebarContext } from "@/context/SidebarContext";
 // import ThemeSuspense from "@/components/theme/ThemeSuspense";
@@ -12,6 +13,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router";
 
 const Layout = () => {
 	// const { isSidebarOpen, closeSidebar, navBar } = useContext(SidebarContext);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const location = useLocation();
 	const isOnline = navigator.onLine;
 
@@ -28,12 +30,13 @@ const Layout = () => {
 			)}
 			<div
 				className={`flex h-screen bg-customGray-50 dark:bg-customGray-900 ${
-					// isSidebarOpen && "overflow-hidden"
-					""
+					isSidebarOpen && "overflow-hidden"
+					// ""
 				}`}>
 				{/* {navBar && <Sidebar />} */}
+				<Sidebar />
 				<div className="flex flex-col flex-1 w-full">
-					{/* <Header /> */}
+					<Header />
 					{/* <Main> */}
 					{/* <Suspense fallback={<ThemeSuspense />}> */}
 					<Routes>
