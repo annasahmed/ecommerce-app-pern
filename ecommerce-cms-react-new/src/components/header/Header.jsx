@@ -360,7 +360,7 @@ const Header = () => {
 										aria-hidden="true"
 									/>
 								) : (
-									<span>{adminInfo.email[0].toUpperCase()}</span>
+									<span>{adminInfo.email?.toUpperCase()}</span>
 								)}
 							</button>
 

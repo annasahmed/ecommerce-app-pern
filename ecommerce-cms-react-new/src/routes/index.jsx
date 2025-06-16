@@ -1,7 +1,11 @@
+import { lazy } from "react";
+
+const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
+
 export const routes = [
 	{
 		path: "/dashboard",
-		element: () => <p>protected dashboard</p>,
+		element: () => <Dashboard />,
 	},
 	{
 		path: "/categories",
