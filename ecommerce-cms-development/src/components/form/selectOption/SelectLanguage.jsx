@@ -20,7 +20,7 @@ const SelectLanguage = ({ handleLanguageChange }) => {
 						<div
 							className="flag bg-start"
 							style={{
-								backgroundImage: `url(https://flagcdn.com/w20/${lang.flag.toLowerCase()}.png)`,
+								backgroundImage: `url(https://flagcdn.com/w20/${lang.flag?.toLowerCase()}.png)`,
 							}}></div>
 
 						{/* Language Name */}

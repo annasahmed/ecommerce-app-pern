@@ -8,7 +8,7 @@ import CheckBox from "@/components/form/others/CheckBox";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import DeleteModal from "@/components/modal/DeleteModal";
 import MainDrawer from "@/components/drawer/MainDrawer";
-import CategoryDrawer from "@/components/drawer/CategoryDrawer";
+import CategoryDrawer from "@/components/category/CategoryDrawer";
 import ShowHideButton from "@/components/table/ShowHideButton";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
@@ -73,44 +73,6 @@ const CategoryTable = ({
 								/>
 							)}
 						</TableCell>
-
-						{/* <TableCell className="font-medium text-sm ">
-							{category?.children.length > 0 ? (
-								<Link
-									to={`/categories/${category?.id}`}
-									className="text-customBlue-700">
-									{showingTranslateValue(category?.name)}
-
-									<>
-										{showChild && (
-											<>
-												{" "}
-												<div className="pl-2 ">
-													{category?.children?.map((child) => (
-														<div key={child.id}>
-															<Link
-																to={`/categories/${child?.id}`}
-																className="text-customBlue-700">
-																<div className="flex text-xs items-center  text-customBlue-800">
-																	<span className=" text-xs text-customGray-500 pr-1">
-																		<IoRemoveSharp />
-																	</span>
-																	<span className="text-customGray-500">
-																		{showingTranslateValue(child.name)}
-																	</span>
-																</div>
-															</Link>
-														</div>
-													))}
-												</div>
-											</>
-										)}
-									</>
-								</Link>
-							) : (
-								<span>{showingTranslateValue(category?.name)}</span>
-							)}
-						</TableCell> */}
 						<TableCell className="text-sm">
 							{showingTranslateValue(category?.title)}
 						</TableCell>

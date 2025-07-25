@@ -16,13 +16,13 @@ const ParentCategory = ({
 	const { showingTranslateValue } = useUtilsFunction();
 
 	const STYLE = `
-  .rc-tree-child-tree {
-    display: block;
-  }
-  .node-motion {
-    transition: all .3s;
-    overflow-y: hidden;
-  }
+	.rc-tree-child-tree {
+		display: block;
+	}
+	.node-motion {
+		transition: all .3s;
+		overflow-y: hidden;
+	}
 `;
 
 	const motion = {
@@ -42,8 +42,6 @@ const ParentCategory = ({
 			myCategories.push({
 				title: showingTranslateValue(category.name),
 				key: category.id,
-				// children:
-				//   category?.children?.length > 0 && renderCategories(category.children),
 			});
 		}
 
@@ -57,13 +55,6 @@ const ParentCategory = ({
 					(acc, obj) => acc ?? findObject(obj, target),
 					undefined,
 			  );
-		// if (obj.id === target) return obj;
-
-		// for (let c of obj.children) {
-		//   let x = findObject(target, c);
-		//   console.log('c', c);
-		//   if (x) return x;
-		// }
 	};
 
 	const handleSelect = (key) => {
@@ -111,7 +102,6 @@ const ParentCategory = ({
 					onRemove={(v) => handleRemove(v)}
 					onSearch={function noRefCheck() {}}
 					onSelect={(v) => handleSelect(v)}
-					// options={selectedCategory}
 					selectedValues={selectedCategory}
 					placeholder={"Select Category"}></Multiselect>
 			</div>
@@ -122,7 +112,6 @@ const ParentCategory = ({
 					<Tree
 						expandAction="click"
 						treeData={renderCategories(data)}
-						// defaultCheckedKeys={id}
 						onSelect={(v) => handleSelect(v[0])}
 						motion={motion}
 						animation="slide-up"

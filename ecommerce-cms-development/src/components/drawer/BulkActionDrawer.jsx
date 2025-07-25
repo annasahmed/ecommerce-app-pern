@@ -66,8 +66,6 @@ const BulkActionDrawer = ({
 	};
 
 	const renderCategories = (categories) => {
-		console.log(categories, "chkkina");
-
 		let myCategories = [];
 		for (let category of categories) {
 			myCategories.push({

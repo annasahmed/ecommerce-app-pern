@@ -6,7 +6,7 @@ const Attributes = lazy(() => import("@/pages/Attributes"));
 const ChildAttributes = lazy(() => import("@/pages/ChildAttributes"));
 const Products = lazy(() => import("@/pages/Products"));
 const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
-const Category = lazy(() => import("@/pages/Category"));
+const Category = lazy(() => import("@/pages/category/Category"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
 const Staff = lazy(() => import("@/pages/Staff"));
 const Customers = lazy(() => import("@/pages/Customers"));

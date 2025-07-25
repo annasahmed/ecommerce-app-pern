@@ -25,7 +25,7 @@ import DeleteModal from "@/components/modal/DeleteModal";
 import BulkActionDrawer from "@/components/drawer/BulkActionDrawer";
 import PageTitle from "@/components/Typography/PageTitle";
 import MainDrawer from "@/components/drawer/MainDrawer";
-import CategoryDrawer from "@/components/drawer/CategoryDrawer";
+import CategoryDrawer from "@/components/category/CategoryDrawer";
 import UploadMany from "@/components/common/UploadMany";
 import SwitchToggleChildCat from "@/components/form/switch/SwitchToggleChildCat";
 import TableLoading from "@/components/preloader/TableLoading";
@@ -82,8 +82,6 @@ const Category = () => {
 		categoryRef.current.value = "";
 	};
 
-	// console.log("serviceData", serviceData, "tableData", dataTable);
-
 	return (
 		<>
 			<PageTitle>{t("Category")}</PageTitle>
@@ -104,11 +102,9 @@ const Category = () => {
 			<AnimatedContent>
 				<Card className="min-w-0 shadow-xs overflow-hidden bg-customWhite dark:bg-customGray-800 mb-5">
 					<CardBody className="">
-						{/* <div className="flex md:flex-row flex-col gap-3 justify-end items-end"> */}
 						<form
 							onSubmit={handleSubmitCategory}
 							className="py-3  grid gap-4 lg:gap-6 xl:gap-6  xl:flex">
-							{/* </div> */}
 							<div className="flex justify-start w-1/2 xl:w-1/2 md:w-full">
 								<UploadMany
 									title="Categories"
@@ -224,7 +220,6 @@ const Category = () => {
 										isChecked={isCheckAll}
 									/>
 								</TableCell>
-
 								<TableCell>{t("catIdTbl")}</TableCell>
 								<TableCell>{t("catIconTbl")}</TableCell>
 								<TableCell>{t("CatTbName")}</TableCell>

@@ -167,17 +167,13 @@ const CategoryDrawer = ({ id, data }) => {
 				},
 				description: {
 					...descriptionTranslates,
-					["en"]: description ? description : "",
+					...(description && { ["en"]: description }),
 				},
 				icon: imageUrl,
 				parentCategoryId,
 				slug,
 				status,
 			};
-
-			// console.log("category submit", categoryData);
-			// setIsSubmitting(false);
-			// return;
 
 			if (id) {
 				const res = await CategoryServices.updateCategory(id, categoryData);
@@ -206,51 +202,28 @@ const CategoryDrawer = ({ id, data }) => {
 			(async () => {
 				try {
 					const res = await CategoryServices.getCategoryById(id);
-					// console.log("res category", res);
-
 					if (res) {
 						console.log(res, "chkinis");
 
 						setResData(res);
 						setValue("title", res.title["en"]);
-						setValue("description", res.description["en"]);
+						setValue("description", res.description && res.description["en"]);
 						setValue("parentCategoryId", res.parent_category_id);
 						setValue("slug", res.slug);
-						// setValue("parentName", res.parentName);
-						// setSelectCategoryName(res.parentName);
-						// setChecked(res.parentId);
 						setImageUrl(res.icon);
 						setStatus(res.status || false);
 					}
 				} catch (err) {
-					notifyError(err ? err.response.data.message : err.message);
+					notifyError(err ? err.response?.data?.message : err.message);
 				}
 			})();
 		} else {
-			// reset();
+			reset();
 		}
 	}, [id, setValue, clearErrors, data]);
 
 	return (
 		<>
-			{/* <div className="w-full relative p-6 border-b border-customGray-100 bg-customGray-50 dark:border-customGray-700 dark:bg-customGray-800 dark:text-customGray-300">
-				{id ? (
-					<Title
-						register={register}
-						handleSelectLanguage={handleSelectLanguage}
-						title={t("UpdateCategory")}
-						description={t("UpdateCategoryDescription")}
-					/>
-				) : (
-					<Title
-						register={register}
-						handleSelectLanguage={handleSelectLanguage}
-						title={t("AddCategoryTitle")}
-						description={t("AddCategoryDescription")}
-					/>
-				)}
-			</div> */}
-
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
@@ -315,41 +288,10 @@ const CategoryDrawer = ({ id, data }) => {
 										);
 									})}
 
-									{/* <option value="Radio">{t("Radio")}</option> */}
-									{/* <option value="Checkbox">Checkbox</option> */}
 								</Select>
 								<Error errorName={errors.option} />
 							</div>
 						</div>
-
-						{/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("ParentCategory")} />
-							<div className="col-span-8 sm:col-span-4 relative">
-								<Input
-									readOnly
-									{...register(`parent`, {
-										required: false,
-									})}
-									name="parent"
-									value={selectCategoryName ? selectCategoryName : "Home"}
-									placeholder={t("ParentCategory")}
-									type="text"
-								/>
-
-								<div className="draggable-demo capitalize">
-									<style dangerouslySetInnerHTML={{ __html: STYLE }} />
-									<Tree
-										expandAction="click"
-										treeData={renderCategories(data)}
-										selectedKeys={[checked]}
-										onSelect={(v) => handleSelect(v[0])}
-										motion={motion}
-										animation="slide-up"
-									/>
-								</div>
-							</div>
-						</div> */}
-
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
 							<LabelArea label={t("CategoryIcon")} />
 							<div className="col-span-8 sm:col-span-4">
