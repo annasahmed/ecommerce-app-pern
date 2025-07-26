@@ -1,4 +1,3 @@
-// model/info.js
 const { baseAssociation, baseFields, baseScopes } = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {

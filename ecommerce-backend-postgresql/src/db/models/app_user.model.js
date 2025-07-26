@@ -1,4 +1,4 @@
-const { baseFields, baseScopes } = require('./base_model');
+const { baseFields, baseScopes, baseAssociation } = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {
 	const app_user = sequelize.define(
@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			image: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -23,11 +27,23 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			phone: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				validate: {
+					isNumeric: true,
+				},
+			},
+			user_type: {
+				type: DataTypes.ENUM('website', 'mobile'),
+				allowNull: false,
+			},
 			is_logged: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
 			},
+
 			...baseFields,
 		},
 		{
@@ -37,20 +53,12 @@ module.exports = (sequelize, DataTypes) => {
 			 */
 			tableName: 'app_user',
 			timestamps: true,
-			defaultScope: {
-				attributes: { exclude: ['password'] },
-			},
-			// if want to get password then use user.scope('withPassword').findOne()
-			scopes: {
-				withPassword: {
-					attributes: {},
-				},
-			},
 			...baseScopes(true),
 		}
 	);
 	app_user.associate = (models) => {
 		app_user.hasOne(models.token);
+		baseAssociation(app_user, models);
 	};
 
 	return app_user;

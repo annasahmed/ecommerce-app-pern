@@ -14,6 +14,10 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
+			image: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
 			email: {
 				type: Sequelize.STRING,
 				allowNull: false,
@@ -21,6 +25,14 @@ module.exports = {
 			},
 			password: {
 				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			phone: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			user_type: {
+				type: Sequelize.ENUM('website', 'mobile'),
 				allowNull: false,
 			},
 			is_logged: {
@@ -50,12 +62,12 @@ module.exports = {
 			created_at: {
 				type: Sequelize.DATE,
 				allowNull: false,
-				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+				defaultValue: Sequelize.literal('NOW()'),
 			},
 			updated_at: {
 				type: Sequelize.DATE,
 				allowNull: false,
-				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+				defaultValue: Sequelize.literal('NOW()'),
 			},
 		});
 	},

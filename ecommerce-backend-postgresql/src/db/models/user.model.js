@@ -1,4 +1,4 @@
-const { baseFields } = require('./base_model');
+const { baseFields, baseScopes, baseAssociation } = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {
 	const user = sequelize.define(
@@ -49,20 +49,12 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'RESTRICT',
 				onUpdate: 'CASCADE',
 			},
-			...baseFields.status,
+			...baseFields,
 		},
 		{
 			tableName: 'user',
 			timestamps: true,
-			defaultScope: {
-				attributes: { exclude: ['password'] },
-			},
-			// if want to get password then use user.scope('withPassword').findOne()
-			scopes: {
-				withPassword: {
-					attributes: {},
-				},
-			},
+			...baseScopes(true),
 			// indexes: [
 			// 	{
 			// 		fields: ['email'],
@@ -83,6 +75,7 @@ module.exports = (sequelize, DataTypes) => {
 		});
 
 		user.hasOne(models.token);
+		baseAssociation(user, models);
 	};
 
 	return user;

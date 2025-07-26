@@ -13,7 +13,7 @@ const register = catchAsync(async (req, res) => {
 	const tokens = await tokenService.generateAuthTokens({
 		userId: user.id,
 		roleId: user.role_id,
-	}, use);
+	}, false);
 	delete user.password;
 	res.status(httpStatus.CREATED).send({ user, tokens });
 });

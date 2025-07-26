@@ -1,62 +1,53 @@
 const { expressjwt: expressJwt } = require('express-jwt');
 const config = require('./config.js');
-const catchAsync = require('../utils/catchAsync.js');
 const db = require('../db/models/index.js');
 const { tokenTypes } = require('./tokens.js');
 
-async function isRevoked(_req, _payload, done) {
-	catchAsync(async () => {
-		const token = _req.headers.authorization?.split(' ')[1];
-		if (!token) return done(null, true); // no token? revoke
+// Better error-safe isRevoked
+async function isRevoked(req, token) {
+	try {
+		const jwtToken = req.headers.authorization?.split(' ')[1];
+		if (!jwtToken) return true;
 
-		// Check if it's a refresh token based on route or other logic
-		const isRefreshRoute = _req.originalUrl.includes('/refresh-token'); // or use custom header/param
+		const isRefreshRoute = req.originalUrl.includes('/refresh-token');
 
 		if (!isRefreshRoute) {
-			// assume it's an access token, and not string access token in db
-			return done(null, false); // valid if not expired
+			// It's an access token route, don't revoke
+			return false;
 		}
 
-		// Only check DB for refresh token revocation
 		const savedToken = await db.token.findOne({
 			where: {
-				token,
+				token: jwtToken,
 				type: tokenTypes.REFRESH,
 				revoked: false,
 			},
 		});
 
-		if (!savedToken) return done(null, true); // revoked
-
-		return done(null, false); // token is good
-	});
-	done();
+		// Revoke if not found
+		return !savedToken;
+	} catch (err) {
+		console.error('JWT isRevoked Error:', err.message);
+		// Revoke on error for safety
+		return true;
+	}
 }
 
 function jwt() {
 	const { secret } = config.jwt;
+
 	return expressJwt({
 		secret,
-		getToken: function fromHeaderOrQuerystring(req) {
-			const token = req.headers.authorization.split(' ')[1];
-			if (token) return token;
-			return null;
-		},
 		algorithms: ['HS256'],
 		isRevoked,
+		getToken: function fromHeaderOrQuerystring(req) {
+			return req.headers.authorization?.split(' ')[1] || null;
+		},
 	}).unless({
 		path: [
-			// public routes that don't require authentication
-			/\/v[1-9](\d)*\/(auth|docs)\/.*/,
+			/\/v[1-9](\d)*\/(auth|admin\/auth|docs|delete)\/.*/, // Public routes
 		],
 	});
-	// .on('error', (err, req, res, next) => {
-	// 	// Customize error response
-	// 	res.status(401).json({
-	// 		message: 'Unauthorized access',
-	// 		error: err.message,
-	// 	});
-	// });
 }
 
 module.exports = jwt;

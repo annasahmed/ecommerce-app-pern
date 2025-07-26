@@ -24,13 +24,30 @@ const baseFields = {
 
 const baseScopes = (withPassword) => ({
 	defaultScope: {
-		...(!withPassword ? {} : { attributes: { exclude: ['password'] } }),
+		...(!withPassword
+			? {
+					attributes: {
+						exclude: ['deleted_at', 'deleted_by'],
+					},
+			  }
+			: {
+					attributes: {
+						exclude: ['password', 'deleted_at', 'deleted_by'],
+					},
+			  }),
 		where: {
 			deleted_at: null,
-			status: true,
+			// status: true,
 		},
 	},
 	scopes: {
+		// defaultScope: {
+		// 	...(!withPassword ? {} : { attributes: { exclude: ['password'] } }),
+		// 	where: {
+		// 		deleted_at: null,
+		// 		status: true,
+		// 	},
+		// },
 		withDeleted: {}, // returns everything
 		withPassword: {
 			attributes: {},
@@ -52,6 +69,15 @@ const baseScopes = (withPassword) => ({
 				status: false,
 			},
 		},
+		active: {
+			where: {
+				deleted_at: null,
+				status: true,
+			},
+		},
+		onlyId: {
+			attributes: ['id'],
+		},
 	},
 });
 
@@ -62,15 +88,6 @@ const baseAssociation = (modelName, models) => {
 		onUpdate: 'CASCADE',
 	});
 };
-
-// export const addSoftDelete = (model) => {
-//     model.softDelete = async function (id, deletedByUserId) {
-//         return await model.update(
-//             { deleted_at: new Date(), deleted_by: deletedByUserId },
-//             { where: { id } }
-//         );
-//     };
-// };
 
 module.exports = {
 	baseAssociation,

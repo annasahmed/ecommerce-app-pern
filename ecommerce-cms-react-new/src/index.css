@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: Open Sans, sans-serif;
+	--font-serif: Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+		"Liberation Mono", "Courier New", monospace;
+
+	/* --spacing-2.5: 1px; */
+
+	/* width */
+	--spacing-80: 80px;
+	--spacing-100: 100px;
+	--spacing-200: 200px;
+	--spacing-300: 300px;
+	--spacing-400: 400px;
+
+	/* height */
+	--spacing-28: 100px;
+	--spacing-sm: 350px;
+	--spacing-md: 400px;
+	--spacing-330: 330px;
+	--spacing-440: 440px;
+	--spacing-lg: 500px;
+	--spacing-xl: 600px;
+
+	/* colors */
+	--color-light: #ffffff;
+	--color-dark: #000000;
+
+	--color-customWhite: #ffffff;
+	--color-customBlack: #000000;
+
+	--color-midnight: #121063;
+	--color-tahiti: #3ab7bf;
+	--color-bermuda: #78dcca;
+
+	--color-customTeal-100: #ccfbf1;
+	--color-customTeal-500: #14b8a6;
+	--color-customTeal-600: #0d9488;
+	--color-customTeal-700: #0f766e;
+	--color-customTeal-800: #115e59;
+	--color-customTeal-900: #134e4a;
+
+	--color-customOrange-50: #fff7ed;
+	--color-customOrange-100: #ffedd5;
+	--color-customOrange-400: #fb923c;
+	--color-customOrange-500: #f97316;
+	--color-customOrange-600: #ea580c;
+	--color-customOrange-900: #7c2d12;
+
+	--color-customBlue-50: #eff6ff;
+	--color-customBlue-100: #dbeafe;
+	--color-customBlue-300: #93c5fd;
+	--color-customBlue-400: #60a5fa;
+	--color-customBlue-500: #3b82f6;
+	--color-customBlue-600: #2563eb;
+	--color-customBlue-700: #1d4ed8;
+	--color-customBlue-800: #1e40af;
+
+	--color-customRed-50: #fef2f2;
+	--color-customRed-100: #fee2e2;
+	--color-customRed-200: #fecaca;
+	--color-customRed-300: #fca5a5;
+	--color-customRed-400: #f87171;
+	--color-customRed-500: #ef4444;
+	--color-customRed-600: #dc2626;
+	--color-customRed-700: #b91c1c;
+	--color-customRed-800: #991b1b;
+	--color-customRed-900: #7f1d1d;
+
+	--color-customGray-50: #f9fafb;
+	--color-customGray-100: #f3f4f6;
+	--color-customGray-200: #e5e7eb;
+	--color-customGray-300: #d1d5db;
+	--color-customGray-400: #9ca3af;
+	--color-customGray-500: #6b7280;
+	--color-customGray-600: #4b5563;
+	--color-customGray-700: #374151;
+	--color-customGray-800: #1f2937;
+	--color-customGray-900: #1f2937;
+
+	/* shadow */
+	--shadow-bottom: 0 5px 6px -7px rgba(0, 0, 0, 0.6),
+		0 2px 4px -5px rgba(0, 0, 0, 0.06);
+}
+
+:root {
+	--customWhite: #ffffff;
+	--customBlack: #000000;
+}
+
+*,
+:before,
+:after {
+	border-color: #e5e7eb;
+}

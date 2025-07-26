@@ -14,9 +14,7 @@ module.exports = {
       { name: 'delete_role', description: 'Can delete roles', parent: 'role' },
     ];
 
-    console.log('✅ Permissions seeded');
-
-    return queryInterface.bulkInsert('permission', defaultPermissions);
+    return await queryInterface.bulkInsert('permission', defaultPermissions);
   },
 
   async down(queryInterface, Sequelize) {
