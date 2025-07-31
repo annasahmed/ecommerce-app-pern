@@ -19,6 +19,7 @@ const parentCategoryService = createBaseService(db.parent_category, {
 		if (data.icon) toUpdate.icon = data.icon;
 		return toUpdate;
 	},
+	// isPagination: false,
 });
 
 // Using userId logic from request

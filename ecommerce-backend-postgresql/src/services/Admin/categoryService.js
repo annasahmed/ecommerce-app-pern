@@ -42,6 +42,7 @@ const categoryService = createBaseService(db.category, {
 		return toUpdate;
 	},
 	validations,
+	// isPagination: false,
 });
 
 // Using userId logic from request

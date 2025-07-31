@@ -3,11 +3,10 @@ const { validateSlug } = require('../customValidation');
 
 const createUsp = {
 	body: Joi.object().keys({
-		parentUspId: Joi.number().required(),
 		title: Joi.object().required(),
 		description: Joi.object(),
 		slug: Joi.string().custom(validateSlug).required(),
-		icon: Joi.string(),
+		status: Joi.boolean(),
 	}),
 };
 
@@ -16,11 +15,10 @@ const updateUsp = {
 		uspId: Joi.number().required(),
 	}),
 	body: Joi.object().keys({
-		parentUspId: Joi.number().optional(),
 		title: Joi.object(),
 		description: Joi.object(),
 		slug: Joi.string().custom(validateSlug),
-		icon: Joi.string(),
+		status: Joi.boolean(),
 	}),
 };
 

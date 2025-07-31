@@ -2,20 +2,17 @@ import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
 //internal import
 
+import CategoryDrawer from "@/components/category/CategoryDrawer";
+import MainDrawer from "@/components/drawer/MainDrawer";
 import CheckBox from "@/components/form/others/CheckBox";
 import DeleteModal from "@/components/modal/DeleteModal";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
 import ShowHideButton from "@/components/table/ShowHideButton";
+import useToggleDrawer from "@/hooks/useToggleDrawer";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
-const CategoryTable = ({
-	data,
-	toggleDrawerData,
-	isCheck,
-	setIsCheck,
-	useParamId,
-}) => {
-	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
+const CategoryTable = ({ data, lang, isCheck, setIsCheck, useParamId }) => {
+	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 	const { showingTranslateValue } = useUtilsFunction();
 
 	const handleClick = (e) => {
@@ -31,6 +28,10 @@ const CategoryTable = ({
 			{isCheck?.length < 1 && (
 				<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
 			)}
+
+			<MainDrawer>
+				<CategoryDrawer id={serviceId} data={data} lang={lang} />
+			</MainDrawer>
 
 			<TableBody>
 				{data?.map((category) => (

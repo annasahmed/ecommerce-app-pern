@@ -18,6 +18,7 @@ const languageService = createBaseService(db.language, {
 
 		return toUpdate;
 	},
+	isPagination: false,
 });
 
 // Using userId logic from request

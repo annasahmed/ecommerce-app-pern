@@ -4,29 +4,25 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 
-import CategoryDrawer from "@/components/category/CategoryDrawer";
-import CategoryTable from "@/components/category/CategoryTable";
-import MainDrawer from "@/components/drawer/MainDrawer";
 import CheckBox from "@/components/form/others/CheckBox";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
 import TableWrapperWithPagination from "@/components/newComponents/TableWrapperWithPagination";
 import PageTitle from "@/components/Typography/PageTitle";
+import UspTable from "@/components/usp/UspTable";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import CategoryServices from "@/services/CategoryServices";
+import UspServices from "@/services/UspServices";
+import MainDrawer from "@/components/drawer/MainDrawer";
+import UspDrawer from "@/components/usp/UspDrawer";
 
-const Category = () => {
+const Usp = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
-	const {
-		data: categoriesData,
-		loading,
-		error,
-	} = useAsync(CategoryServices.getAllCategory);
-
-	const { t } = useTranslation();
+	const { data: uspsData, loading, error } = useAsync(UspServices.getAllUsps);
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
+
+	const { t } = useTranslation();
 
 	// react hooks
 	const [isCheckAll, setIsCheckAll] = useState(false);
@@ -42,16 +38,16 @@ const Category = () => {
 
 	return (
 		<>
-			<PageTitle>{t("Category")}</PageTitle>
+			<PageTitle>{t("Usp")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddCategory")}
-				inputPlaceholder={t("SearchCategory")}
+				buttonText={t("AddUsp")}
+				inputPlaceholder={t("SearchUsp")}
 				onClick={toggleDrawer}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={categoriesData}>
+				data={uspsData}>
 				<Table>
 					<TableHeader>
 						<tr>
@@ -64,33 +60,29 @@ const Category = () => {
 									isChecked={isCheckAll}
 								/>
 							</TableCell>
-							<TableCell>{t("catIdTbl")}</TableCell>
-							<TableCell>{t("catIconTbl")}</TableCell>
-							<TableCell>{t("CatTbName")}</TableCell>
-							<TableCell>{t("CatTbDescription")}</TableCell>
+							<TableCell>{t("uspIdTbl")}</TableCell>
+							<TableCell>{t("UspTbName")}</TableCell>
+							<TableCell>{t("UspTbDescription")}</TableCell>
 							<TableCell className="text-center">
-								{t("catPublishedTbl")}
+								{t("uspPublishedTbl")}
 							</TableCell>
-							<TableCell className="text-right">{t("catActionsTbl")}</TableCell>
+							<TableCell className="text-right">{t("uspActionsTbl")}</TableCell>
 						</tr>
 					</TableHeader>
-					<CategoryTable
-						data={categoriesData.records}
+					<UspTable
+						data={uspsData.records}
 						isCheck={isCheck}
 						setIsCheck={setIsCheck}
 						toggleDrawerData={toggleDrawerData}
 					/>
 				</Table>
 			</TableWrapperWithPagination>
+
 			<MainDrawer>
-				<CategoryDrawer
-					id={serviceId}
-					data={categoriesData.records}
-					lang={lang}
-				/>
+				<UspDrawer id={serviceId} data={uspsData.records} lang={lang} />
 			</MainDrawer>
 		</>
 	);
 };
 
-export default Category;
+export default Usp;

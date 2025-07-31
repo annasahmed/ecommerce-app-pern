@@ -3,6 +3,7 @@ const ApiError = require('./ApiError');
 const { getOffset } = require('./query');
 const config = require('../config/config');
 const { pickLanguageFields } = require('./languageUtils');
+const { Op } = require('sequelize');
 
 function createBaseService(model, options = {}) {
 	const {
@@ -12,6 +13,7 @@ function createBaseService(model, options = {}) {
 		checkDuplicateSlug = false,
 		useSoftDelete = true,
 		validations = () => {},
+		isPagination = true,
 	} = options;
 
 	const getLang = (req) =>
@@ -61,7 +63,10 @@ function createBaseService(model, options = {}) {
 
 			if (checkDuplicateSlug && data.slug) {
 				const exists = await model.findOne({
-					where: { slug: data.slug },
+					where: {
+						slug: data.slug,
+						id: { [Op.ne]: data.id },
+					},
 				});
 				if (exists)
 					throw new ApiError(
@@ -138,14 +143,15 @@ function createBaseService(model, options = {}) {
 				raw: true,
 			});
 			const parsedRows = pickLanguageFields(data.rows, lang);
-
+			if (isPagination) {
+				return {
+					total: data.count,
+					records: parsedRows,
+					limit: limit,
+					page: page,
+				};
+			}
 			return parsedRows;
-			// return {
-			// 	total: data.count,
-			// 	records: parsedRows,
-			// 	limit: limit,
-			// 	page: page,
-			// };
 		},
 	};
 }

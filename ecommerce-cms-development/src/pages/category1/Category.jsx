@@ -25,12 +25,12 @@ const Category = () => {
 	} = useAsync(CategoryServices.getAllCategory);
 
 	const { t } = useTranslation();
-	const toggleDrawerData = useToggleDrawer();
-	const { serviceId } = toggleDrawerData;
+	const { serviceId } = useToggleDrawer();
 
 	// react hooks
 	const [isCheckAll, setIsCheckAll] = useState(false);
 	const [isCheck, setIsCheck] = useState([]);
+	const [showChild, setShowChild] = useState(false);
 
 	const handleSelectAll = () => {
 		setIsCheckAll(!isCheckAll);
@@ -51,7 +51,7 @@ const Category = () => {
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={categoriesData}>
+				data={{ records: categoriesData }}>
 				<Table>
 					<TableHeader>
 						<tr>
@@ -75,20 +75,20 @@ const Category = () => {
 						</tr>
 					</TableHeader>
 					<CategoryTable
-						data={categoriesData.records}
+						data={categoriesData}
+						categories={categoriesData}
 						isCheck={isCheck}
 						setIsCheck={setIsCheck}
-						toggleDrawerData={toggleDrawerData}
 					/>
 				</Table>
 			</TableWrapperWithPagination>
-			<MainDrawer>
+			{/* <MainDrawer>
 				<CategoryDrawer
 					id={serviceId}
 					data={categoriesData.records}
 					lang={lang}
 				/>
-			</MainDrawer>
+			</MainDrawer> */}
 		</>
 	);
 };

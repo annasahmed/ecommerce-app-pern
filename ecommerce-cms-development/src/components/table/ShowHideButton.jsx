@@ -11,8 +11,9 @@ import CurrencyServices from "@/services/CurrencyServices";
 import LanguageServices from "@/services/LanguageServices";
 import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
+import UspServices from "@/services/UspServices";
 
-const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
+const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 	const location = useLocation();
 	const { setIsUpdate } = useContext(SidebarContext);
 
@@ -29,6 +30,13 @@ const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
 
 			if (location.pathname === "/categories" || category) {
 				const res = await CategoryServices.updateStatus(id, {
+					status: newStatus,
+				});
+				setIsUpdate(true);
+				notifySuccess(res.message);
+			}
+			if (location.pathname === "/usps" || usp) {
+				const res = await UspServices.updateStatus(id, {
 					status: newStatus,
 				});
 				setIsUpdate(true);

@@ -688,6 +688,7 @@
 	"EnableThisBlock": "Enable This Block",
 	"Title": "Title",
 	"Description": "Description",
+	"Slug": "Slug",
 	"DESCRIPTION": "DESCRIPTION",
 	"PromotionDescription": "Promotion Description",
 	"ButtonName": "Button Name",
@@ -964,5 +965,26 @@
 	"ShippingTwoDes": "Shipping Two Description",
 	"ShippingTwoCost": "Shipping Two Cost",
 	"TranslationSecretKey": "Translation Secret Key",
-	"AllowAutoTranslation": "Allow Auto Translation"
+	"AllowAutoTranslation": "Allow Auto Translation",
+
+	"Usp": "Usp",
+	"AddUspBtn": "Add Usp",
+	"AddUsp": "Add Usp",
+	"SearchUsp": "Search Usp",
+
+	"uspIdTbl": "ID",
+	"uspPublishedTbl": "PUBLISHED",
+	"uspActionsTbl": "ACTIONS",
+
+	"UspTbName": "Name",
+	"UspTbDescription": "Description",
+
+	"UpdateUsp": "Update Usp",
+	"UpdateUspDescription": "Updated your Product usp and necessary information from here",
+	"AddUspTitle": "Add Usp",
+	"AddUspDescription": "Add your Product usp and necessary information from here",
+
+	"UspTitlePlaceholder": "Usp title",
+	"UspDescriptionPlaceholder": "Usp Description",
+	"UspSlugPlaceholder": "Usp Slug"
 }

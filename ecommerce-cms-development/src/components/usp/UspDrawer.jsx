@@ -1,5 +1,3 @@
-import { Select } from "@windmill/react-ui";
-
 import { useContext, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useTranslation } from "react-i18next";
@@ -11,23 +9,18 @@ import TextAreaCom from "@/components/form/input/TextAreaCom";
 import Error from "@/components/form/others/Error";
 import LabelArea from "@/components/form/selectOption/LabelArea";
 import SwitchToggle from "@/components/form/switch/SwitchToggle";
-import Uploader from "@/components/image-uploader/Uploader";
 import { SidebarContext } from "@/context/SidebarContext";
 import useTranslationValue from "@/hooks/useTranslationValue";
-import useUtilsFunction from "@/hooks/useUtilsFunction";
-import CategoryServices from "@/services/CategoryServices";
-import ParentCategoryServices from "@/services/ParentCategoryServices";
+import UspServices from "@/services/UspServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
 
-const CategoryDrawer = ({ id, data }) => {
+const UspDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
-	const [imageUrl, setImageUrl] = useState(null);
 	const [status, setStatus] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
-	const [parentCategories, setParentCategories] = useState([]);
 	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
 
 	const {
@@ -39,14 +32,7 @@ const CategoryDrawer = ({ id, data }) => {
 		formState: { errors },
 	} = useForm();
 
-	const { showingTranslateValue } = useUtilsFunction();
 	const { handlerTextTranslateHandler } = useTranslationValue();
-
-	useEffect(() => {
-		ParentCategoryServices.getAllCategories().then((data) => {
-			setParentCategories(data?.records);
-		});
-	}, []);
 
 	const onSubmit = async (data) => {
 		const { title, description, parentCategoryId, slug } = data;
@@ -63,7 +49,7 @@ const CategoryDrawer = ({ id, data }) => {
 				resData?.description,
 			);
 
-			const categoryData = {
+			const uspData = {
 				title: {
 					...nameTranslates,
 					["en"]: title,
@@ -72,21 +58,19 @@ const CategoryDrawer = ({ id, data }) => {
 					...descriptionTranslates,
 					...(description && { ["en"]: description }),
 				},
-				icon: imageUrl,
-				parentCategoryId,
 				slug,
 				status,
 			};
 
 			if (id) {
-				const res = await CategoryServices.updateCategory(id, categoryData);
+				const res = await UspServices.updateUsp(id, uspData);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
 				closeDrawer();
 				reset();
 			} else {
-				const res = await CategoryServices.addCategory(categoryData);
+				const res = await UspServices.addUsp(uspData);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
@@ -103,14 +87,12 @@ const CategoryDrawer = ({ id, data }) => {
 		if (id) {
 			(async () => {
 				try {
-					const res = await CategoryServices.getCategoryById(id);
+					const res = await UspServices.getUspById(id);
 					if (res) {
 						setResData(res);
 						setValue("title", res.title["en"]);
 						setValue("description", res.description && res.description["en"]);
-						setValue("parentCategoryId", res.parent_category_id);
 						setValue("slug", res.slug);
-						setImageUrl(res.icon);
 						setStatus(res.status || false);
 					}
 				} catch (err) {
@@ -127,10 +109,10 @@ const CategoryDrawer = ({ id, data }) => {
 			<DrawerHeader
 				id={id}
 				register={register}
-				updateTitle={t("UpdateCategory")}
-				updateDescription={t("UpdateCategoryDescription")}
-				addTitle={t("AddCategoryTitle")}
-				addDescription={t("AddCategoryDescription")}
+				updateTitle={t("UpdateUsp")}
+				updateDescription={t("UpdateUspDescription")}
+				addTitle={t("AddUspTitle")}
+				addDescription={t("AddUspDescription")}
 			/>
 
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
@@ -142,24 +124,24 @@ const CategoryDrawer = ({ id, data }) => {
 								<InputArea
 									required={true}
 									register={register}
-									label="Category title"
+									label="Title"
 									name="title"
 									type="text"
-									placeholder={t("ParentCategoryPlaceholder")}
+									placeholder={t("UspTitlePlaceholder")}
 								/>
 								<Error errorName={errors.name} />
 							</div>
 						</div>
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={"Slug"} />
+							<LabelArea label={t("Slug")} />
 							<div className="col-span-8 sm:col-span-4">
 								<InputArea
 									required={true}
 									register={register}
-									label="Category slug"
+									label="Slug"
 									name="slug"
 									type="text"
-									placeholder={"Category Slug"}
+									placeholder={t("UspSlugPlaceholder")}
 								/>
 								<Error errorName={errors.name} />
 							</div>
@@ -172,43 +154,9 @@ const CategoryDrawer = ({ id, data }) => {
 									label="Description"
 									name="description"
 									type="text"
-									placeholder="Category Description"
+									placeholder={t("UspDescriptionPlaceholder")}
 								/>
 								<Error errorName={errors.description} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("SelectParentCategory")} />
-							<div className="col-span-8 sm:col-span-4 ">
-								<Select
-									name="parentCategoryId"
-									{...register(`parentCategoryId`, {
-										required: `parentCategoryId is required!`,
-									})}>
-									<option value="" defaultValue hidden>
-										{t("SelectParentCategory")}
-									</option>
-									{parentCategories?.map((pCat, index) => {
-										return (
-											<option value={pCat.id} key={index}>
-												{showingTranslateValue(pCat?.title)}
-											</option>
-										);
-									})}
-								</Select>
-								<Error errorName={errors.option} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("CategoryIcon")} />
-							<div className="col-span-8 sm:col-span-4">
-								<Uploader
-									imageUrl={imageUrl}
-									setImageUrl={setImageUrl}
-									folder="category"
-									targetWidth={238}
-									targetHeight={238}
-								/>
 							</div>
 						</div>
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -222,11 +170,11 @@ const CategoryDrawer = ({ id, data }) => {
 						</div>
 					</div>
 
-					<DrawerButton id={id} title="Category" isSubmitting={isSubmitting} />
+					<DrawerButton id={id} title="Usp" isSubmitting={isSubmitting} />
 				</form>
 			</Scrollbars>
 		</>
 	);
 };
 
-export default CategoryDrawer;
+export default UspDrawer;
