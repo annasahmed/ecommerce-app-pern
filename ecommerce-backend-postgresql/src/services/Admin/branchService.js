@@ -26,7 +26,8 @@ const branchService = createBaseService(db.branch, {
 		if (data.email) toUpdate.email = data.email;
 		if (data.latitude) toUpdate.latitude = data.latitude;
 		if (data.longitude) toUpdate.longitude = data.longitude;
-		if (data.isMainBranch) toUpdate.isMainBranch = data.is_main_branch;
+		if (data.isMainBranch !== undefined || data.isMainBranch !== null)
+			toUpdate.is_main_branch = data.isMainBranch;
 
 		return toUpdate;
 	},

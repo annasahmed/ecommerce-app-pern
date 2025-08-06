@@ -4,14 +4,15 @@ const { validateSlug, validatePhoneNumber } = require('../customValidation');
 const createBranch = {
 	body: Joi.object().keys({
 		name: Joi.object().required(),
-		code: Joi.string(),
+		code: Joi.string().optional(),
 		address: Joi.object().required(),
-		country: Joi.object(),
-		phone: Joi.string().custom(validatePhoneNumber),
+		country: Joi.object().optional(),
+		phone: Joi.string().optional().custom(validatePhoneNumber),
 		email: Joi.string().email().required(),
 		latitude: Joi.number().required(),
 		longitude: Joi.number().required(),
 		isMainBranch: Joi.boolean(),
+		status: Joi.boolean(),
 	}),
 };
 
@@ -20,15 +21,16 @@ const updateBranch = {
 		branchId: Joi.number().required(),
 	}),
 	body: Joi.object().keys({
-		name: Joi.object(),
-		code: Joi.string(),
-		address: Joi.object(),
-		country: Joi.object(),
-		phone: Joi.string().custom(validatePhoneNumber),
-		email: Joi.string().email(),
-		latitude: Joi.number(),
-		longitude: Joi.number(),
-		isMainBranch: Joi.boolean(),
+		name: Joi.object().optional(),
+		code: Joi.string().allow(null).optional(),
+		address: Joi.object().optional(),
+		country: Joi.object().allow(null).optional(),
+		phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
+		email: Joi.string().email().optional(),
+		latitude: Joi.number().optional(),
+		longitude: Joi.number().optional(),
+		isMainBranch: Joi.boolean().optional(),
+		status: Joi.boolean().optional(),
 	}),
 };
 

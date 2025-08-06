@@ -6,6 +6,8 @@ const stringWithTranslation = (value, attribute = 'title') => {
 
 	for (const [key, val] of Object.entries(value)) {
 		if (typeof val !== 'string' || val.trim() === '') {
+			console.log('cnasdsalmd');
+
 			throw new Error(
 				`${attribute} for '${key}' must be a non-empty string`
 			);
@@ -37,17 +39,18 @@ const validateSlug = (value, attribute = 'slug') => {
 	}
 };
 
-const validatePhoneNumber = (value, helpers) => {
+const validatePhoneNumber = (value) => {
+	if (value === null || value === undefined) return; // ✅ Allow null values
 	if (typeof value !== 'string' || value.trim() === '') {
-		return helpers.message('Phone number must be a non-empty string');
+		throw new Error(`Phone number must be a non-empty string`);
 	}
 
 	// Accepts formats like: +1234567890, 1234567890, 00923123456789
 	const phoneRegex = /^(\+?\d{10,15})$/;
 
 	if (!phoneRegex.test(value)) {
-		return helpers.message(
-			'Phone number must be between 10 to 15 digits, and may start with +'
+		throw new Error(
+			`Phone number must be between 10 to 15 digits, and may start with +`
 		);
 	}
 
