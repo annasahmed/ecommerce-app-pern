@@ -3,53 +3,62 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('product', {
+		await queryInterface.createTable('product_to_branch', {
 			id: {
 				type: Sequelize.INTEGER,
-				primaryKey: true,
 				allowNull: false,
+				primaryKey: true,
 				autoIncrement: true,
 			},
-			sku: {
-				type: Sequelize.STRING,
-				allowNull: true,
-			},
-			slug: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true,
-			},
-			thumbnail: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			images: {
-				type: Sequelize.ARRAY(Sequelize.STRING),
-				allowNull: true,
-				defaultValue: [],
-			},
-			is_featured: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: false,
-			},
-			meta_title: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			meta_description: {
-				type: Sequelize.TEXT,
-				allowNull: false,
-			},
-			user_id: {
+			product_id: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
-					model: 'user',
+					model: 'product',
 					key: 'id',
 				},
-				onDelete: 'SET NULL',
+				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
+			},
+			branch_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'branch',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
+				onUpdate: 'CASCADE',
+			},
+			//move to product_branch
+			cost_price: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			//move to product_branch
+			stock: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			low_stock: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			reorder_quantity: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+			},
+			//move to product_branch
+			sale_price: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			//move to product_branch
+			discount_percentage: {
+				type: Sequelize.FLOAT,
+				allowNull: true,
 			},
 			status: {
 				type: Sequelize.BOOLEAN,
@@ -84,6 +93,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('product');
+		await queryInterface.dropTable('product_to_branch');
 	},
 };

@@ -3,43 +3,49 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('product', {
+		await queryInterface.createTable('branch', {
 			id: {
 				type: Sequelize.INTEGER,
-				primaryKey: true,
 				allowNull: false,
+				primaryKey: true,
 				autoIncrement: true,
 			},
-			sku: {
+			name: {
+				type: Sequelize.JSONB,
+				allowNull: false,
+			},
+			code: {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
-			slug: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true,
-			},
-			thumbnail: {
-				type: Sequelize.STRING,
+			address: {
+				type: Sequelize.JSONB,
 				allowNull: false,
 			},
-			images: {
-				type: Sequelize.ARRAY(Sequelize.STRING),
+			country: {
+				type: Sequelize.JSONB,
 				allowNull: true,
-				defaultValue: [],
 			},
-			is_featured: {
+			phone: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			email: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			latitude: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			longitude: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			is_main_branch: {
 				type: Sequelize.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
-			},
-			meta_title: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			meta_description: {
-				type: Sequelize.TEXT,
-				allowNull: false,
 			},
 			user_id: {
 				type: Sequelize.INTEGER,
@@ -84,6 +90,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('product');
+		await queryInterface.dropTable('branch');
 	},
 };

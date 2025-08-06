@@ -26,7 +26,25 @@ const validateSlug = (value, helpers) => {
 	return value;
 };
 
+const validatePhoneNumber = (value, helpers) => {
+	if (typeof value !== 'string' || value.trim() === '') {
+		return helpers.message('Phone number must be a non-empty string');
+	}
+
+	// Accepts formats like: +1234567890, 1234567890, 00923123456789
+	const phoneRegex = /^(\+?\d{10,15})$/;
+
+	if (!phoneRegex.test(value)) {
+		return helpers.message(
+			'Phone number must be between 10 to 15 digits, and may start with +'
+		);
+	}
+
+	return value;
+};
+
 module.exports = {
 	password,
 	validateSlug,
+	validatePhoneNumber,
 };

@@ -6,6 +6,8 @@ module.exports.adminParentCategoryService = require('./parentCategoryService');
 module.exports.adminCategoryService = require('./categoryService');
 module.exports.adminUspService = require('./uspService');
 
+module.exports.adminBranchService = require('./branchService');
+
 module.exports.adminSettingService = require('./settingService');
 
 module.exports.adminLanguageService = require('./languageService');

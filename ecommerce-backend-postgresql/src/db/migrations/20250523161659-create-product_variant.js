@@ -48,16 +48,6 @@ module.exports = {
 				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
-			user_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
 			status: {
 				type: Sequelize.BOOLEAN,
 				allowNull: false,
