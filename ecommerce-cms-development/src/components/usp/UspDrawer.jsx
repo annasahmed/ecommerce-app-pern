@@ -36,6 +36,7 @@ const UspDrawer = ({ id, data }) => {
 
 	const onSubmit = async (data) => {
 		const { title, description, parentCategoryId, slug } = data;
+
 		try {
 			setIsSubmitting(true);
 			const nameTranslates = await handlerTextTranslateHandler(
