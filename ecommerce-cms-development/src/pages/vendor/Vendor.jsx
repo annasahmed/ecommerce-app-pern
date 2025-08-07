@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 
-import BranchDrawer from "@/components/branch/BranchDrawer";
-import BranchTable from "@/components/branch/BranchTable";
+import VendorDrawer from "@/components/vendor/VendorDrawer";
+import VendorTable from "@/components/vendor/VendorTable";
 import MainDrawer from "@/components/drawer/MainDrawer";
 import CheckBox from "@/components/form/others/CheckBox";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
@@ -14,15 +14,15 @@ import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import BranchServices from "@/services/BranchServices";
+import VendorServices from "@/services/VendorServices";
 
-const Branch = () => {
+const Vendor = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
 	const {
-		data: branchesData,
+		data: vendorsData,
 		loading,
 		error,
-	} = useAsync(BranchServices.getAllBranches);
+	} = useAsync(VendorServices.getAllVendors);
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
@@ -42,16 +42,16 @@ const Branch = () => {
 
 	return (
 		<>
-			<PageTitle>{t("Branch")}</PageTitle>
+			<PageTitle>{t("Vendor")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddBranch")}
-				inputPlaceholder={t("SearchBranch")}
+				buttonText={t("AddVendor")}
+				inputPlaceholder={t("SearchVendor")}
 				onClick={toggleDrawer}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={branchesData}>
+				data={vendorsData}>
 				<Table>
 					<TableHeader>
 						<tr>
@@ -66,16 +66,14 @@ const Branch = () => {
 							</TableCell>
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
-							<TableCell>{t("CodeTbl")}</TableCell>
 							<TableCell>{t("LocationTbl")}</TableCell>
 							<TableCell>{t("ContactTbl")}</TableCell>
-							<TableCell>{t("TypeTbl")}</TableCell>
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>
 					</TableHeader>
-					<BranchTable
-						data={branchesData.records}
+					<VendorTable
+						data={vendorsData.records}
 						isCheck={isCheck}
 						setIsCheck={setIsCheck}
 						toggleDrawerData={toggleDrawerData}
@@ -84,10 +82,10 @@ const Branch = () => {
 			</TableWrapperWithPagination>
 
 			<MainDrawer>
-				<BranchDrawer id={serviceId} data={branchesData.records} lang={lang} />
+				<VendorDrawer id={serviceId} data={vendorsData.records} lang={lang} />
 			</MainDrawer>
 		</>
 	);
 };
 
-export default Branch;
+export default Vendor;

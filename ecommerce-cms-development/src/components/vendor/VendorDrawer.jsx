@@ -10,15 +10,14 @@ import LabelArea from "@/components/form/selectOption/LabelArea";
 import SwitchToggle from "@/components/form/switch/SwitchToggle";
 import { SidebarContext } from "@/context/SidebarContext";
 import useTranslationValue from "@/hooks/useTranslationValue";
-import BranchServices from "@/services/BranchServices";
+import VendorServices from "@/services/VendorServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
 
-const BranchDrawer = ({ id, data }) => {
+const VendorDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
 	const [status, setStatus] = useState(true);
-	const [isMainBranch, setIsMainBranch] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
@@ -59,7 +58,7 @@ const BranchDrawer = ({ id, data }) => {
 				Object.entries(data).filter(([_, value]) => value !== ""),
 			);
 
-			const branchData = {
+			const vendorData = {
 				...cleanedData,
 				name: {
 					...nameTranslates,
@@ -73,21 +72,18 @@ const BranchDrawer = ({ id, data }) => {
 					...countryTranslates,
 					...(country && { ["en"]: country }),
 				},
-				isMainBranch,
 				status,
 			};
 
-			console.log(branchData, isMainBranch, "chkking111");
-
 			if (id) {
-				const res = await BranchServices.updateBranch(id, branchData);
+				const res = await VendorServices.updateVendor(id, vendorData);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
 				closeDrawer();
 				reset();
 			} else {
-				const res = await BranchServices.addBranch(branchData);
+				const res = await VendorServices.addVendor(vendorData);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
@@ -99,24 +95,19 @@ const BranchDrawer = ({ id, data }) => {
 			notifyError(err ? err?.response?.data?.message : err?.message);
 		}
 	};
-	console.log(isMainBranch, "asdasmkd");
 
 	useEffect(() => {
 		if (id) {
 			(async () => {
 				try {
-					const res = await BranchServices.getBranchById(id);
+					const res = await VendorServices.getVendorById(id);
 					if (res) {
 						setResData(res);
 						setValue("name", res.name["en"]);
 						setValue("address", res.address["en"]);
 						setValue("country", res.country && res.country["en"]);
-						setValue("code", res.code);
 						setValue("phone", res.phone);
 						setValue("email", res.email);
-						setValue("latitude", res.latitude);
-						setValue("longitude", res.longitude);
-						setIsMainBranch(res.is_main_branch || false);
 						setStatus(res.status || false);
 					}
 				} catch (err) {
@@ -133,10 +124,10 @@ const BranchDrawer = ({ id, data }) => {
 			<DrawerHeader
 				id={id}
 				register={register}
-				updateTitle={t("UpdateBranch")}
-				updateDescription={t("UpdateBranchDescription")}
-				addTitle={t("AddBranchTitle")}
-				addDescription={t("AddBranchDescription")}
+				updateTitle={t("UpdateVendor")}
+				updateDescription={t("UpdateVendorDescription")}
+				addTitle={t("AddVendorTitle")}
+				addDescription={t("AddVendorDescription")}
 			/>
 
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
@@ -151,23 +142,9 @@ const BranchDrawer = ({ id, data }) => {
 									label="name"
 									name="name"
 									type="text"
-									placeholder={t("BranchNamePlaceholder")}
+									placeholder={t("VendorNamePlaceholder")}
 								/>
 								<Error errorName={errors.name} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Code")} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={false}
-									register={register}
-									label="code"
-									name="code"
-									type="text"
-									placeholder={t("BranchCodePlaceholder")}
-								/>
-								<Error errorName={errors.code} />
 							</div>
 						</div>
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -179,7 +156,7 @@ const BranchDrawer = ({ id, data }) => {
 									label="address"
 									name="address"
 									type="text"
-									placeholder={t("BranchAddressPlaceholder")}
+									placeholder={t("VendorAddressPlaceholder")}
 								/>
 								<Error errorName={errors.address} />
 							</div>
@@ -193,7 +170,7 @@ const BranchDrawer = ({ id, data }) => {
 									label="country"
 									name="country"
 									type="text"
-									placeholder={t("BranchCountryPlaceholder")}
+									placeholder={t("VendorCountryPlaceholder")}
 								/>
 								<Error errorName={errors.country} />
 							</div>
@@ -207,7 +184,7 @@ const BranchDrawer = ({ id, data }) => {
 									label="phone"
 									name="phone"
 									type="text"
-									placeholder={t("BranchPhonePlaceholder")}
+									placeholder={t("VendorPhonePlaceholder")}
 								/>
 								<Error errorName={errors.phone} />
 							</div>
@@ -221,47 +198,9 @@ const BranchDrawer = ({ id, data }) => {
 									label="email"
 									name="email"
 									type="email"
-									placeholder={t("BranchEmailPlaceholder")}
+									placeholder={t("VendorEmailPlaceholder")}
 								/>
 								<Error errorName={errors.email} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Latitude")} required={true} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={true}
-									register={register}
-									label="latitude"
-									name="latitude"
-									type="number"
-									placeholder={t("BranchLatitudePlaceholder")}
-								/>
-								<Error errorName={errors.latitude} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Longitude")} required={true} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={true}
-									register={register}
-									label="longitude"
-									name="longitude"
-									type="number"
-									placeholder={t("BranchLongitudePlaceholder")}
-								/>
-								<Error errorName={errors.longitude} />
-							</div>
-						</div>
-
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("MainBranch")} />
-							<div className="col-span-8 sm:col-span-4">
-								<SwitchToggle
-									handleProcess={setIsMainBranch}
-									processOption={isMainBranch}
-								/>
 							</div>
 						</div>
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -275,11 +214,11 @@ const BranchDrawer = ({ id, data }) => {
 						</div>
 					</div>
 
-					<DrawerButton id={id} title="Branch" isSubmitting={isSubmitting} />
+					<DrawerButton id={id} title="Vendor" isSubmitting={isSubmitting} />
 				</form>
 			</Scrollbars>
 		</>
 	);
 };
 
-export default BranchDrawer;
+export default VendorDrawer;

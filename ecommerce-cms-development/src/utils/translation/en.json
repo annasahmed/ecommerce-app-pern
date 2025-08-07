@@ -1013,5 +1013,21 @@
 	"BranchLatitudePlaceholder": "Branch Latitude",
 	"Longitude": "Longitude",
 	"BranchLongitudePlaceholder": "Branch Longitude",
-	"MainBranch": "Main Branch"
+	"MainBranch": "Main Branch",
+
+	"Vendor": "Vendor",
+	"AddVendor": "Add Vendor",
+	"SearchVendor": "Search Vendor",
+
+	"UpdateVendor": "Update Vendor",
+	"UpdateVendorDescription": "Updated your vendors necessary information from here",
+	"AddVendorTitle": "Add Vendor",
+	"AddVendorDescription": "Add your vendors necessary information from here",
+
+	"VendorNamePlaceholder": "Vendor Name",
+	"VendorAddressPlaceholder": "Vendor Address",
+
+	"VendorCountryPlaceholder": "Vendor Country",
+	"VendorPhonePlaceholder": "Vendor Phone",
+	"VendorEmailPlaceholder": "Vendor Email"
 }

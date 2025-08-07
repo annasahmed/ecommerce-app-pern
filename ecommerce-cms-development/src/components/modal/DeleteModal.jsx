@@ -19,6 +19,9 @@ import AttributeServices from "@/services/AttributeServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useDisableForDemo from "@/hooks/useDisableForDemo";
+import UspServices from "@/services/UspServices";
+import VendorServices from "@/services/VendorServices";
+import BranchServices from "@/services/BranchServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 	const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -120,6 +123,31 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 				notifySuccess(res.message);
 				closeModal();
 				setServiceId();
+				setIsSubmitting(false);
+			}
+
+			if (location.pathname === "/usps") {
+				const res = await UspServices.deleteUsp(id);
+				setIsUpdate(true);
+				notifySuccess(res.message);
+				setServiceId();
+				closeModal();
+				setIsSubmitting(false);
+			}
+			if (location.pathname === "/vendors") {
+				const res = await VendorServices.deleteVendor(id);
+				setIsUpdate(true);
+				notifySuccess(res.message);
+				setServiceId();
+				closeModal();
+				setIsSubmitting(false);
+			}
+			if (location.pathname === "/branches") {
+				const res = await BranchServices.deleteBranch(id);
+				setIsUpdate(true);
+				notifySuccess(res.message);
+				setServiceId();
+				closeModal();
 				setIsSubmitting(false);
 			}
 
