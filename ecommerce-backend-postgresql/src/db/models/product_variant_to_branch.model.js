@@ -1,8 +1,8 @@
 const { baseFields, baseScopes, baseAssociation } = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {
-	const product_to_branch = sequelize.define(
-		'product_to_branch',
+	const product_variant_to_branch = sequelize.define(
+		'product_variant_to_branch',
 		{
 			id: {
 				type: DataTypes.INTEGER,
@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			product_id: {
+			product_variant_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'product',
+					model: 'product_variant',
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
@@ -63,24 +63,24 @@ module.exports = (sequelize, DataTypes) => {
 			...baseFields,
 		},
 		{
-			tableName: 'product_to_branch',
+			tableName: 'product_variant_to_branch',
 			timestamps: true,
 			...baseScopes(),
 		}
 	);
-	product_to_branch.associate = (models) => {
-		product_to_branch.belongsTo(models.product, {
-			foreignKey: 'product_id',
+	product_variant_to_branch.associate = (models) => {
+		product_variant_to_branch.belongsTo(models.product_variant, {
+			foreignKey: 'product_variant_id',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
-		product_to_branch.belongsTo(models.branch, {
+		product_variant_to_branch.belongsTo(models.branch, {
 			foreignKey: 'branch_id',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
-		baseAssociation(product_to_branch, models);
+		baseAssociation(product_variant_to_branch, models);
 	};
 
-	return product_to_branch;
+	return product_variant_to_branch;
 };

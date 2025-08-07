@@ -18,22 +18,6 @@ module.exports = {
 				type: Sequelize.JSONB, // e.g., { "size": "M", "color": "Red" }
 				allowNull: false,
 			},
-			cost_price: {
-				type: Sequelize.FLOAT,
-				allowNull: false,
-			},
-			stock: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-			},
-			sale_price: {
-				type: Sequelize.FLOAT,
-				allowNull: false,
-			},
-			discount_percentage: {
-				type: Sequelize.FLOAT,
-				allowNull: true,
-			},
 			image: {
 				type: Sequelize.STRING,
 				allowNull: false,

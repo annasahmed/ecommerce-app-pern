@@ -4,5 +4,6 @@ module.exports.adminCategoryController = require('./categoryController');
 module.exports.adminUspController = require('./uspController');
 module.exports.adminBranchController = require('./branchController');
 module.exports.adminVendorController = require('./vendorController');
+module.exports.adminProductController = require('./productController');
 module.exports.adminSettingController = require('./settingController');
 module.exports.adminLanguageController = require('./languageController');

@@ -5,6 +5,7 @@ const categoryRoute = require('./categoryRoute');
 const uspRoute = require('./uspRoute');
 const branchRoute = require('./branchRoute');
 const vendorRoute = require('./vendorRoute');
+const productRoute = require('./productRoute');
 const settingRoute = require('./settingRoute');
 const languageRoute = require('./languageRoute');
 
@@ -16,6 +17,7 @@ adminRouter.use('/category', categoryRoute);
 adminRouter.use('/usp', uspRoute);
 adminRouter.use('/branch', branchRoute);
 adminRouter.use('/vendor', vendorRoute);
+adminRouter.use('/product', productRoute);
 adminRouter.use('/setting', settingRoute);
 adminRouter.use('/language', languageRoute);
 

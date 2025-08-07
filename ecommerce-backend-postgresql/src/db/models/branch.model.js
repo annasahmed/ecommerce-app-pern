@@ -96,10 +96,10 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});
-		branch.belongsToMany(models.product, {
-			through: 'product_to_branch',
+		branch.belongsToMany(models.product_variant, {
+			through: 'product_variant_to_branch',
 			foreignKey: 'branch_id',
-			otherKey: 'product_id',
+			otherKey: 'product_variant_id',
 		});
 		baseAssociation(branch, models);
 	};

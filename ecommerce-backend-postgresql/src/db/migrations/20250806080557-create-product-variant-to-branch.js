@@ -3,18 +3,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('product_to_branch', {
+		await queryInterface.createTable('product_variant_to_branch', {
 			id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			product_id: {
+			product_variant_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'product',
+					model: 'product_variant',
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
@@ -93,6 +93,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('product_to_branch');
+		await queryInterface.dropTable('product_variant_to_branch');
 	},
 };
