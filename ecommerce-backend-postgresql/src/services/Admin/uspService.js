@@ -10,6 +10,7 @@ const uspService = createBaseService(db.usp, {
 		description: data.description,
 		slug: data.slug,
 		icon: data.icon,
+		status: data.status,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
@@ -17,6 +18,7 @@ const uspService = createBaseService(db.usp, {
 		if (data.description) toUpdate.description = data.description;
 		if (data.slug) toUpdate.slug = data.slug;
 		if (data.icon) toUpdate.icon = data.icon;
+		if (data.status !== undefined) toUpdate.status = data.status;
 
 		return toUpdate;
 	},

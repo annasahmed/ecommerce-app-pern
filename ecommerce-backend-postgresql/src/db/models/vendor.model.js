@@ -2,8 +2,8 @@ const { baseFields, baseScopes, baseAssociation } = require('./base_model');
 const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
-	const branch = sequelize.define(
-		'branch',
+	const vendor = sequelize.define(
+		'vendor',
 		{
 			id: {
 				type: DataTypes.INTEGER,
@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => {
 						modelValidators.stringWithTranslation(value, 'name');
 					},
 				},
-			},
-			code: {
-				type: DataTypes.STRING,
-				allowNull: true,
 			},
 			address: {
 				type: DataTypes.JSONB,
@@ -51,25 +47,16 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
+			contact_person: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
 					isEmail: true,
 				},
-			},
-			latitude: {
-				type: DataTypes.FLOAT,
-				allowNull: false,
-			},
-			longitude: {
-				type: DataTypes.FLOAT,
-				allowNull: false,
-			},
-			is_main_branch: {
-				type: DataTypes.BOOLEAN,
-				allowNull: false,
-				defaultValue: false,
 			},
 			user_id: {
 				type: DataTypes.INTEGER,
@@ -84,25 +71,25 @@ module.exports = (sequelize, DataTypes) => {
 			...baseFields,
 		},
 		{
-			tableName: 'branch',
+			tableName: 'vendor',
 			timestamps: true,
 			...baseScopes(),
 		}
 	);
 
-	branch.associate = (models) => {
-		branch.belongsTo(models.user, {
+	vendor.associate = (models) => {
+		vendor.belongsTo(models.user, {
 			foreignKey: 'user_id',
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});
-		branch.belongsToMany(models.product, {
-			through: 'product_to_branch',
-			foreignKey: 'branch_id',
+		vendor.belongsToMany(models.product, {
+			through: 'product_to_vendor',
+			foreignKey: 'vendor_id',
 			otherKey: 'product_id',
 		});
-		baseAssociation(branch, models);
+		baseAssociation(vendor, models);
 	};
 
-	return branch;
+	return vendor;
 };

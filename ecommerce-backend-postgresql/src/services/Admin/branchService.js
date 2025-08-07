@@ -4,7 +4,7 @@ const createBaseService = require('../../utils/baseService.js');
 
 const branchService = createBaseService(db.branch, {
 	name: 'Branch',
-	checkDuplicateSlug: true,
+	checkDuplicateSlug: false,
 	formatCreateData: (data) => ({
 		name: data.name,
 		code: data.code,
@@ -15,6 +15,7 @@ const branchService = createBaseService(db.branch, {
 		latitude: data.latitude,
 		longitude: data.longitude,
 		is_main_branch: data.isMainBranch,
+		status: data.status,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
@@ -28,6 +29,7 @@ const branchService = createBaseService(db.branch, {
 		if (data.longitude) toUpdate.longitude = data.longitude;
 		if (data.isMainBranch !== undefined || data.isMainBranch !== null)
 			toUpdate.is_main_branch = data.isMainBranch;
+		if (data.status !== undefined) toUpdate.status = data.status;
 
 		return toUpdate;
 	},

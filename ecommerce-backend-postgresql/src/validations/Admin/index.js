@@ -4,4 +4,5 @@ module.exports.adminParentCategoryValidation = require('./parentCategoryValidati
 module.exports.adminCategoryValidation = require('./categoryValidation');
 module.exports.adminUspValidation = require('./uspValidation');
 module.exports.adminBranchValidation = require('./branchValidation');
+module.exports.adminVendorValidation = require('./vendorValidation');
 module.exports.adminLanguageValidation = require('./languageValidation');
