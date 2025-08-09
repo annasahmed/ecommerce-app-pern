@@ -13,7 +13,7 @@ import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CustomerServices from "@/services/CustomerServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServices";
+import ProductServices from "@/services/ProductServicesOld";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import AttributeServices from "@/services/AttributeServices";
 import CurrencyServices from "@/services/CurrencyServices";

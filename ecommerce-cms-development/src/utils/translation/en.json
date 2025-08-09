@@ -1029,5 +1029,21 @@
 
 	"VendorCountryPlaceholder": "Vendor Country",
 	"VendorPhonePlaceholder": "Vendor Phone",
-	"VendorEmailPlaceholder": "Vendor Email"
+	"VendorEmailPlaceholder": "Vendor Email",
+
+	"Product": "Product",
+	"AddProduct": "Add Product",
+	"SearchProduct": "Search Product",
+
+	"UpdateProduct": "Update Product",
+	"UpdateProductDescription": "Updated your products necessary information from here",
+	"AddProductTitle": "Add Product",
+	"AddProductDescription": "Add your products necessary information from here",
+
+	"ProductNamePlaceholder": "Product Name",
+	"ProductAddressPlaceholder": "Product Address",
+
+	"ProductCountryPlaceholder": "Product Country",
+	"ProductPhonePlaceholder": "Product Phone",
+	"ProductEmailPlaceholder": "Product Email"
 }

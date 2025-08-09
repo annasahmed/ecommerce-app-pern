@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 //internal import
 import spinnerLoadingImage from "@/assets/img/spinner.gif";
 import { SidebarContext } from "@/context/SidebarContext";
-import ProductServices from "@/services/ProductServices";
+import ProductServices from "@/services/ProductServicesOld";
 
 const UploadMany = ({
 	title,

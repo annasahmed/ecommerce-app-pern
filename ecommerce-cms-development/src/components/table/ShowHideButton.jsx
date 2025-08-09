@@ -9,7 +9,7 @@ import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServices";
+import ProductServices from "@/services/ProductServicesOld";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import UspServices from "@/services/UspServices";
 

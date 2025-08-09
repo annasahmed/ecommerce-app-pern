@@ -16,7 +16,7 @@ import CouponServices from "@/services/CouponServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import CustomerServices from "@/services/CustomerServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServices";
+import ProductServices from "@/services/ProductServicesOld";
 import { notifyError, notifySuccess } from "@/utils/toast";
 
 const categorySchema = {

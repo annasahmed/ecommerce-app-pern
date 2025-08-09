@@ -4,9 +4,6 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
-import InputArea from "@/components/form/input/InputArea";
-import TextAreaCom from "@/components/form/input/TextAreaCom";
-import Error from "@/components/form/others/Error";
 import LabelArea from "@/components/form/selectOption/LabelArea";
 import SwitchToggle from "@/components/form/switch/SwitchToggle";
 import { SidebarContext } from "@/context/SidebarContext";
@@ -15,6 +12,8 @@ import UspServices from "@/services/UspServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
+import InputAreaField from "../product/InputAreaField";
+import SwitchToggleField from "../product/SwitchToggleField";
 
 const UspDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -119,56 +118,50 @@ const UspDrawer = ({ id, data }) => {
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Name")} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={true}
-									register={register}
-									label="Title"
-									name="title"
-									type="text"
-									placeholder={t("UspTitlePlaceholder")}
-								/>
-								<Error errorName={errors.name} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Slug")} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={true}
-									register={register}
-									label="Slug"
-									name="slug"
-									type="text"
-									placeholder={t("UspSlugPlaceholder")}
-								/>
-								<Error errorName={errors.name} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Description")} />
-							<div className="col-span-8 sm:col-span-4">
-								<TextAreaCom
-									register={register}
-									label="Description"
-									name="description"
-									type="text"
-									placeholder={t("UspDescriptionPlaceholder")}
-								/>
-								<Error errorName={errors.description} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Status")} />
-							<div className="col-span-8 sm:col-span-4">
-								<SwitchToggle
-									handleProcess={setStatus}
-									processOption={status}
-								/>
-							</div>
-						</div>
+						<InputAreaField
+							label={t("Name")}
+							required={true}
+							register={register}
+							inputLabel="Title"
+							inputName="title"
+							inputType="text"
+							inputPlaceholder={t("UspTitlePlaceholder")}
+							errorName={errors.name}
+						/>
+						<InputAreaField
+							label={t("Slug")}
+							required={true}
+							register={register}
+							inputLabel="Slug"
+							inputName="slug"
+							inputType="text"
+							inputPlaceholder={t("UspSlugPlaceholder")}
+							errorName={errors.slug}
+						/>
+						<InputAreaField
+							label={t("Slug")}
+							required={true}
+							register={register}
+							inputLabel="Slug"
+							inputName="slug"
+							inputType="text"
+							inputPlaceholder={t("UspSlugPlaceholder")}
+							errorName={errors.slug}
+						/>
+						<InputAreaField
+							label={t("Description")}
+							register={register}
+							inputLabel="Description"
+							inputName="description"
+							inputType="text"
+							inputPlaceholder={t("UspDescriptionPlaceholder")}
+							errorName={errors.description}
+						/>
+						<SwitchToggleField
+							label={t("Status")}
+							handleProcess={setStatus}
+							processOption={status}
+						/>
 					</div>
 
 					<DrawerButton id={id} title="Usp" isSubmitting={isSubmitting} />
