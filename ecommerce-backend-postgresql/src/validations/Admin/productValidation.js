@@ -3,12 +3,59 @@ const { validateSlug, validatePhoneNumber } = require('../customValidation');
 
 const createProduct = {
 	body: Joi.object().keys({
-		name: Joi.object().required(),
-		address: Joi.object().required(),
-		country: Joi.object().optional(),
-		phone: Joi.string().optional().custom(validatePhoneNumber),
-		email: Joi.string().email().required(),
-		status: Joi.boolean(),
+		sku: Joi.string().optional(),
+		slug: Joi.string().required().custom(validateSlug),
+		thumbnail: Joi.string().uri().required(),
+		images: Joi.array().items(Joi.string().uri()).optional().default([]),
+		is_featured: Joi.boolean().default(false),
+		meta_title: Joi.string().required(),
+		meta_description: Joi.string().required(),
+		user_id: Joi.number().integer().optional(),
+
+		categories: Joi.array().items(Joi.number().integer()).optional(),
+		usps: Joi.array().items(Joi.number().integer()).optional(),
+		vendors: Joi.array().items(Joi.number().integer()).optional(),
+
+		translations: Joi.array()
+			.items(
+				Joi.object({
+					title: Joi.string().required(),
+					excerpt: Joi.string().allow(null, ''),
+					description: Joi.string().allow(null, ''),
+					language_id: Joi.number().integer().required(),
+				})
+			)
+			.min(1)
+			.required(),
+
+		variants: Joi.array()
+			.items(
+				Joi.object({
+					sku: Joi.string().optional(),
+					attributes: Joi.object().required(), // e.g., { size: "M", color: "Red" }
+					image: Joi.string().uri().required(),
+					branch_data: Joi.array()
+						.items(
+							Joi.object({
+								branch_id: Joi.number().integer().required(),
+								cost_price: Joi.number().required(),
+								stock: Joi.number().integer().required(),
+								low_stock: Joi.number().integer().required(),
+								reorder_quantity: Joi.number()
+									.integer()
+									.optional()
+									.allow(null),
+								sale_price: Joi.number().required(),
+								discount_percentage: Joi.number()
+									.optional()
+									.allow(null),
+							})
+						)
+						.required()
+						.min(1),
+				})
+			)
+			.optional(),
 	}),
 };
 

@@ -15,7 +15,7 @@ router
 	)
 	.post(
 		checkPermission('create_product'),
-		validate(adminProductValidation.createProduct),
+		// validate(adminProductValidation.createProduct),
 		adminProductController.createProduct
 	);
 
