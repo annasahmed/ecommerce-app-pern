@@ -22,6 +22,7 @@ import useDisableForDemo from "@/hooks/useDisableForDemo";
 import UspServices from "@/services/UspServices";
 import VendorServices from "@/services/VendorServices";
 import BranchServices from "@/services/BranchServices";
+import MediaServices from "@/services/MediaServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 	const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -128,6 +129,14 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 
 			if (location.pathname === "/usps") {
 				const res = await UspServices.deleteUsp(id);
+				setIsUpdate(true);
+				notifySuccess(res.message);
+				setServiceId();
+				closeModal();
+				setIsSubmitting(false);
+			}
+			if (location.pathname === "/media") {
+				const res = await MediaServices.deleteMedia(id);
 				setIsUpdate(true);
 				notifySuccess(res.message);
 				setServiceId();

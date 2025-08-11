@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
-import LabelArea from "@/components/form/selectOption/LabelArea";
-import SwitchToggle from "@/components/form/switch/SwitchToggle";
 import { SidebarContext } from "@/context/SidebarContext";
 import useTranslationValue from "@/hooks/useTranslationValue";
 import UspServices from "@/services/UspServices";

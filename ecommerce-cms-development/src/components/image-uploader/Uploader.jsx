@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
 import { t } from "i18next";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { FiUploadCloud, FiXCircle } from "react-icons/fi";
-import Pica from "pica";
+import { FiUploadCloud } from "react-icons/fi";
 
 // Internal imports
 import useUtilsFunction from "@/hooks/useUtilsFunction";
+import MediaServices from "@/services/MediaServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
-import Container from "@/components/image-uploader/Container";
+import { SidebarContext } from "@/context/SidebarContext";
 
-const Uploader = ({
-	setImageUrl,
-	imageUrl,
-	product,
-	folder,
-	targetWidth = 800, // Set default fixed width
-	targetHeight = 800, // Set default fixed height
-}) => {
+const Uploader = ({ setImageUrl, imageUrl, product }) => {
 	const [files, setFiles] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [err, setError] = useState("");
-	const pica = Pica(); // Initialize Pica instance
 	const { globalSetting } = useUtilsFunction();
+	const { setIsUpdate } = useContext(SidebarContext);
 
 	const { getRootProps, getInputProps, fileRejections } = useDropzone({
 		accept: {
@@ -34,13 +24,8 @@ const Uploader = ({
 		maxSize: 5242880, // 5 MB in bytes
 		maxFiles: globalSetting?.number_of_image_per_product || 2,
 		onDrop: async (acceptedFiles) => {
-			const resizedFiles = await Promise.all(
-				acceptedFiles.map((file) =>
-					resizeImageToFixedDimensions(file, targetWidth, targetHeight),
-				),
-			);
 			setFiles(
-				resizedFiles.map((file) =>
+				acceptedFiles.map((file) =>
 					Object.assign(file, {
 						preview: URL.createObjectURL(file),
 					}),
@@ -48,31 +33,6 @@ const Uploader = ({
 			);
 		},
 	});
-
-	const resizeImageToFixedDimensions = async (file, width, height) => {
-		const img = new Image();
-		img.src = URL.createObjectURL(file);
-
-		await img.decode();
-
-		const canvas = document.createElement("canvas");
-		canvas.width = width;
-		canvas.height = height;
-
-		return new Promise((resolve) => {
-			pica
-				.resize(img, canvas, {
-					unsharpAmount: 80,
-					unsharpRadius: 0.6,
-					unsharpThreshold: 2,
-				})
-				.then((result) => pica.toBlob(result, file.type, 0.9))
-				.then((blob) => {
-					const resizedFile = new File([blob], file.name, { type: file.type });
-					resolve(resizedFile);
-				});
-		});
-	};
 
 	useEffect(() => {
 		if (fileRejections) {
@@ -105,39 +65,15 @@ const Uploader = ({
 						`Maximum ${globalSetting?.number_of_image_per_product} Image Can be Upload!`,
 					);
 				}
-
 				setLoading(true);
 				setError("Uploading....");
-
-				const name = file.name.replaceAll(/\s/g, "");
-				const public_id = name?.substring(0, name.lastIndexOf("."));
-
 				const formData = new FormData();
 				formData.append("file", file);
-				formData.append(
-					"upload_preset",
-					import.meta.env.VITE_APP_CLOUDINARY_UPLOAD_PRESET,
-				);
-				formData.append("cloud_name", import.meta.env.VITE_APP_CLOUD_NAME);
-				formData.append("folder", folder);
-				formData.append("public_id", public_id);
-
-				axios({
-					url: import.meta.env.VITE_APP_CLOUDINARY_URL,
-					method: "POST",
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded",
-					},
-					data: formData,
-				})
+				MediaServices.addMedia(formData)
 					.then((res) => {
 						notifySuccess("Image Uploaded successfully!");
 						setLoading(false);
-						if (product) {
-							setImageUrl((imgUrl) => [...imgUrl, res.data.secure_url]);
-						} else {
-							setImageUrl(res.data.secure_url);
-						}
+						setIsUpdate(true);
 					})
 					.catch((err) => {
 						console.error("err", err);
@@ -148,41 +84,12 @@ const Uploader = ({
 		}
 	}, [files]);
 
-	const thumbs = files.map((file) => (
-		<div key={file.name}>
-			<div>
-				<img
-					className="inline-flex border-2 border-customGray-100 w-24 max-h-24"
-					src={file.preview}
-					alt={file.name}
-				/>
-			</div>
-		</div>
-	));
-
 	useEffect(
 		() => () => {
 			files.forEach((file) => URL.revokeObjectURL(file.preview));
 		},
 		[files],
 	);
-
-	const handleRemoveImage = async (img) => {
-		try {
-			setLoading(false);
-			notifyError("Image delete successfully!");
-			if (product) {
-				const result = imageUrl?.filter((i) => i !== img);
-				setImageUrl(result);
-			} else {
-				setImageUrl("");
-			}
-		} catch (err) {
-			console.error("err", err);
-			notifyError(err.Message);
-			setLoading(false);
-		}
-	};
 
 	return (
 		<div className="w-full text-center">
@@ -198,33 +105,6 @@ const Uploader = ({
 			</div>
 
 			<div className="text-customTeal-500">{loading && err}</div>
-			<aside className="flex flex-row flex-wrap mt-4">
-				{product ? (
-					<DndProvider backend={HTML5Backend}>
-						<Container
-							setImageUrl={setImageUrl}
-							imageUrl={imageUrl}
-							handleRemoveImage={handleRemoveImage}
-						/>
-					</DndProvider>
-				) : !product && imageUrl ? (
-					<div className="relative">
-						<img
-							className="inline-flex border rounded-md border-customGray-100 dark:border-customGray-600 w-24 max-h-24 p-2"
-							src={imageUrl}
-							alt="product"
-						/>
-						<button
-							type="button"
-							className="absolute top-0 right-0 text-customRed-500 focus:outline-none"
-							onClick={() => handleRemoveImage(imageUrl)}>
-							<FiXCircle />
-						</button>
-					</div>
-				) : (
-					thumbs
-				)}
-			</aside>
 		</div>
 	);
 };
