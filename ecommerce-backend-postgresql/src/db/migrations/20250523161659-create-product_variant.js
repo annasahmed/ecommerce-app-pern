@@ -19,8 +19,14 @@ module.exports = {
 				allowNull: false,
 			},
 			image: {
-				type: Sequelize.STRING,
-				allowNull: false,
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'media',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			product_id: {
 				type: Sequelize.INTEGER,

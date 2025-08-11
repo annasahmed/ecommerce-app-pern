@@ -20,13 +20,14 @@ module.exports = {
 				unique: true,
 			},
 			thumbnail: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			images: {
-				type: Sequelize.ARRAY(Sequelize.STRING),
+				type: Sequelize.INTEGER,
 				allowNull: true,
-				defaultValue: [],
+				references: {
+					model: 'media',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			is_featured: {
 				type: Sequelize.BOOLEAN,
