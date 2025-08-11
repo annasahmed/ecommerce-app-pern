@@ -17,7 +17,7 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const softDeleteProduct = catchAsync(async (req, res) => {
-	await adminProductService.softDeleteProductById(req.params.productId);
+	await adminProductService.softDeleteProductById(req);
 	res.send({ success: true });
 });
 const permanentDeleteProduct = catchAsync(async (req, res) => {

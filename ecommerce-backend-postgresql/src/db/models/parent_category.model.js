@@ -1,4 +1,10 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
+const {
+	baseFields,
+	baseScopes,
+	baseAssociation,
+	mediaField,
+	mediaAssociation,
+} = require('./base_model');
 const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
@@ -42,10 +48,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			icon: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
+			icon: mediaField,
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -73,6 +76,7 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		parent_category.hasMany(models.category);
 		baseAssociation(parent_category, models);
+		mediaAssociation(parent_category, models, 'icon');
 	};
 
 	return parent_category;

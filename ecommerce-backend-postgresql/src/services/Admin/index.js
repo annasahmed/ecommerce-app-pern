@@ -13,3 +13,4 @@ module.exports.adminProductService = require('./productService');
 module.exports.adminSettingService = require('./settingService');
 
 module.exports.adminLanguageService = require('./languageService');
+module.exports.adminMediaService = require('./mediaService');

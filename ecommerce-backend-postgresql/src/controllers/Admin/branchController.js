@@ -15,7 +15,7 @@ const createBranch = catchAsync(async (req, res) => {
 });
 
 const softDeleteBranch = catchAsync(async (req, res) => {
-	await adminBranchService.softDeleteBranchById(req.params.branchId);
+	await adminBranchService.softDeleteBranchById(req);
 	res.send({ success: true });
 });
 const permanentDeleteBranch = catchAsync(async (req, res) => {

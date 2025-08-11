@@ -1,4 +1,10 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
+const {
+	baseFields,
+	baseScopes,
+	baseAssociation,
+	mediaField,
+	mediaAssociation,
+} = require('./base_model');
 const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
@@ -26,15 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			thumbnail: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			images: {
-				type: DataTypes.ARRAY(DataTypes.STRING),
-				allowNull: true,
-				defaultValue: [],
-			},
+			thumbnail: mediaField,
 			is_featured: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,
@@ -78,6 +76,11 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'product_id',
 			otherKey: 'category_id',
 		});
+		product.belongsToMany(models.media, {
+			through: 'product_to_media',
+			foreignKey: 'product_id',
+			otherKey: 'media_id',
+		});
 		product.belongsToMany(models.usp, {
 			through: 'product_to_usp',
 			foreignKey: 'product_id',
@@ -85,6 +88,7 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		product.hasMany(models.product_translation);
 		baseAssociation(product, models);
+		mediaAssociation(product, models, 'thumbnail');
 	};
 
 	return product;

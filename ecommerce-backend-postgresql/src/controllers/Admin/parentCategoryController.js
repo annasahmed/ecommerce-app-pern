@@ -20,9 +20,7 @@ const createParentCategory = catchAsync(async (req, res) => {
 });
 
 const softDeleteParentCategory = catchAsync(async (req, res) => {
-	await adminParentCategoryService.softDeleteParentCategoryById(
-		req.params.parentCategoryId
-	);
+	await adminParentCategoryService.softDeleteParentCategoryById(req);
 	res.send({ success: true });
 });
 const permanentDeleteParentCategory = catchAsync(async (req, res) => {

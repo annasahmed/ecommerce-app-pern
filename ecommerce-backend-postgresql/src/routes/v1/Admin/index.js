@@ -3,6 +3,7 @@ const authRoute = require('./authRoute');
 const parentCategoryRoute = require('./parentCategoryRoute');
 const categoryRoute = require('./categoryRoute');
 const uspRoute = require('./uspRoute');
+const mediaRoute = require('./mediaRoute');
 const branchRoute = require('./branchRoute');
 const vendorRoute = require('./vendorRoute');
 const productRoute = require('./productRoute');
@@ -20,5 +21,6 @@ adminRouter.use('/vendor', vendorRoute);
 adminRouter.use('/product', productRoute);
 adminRouter.use('/setting', settingRoute);
 adminRouter.use('/language', languageRoute);
+adminRouter.use('/media', mediaRoute);
 
 module.exports = adminRouter;

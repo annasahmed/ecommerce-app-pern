@@ -110,7 +110,9 @@ function createBaseService(model, options = {}) {
 		},
 
 		async permanentDelete(id) {
-			const deleted = await model.destroy({ where: { id } });
+			const deleted = await model
+				.scope('withDeleted')
+				.destroy({ where: { id } });
 			if (!deleted)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return deleted;

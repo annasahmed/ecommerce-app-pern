@@ -5,8 +5,8 @@ const createProduct = {
 	body: Joi.object().keys({
 		sku: Joi.string().optional(),
 		slug: Joi.string().required().custom(validateSlug),
-		thumbnail: Joi.string().uri().required(),
-		images: Joi.array().items(Joi.string().uri()).optional().default([]),
+		thumbnail: Joi.number().required(),
+		images: Joi.array().items(Joi.number()).optional(),
 		is_featured: Joi.boolean().default(false),
 		meta_title: Joi.string().required(),
 		meta_description: Joi.string().required(),
@@ -33,7 +33,7 @@ const createProduct = {
 				Joi.object({
 					sku: Joi.string().optional(),
 					attributes: Joi.object().required(), // e.g., { size: "M", color: "Red" }
-					image: Joi.string().uri().required(),
+					image: Joi.number().required(),
 					branch_data: Joi.array()
 						.items(
 							Joi.object({

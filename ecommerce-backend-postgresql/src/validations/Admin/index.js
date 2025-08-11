@@ -7,3 +7,4 @@ module.exports.adminBranchValidation = require('./branchValidation');
 module.exports.adminVendorValidation = require('./vendorValidation');
 module.exports.adminProductValidation = require('./productValidation');
 module.exports.adminLanguageValidation = require('./languageValidation');
+module.exports.adminMediaValidation = require('./mediaValidation');

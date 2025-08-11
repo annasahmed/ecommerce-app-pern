@@ -4,7 +4,7 @@ const createLanguage = {
 	body: Joi.object().keys({
 		name: Joi.string().required(),
 		country: Joi.string().required(),
-		flag: Joi.string(),
+		flag: Joi.number().allow(null),
 	}),
 };
 
@@ -15,7 +15,7 @@ const updateLanguage = {
 	body: Joi.object().keys({
 		name: Joi.string(),
 		country: Joi.string(),
-		flag: Joi.string(),
+		flag: Joi.number().allow(null).optional(),
 	}),
 };
 

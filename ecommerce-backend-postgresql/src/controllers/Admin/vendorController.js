@@ -15,7 +15,7 @@ const createVendor = catchAsync(async (req, res) => {
 });
 
 const softDeleteVendor = catchAsync(async (req, res) => {
-	await adminVendorService.softDeleteVendorById(req.params.vendorId);
+	await adminVendorService.softDeleteVendorById(req);
 	res.send({ success: true });
 });
 const permanentDeleteVendor = catchAsync(async (req, res) => {

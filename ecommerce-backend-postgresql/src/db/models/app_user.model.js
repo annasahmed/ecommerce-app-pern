@@ -1,4 +1,10 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
+const {
+	baseFields,
+	baseScopes,
+	baseAssociation,
+	mediaField,
+	mediaAssociation,
+} = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {
 	const app_user = sequelize.define(
@@ -14,10 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			image: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
+			image: mediaField,
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -63,7 +66,13 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	app_user.associate = (models) => {
 		app_user.hasOne(models.token);
+		app_user.belongsTo(models.media, {
+			foreignKey: 'user_id',
+			onDelete: 'SET NULL',
+			onUpdate: 'CASCADE',
+		});
 		baseAssociation(app_user, models);
+		mediaAssociation(app_user, models, 'image');
 	};
 
 	return app_user;
