@@ -8,6 +8,7 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 import MediaServices from "@/services/MediaServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { SidebarContext } from "@/context/SidebarContext";
+import { Card } from "@windmill/react-ui";
 
 const Uploader = ({ setImageUrl, imageUrl, product }) => {
 	const [files, setFiles] = useState([]);
@@ -92,7 +93,7 @@ const Uploader = ({ setImageUrl, imageUrl, product }) => {
 	);
 
 	return (
-		<div className="w-full text-center">
+		<Card className="p-6/ w-full text-center">
 			<div
 				className="border-2 border-customGray-300 dark:border-customGray-600 border-dashed rounded-md cursor-pointer px-6 pt-5 pb-6"
 				{...getRootProps()}>
@@ -105,7 +106,7 @@ const Uploader = ({ setImageUrl, imageUrl, product }) => {
 			</div>
 
 			<div className="text-customTeal-500">{loading && err}</div>
-		</div>
+		</Card>
 	);
 };
 

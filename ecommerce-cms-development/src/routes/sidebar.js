@@ -8,6 +8,7 @@ import {
 	FiGlobe,
 	FiTarget,
 	FiGitBranch,
+	FiImage,
 } from "react-icons/fi";
 
 /**
@@ -51,6 +52,11 @@ const sidebar = [
 		],
 	},
 
+	{
+		path: "/media",
+		icon: FiImage,
+		name: "Media",
+	},
 	{
 		path: "/branches",
 		icon: FiGitBranch,

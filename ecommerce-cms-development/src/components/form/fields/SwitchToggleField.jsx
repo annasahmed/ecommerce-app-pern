@@ -1,5 +1,5 @@
-import LabelArea from "../form/selectOption/LabelArea";
-import SwitchToggle from "../form/switch/SwitchToggle";
+import LabelArea from "../selectOption/LabelArea";
+import SwitchToggle from "../switch/SwitchToggle";
 
 const SwitchToggleField = ({ label, handleProcess, processOption }) => {
 	return (

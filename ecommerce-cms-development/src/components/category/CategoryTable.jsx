@@ -52,7 +52,10 @@ const CategoryTable = ({
 							{category?.icon ? (
 								<Avatar
 									className="hidden mr-3 md:block bg-customGray-50 p-1"
-									src={category?.icon}
+									src={
+										import.meta.env.VITE_APP_CLOUDINARY_URL +
+										category?.medium.url
+									}
 									alt={showingTranslateValue(category?.title)}
 								/>
 							) : (

@@ -1,8 +1,8 @@
 import React from "react";
-import LabelArea from "../form/selectOption/LabelArea";
-import InputArea from "../form/input/InputArea";
-import Error from "../form/others/Error";
-import TextAreaCom from "../form/input/TextAreaCom";
+import LabelArea from "../selectOption/LabelArea";
+import InputArea from "../input/InputArea";
+import Error from "../others/Error";
+import TextAreaCom from "../input/TextAreaCom";
 
 const TextAreaField = ({
 	label,

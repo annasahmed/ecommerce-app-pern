@@ -6,12 +6,8 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
-import InputArea from "@/components/form/input/InputArea";
-import TextAreaCom from "@/components/form/input/TextAreaCom";
 import Error from "@/components/form/others/Error";
 import LabelArea from "@/components/form/selectOption/LabelArea";
-import SwitchToggle from "@/components/form/switch/SwitchToggle";
-import Uploader from "@/components/image-uploader/Uploader";
 import { SidebarContext } from "@/context/SidebarContext";
 import useTranslationValue from "@/hooks/useTranslationValue";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
@@ -19,11 +15,17 @@ import CategoryServices from "@/services/CategoryServices";
 import ParentCategoryServices from "@/services/ParentCategoryServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
+import ImageSelector from "../image-uploader/ImageSelector";
 import DrawerHeader from "../newComponents/DrawerHeader";
+import InputAreaField from "../form/fields/InputAreaField";
+import SwitchToggleField from "../form/fields/SwitchToggleField";
+import TextAreaField from "../form/fields/TextAreaField";
+import ImageSelectorField from "../form/fields/ImageSelectorField";
 
 const CategoryDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
-	const [imageUrl, setImageUrl] = useState(null);
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 	const [status, setStatus] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
@@ -72,7 +74,7 @@ const CategoryDrawer = ({ id, data }) => {
 					...descriptionTranslates,
 					...(description && { ["en"]: description }),
 				},
-				icon: imageUrl,
+				icon: selectedImage,
 				parentCategoryId,
 				slug,
 				status,
@@ -110,7 +112,12 @@ const CategoryDrawer = ({ id, data }) => {
 						setValue("description", res.description && res.description["en"]);
 						setValue("parentCategoryId", res.parent_category_id);
 						setValue("slug", res.slug);
-						setImageUrl(res.icon);
+						setSelectedImage(res.icon);
+						setSelectedImageUrl(
+							res.medium.url
+								? import.meta.env.VITE_APP_CLOUDINARY_URL + res.medium.url
+								: null,
+						);
 						setStatus(res.status || false);
 					}
 				} catch (err) {
@@ -121,6 +128,8 @@ const CategoryDrawer = ({ id, data }) => {
 			reset();
 		}
 	}, [id, setValue, clearErrors, data]);
+
+	console.log(selectedImageUrl, "chkkingurll");
 
 	return (
 		<>
@@ -136,47 +145,35 @@ const CategoryDrawer = ({ id, data }) => {
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Name")} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={true}
-									register={register}
-									label="Category title"
-									name="title"
-									type="text"
-									placeholder={t("ParentCategoryPlaceholder")}
-								/>
-								<Error errorName={errors.name} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={"Slug"} />
-							<div className="col-span-8 sm:col-span-4">
-								<InputArea
-									required={true}
-									register={register}
-									label="Category slug"
-									name="slug"
-									type="text"
-									placeholder={"Category Slug"}
-								/>
-								<Error errorName={errors.name} />
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Description")} />
-							<div className="col-span-8 sm:col-span-4">
-								<TextAreaCom
-									register={register}
-									label="Description"
-									name="description"
-									type="text"
-									placeholder="Category Description"
-								/>
-								<Error errorName={errors.description} />
-							</div>
-						</div>
+						<InputAreaField
+							label={t("Name")}
+							required={true}
+							register={register}
+							inputLabel="Title"
+							inputName="title"
+							inputType="text"
+							inputPlaceholder={t("CategoryTitlePlaceholder")}
+							errorName={errors.title}
+						/>
+						<InputAreaField
+							label={t("Slug")}
+							required={true}
+							register={register}
+							inputLabel="Slug"
+							inputName="slug"
+							inputType="text"
+							inputPlaceholder={t("CategorySlugPlaceholder")}
+							errorName={errors.slug}
+						/>
+						<TextAreaField
+							label={t("Description")}
+							register={register}
+							inputLabel="Description"
+							inputName="description"
+							inputType="text"
+							inputPlaceholder={t("CategoryDescriptionPlaceholder")}
+							errorName={errors.description}
+						/>
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
 							<LabelArea label={t("SelectParentCategory")} />
 							<div className="col-span-8 sm:col-span-4 ">
@@ -199,27 +196,18 @@ const CategoryDrawer = ({ id, data }) => {
 								<Error errorName={errors.option} />
 							</div>
 						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("CategoryIcon")} />
-							<div className="col-span-8 sm:col-span-4">
-								<Uploader
-									imageUrl={imageUrl}
-									setImageUrl={setImageUrl}
-									folder="category"
-									targetWidth={238}
-									targetHeight={238}
-								/>
-							</div>
-						</div>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Status")} />
-							<div className="col-span-8 sm:col-span-4">
-								<SwitchToggle
-									handleProcess={setStatus}
-									processOption={status}
-								/>
-							</div>
-						</div>
+						<ImageSelectorField
+							label={t("CategoryIcon")}
+							selectedImage={selectedImage}
+							setSelectedImage={setSelectedImage}
+							selectedImageUrl={selectedImageUrl}
+							setSelectedImageUrl={setSelectedImageUrl}
+						/>
+						<SwitchToggleField
+							label={t("Status")}
+							handleProcess={setStatus}
+							processOption={status}
+						/>
 					</div>
 
 					<DrawerButton id={id} title="Category" isSubmitting={isSubmitting} />

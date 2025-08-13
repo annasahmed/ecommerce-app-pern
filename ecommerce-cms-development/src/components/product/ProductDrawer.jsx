@@ -16,9 +16,10 @@ import { useForm, useFieldArray } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
 
 import { Input, Label, Textarea, Button } from "@windmill/react-ui";
-import SwitchToggleField from "./SwitchToggleField";
-import InputAreaField from "./InputAreaField";
-import TextAreaField from "./TextAreaField";
+import SwitchToggleField from "../form/fields/SwitchToggleField";
+import InputAreaField from "../form/fields/InputAreaField";
+import TextAreaField from "../form/fields/TextAreaField";
+import ImageSelectorField from "../form/fields/ImageSelectorField";
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -27,22 +28,12 @@ const ProductDrawer = ({ id, data }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
-
-	// const {
-	// 	register,
-	// 	handleSubmit,
-	// 	setValue,
-	// 	clearErrors,
-	// 	reset,
-	// 	formState: { errors },
-	// } = useForm();
-
+	const [selectedThumbnail, setSelectedThumbnail] = useState(null);
+	const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
+	const [variantImages, setVariantImages] = useState({});
+	const [variantImageUrls, setVariantImageUrls] = useState({});
 	const {
 		control,
-		// register,
-		// handleSubmit,
-		// formState: { errors },
-
 		register,
 		handleSubmit,
 		setValue,
@@ -222,7 +213,15 @@ const ProductDrawer = ({ id, data }) => {
 								inputPlaceholder={t("ProductSlugPlaceholder")}
 								errorName={errors.slug}
 							/>
-							<InputAreaField
+							<ImageSelectorField
+								required
+								label={t("Thumbnail")}
+								selectedImage={selectedThumbnail}
+								setSelectedImage={setSelectedThumbnail}
+								selectedImageUrl={selectedThumbnailUrl}
+								setSelectedImageUrl={setSelectedThumbnailUrl}
+							/>
+							{/* <InputAreaField
 								label={t("Thumbnail")}
 								required={true}
 								register={register}
@@ -231,7 +230,7 @@ const ProductDrawer = ({ id, data }) => {
 								inputType="text"
 								inputPlaceholder={t("ProductThumbnailPlaceholder")}
 								errorName={errors.thumbnail}
-							/>
+							/> */}
 							<InputAreaField
 								label={t("MetaTitle")}
 								required={true}
@@ -253,7 +252,7 @@ const ProductDrawer = ({ id, data }) => {
 								errorName={errors.meta_description}
 							/>
 							<SwitchToggleField
-								label={t("FeaturedImage")}
+								label={t("IsFeatured")}
 								handleProcess={setIsFeatured}
 								processOption={isFeatured}
 							/>
@@ -317,7 +316,7 @@ const ProductDrawer = ({ id, data }) => {
 										layout="outline"
 										onClick={() => removeTranslation(index)}
 										className="mt-2">
-										Remove
+										{t("RemoveTranslation")}
 									</Button>
 								</div>
 							))}
@@ -331,7 +330,7 @@ const ProductDrawer = ({ id, data }) => {
 									})
 								}
 								className="mt-2">
-								Add Translation
+								{t("AddTranslation")}
 							</Button>
 						</div>
 
@@ -351,7 +350,23 @@ const ProductDrawer = ({ id, data }) => {
 										inputPlaceholder={t("ProductVariantSkuPlaceholder")}
 										errorName={errors[`variants.${index}.sku`]}
 									/>
-									<InputAreaField
+									<ImageSelectorField
+										required
+										label={t("Image")}
+										selectedImage={variantImages[index] || null}
+										setSelectedImage={(img) => {
+											setVariantImages((prev) => ({ ...prev, [index]: img }));
+											setValue(`variants.${index}.image`, img); // store in react-hook-form
+										}}
+										selectedImageUrl={variantImageUrls[index] || null}
+										setSelectedImageUrl={(url) => {
+											setVariantImageUrls((prev) => ({
+												...prev,
+												[index]: url,
+											}));
+										}}
+									/>
+									{/* <InputAreaField
 										label={t("Image")}
 										required={true}
 										register={register}
@@ -360,7 +375,7 @@ const ProductDrawer = ({ id, data }) => {
 										inputType="text"
 										inputPlaceholder={t("ProductVariantImagePlaceholder")}
 										errorName={errors[`variants.${index}.image`]}
-									/>
+									/> */}
 									<InputAreaField
 										label={t("Size")}
 										register={register}
@@ -382,7 +397,7 @@ const ProductDrawer = ({ id, data }) => {
 
 									{/* Branch Data */}
 									<div className="mt-4">
-										<h4 className="font-semibold">Branch Data</h4>
+										<h4 className="font-semibold">{t("BranchData")}</h4>
 										<div className="space-y-2">
 											<InputAreaField
 												label={t("BranchId")}
@@ -492,7 +507,7 @@ const ProductDrawer = ({ id, data }) => {
 										layout="outline"
 										onClick={() => removeVariant(index)}
 										className="mt-2">
-										Remove Variant
+										{t("RemoveVariant")}
 									</Button>
 								</div>
 							))}
@@ -517,7 +532,7 @@ const ProductDrawer = ({ id, data }) => {
 									})
 								}
 								className="mt-2">
-								Add Variant
+								{t("AddVariant")}
 							</Button>
 						</div>
 					</div>

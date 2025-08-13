@@ -10,8 +10,8 @@ import UspServices from "@/services/UspServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
-import InputAreaField from "../product/InputAreaField";
-import SwitchToggleField from "../product/SwitchToggleField";
+import InputAreaField from "../form/fields/InputAreaField";
+import SwitchToggleField from "../form/fields/SwitchToggleField";
 
 const UspDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -125,16 +125,6 @@ const UspDrawer = ({ id, data }) => {
 							inputType="text"
 							inputPlaceholder={t("UspTitlePlaceholder")}
 							errorName={errors.name}
-						/>
-						<InputAreaField
-							label={t("Slug")}
-							required={true}
-							register={register}
-							inputLabel="Slug"
-							inputName="slug"
-							inputType="text"
-							inputPlaceholder={t("UspSlugPlaceholder")}
-							errorName={errors.slug}
 						/>
 						<InputAreaField
 							label={t("Slug")}
