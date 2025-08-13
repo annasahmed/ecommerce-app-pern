@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const ApiError = require('./ApiError');
 
 const getUserId = (req) => {
-	return 2;
+	return 1;
 	const userId = req?.user?.id;
 	if (!userId) {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'User Id is required');

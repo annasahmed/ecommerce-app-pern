@@ -2,7 +2,19 @@ const morgan = require('morgan');
 const config = require('./config');
 const logger = require('./logger');
 
-morgan.token('message', (_req, res) => res.locals.errorMessage || '');
+morgan.token('message', (_req, res) => {
+	// console.log('res.locals==>', res.locals);
+	// console.log('res.locals==>', JSON.stringify(res.locals));
+	// console.log('res.method==>', res.method);
+	// console.log('res.url==>', res.url);
+	// console.log('res.status==>', res.status);
+	// console.log('res.response-time==>', res['response-time)']);
+	// console.log('res.error==>', res.error);
+	// console.log('res.error==>', res.body);
+	// console.log('res.error==>', res.statusMessage);
+	// console.log('res==>', res);
+	return res.locals.errorMessage || '';
+});
 
 const getIpFormat = () =>
 	config.env === 'production' ? ':remote-addr - ' : '';

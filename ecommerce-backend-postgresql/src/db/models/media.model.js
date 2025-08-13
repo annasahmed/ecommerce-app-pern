@@ -44,16 +44,16 @@ module.exports = (sequelize, DataTypes) => {
 	);
 
 	media.associate = (models) => {
-		media.belongsTo(models.user, {
-			foreignKey: 'user_id',
-			onDelete: 'SET NULL',
-			onUpdate: 'CASCADE',
-		});
-		media.belongsToMany(models.product, {
-			through: 'product_to_media',
-			foreignKey: 'media_id',
-			otherKey: 'product_id',
-		});
+		// media.belongsTo(models.user, {
+		// 	foreignKey: 'user_id',
+		// 	onDelete: 'SET NULL',
+		// 	onUpdate: 'CASCADE',
+		// });
+		// media.belongsToMany(models.product, {
+		// 	through: 'product_to_media',
+		// 	foreignKey: 'media_id',
+		// 	otherKey: 'product_id',
+		// });
 		baseAssociation(media, models);
 	};
 

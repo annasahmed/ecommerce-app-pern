@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			thumbnail: mediaField,
+			thumbnail: { ...mediaField, field: 'thumbnail' },
 			is_featured: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,

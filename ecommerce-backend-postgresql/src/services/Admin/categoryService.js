@@ -43,6 +43,11 @@ const categoryService = createBaseService(db.category, {
 	},
 	validations,
 	// isPagination: false,
+	includes: [
+		{
+			model: db.media,
+		},
+	],
 });
 
 // Using userId logic from request

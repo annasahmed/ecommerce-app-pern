@@ -23,16 +23,6 @@ module.exports = {
 				allowNull: false,
 				unique: true,
 			},
-			image: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'media',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
 			status: {
 				type: Sequelize.BOOLEAN,
 				allowNull: false,

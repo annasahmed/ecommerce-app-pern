@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			flag: mediaField,
+			flag: { ...mediaField, field: 'flag' },
 			...baseFields,
 		},
 		{

@@ -14,14 +14,17 @@ function createBaseService(model, options = {}) {
 		useSoftDelete = true,
 		validations = () => {},
 		isPagination = true,
+		includes = [],
 	} = options;
 
 	const getLang = (req) =>
 		req?.query?.lang || req?.headers?.['accept-language'] || 'en';
 
 	return {
-		async getById(id, scope = 'defaultScope') {
-			const result = await model.scope(scope).findOne({ where: { id } });
+		async getById(id, include = [], scope = 'defaultScope') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { id }, include: includes });
 			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return result;
@@ -52,7 +55,7 @@ function createBaseService(model, options = {}) {
 			const formattedData = formatCreateData(data);
 			formattedData.user_id = userId;
 
-			// console.log(model.create, 'chkking model');
+			console.log(formattedData, 'chkking model');
 
 			const entity = await model.create(formattedData);
 			return entity.get({ plain: true });
@@ -142,9 +145,9 @@ function createBaseService(model, options = {}) {
 				limit,
 				order: finalSort,
 				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
-				include,
+				include: includes,
 				attributes: attributes?.length > 0 ? attributes : {},
-				raw: true,
+				// raw: true,
 			});
 			const parsedRows = pickLanguageFields(data.rows, lang);
 			if (isPagination) {

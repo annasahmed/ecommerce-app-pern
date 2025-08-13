@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			icon: mediaField,
+			icon: { ...mediaField, field: 'icon' },
 			parent_category_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
