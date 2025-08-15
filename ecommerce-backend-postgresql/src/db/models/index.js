@@ -22,7 +22,10 @@ const db = {};
 
 let sequelize;
 
+console.log(process.env.DATABASE_URL, 'working000');
 if (process.env.DATABASE_URL) {
+	console.log(process.env.DATABASE_URL, 'working111');
+
 	// Render / production environment
 	sequelize = new Sequelize(process.env.DATABASE_URL, {
 		dialect: 'postgres',
