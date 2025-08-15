@@ -11,7 +11,7 @@
 		"build": "npm run lint && npm run prettier && echo 'Build steps go here...'",
 		"prettier": "prettier --check **/*.js",
 		"dev": "cross-env NODE_ENV=development nodemon src/index.js",
-		"start": "node api/index.js"
+		"start": "node src/index.js"
 	},
 	"repository": {
 		"type": "git",
