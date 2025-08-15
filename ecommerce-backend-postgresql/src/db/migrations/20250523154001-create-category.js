@@ -24,8 +24,14 @@ module.exports = {
 				unique: true,
 			},
 			icon: {
-				type: Sequelize.STRING,
+				type: Sequelize.INTEGER,
 				allowNull: true,
+				references: {
+					model: 'media',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			parent_category_id: {
 				type: Sequelize.INTEGER,

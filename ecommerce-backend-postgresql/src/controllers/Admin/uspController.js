@@ -15,7 +15,7 @@ const createUsp = catchAsync(async (req, res) => {
 });
 
 const softDeleteUsp = catchAsync(async (req, res) => {
-	await adminUspService.softDeleteUspById(req.params.uspId);
+	await adminUspService.softDeleteUspById(req);
 	res.send({ success: true });
 });
 const permanentDeleteUsp = catchAsync(async (req, res) => {

@@ -17,7 +17,7 @@ const createLanguage = catchAsync(async (req, res) => {
 });
 
 const softDeleteLanguage = catchAsync(async (req, res) => {
-	await adminLanguageService.softDeleteLanguageById(req.params.languageId);
+	await adminLanguageService.softDeleteLanguageById(req);
 	res.send({ success: true });
 });
 const permanentDeleteLanguage = catchAsync(async (req, res) => {

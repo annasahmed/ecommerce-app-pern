@@ -1,191 +1,248 @@
-const httpStatus = require('http-status');
 const db = require('../../db/models/index.js');
-const ApiError = require('../../utils/ApiError.js');
 const commonUtils = require('../../utils/commonUtils.js');
-const { pickLanguageFields } = require('../../utils/languageUtils.js');
-const { getOffset } = require('../../utils/query.js');
-const config = require('../../config/config.js');
-const model = db.product;
+const createBaseService = require('../../utils/baseService.js');
 
-// {
-// 	titles: [
-// 		{ id: 1, value: 'Home' },
-// 		{ id: 2, value: 'ہجم' },
-// 	],
-// 	excerpts: [
-// 		{ id: 1, value: 'Short summary' },
-// 		// id 2 has no excerpt
-// 	],
-// 	descriptions: [
-// 		{ id: 2, value: 'یہ ایک تفصیل ہے' },
-// 		// id 1 has no description
-// 	],
-// },
+const productService = createBaseService(db.product, {
+	name: 'Product',
+	checkDuplicateSlug: true,
+	formatCreateData: (data) => ({
+		sku: data.sku,
+		address: data.address,
+		country: data.country,
+		phone: data.phone,
+		contact_person: data.contact_person,
+		email: data.email,
+		status: data.status,
+	}),
+	formatUpdateData: (data) => {
+		const toUpdate = {};
+		if (data.name) toUpdate.name = data.name;
+		if (data.address) toUpdate.address = data.address;
+		if (data.country) toUpdate.country = data.country;
+		if (data.contact_person) toUpdate.contact_person = data.contact_person;
+		if (data.phone) toUpdate.phone = data.phone;
+		if (data.email) toUpdate.email = data.email;
+		if (data.status !== undefined) toUpdate.status = data.status;
 
-function prepareProductTranslations(
-	{ titles = [], excerpts = [], descriptions = [] },
-	productId
-) {
-	const mapByLangId = {};
+		return toUpdate;
+	},
+	includes: [
+		{ model: db.media, required: false, as: 'thumbnailImage' },
+		{ model: db.media, required: false, as: 'images' },
+		{ model: db.category, required: false },
+		{ model: db.product_translation, required: false },
+		{
+			model: db.usp,
+			required: false,
+			// through: db.product_to_usp
+		},
+		// { model: db.branch, required: false },
+		{ model: db.vendor, required: false },
+		{
+			model: db.product_variant,
+			required: false,
+			include: [
+				{ model: db.media, required: false },
+				{
+					model: db.branch,
+					required: false,
+					through: {
+						as: 'pvb',
+					},
+				},
+			],
+		},
+	],
+});
 
-	// Helper to fill map
-	const fillMap = (array, field) => {
-		array.forEach(({ id, value }) => {
-			if (!mapByLangId[id]) {
-				mapByLangId[id] = {
-					product_id: productId,
-					language_id: id,
-					title: null,
-					excerpt: null,
-					description: null,
-				};
-			}
-			mapByLangId[id][field] = value || null;
-		});
-	};
-
-	fillMap(titles, 'title');
-	fillMap(excerpts, 'excerpt');
-	fillMap(descriptions, 'description');
-
-	return Object.values(mapByLangId);
-}
-
-async function getProducts(
-	req,
-	include = [],
-	attributes = [],
-	sort = [['created_at', 'DESC']]
-) {
-	const { page: defaultPage, limit: defaultLimit } = config.pagination;
-	const {
-		page = defaultPage,
-		limit = defaultLimit,
-		sortBy,
-		sortOrder = 'DESC',
-	} = req.query;
-	const getLang = (req) =>
-		req?.query?.lang || req?.headers?.['accept-language'] || 'en';
-
-	const offset = getOffset(page, limit);
-	const finalSort = sortBy ? [[sortBy, sortOrder.toUpperCase()]] : sort;
-	const lang = getLang(req);
-	const data = await model.findAndCountAll({
-		offset,
-		limit,
-		order: finalSort,
-		include,
-		attributes: attributes?.length > 0 ? attributes : {},
-	});
-	const parsedRows = pickLanguageFields(data.rows, lang);
-
-	return parsedRows;
-	// return {
-	// 	total: data.count,
-	// 	records: parsedRows,
-	// 	limit: limit,
-	// 	page: page,
-	// };
-}
+// duplicate slug validation missing
 
 // Using userId logic from request
 async function createProduct(req) {
 	const {
-		title,
-		excerpt,
-		description,
-
-		usps,
-		categories,
-
-		productVariants,
-
-		sku,
-		slug,
-		costPrice,
-		stock,
-		salePrice,
-		discountPercentage,
-		metaTitle,
-		metaDescription,
-		thumbnail,
-		images,
-		isFeatured,
+		categories = [],
+		branches = [],
+		usps = [],
+		vendors = [],
+		translations = [],
+		variants = [],
+		...productData
 	} = req.body;
-	const userId = commonUtils.getUserId(req);
+
 	const transaction = await db.sequelize.transaction();
+	const userId = commonUtils.getUserId(req);
+
 	try {
-		const entity = await model
-			.create(
+		// Create main product
+		const newProduct = await db.product.create(
+			{ ...productData, user_id: userId },
+			{
+				transaction,
+			}
+		);
+
+		// Create translations
+		if (translations.length > 0) {
+			const translationsWithProductId = translations.map((t) => ({
+				...t,
+				product_id: newProduct.id,
+			}));
+			await db.product_translation.bulkCreate(translationsWithProductId, {
+				transaction,
+			});
+		}
+
+		// Product associations
+		if (categories.length > 0)
+			await newProduct.setCategories(categories, { transaction });
+		if (branches.length > 0)
+			await newProduct.setBranches(branches, { transaction });
+		if (usps.length > 0) await newProduct.setUsps(usps, { transaction });
+		if (vendors.length > 0 && newProduct.setVendors)
+			await newProduct.setVendors(vendors, { transaction });
+
+		// Product variants with branch data
+		for (const variant of variants) {
+			const { branch_data = [], ...variantData } = variant;
+
+			const newVariant = await db.product_variant.create(
 				{
-					sku,
-					slug,
-					cost_price: costPrice,
-					stock,
-					sale_price: salePrice,
-					discount_percentage: discountPercentage,
-					meta_title: metaTitle,
-					meta_description: metaDescription,
-					thumbnail,
-					images,
-					is_featured: isFeatured,
-					user_id: userId,
+					...variantData,
+					product_id: newProduct.id,
 				},
-				transaction
-			)
-			.then((resultEntity) => resultEntity.get({ plain: true }));
+				{ transaction }
+			);
 
-		const productId = entity.id;
+			// Insert into product_variant_to_branch for each branch entry
+			for (const entry of branch_data) {
+				await db.product_variant_to_branch.create(
+					{
+						...entry,
+						product_variant_id: newVariant.id,
+					},
+					{ transaction }
+				);
+			}
+		}
 
-		const dataToInsert = prepareProductTranslations(
-			{ title, excerpt, description },
-			productId
-		);
-		await db.product_translation.bulkCreate(dataToInsert, { transaction });
-
-		await db.product_to_usp.bulkCreate(
-			usps.map((usp) => {
-				return { usp_id: usp, product_id: productId };
-			}),
-			{ transaction }
-		);
-
-		await db.product_to_category.bulkCreate(
-			categories.map((category) => {
-				return { category_id: category, product_id: productId };
-			}),
-			{ transaction }
-		);
-
-		await db.product_variant.bulkCreate(
-			productVariants.map((variant) => {
-				return { ...variant, product_id: productId };
-			}),
-			{ transaction }
-		);
-
-		transaction.commit();
+		await transaction.commit();
+		return newProduct;
 	} catch (error) {
-		transaction.rollback();
-		console.log(e);
-		throw new ApiError(
-			httpStatus.INTERNAL_SERVER_ERROR,
-			error.message || error
-		);
+		await transaction.rollback();
+		throw error;
 	}
 }
 
-async function updateUsp(req) {
+async function updateProduct(req) {
+	const {
+		categories = [],
+		branches = [],
+		usps = [],
+		vendors = [],
+		translations = [],
+		variants = [],
+		...productData
+	} = req.body;
+
+	const transaction = await db.sequelize.transaction();
 	const userId = commonUtils.getUserId(req);
-	return uspService.update(req.params.uspId, req.body, userId);
+	const productId = req.params.productId;
+
+	try {
+		// Fetch the product
+		const product = await db.product.findByPk(productId, { transaction });
+		if (!product) throw new Error('Product not found');
+
+		// Update main product
+		await product.update(
+			{ ...productData, user_id: userId },
+			{ transaction }
+		);
+
+		// Update translations: remove old, add new
+		await db.product_translation.destroy({
+			where: { product_id: product.id },
+			transaction,
+		});
+		if (translations.length > 0) {
+			const translationsWithProductId = translations.map((t) => ({
+				...t,
+				product_id: product.id,
+			}));
+			await db.product_translation.bulkCreate(translationsWithProductId, {
+				transaction,
+			});
+		}
+
+		// Update associations
+		if (product.setCategories)
+			await product.setCategories(categories, { transaction });
+		if (product.setBranches)
+			await product.setBranches(branches, { transaction });
+		if (product.setUsps) await product.setUsps(usps, { transaction });
+		if (product.setVendors)
+			await product.setVendors(vendors, { transaction });
+
+		// Handle variants
+		// For simplicity, remove old variants and re-add (you can do smarter diffing later)
+		const oldVariants = await db.product_variant.findAll({
+			where: { product_id: product.id },
+			transaction,
+		});
+		const oldVariantIds = oldVariants.map((v) => v.id);
+
+		if (oldVariantIds.length > 0) {
+			await db.product_variant_to_branch.destroy({
+				where: { product_variant_id: oldVariantIds },
+				transaction,
+			});
+			await db.product_variant.destroy({
+				where: { id: oldVariantIds },
+				transaction,
+			});
+		}
+
+		for (const variant of variants) {
+			const { branch_data = [], ...variantData } = variant;
+
+			const newVariant = await db.product_variant.create(
+				{
+					...variantData,
+					product_id: product.id,
+				},
+				{ transaction }
+			);
+
+			if (branch_data.length > 0) {
+				const branchEntries = branch_data.map((entry) => ({
+					...entry,
+					product_variant_id: newVariant.id,
+				}));
+				await db.product_variant_to_branch.bulkCreate(branchEntries, {
+					transaction,
+				});
+			}
+		}
+
+		await transaction.commit();
+		return product;
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
 }
 
-async function softDeleteUspById(req) {
+async function softDeleteProductById(req) {
 	const userId = commonUtils.getUserId(req);
-	return uspService.softDelete(req.params.uspId, userId);
+	return productService.softDelete(req.params.productId, userId);
 }
 
 module.exports = {
+	getProductById: productService.getById,
 	createProduct,
-	getProducts,
+	updateProduct,
+	getProducts: (req) =>
+		productService.list(req, [], [], [['created_at', 'ASC']]),
+	permanentDeleteProductById: productService.permanentDelete,
+	softDeleteProductById,
 };

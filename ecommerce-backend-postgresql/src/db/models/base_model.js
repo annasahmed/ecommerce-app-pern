@@ -22,6 +22,25 @@ const baseFields = {
 	},
 };
 
+const mediaField = {
+	type: DataTypes.INTEGER,
+	allowNull: true,
+	references: {
+		model: 'media',
+		key: 'id',
+	},
+	onDelete: 'SET NULL',
+	onUpdate: 'CASCADE',
+};
+
+const mediaAssociation = (modelName, models, foreignKey) => {
+	modelName.belongsTo(models.media, {
+		foreignKey,
+		onDelete: 'SET NULL',
+		onUpdate: 'CASCADE',
+	});
+};
+
 const baseScopes = (withPassword) => ({
 	defaultScope: {
 		...(!withPassword
@@ -93,4 +112,7 @@ module.exports = {
 	baseAssociation,
 	baseFields,
 	baseScopes,
+
+	mediaField,
+	mediaAssociation,
 };

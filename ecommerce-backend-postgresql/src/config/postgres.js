@@ -5,8 +5,19 @@ const logger = require('./logger');
 let client;
 
 (async function name() {
-	client = new Client(config.sqlDB);
 	try {
+		if (process.env.DATABASE_URL) { //only for render deployment
+			// Render or any hosted PostgreSQL service
+			client = new Client({
+				connectionString: process.env.DATABASE_URL,
+				ssl: {
+					require: true,
+					rejectUnauthorized: false,
+				},
+			});
+		} else {
+			client = new Client(config.sqlDB);
+		}
 		await client.connect();
 		logger.info('Connect to postgress sucessfully');
 		return client;

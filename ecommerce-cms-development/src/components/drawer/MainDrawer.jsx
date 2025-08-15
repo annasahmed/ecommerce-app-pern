@@ -30,7 +30,7 @@ const MainDrawer = ({ children, product }) => {
 			level={null}
 			placement={"right"}
 			width={`${
-				windowDimension <= 575 ? "100%" : product || isProduct ? "85%" : "50%"
+				windowDimension <= 575 ? "100%" : product || isProduct ? "75%" : "50%"
 			}`}>
 			<button
 				onClick={toggleDrawer}

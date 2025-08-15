@@ -3,6 +3,7 @@ const ApiError = require('./ApiError');
 const { getOffset } = require('./query');
 const config = require('../config/config');
 const { pickLanguageFields } = require('./languageUtils');
+const { Op } = require('sequelize');
 
 function createBaseService(model, options = {}) {
 	const {
@@ -12,14 +13,18 @@ function createBaseService(model, options = {}) {
 		checkDuplicateSlug = false,
 		useSoftDelete = true,
 		validations = () => {},
+		isPagination = true,
+		includes = [],
 	} = options;
 
 	const getLang = (req) =>
 		req?.query?.lang || req?.headers?.['accept-language'] || 'en';
 
 	return {
-		async getById(id, scope = 'defaultScope') {
-			const result = await model.scope(scope).findOne({ where: { id } });
+		async getById(id, include = [], scope = 'defaultScope') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { id }, include: includes });
 			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return result;
@@ -50,6 +55,8 @@ function createBaseService(model, options = {}) {
 			const formattedData = formatCreateData(data);
 			formattedData.user_id = userId;
 
+			console.log(formattedData, 'chkking model');
+
 			const entity = await model.create(formattedData);
 			return entity.get({ plain: true });
 		},
@@ -61,7 +68,10 @@ function createBaseService(model, options = {}) {
 
 			if (checkDuplicateSlug && data.slug) {
 				const exists = await model.findOne({
-					where: { slug: data.slug },
+					where: {
+						slug: data.slug,
+						id: { [Op.ne]: data.id },
+					},
 				});
 				if (exists)
 					throw new ApiError(
@@ -103,7 +113,9 @@ function createBaseService(model, options = {}) {
 		},
 
 		async permanentDelete(id) {
-			const deleted = await model.destroy({ where: { id } });
+			const deleted = await model
+				.scope('withDeleted')
+				.destroy({ where: { id } });
 			if (!deleted)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return deleted;
@@ -133,19 +145,24 @@ function createBaseService(model, options = {}) {
 				limit,
 				order: finalSort,
 				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
-				include,
+				include: includes,
 				attributes: attributes?.length > 0 ? attributes : {},
-				raw: true,
+				// raw: true,
+				logging: console.warn,
+				unique: true,
+				distinct: true, // to fix count
+				col: 'id', // to fix count
 			});
 			const parsedRows = pickLanguageFields(data.rows, lang);
-
+			if (isPagination) {
+				return {
+					total: data.count,
+					records: parsedRows,
+					limit: limit,
+					page: page,
+				};
+			}
 			return parsedRows;
-			// return {
-			// 	total: data.count,
-			// 	records: parsedRows,
-			// 	limit: limit,
-			// 	page: page,
-			// };
 		},
 	};
 }

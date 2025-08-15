@@ -1,4 +1,8 @@
-:root{
-    --customWhite:#ffffff;
-    --customBlack:#000000;
+:root {
+	--customWhite: #ffffff;
+	--customBlack: #000000;
+}
+
+.wm-modal {
+	z-index: 2000 !important;
 }

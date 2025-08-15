@@ -18,25 +18,15 @@ module.exports = {
 				type: Sequelize.JSONB, // e.g., { "size": "M", "color": "Red" }
 				allowNull: false,
 			},
-			cost_price: {
-				type: Sequelize.FLOAT,
-				allowNull: false,
-			},
-			stock: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-			},
-			sale_price: {
-				type: Sequelize.FLOAT,
-				allowNull: false,
-			},
-			discount_percentage: {
-				type: Sequelize.FLOAT,
-				allowNull: true,
-			},
 			image: {
-				type: Sequelize.STRING,
-				allowNull: false,
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'media',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			product_id: {
 				type: Sequelize.INTEGER,
@@ -46,16 +36,6 @@ module.exports = {
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
-				onUpdate: 'CASCADE',
-			},
-			user_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
 				onUpdate: 'CASCADE',
 			},
 			status: {

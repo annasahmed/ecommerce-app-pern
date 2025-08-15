@@ -19,8 +19,14 @@ module.exports = {
 				allowNull: false,
 			},
 			flag: {
-				type: Sequelize.STRING,
+				type: Sequelize.INTEGER,
 				allowNull: true,
+				references: {
+					model: 'media',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
 			},
 			status: {
 				type: Sequelize.BOOLEAN,

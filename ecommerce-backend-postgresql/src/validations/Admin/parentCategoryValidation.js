@@ -6,7 +6,7 @@ const createParentCategory = {
 		title: Joi.object().required(),
 		description: Joi.object(),
 		slug: Joi.string().custom(validateSlug).required(),
-		icon: Joi.string(),
+		icon: Joi.number().allow(null),
 	}),
 };
 
@@ -18,7 +18,7 @@ const updateParentCategory = {
 		title: Joi.object(),
 		description: Joi.object(),
 		slug: Joi.string().custom(validateSlug),
-		icon: Joi.string(),
+		icon: Joi.number().allow(null).optional(),
 	}),
 };
 

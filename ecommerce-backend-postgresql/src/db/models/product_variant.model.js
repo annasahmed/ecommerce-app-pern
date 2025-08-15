@@ -1,4 +1,4 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
+const { baseFields, mediaField, mediaAssociation } = require('./base_model');
 const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
@@ -27,26 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			cost_price: {
-				type: DataTypes.FLOAT,
-				allowNull: false,
-			},
-			stock: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
-			sale_price: {
-				type: DataTypes.FLOAT,
-				allowNull: false,
-			},
-			discount_percentage: {
-				type: DataTypes.FLOAT,
-				allowNull: true,
-			},
-			image: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
+			image: mediaField,
 			product_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
@@ -62,7 +43,6 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			tableName: 'product_variant',
 			timestamps: true,
-			...baseScopes(),
 		}
 	);
 
@@ -72,6 +52,12 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
+		product_variant.belongsToMany(models.branch, {
+			through: 'product_variant_to_branch',
+			foreignKey: 'product_variant_id',
+			otherKey: 'branch_id',
+		});
+		mediaAssociation(product_variant, models, 'image');
 	};
 
 	return product_variant;

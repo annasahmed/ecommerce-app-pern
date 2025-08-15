@@ -9,7 +9,7 @@ import useAsync from "@/hooks/useAsync";
 import useUtilsFunction from "./useUtilsFunction";
 import { SidebarContext } from "@/context/SidebarContext";
 import AttributeServices from "@/services/AttributeServices";
-import ProductServices from "@/services/ProductServices";
+import ProductServices from "@/services/ProductServicesOld";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useTranslationValue from "./useTranslationValue";
 

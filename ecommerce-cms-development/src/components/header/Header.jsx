@@ -124,8 +124,7 @@ const Header = () => {
 
 	// notification api calling
 	useEffect(() => {
-		handleGetAllNotifications();
-
+		// handleGetAllNotifications(); //tempComment by Annas
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updated]);
 	// const onChange = (event) => {

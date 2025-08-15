@@ -7,7 +7,7 @@ const createCategory = {
 		title: Joi.object().required(),
 		description: Joi.object().allow(null),
 		slug: Joi.string().custom(validateSlug).required(),
-		icon: Joi.string().allow(null),
+		icon: Joi.number().allow(null),
 		status: Joi.boolean(),
 	}),
 };
@@ -21,7 +21,7 @@ const updateCategory = {
 		title: Joi.object().optional(),
 		description: Joi.object().allow(null).optional(),
 		slug: Joi.string().custom(validateSlug).optional(),
-		icon: Joi.string().allow(null),
+		icon: Joi.number().allow(null).optional(),
 		status: Joi.boolean(),
 	}),
 };

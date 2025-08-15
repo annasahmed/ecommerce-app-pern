@@ -1,147 +1,84 @@
-import {
-	Avatar,
-	Badge,
-	TableBody,
-	TableCell,
-	TableRow,
-} from "@windmill/react-ui";
-import { t } from "i18next";
-import { FiZoomIn } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
 //internal import
-import MainDrawer from "@/components/drawer/MainDrawer";
-import ProductDrawer from "@/components/drawer/ProductDrawer";
+
 import CheckBox from "@/components/form/others/CheckBox";
 import DeleteModal from "@/components/modal/DeleteModal";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
 import ShowHideButton from "@/components/table/ShowHideButton";
-import Tooltip from "@/components/tooltip/Tooltip";
-import useToggleDrawer from "@/hooks/useToggleDrawer";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
-//internal import
-
-const ProductTable = ({ products, isCheck, setIsCheck }) => {
-	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
-	const { currency, showingTranslateValue, getNumberTwo } = useUtilsFunction();
+const ProductTable = ({
+	data,
+	toggleDrawerData,
+	isCheck,
+	setIsCheck,
+	useParamId,
+}) => {
+	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
+	const { showingTranslateValue } = useUtilsFunction();
 
 	const handleClick = (e) => {
 		const { id, checked } = e.target;
-		// console.log("id", id, checked);
-
-		setIsCheck([...isCheck, id]);
+		setIsCheck([...isCheck, parseInt(id)]);
 		if (!checked) {
-			setIsCheck(isCheck.filter((item) => item !== id));
+			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
 		}
 	};
-
 	return (
 		<>
-			{isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}
-
-			{isCheck?.length < 2 && (
-				<MainDrawer>
-					<ProductDrawer currency={currency} id={serviceId} />
-				</MainDrawer>
+			{isCheck?.length < 1 && (
+				<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
 			)}
 
 			<TableBody>
-				{products?.map((product, i) => (
-					<TableRow key={i + 1}>
+				{data?.map((product) => (
+					<TableRow key={product.id}>
 						<TableCell>
 							<CheckBox
 								type="checkbox"
-								name={product?.title?.en}
-								id={product.id}
+								name="product"
+								id={parseInt(product.id)}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(product.id)}
+								isChecked={isCheck?.includes(parseInt(product.id))}
 							/>
 						</TableCell>
 
-						<TableCell>
-							<div className="flex items-center">
-								{product?.image[0] ? (
-									<Avatar
-										className="hidden p-1 mr-2 md:block bg-customGray-50 shadow-none"
-										src={product?.image[0]}
-										alt="product"
-									/>
-								) : (
-									<Avatar
-										src={`https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png`}
-										alt="product"
-									/>
-								)}
-								<div>
-									<h2
-										className={`text-sm font-medium ${
-											product?.title.length > 30 ? "wrap-long-title" : ""
-										}`}>
-										{showingTranslateValue(product?.title)?.substring(0, 28)}
-									</h2>
-								</div>
-							</div>
+						<TableCell className="font-semibold uppercase text-xs">
+							{product?.id}
+						</TableCell>
+						<TableCell className="text-sm flex items-center gap-4">
+							<img
+								src={
+									import.meta.env.VITE_APP_CLOUDINARY_URL +
+									product?.thumbnailImage?.url
+								}
+								alt="thumbnail"
+								className="w-8 object-contain"
+							/>
+							{product?.product_translations[0]?.title}
+						</TableCell>
+						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
+						<TableCell className="text-sm">
+							{product?.categories?.length > 0
+								? product?.categories
+										?.map((v) => showingTranslateValue(v?.title))
+										?.join(", ")
+								: "-"}
 						</TableCell>
 
-						<TableCell>
-							<span className="text-sm">
-								{showingTranslateValue(product?.category?.name)}
-							</span>
-						</TableCell>
-
-						<TableCell>
-							<span className="text-sm font-semibold">
-								{currency}
-								{product?.isCombination
-									? getNumberTwo(product?.variants[0]?.originalPrice)
-									: getNumberTwo(product?.prices?.originalPrice)}
-							</span>
-						</TableCell>
-
-						<TableCell>
-							<span className="text-sm font-semibold">
-								{currency}
-								{product?.isCombination
-									? getNumberTwo(product?.variants[0]?.price)
-									: getNumberTwo(product?.prices?.price)}
-							</span>
-						</TableCell>
-
-						<TableCell>
-							<span className="text-sm">{product.stock}</span>
-						</TableCell>
-						<TableCell>
-							{product.stock > 0 ? (
-								<Badge type="success">{t("Selling")}</Badge>
-							) : (
-								<Badge type="danger">{t("SoldOut")}</Badge>
-							)}
-						</TableCell>
-						<TableCell>
-							<Link
-								to={`/product/${product.id}`}
-								className="flex justify-center text-customGray-400 hover:text-customTeal-600">
-								<Tooltip
-									id="view"
-									Icon={FiZoomIn}
-									title={t("DetailsTbl")}
-									bgColor="#10B981"
-								/>
-							</Link>
-						</TableCell>
 						<TableCell className="text-center">
-							<ShowHideButton id={product.id} status={product.status} />
-							{/* {product.status} */}
+							<ShowHideButton id={product.id} product status={product.status} />
 						</TableCell>
 						<TableCell>
 							<EditDeleteButton
-								id={product.id}
-								product={product}
+								id={product?.id}
+								parent={product}
 								isCheck={isCheck}
+								children={product?.children}
 								handleUpdate={handleUpdate}
 								handleModalOpen={handleModalOpen}
-								title={showingTranslateValue(product?.title)}
+								title={showingTranslateValue(product?.name)}
 							/>
 						</TableCell>
 					</TableRow>

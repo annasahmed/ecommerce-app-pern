@@ -9,15 +9,17 @@ const languageService = createBaseService(db.language, {
 		name: data.name,
 		country: data.country,
 		flag: data.flag,
+		status: data.status,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
 		if (data.name) toUpdate.name = data.name;
 		if (data.country) toUpdate.country = data.country;
 		if (data.flag) toUpdate.flag = data.flag;
-
+		if (data.status !== undefined) toUpdate.status = data.status;
 		return toUpdate;
 	},
+	isPagination: false,
 });
 
 // Using userId logic from request

@@ -104,7 +104,7 @@ const myTheme = {
 	},
 	// Backdrop
 	backdrop: {
-		base: "fixed inset-0 z-40 flex items-end bg-customBlack bg-opacity-50 sm:items-center sm:justify-center",
+		base: "fixed inset-0 z-[9999] flex items-end bg-customBlack bg-opacity-50 sm:items-center sm:justify-center",
 	},
 	// Textarea
 	textarea: {

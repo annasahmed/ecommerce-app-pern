@@ -66,7 +66,7 @@ module.exports = {
 	env: envVars.NODE_ENV,
 	port: envVars.PORT,
 	pagination: {
-		limit: 10,
+		limit: 100,
 		page: 1,
 	},
 	jwt: {
@@ -85,6 +85,7 @@ module.exports = {
 		database: envVars.SQL_DATABASE_NAME,
 		password: envVars.SQL_PASSWORD,
 		dialect: envVars.SQL_DIALECT,
+		// logging: console.warn,
 		pool: {
 			max: envVars.SQL_MAX_POOL,
 			min: envVars.SQL_MIN_POOL,
@@ -120,5 +121,10 @@ module.exports = {
 		secretAccessKey: envVars.AWS_SECRET_ACCESS_KEY,
 		region: envVars.AWS_REGION,
 		Bucket: envVars.S3_BUCKET,
+	},
+	cloudinary: {
+		cloud_name: envVars.CLOUDINARY_CLOUD_NAME,
+		api_key: envVars.CLOUDINARY_API_KEY,
+		api_secret: envVars.CLOUDINARY_API_SECRET,
 	},
 };

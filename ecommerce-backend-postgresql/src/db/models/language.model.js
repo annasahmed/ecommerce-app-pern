@@ -1,4 +1,10 @@
-const { baseAssociation, baseFields, baseScopes } = require('./base_model');
+const {
+	baseAssociation,
+	baseFields,
+	baseScopes,
+	mediaField,
+	mediaAssociation,
+} = require('./base_model');
 
 module.exports = (sequelize, DataTypes) => {
 	const language = sequelize.define(
@@ -18,10 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			flag: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
+			flag: { ...mediaField, field: 'flag' },
 			...baseFields,
 		},
 		{
@@ -33,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	language.associate = (models) => {
 		baseAssociation(language, models);
+		mediaAssociation(language, models, 'flag');
 	};
 
 	return language;

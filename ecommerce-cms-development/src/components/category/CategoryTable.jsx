@@ -1,28 +1,21 @@
 import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
-import { Link } from "react-router-dom";
-import { IoRemoveSharp } from "react-icons/io5";
 
 //internal import
 
 import CheckBox from "@/components/form/others/CheckBox";
-import useToggleDrawer from "@/hooks/useToggleDrawer";
 import DeleteModal from "@/components/modal/DeleteModal";
-import MainDrawer from "@/components/drawer/MainDrawer";
-import CategoryDrawer from "@/components/category/CategoryDrawer";
-import ShowHideButton from "@/components/table/ShowHideButton";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
+import ShowHideButton from "@/components/table/ShowHideButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 const CategoryTable = ({
 	data,
-	lang,
+	toggleDrawerData,
 	isCheck,
-	categories,
 	setIsCheck,
 	useParamId,
-	showChild,
 }) => {
-	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
+	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
 	const { showingTranslateValue } = useUtilsFunction();
 
 	const handleClick = (e) => {
@@ -32,18 +25,15 @@ const CategoryTable = ({
 			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
 		}
 	};
+
 	return (
 		<>
 			{isCheck?.length < 1 && (
 				<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
 			)}
 
-			<MainDrawer>
-				<CategoryDrawer id={serviceId} data={data} lang={lang} />
-			</MainDrawer>
-
 			<TableBody>
-				{categories?.map((category) => (
+				{data?.map((category) => (
 					<TableRow key={category.id}>
 						<TableCell>
 							<CheckBox
@@ -62,7 +52,10 @@ const CategoryTable = ({
 							{category?.icon ? (
 								<Avatar
 									className="hidden mr-3 md:block bg-customGray-50 p-1"
-									src={category?.icon}
+									src={
+										import.meta.env.VITE_APP_CLOUDINARY_URL +
+										category?.medium.url
+									}
 									alt={showingTranslateValue(category?.title)}
 								/>
 							) : (
