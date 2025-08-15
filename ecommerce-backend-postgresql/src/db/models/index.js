@@ -10,15 +10,44 @@ const basename = path.basename(module.filename);
 
 const db = {};
 
-const sequelize = new Sequelize(
-	config.sqlDB.database,
-	config.sqlDB.user,
-	config.sqlDB.password,
-	{
-		...config.sqlDB,
+// const sequelize = new Sequelize(
+// 	config.sqlDB.database,
+// 	config.sqlDB.user,
+// 	config.sqlDB.password,
+// 	{
+// 		...config.sqlDB,
+// 		logging: false,
+// 	}
+// );
+
+let sequelize;
+
+if (process.env.DATABASE_URL) {
+	// Render / production environment
+	sequelize = new Sequelize(process.env.DATABASE_URL, {
+		dialect: 'postgres',
+		protocol: 'postgres',
 		logging: false,
-	}
-);
+		dialectOptions: {
+			ssl: {
+				require: true,
+				rejectUnauthorized: false,
+			},
+		},
+	});
+} else {
+	// Local development
+	sequelize = new Sequelize(
+		config.sqlDB.database,
+		config.sqlDB.user,
+		config.sqlDB.password,
+		{
+			host: config.sqlDB.host,
+			dialect: 'postgres',
+			logging: false,
+		}
+	);
+}
 
 fs.readdirSync(__dirname)
 	.filter(
