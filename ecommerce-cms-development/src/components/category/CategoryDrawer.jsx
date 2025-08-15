@@ -1,13 +1,9 @@
-import { Select } from "@windmill/react-ui";
-
 import { useContext, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
-import Error from "@/components/form/others/Error";
-import LabelArea from "@/components/form/selectOption/LabelArea";
 import { SidebarContext } from "@/context/SidebarContext";
 import useTranslationValue from "@/hooks/useTranslationValue";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
@@ -15,12 +11,12 @@ import CategoryServices from "@/services/CategoryServices";
 import ParentCategoryServices from "@/services/ParentCategoryServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
-import ImageSelector from "../image-uploader/ImageSelector";
-import DrawerHeader from "../newComponents/DrawerHeader";
+import ImageSelectorField from "../form/fields/ImageSelectorField";
 import InputAreaField from "../form/fields/InputAreaField";
+import InputSelectField from "../form/fields/InputSelectField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TextAreaField from "../form/fields/TextAreaField";
-import ImageSelectorField from "../form/fields/ImageSelectorField";
+import DrawerHeader from "../newComponents/DrawerHeader";
 
 const CategoryDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -129,8 +125,6 @@ const CategoryDrawer = ({ id, data }) => {
 		}
 	}, [id, setValue, clearErrors, data]);
 
-	console.log(selectedImageUrl, "chkkingurll");
-
 	return (
 		<>
 			<DrawerHeader
@@ -174,28 +168,21 @@ const CategoryDrawer = ({ id, data }) => {
 							inputPlaceholder={t("CategoryDescriptionPlaceholder")}
 							errorName={errors.description}
 						/>
-						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("SelectParentCategory")} />
-							<div className="col-span-8 sm:col-span-4 ">
-								<Select
-									name="parentCategoryId"
-									{...register(`parentCategoryId`, {
-										required: `parentCategoryId is required!`,
-									})}>
-									<option value="" defaultValue hidden>
-										{t("SelectParentCategory")}
+						<InputSelectField
+							label={t("SelectParentCategory")}
+							register={register}
+							inputLabel={t("parentCategory")}
+							inputName="parentCategoryId"
+							inputPlaceholder={t("SelectParentCategory")}
+							options={parentCategories?.map((pCat, index) => {
+								return (
+									<option value={pCat.id} key={index}>
+										{showingTranslateValue(pCat?.title)}
 									</option>
-									{parentCategories?.map((pCat, index) => {
-										return (
-											<option value={pCat.id} key={index}>
-												{showingTranslateValue(pCat?.title)}
-											</option>
-										);
-									})}
-								</Select>
-								<Error errorName={errors.option} />
-							</div>
-						</div>
+								);
+							})}
+							errorName={errors.parentCategoryId}
+						/>
 						<ImageSelectorField
 							label={t("CategoryIcon")}
 							selectedImage={selectedImage}

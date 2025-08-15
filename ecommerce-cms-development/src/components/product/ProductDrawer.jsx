@@ -4,25 +4,39 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
-import InputArea from "@/components/form/input/InputArea";
 import Error from "@/components/form/others/Error";
-import LabelArea from "@/components/form/selectOption/LabelArea";
-import SwitchToggle from "@/components/form/switch/SwitchToggle";
 import { SidebarContext } from "@/context/SidebarContext";
 import useTranslationValue from "@/hooks/useTranslationValue";
 import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
 
-import { Input, Label, Textarea, Button } from "@windmill/react-ui";
-import SwitchToggleField from "../form/fields/SwitchToggleField";
-import InputAreaField from "../form/fields/InputAreaField";
-import TextAreaField from "../form/fields/TextAreaField";
+import useUtilsFunction from "@/hooks/useUtilsFunction";
+import BranchServices from "@/services/BranchServices";
+import CategoryServices from "@/services/CategoryServices";
+import LanguageServices from "@/services/LanguageServices";
+import UspServices from "@/services/UspServices";
+import VendorServices from "@/services/VendorServices";
+import { Button } from "@windmill/react-ui";
 import ImageSelectorField from "../form/fields/ImageSelectorField";
+import InputAreaField from "../form/fields/InputAreaField";
+import InputMultipleSelectField from "../form/fields/InputMultipleSelectField";
+import InputSelectField from "../form/fields/InputSelectField";
+import SwitchToggleField from "../form/fields/SwitchToggleField";
+import TextAreaField from "../form/fields/TextAreaField";
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
+
+	const [usps, setUsps] = useState([]);
+	const [categories, setCategories] = useState([]);
+	const [vendors, setVendors] = useState([]);
+	const [selectedUsps, setSelectedUsps] = useState([]);
+	const [selectedCategories, setSelectedCategories] = useState([]);
+	const [selectedVendors, setSelectedVendors] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const [languages, setLanguages] = useState([]);
 	const [status, setStatus] = useState(true);
 	const [isFeatured, setIsFeatured] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,6 +46,37 @@ const ProductDrawer = ({ id, data }) => {
 	const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
 	const [variantImages, setVariantImages] = useState({});
 	const [variantImageUrls, setVariantImageUrls] = useState({});
+	const { showingTranslateValue } = useUtilsFunction();
+
+	const defaultValues = {
+		sku: null,
+		slug: null,
+		meta_title: null,
+		meta_description: null,
+		images: [],
+		translations: [
+			{ title: null, excerpt: null, description: null, language_id: null },
+		],
+		variants: [
+			{
+				sku: null,
+				attributes: {},
+				image: null,
+				branch_data: [
+					{
+						branch_id: null,
+						cost_price: null,
+						stock: null,
+						low_stock: null,
+						reorder_quantity: null,
+						sale_price: null,
+						discount_percentage: null,
+					},
+				],
+			},
+		],
+	};
+
 	const {
 		control,
 		register,
@@ -41,30 +86,7 @@ const ProductDrawer = ({ id, data }) => {
 		reset,
 		formState: { errors },
 	} = useForm({
-		defaultValues: {
-			images: [],
-			translations: [
-				{ title: null, excerpt: null, description: null, language_id: null },
-			],
-			variants: [
-				{
-					sku: null,
-					attributes: {},
-					image: null,
-					branch_data: [
-						{
-							branch_id: null,
-							cost_price: null,
-							stock: null,
-							low_stock: null,
-							reorder_quantity: null,
-							sale_price: null,
-							discount_percentage: null,
-						},
-					],
-				},
-			],
-		},
+		defaultValues,
 	});
 
 	const {
@@ -92,7 +114,7 @@ const ProductDrawer = ({ id, data }) => {
 
 		console.log(data, "chkking data");
 
-		return;
+		// return;
 
 		try {
 			setIsSubmitting(true);
@@ -118,19 +140,21 @@ const ProductDrawer = ({ id, data }) => {
 
 			const productData = {
 				...cleanedData,
-				name: {
-					...nameTranslates,
-					["en"]: name,
-				},
-				address: {
-					...addressTranslates,
-					["en"]: address,
-				},
-				country: {
-					...countryTranslates,
-					...(country && { ["en"]: country }),
-				},
+				// name: {
+				// 	...nameTranslates,
+				// 	["en"]: name,
+				// },
+				// address: {
+				// 	...addressTranslates,
+				// 	["en"]: address,
+				// },
+				// country: {
+				// 	...countryTranslates,
+				// 	...(country && { ["en"]: country }),
+				// },
+				is_featured: isFeatured,
 				status,
+				thumbnail: selectedThumbnail,
 			};
 
 			if (id) {
@@ -148,6 +172,13 @@ const ProductDrawer = ({ id, data }) => {
 				closeDrawer();
 				reset();
 			}
+			setSelectedCategories([]);
+			setSelectedUsps([]);
+			setSelectedVendors([]);
+			setSelectedThumbnail(null);
+			setSelectedThumbnailUrl(null);
+			setVariantImages(null);
+			setVariantImageUrls(null);
 		} catch (err) {
 			setIsSubmitting(false);
 			notifyError(err ? err?.response?.data?.message : err?.message);
@@ -159,23 +190,128 @@ const ProductDrawer = ({ id, data }) => {
 			(async () => {
 				try {
 					const res = await ProductServices.getProductById(id);
+
 					if (res) {
 						setResData(res);
-						setValue("name", res.name["en"]);
-						setValue("address", res.address["en"]);
-						setValue("country", res.country && res.country["en"]);
-						setValue("phone", res.phone);
-						setValue("email", res.email);
-						setStatus(res.status || false);
+
+						// ✅ Thumbnail
+						setSelectedThumbnail(res.thumbnail || null);
+						// If API returns thumbnail via medium, adjust accordingly
+						setSelectedThumbnailUrl(
+							res.thumbnailImage?.url
+								? import.meta.env.VITE_APP_CLOUDINARY_URL +
+										res.thumbnailImage.url
+								: null,
+						);
+						setStatus(res.status ?? false);
+						setIsFeatured(res.is_featured ?? false);
+						setSelectedCategories(
+							res.categories?.map((cat) => ({
+								id: cat.id,
+								name: showingTranslateValue(cat.title),
+							})),
+						);
+						setSelectedUsps(
+							res.usps?.map((cat) => ({
+								id: cat.id,
+								name: showingTranslateValue(cat.title),
+							})),
+						);
+						setSelectedVendors(
+							res.vendors?.map((cat) => ({
+								id: cat.id,
+								name: showingTranslateValue(cat.name),
+							})),
+						);
+
+						// ✅ Variant images (for ImageSelectorField)
+						if (res.product_variants?.length) {
+							const imgObj = {};
+							const imgUrlObj = {};
+							res.product_variants.forEach((variant, idx) => {
+								imgObj[idx] = variant.image || null;
+								imgUrlObj[idx] =
+									import.meta.env.VITE_APP_CLOUDINARY_URL +
+										variant.medium?.url || null;
+							});
+							setVariantImages(imgObj);
+							setVariantImageUrls(imgUrlObj);
+						}
+
+						// ✅ Reset form values
+						reset({
+							sku: res.sku || null,
+							slug: res.slug || null,
+							meta_title: res.meta_title || null,
+							meta_description: res.meta_description || null,
+							// Translations
+							translations:
+								res.product_translations?.map((t) => ({
+									title: t.title || null,
+									excerpt: t.excerpt || null,
+									description: t.description || null,
+									language_id: t.language_id || null,
+								})) || [],
+
+							// Variants
+							variants:
+								res.product_variants?.map((v) => ({
+									sku: v.sku || null,
+									attributes: {
+										size: v.attributes?.size || null,
+										color: v.attributes?.color || null,
+									},
+									image: v.image || null, // actual image ID
+									branch_data:
+										v.branches?.map((b) => ({
+											branch_id: b.id || null,
+											cost_price: b.pvb?.cost_price || null,
+											sale_price: b.pvb?.sale_price || null,
+											stock: b.pvb?.stock || null,
+											low_stock: b.pvb?.low_stock || null,
+											reorder_quantity: b.pvb?.reorder_quantity || null,
+											discount_percentage: b.pvb?.discount_percentage || null,
+										})) || [],
+								})) || [],
+						});
 					}
 				} catch (err) {
-					notifyError(err ? err.response?.data?.message : err.message);
+					notifyError(err?.response?.data?.message || err.message);
 				}
 			})();
 		} else {
-			reset();
+			reset({ ...defaultValues }); // New product mode
+			setSelectedCategories([]);
+			setSelectedUsps([]);
+			setSelectedVendors([]);
+			setSelectedThumbnail(null);
+			setSelectedThumbnailUrl(null);
+			// setVariantImages(null);
+			// setVariantImageUrls(null);
+			// setSelectedThumbnail(null);
+			// setSelectedThumbnailUrl(null);
+			// setVariantImageUrls(null);
+			// setVariantImages(null);
 		}
 	}, [id, setValue, clearErrors, data]);
+
+	useEffect(() => {
+		UspServices.getAllUsps().then((data) => {
+			setUsps(data?.records);
+		});
+		CategoryServices.getAllCategories().then((data) => {
+			setCategories(data?.records);
+		});
+		VendorServices.getAllVendors().then((data) => {
+			setVendors(data?.records);
+		});
+		BranchServices.getAllBranches().then((data) => {
+			setBranches(data?.records);
+		});
+		LanguageServices.getAllLanguages().then((data) => {
+			setLanguages(data);
+		});
+	}, []);
 
 	return (
 		<>
@@ -221,16 +357,44 @@ const ProductDrawer = ({ id, data }) => {
 								selectedImageUrl={selectedThumbnailUrl}
 								setSelectedImageUrl={setSelectedThumbnailUrl}
 							/>
-							{/* <InputAreaField
-								label={t("Thumbnail")}
-								required={true}
-								register={register}
-								inputLabel="thumbnail"
-								inputName="thumbnail"
-								inputType="text"
-								inputPlaceholder={t("ProductThumbnailPlaceholder")}
-								errorName={errors.thumbnail}
-							/> */}
+							<InputMultipleSelectField
+								label={t("SelectCategories")}
+								inputName="categories"
+								inputPlaceholder={t("SelectCategories")}
+								options={categories?.map((pCat) => ({
+									id: pCat.id,
+									name: showingTranslateValue(pCat?.title),
+								}))}
+								setValue={setValue}
+								errorName={errors.categories}
+								defaultSelected={selectedCategories}
+							/>
+							<InputMultipleSelectField
+								label={t("SelectUsp")}
+								inputName="usps"
+								inputPlaceholder={t("SelectUsp")}
+								options={usps?.map((pCat) => ({
+									id: pCat.id,
+									name: showingTranslateValue(pCat?.title),
+								}))}
+								setValue={setValue}
+								errorName={errors.usps}
+								defaultSelected={selectedUsps}
+							/>
+							<InputMultipleSelectField
+								label={t("SelectVendor")}
+								inputName="vendors"
+								inputPlaceholder={t("SelectVendor")}
+								options={vendors?.map((pCat) => ({
+									id: pCat.id,
+									// name: pCat.id,
+									name: showingTranslateValue(pCat?.name),
+								}))}
+								setValue={setValue}
+								errorName={errors.vendors}
+								defaultSelected={selectedVendors}
+							/>
+
 							<InputAreaField
 								label={t("MetaTitle")}
 								required={true}
@@ -264,7 +428,9 @@ const ProductDrawer = ({ id, data }) => {
 						</div>
 						{/* Translations */}
 						<div>
-							<h3 className="text-xl font-semibold mt-4">Translations</h3>
+							<h3 className="text-xl font-semibold mt-4">
+								{t("Translations")}
+							</h3>
 							{translationFields.map((field, index) => (
 								<div
 									key={field.id}
@@ -300,7 +466,7 @@ const ProductDrawer = ({ id, data }) => {
 										)}
 										errorName={errors[`translations.${index}.description`]}
 									/>
-									<InputAreaField
+									{/* <InputAreaField
 										label={t("Language")}
 										required={true}
 										register={register}
@@ -310,6 +476,24 @@ const ProductDrawer = ({ id, data }) => {
 										inputPlaceholder={t(
 											"ProductTranslationLanguagePlaceholder",
 										)}
+										errorName={errors[`translations.${index}.language_id`]}
+									/> */}
+									<InputSelectField
+										label={t("Language")}
+										required={true}
+										register={register}
+										inputLabel={t("language")}
+										inputName={`translations.${index}.language_id`}
+										inputPlaceholder={t(
+											"ProductTranslationLanguagePlaceholder",
+										)}
+										options={languages?.map((pCat, index) => {
+											return (
+												<option value={pCat.id} key={index}>
+													{pCat?.name}
+												</option>
+											);
+										})}
 										errorName={errors[`translations.${index}.language_id`]}
 									/>
 									<Button
@@ -336,7 +520,7 @@ const ProductDrawer = ({ id, data }) => {
 
 						{/* Variants */}
 						<div>
-							<h3 className="text-xl font-semibold mt-4">Variants</h3>
+							<h3 className="text-xl font-semibold mt-4">{t("Variants")}</h3>
 							{variantFields.map((field, index) => (
 								<div
 									key={field.id}
@@ -348,8 +532,10 @@ const ProductDrawer = ({ id, data }) => {
 										inputName={`variants.${index}.sku`}
 										inputType="text"
 										inputPlaceholder={t("ProductVariantSkuPlaceholder")}
-										errorName={errors[`variants.${index}.sku`]}
+										errorName={errors?.variants?.[index]?.sku}
 									/>
+
+									{/* Image Selector */}
 									<ImageSelectorField
 										required
 										label={t("Image")}
@@ -366,138 +552,135 @@ const ProductDrawer = ({ id, data }) => {
 											}));
 										}}
 									/>
-									{/* <InputAreaField
-										label={t("Image")}
-										required={true}
-										register={register}
-										inputLabel="image"
-										inputName={`variants.${index}.image`}
-										inputType="text"
-										inputPlaceholder={t("ProductVariantImagePlaceholder")}
-										errorName={errors[`variants.${index}.image`]}
-									/> */}
+									{errors?.variants?.[index]?.image && (
+										<Error errorName={errors.variants[index].image} />
+									)}
+
 									<InputAreaField
 										label={t("Size")}
 										register={register}
 										inputLabel="size"
-										inputName={`variants.attributes.${index}.size`}
+										inputName={`variants.${index}.attributes.size`}
 										inputType="text"
 										inputPlaceholder={t("ProductVariantSizePlaceholder")}
-										errorName={errors[`variants.attributes.${index}.size`]}
+										errorName={errors?.variants?.[index]?.attributes?.size}
 									/>
+
 									<InputAreaField
 										label={t("Color")}
 										register={register}
 										inputLabel="color"
-										inputName={`variants.attributes.${index}.color`}
+										inputName={`variants.${index}.attributes.color`}
 										inputType="text"
 										inputPlaceholder={t("ProductVariantColorPlaceholder")}
-										errorName={errors[`variants.attributes.${index}.color`]}
+										errorName={errors?.variants?.[index]?.attributes?.color}
 									/>
 
 									{/* Branch Data */}
 									<div className="mt-4">
 										<h4 className="font-semibold">{t("BranchData")}</h4>
 										<div className="space-y-2">
-											<InputAreaField
+											<InputSelectField
 												label={t("BranchId")}
-												required={true}
+												required
 												register={register}
-												inputLabel="branch_id"
-												inputName={`variants.branch_data.${index}.branch_id`}
-												inputType="text"
+												inputLabel={t("branch")}
+												inputName={`variants.${index}.branch_data.0.branch_id`}
 												inputPlaceholder={t(
 													"ProductVariantBranchIdPlaceholder",
 												)}
+												options={branches?.map((pCat, index) => {
+													return (
+														<option value={pCat.id} key={index}>
+															{showingTranslateValue(pCat?.name)}
+														</option>
+													);
+												})}
 												errorName={
-													errors[`variants.branch_data.${index}.branch_id`]
+													errors?.variants?.[index]?.branch_data?.[0]?.branch_id
 												}
 											/>
-											{/* <Label>Branch ID</Label>
-											<Input
-												{...register(
-													`variants.${index}.branch_data.0.branch_id`,
-												)}
-											/> */}
 											<InputAreaField
 												label={t("CostPrice")}
-												required={true}
+												required
 												register={register}
 												inputLabel="cost_price"
-												inputName={`variants.branch_data.${index}.cost_price`}
+												inputName={`variants.${index}.branch_data.0.cost_price`}
 												inputType="number"
 												inputPlaceholder={t(
 													"ProductVariantCostPricePlaceholder",
 												)}
 												errorName={
-													errors[`variants.branch_data.${index}.cost_price`]
+													errors?.variants?.[index]?.branch_data?.[0]
+														?.cost_price
 												}
 											/>
 											<InputAreaField
 												label={t("SalePrice")}
-												required={true}
+												required
 												register={register}
 												inputLabel="sale_price"
-												inputName={`variants.branch_data.${index}.sale_price`}
+												inputName={`variants.${index}.branch_data.0.sale_price`}
 												inputType="number"
 												inputPlaceholder={t(
 													"ProductVariantSalePricePlaceholder",
 												)}
 												errorName={
-													errors[`variants.branch_data.${index}.sale_price`]
+													errors?.variants?.[index]?.branch_data?.[0]
+														?.sale_price
 												}
 											/>
 											<InputAreaField
 												label={t("Stock")}
-												required={true}
+												required
 												register={register}
 												inputLabel="stock"
-												inputName={`variants.branch_data.${index}.stock`}
+												inputName={`variants.${index}.branch_data.0.stock`}
 												inputType="number"
 												inputPlaceholder={t("ProductVariantStockPlaceholder")}
 												errorName={
-													errors[`variants.branch_data.${index}.stock`]
+													errors?.variants?.[index]?.branch_data?.[0]?.stock
 												}
 											/>
 											<InputAreaField
 												label={t("LowStock")}
 												register={register}
 												inputLabel="low_stock"
-												inputName={`variants.branch_data.${index}.low_stock`}
+												inputName={`variants.${index}.branch_data.0.low_stock`}
 												inputType="number"
 												inputPlaceholder={t(
 													"ProductVariantLowStockPlaceholder",
 												)}
 												errorName={
-													errors[`variants.branch_data.${index}.low_stock`]
+													errors?.variants?.[index]?.branch_data?.[0]?.low_stock
 												}
 											/>
 											<InputAreaField
 												label={t("ReorderQuantity")}
 												register={register}
 												inputLabel="reorder_quantity"
-												inputName={`variants.branch_data.${index}.reorder_quantity`}
+												inputName={`variants.${index}.branch_data.0.reorder_quantity`}
 												inputType="number"
 												inputPlaceholder={t(
 													"ProductVariantReorderQuantityPlaceholder",
 												)}
 												errorName={
-													errors[
-														`variants.branch_data.${index}.reorder_quantity`
-													]
+													errors?.variants?.[index]?.branch_data?.[0]
+														?.reorder_quantity
 												}
 											/>
 											<InputAreaField
-												label={t("Discount")}
+												label={t("DiscountPercentage")}
 												register={register}
 												inputLabel="discount"
-												inputName={`variants.branch_data.${index}.discount`}
+												inputName={`variants.${index}.branch_data.0.discount_percentage`}
 												inputType="number"
 												inputPlaceholder={t(
 													"ProductVariantDiscountPlaceholder",
 												)}
 												errorName={
-													errors[`variants.branch_data.${index}.discount`]
+													errors?.variants?.[index]?.branch_data?.[0]
+														?.discount_percentage
 												}
 											/>
 										</div>

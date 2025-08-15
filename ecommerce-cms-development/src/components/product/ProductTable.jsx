@@ -32,39 +32,53 @@ const ProductTable = ({
 			)}
 
 			<TableBody>
-				{data?.map((branch) => (
-					<TableRow key={branch.id}>
+				{data?.map((product) => (
+					<TableRow key={product.id}>
 						<TableCell>
 							<CheckBox
 								type="checkbox"
-								name="branch"
-								id={parseInt(branch.id)}
+								name="product"
+								id={parseInt(product.id)}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(parseInt(branch.id))}
+								isChecked={isCheck?.includes(parseInt(product.id))}
 							/>
 						</TableCell>
 
 						<TableCell className="font-semibold uppercase text-xs">
-							{branch?.id}
+							{product?.id}
 						</TableCell>
+						<TableCell className="text-sm flex items-center gap-4">
+							<img
+								src={
+									import.meta.env.VITE_APP_CLOUDINARY_URL +
+									product?.thumbnailImage?.url
+								}
+								alt="thumbnail"
+								className="w-8 object-contain"
+							/>
+							{product?.product_translations[0]?.title}
+						</TableCell>
+						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
 						<TableCell className="text-sm">
-							{showingTranslateValue(branch?.name)}
+							{product?.categories?.length > 0
+								? product?.categories
+										?.map((v) => showingTranslateValue(v?.title))
+										?.join(", ")
+								: "-"}
 						</TableCell>
-						<TableCell className="text-sm">{branch?.location || "-"}</TableCell>
-						<TableCell className="text-sm">{branch?.email}</TableCell>
 
 						<TableCell className="text-center">
-							<ShowHideButton id={branch.id} branch status={branch.status} />
+							<ShowHideButton id={product.id} product status={product.status} />
 						</TableCell>
 						<TableCell>
 							<EditDeleteButton
-								id={branch?.id}
-								parent={branch}
+								id={product?.id}
+								parent={product}
 								isCheck={isCheck}
-								children={branch?.children}
+								children={product?.children}
 								handleUpdate={handleUpdate}
 								handleModalOpen={handleModalOpen}
-								title={showingTranslateValue(branch?.name)}
+								title={showingTranslateValue(product?.name)}
 							/>
 						</TableCell>
 					</TableRow>

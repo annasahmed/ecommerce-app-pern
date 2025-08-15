@@ -1074,5 +1074,6 @@
 	"SelectImage": "Select Image",
 	"CategoryTitlePlaceholder": "Category Title",
 	"CategorySlugPlaceholder": "Category Slug",
-	"CategoryDescriptionPlaceholder": "Category Description"
+	"CategoryDescriptionPlaceholder": "Category Description",
+	"CategoriesTbl": "Categories"
 }
