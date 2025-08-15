@@ -15,19 +15,7 @@ let client;
 					require: true,
 					rejectUnauthorized: false,
 				},
-				define: {
-					/**
-					 * All tables won't have "createdAt" and "updatedAt" Auto fields.
-					 * References: https://sequelize.org/master/manual/model-basics.html#timestamps
-					 */
-					timestamps: false,
-					// Table names won't be pluralized.
-					freezeTableName: true,
-					// Column names will be underscored.
-					underscored: true,
-					createdAt: 'created_at',
-					updatedAt: 'updated_at',
-				},
+				
 			});
 		} else {
 			client = new Client(config.sqlDB);
