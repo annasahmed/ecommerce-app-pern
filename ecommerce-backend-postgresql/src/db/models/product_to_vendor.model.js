@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			tableName: 'product_to_vendor',
-			timestamps: true,
+			timestamps: false,
 		}
 	);
 	product_to_vendor.associate = (models) => {

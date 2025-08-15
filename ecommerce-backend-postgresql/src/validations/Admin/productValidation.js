@@ -10,7 +10,7 @@ const createProduct = {
 		is_featured: Joi.boolean().default(false),
 		meta_title: Joi.string().required(),
 		meta_description: Joi.string().required(),
-		user_id: Joi.number().integer().optional(),
+		status: Joi.boolean().optional(),
 
 		categories: Joi.array().items(Joi.number().integer()).optional(),
 		usps: Joi.array().items(Joi.number().integer()).optional(),
@@ -20,8 +20,8 @@ const createProduct = {
 			.items(
 				Joi.object({
 					title: Joi.string().required(),
-					excerpt: Joi.string().allow(null, ''),
-					description: Joi.string().allow(null, ''),
+					excerpt: Joi.string().allow(null),
+					description: Joi.string().allow(null),
 					language_id: Joi.number().integer().required(),
 				})
 			)
@@ -59,17 +59,83 @@ const createProduct = {
 	}),
 };
 
+// const updateProduct = {
+// 	params: Joi.object().keys({
+// 		productId: Joi.number().required(),
+// 	}),
+// 	body: Joi.object().keys({
+// 		name: Joi.object().optional(),
+// 		address: Joi.object().optional(),
+// 		country: Joi.object().allow(null).optional(),
+// 		phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
+// 		email: Joi.string().email().optional(),
+// 		status: Joi.boolean().optional(),
+// 	}),
+// };
 const updateProduct = {
 	params: Joi.object().keys({
-		productId: Joi.number().required(),
+		productId: Joi.number().integer().required(),
 	}),
+
 	body: Joi.object().keys({
-		name: Joi.object().optional(),
-		address: Joi.object().optional(),
-		country: Joi.object().allow(null).optional(),
-		phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
-		email: Joi.string().email().optional(),
+		sku: Joi.string().optional().allow(null),
+		slug: Joi.string().optional().custom(validateSlug),
+		thumbnail: Joi.number().optional(),
+		images: Joi.array().items(Joi.number()).optional().allow(null),
+		is_featured: Joi.boolean().optional(),
+		meta_title: Joi.string().optional(),
+		meta_description: Joi.string().optional(),
 		status: Joi.boolean().optional(),
+
+		categories: Joi.array()
+			.items(Joi.number().integer())
+			.optional()
+			.allow(null),
+		usps: Joi.array().items(Joi.number().integer()).optional().allow(null),
+		vendors: Joi.array()
+			.items(Joi.number().integer())
+			.optional()
+			.allow(null),
+
+		translations: Joi.array()
+			.items(
+				Joi.object({
+					title: Joi.string().required(),
+					excerpt: Joi.string().allow(null),
+					description: Joi.string().allow(null),
+					language_id: Joi.number().integer().required(),
+				})
+			)
+			.optional(),
+
+		variants: Joi.array()
+			.items(
+				Joi.object({
+					sku: Joi.string().optional().allow(null),
+					attributes: Joi.object().required(),
+					image: Joi.number().required(),
+					branch_data: Joi.array()
+						.items(
+							Joi.object({
+								branch_id: Joi.number().integer().required(),
+								cost_price: Joi.number().required(),
+								stock: Joi.number().integer().required(),
+								low_stock: Joi.number().integer().required(),
+								reorder_quantity: Joi.number()
+									.integer()
+									.optional()
+									.allow(null),
+								sale_price: Joi.number().required(),
+								discount_percentage: Joi.number()
+									.optional()
+									.allow(null),
+							})
+						)
+						.required()
+						.min(1),
+				})
+			)
+			.optional(),
 	}),
 };
 

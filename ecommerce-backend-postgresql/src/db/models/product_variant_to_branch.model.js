@@ -59,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
 			discount_percentage: {
 				type: DataTypes.FLOAT,
 				allowNull: true,
+				field: 'discount_percentage',
 			},
 			...baseFields,
 		},

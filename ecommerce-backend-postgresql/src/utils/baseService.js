@@ -148,6 +148,10 @@ function createBaseService(model, options = {}) {
 				include: includes,
 				attributes: attributes?.length > 0 ? attributes : {},
 				// raw: true,
+				logging: console.warn,
+				unique: true,
+				distinct: true, // to fix count
+				col: 'id', // to fix count
 			});
 			const parsedRows = pickLanguageFields(data.rows, lang);
 			if (isPagination) {

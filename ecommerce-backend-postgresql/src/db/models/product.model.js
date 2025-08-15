@@ -80,15 +80,33 @@ module.exports = (sequelize, DataTypes) => {
 			through: 'product_to_media',
 			foreignKey: 'product_id',
 			otherKey: 'media_id',
+			as: 'images',
+		});
+		// mediaAssociation(product, models, 'thumbnail');
+		product.belongsTo(models.media, {
+			foreignKey: 'thumbnail',
+			onDelete: 'SET NULL',
+			onUpdate: 'CASCADE',
+			as: 'thumbnailImage',
 		});
 		product.belongsToMany(models.usp, {
 			through: 'product_to_usp',
 			foreignKey: 'product_id',
 			otherKey: 'usp_id',
 		});
+		product.belongsToMany(models.vendor, {
+			through: 'product_to_vendor',
+			foreignKey: 'product_id',
+			otherKey: 'vendor_id',
+		});
+		// product.belongsToMany(models.product_variant, {
+		// 	through: 'product_to_product_variant',
+		// 	foreignKey: 'product_id',
+		// 	otherKey: 'product_variant_id',
+		// });
+		product.hasMany(models.product_variant);
 		product.hasMany(models.product_translation);
 		baseAssociation(product, models);
-		mediaAssociation(product, models, 'thumbnail');
 	};
 
 	return product;
