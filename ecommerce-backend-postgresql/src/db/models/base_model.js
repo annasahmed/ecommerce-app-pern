@@ -60,6 +60,7 @@ const baseScopes = (withPassword) => ({
 		},
 	},
 	scopes: {
+		
 		// defaultScope: {
 		// 	...(!withPassword ? {} : { attributes: { exclude: ['password'] } }),
 		// 	where: {

@@ -5,81 +5,28 @@ const config = require('../config/config');
 const { pickLanguageFields } = require('./languageUtils');
 const { Op } = require('sequelize');
 
-function createBaseService(model, options = {}) {
+function createAppBaseService(model, options = {}) {
 	const {
 		name = 'Entity',
 		formatCreateData = (data) => data,
 		formatUpdateData = (data) => data,
-		checkDuplicateSlug = false,
-		useSoftDelete = true,
 		validations = () => {},
 		isPagination = true,
-		includes = [],
 	} = options;
 
 	const getLang = (req) =>
 		req?.query?.lang || req?.headers?.['accept-language'] || 'en';
 
 	return {
-		async getById(id, include = [], scope = 'defaultScope') {
-			const result = await model
-				.scope(scope)
-				.findOne({ where: { id }, include: includes });
-			if (!result)
-				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
-			return result;
-		},
-
-		async getBySlug(slug, scope = 'defaultScope') {
-			const result = await model
-				.scope(scope)
-				.findOne({ where: { slug } });
-			if (!result)
-				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
-			return result;
-		},
-
-		async create(data, userId) {
+		async create(data) {
 			await validations(data);
-			if (checkDuplicateSlug && data.slug) {
-				const exists = await model.findOne({
-					where: { slug: data.slug },
-				});
-				if (exists)
-					throw new ApiError(
-						httpStatus.CONFLICT,
-						`${name} with this slug already exists`
-					);
-			}
-
 			const formattedData = formatCreateData(data);
-			formattedData.user_id = userId;
-
-			console.log(formattedData, 'chkking model');
-
 			const entity = await model.create(formattedData);
 			return entity.get({ plain: true });
 		},
-
-		async update(id, data, userId) {
+		async update(id, data) {
 			const toUpdate = formatUpdateData(data);
-			toUpdate.user_id = userId;
 			await validations(data);
-
-			if (checkDuplicateSlug && data.slug) {
-				const exists = await model.findOne({
-					where: {
-						slug: data.slug,
-						id: { [Op.ne]: data.id },
-					},
-				});
-				if (exists)
-					throw new ApiError(
-						httpStatus.CONFLICT,
-						`${name} with this slug already exists`
-					);
-			}
-
 			const [_, updated] = await model.update(toUpdate, {
 				where: { id },
 				returning: true,
@@ -91,34 +38,31 @@ function createBaseService(model, options = {}) {
 			return updated;
 		},
 
-		async softDelete(id, deletedByUserId) {
-			if (!useSoftDelete) {
-				throw new ApiError(
-					httpStatus.BAD_REQUEST,
-					`${name} does not support soft delete`
-				);
-			}
-
-			const [count] = await model.update(
-				{
-					deleted_at: new Date(),
-					deleted_by: deletedByUserId,
-				},
-				{ where: { id } }
-			);
-
-			if (count === 0)
+		async getById(id, include = [], scope = 'active') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { id }, include });
+			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
-			return true;
+			return result;
 		},
 
-		async permanentDelete(id) {
-			const deleted = await model
-				.scope('withDeleted')
-				.destroy({ where: { id } });
-			if (!deleted)
+		async getBySlug(slug, scope = 'active') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { slug } });
+			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
-			return deleted;
+			return result;
+		},
+
+		async getByAttribute(attribute, attributeValues, scope = 'active') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { [attribute]: attributeValues } });
+			if (!result)
+				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
+			return result;
 		},
 
 		async list(
@@ -145,7 +89,7 @@ function createBaseService(model, options = {}) {
 				limit,
 				order: finalSort,
 				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
-				include: includes,
+				include,
 				attributes: attributes?.length > 0 ? attributes : {},
 				// raw: true,
 				// logging: console.warn,
@@ -167,4 +111,4 @@ function createBaseService(model, options = {}) {
 	};
 }
 
-module.exports = createBaseService;
+module.exports = createAppBaseService;

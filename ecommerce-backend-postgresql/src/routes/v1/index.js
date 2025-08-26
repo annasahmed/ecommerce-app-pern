@@ -6,6 +6,7 @@ const docsRoute = require('./docs.route');
 const deleteRoute = require('./delete.route');
 
 const adminRouter = require('./Admin');
+const websiteRouter = require('./Website');
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use('/docs', docsRoute);
 router.use('/delete', deleteRoute);
 
 router.use('/admin', adminRouter);
+router.use('/website', websiteRouter);
 
 module.exports = router;
