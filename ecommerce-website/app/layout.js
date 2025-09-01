@@ -4,6 +4,10 @@ import ReactQueryProvider from "./providers/ReactQueryProvider";
 import { ToastContainer } from "react-toastify";
 import Layout from "@/app/components/Shared/layout/Layout";
 import { NextIntlClientProvider } from "next-intl";
+import { storeSettings } from "./data/storeSettings";
+import "@/app/styles/layout.css";
+import "@/app/styles/headings.css";
+import "@/app/styles/paragraphs.css";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -21,10 +25,24 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+	const colors = storeSettings.theme || {
+		primary: "#1E40AF",
+		secondary: "#9333EA",
+		background: "#F9FAFB",
+		text: "#111827",
+	};
+
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				style={{
+					["--color-header"]: colors.header,
+					["--color-footer"]: colors.footer,
+					["--color-secondary"]: colors.secondary,
+					["--color-background"]: colors.background,
+					["--color-text"]: colors.text,
+				}}>
 				<ToastContainer />
 				<ReactQueryProvider>
 					<NextIntlClientProvider>
