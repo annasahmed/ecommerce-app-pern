@@ -1,6 +1,8 @@
-import { useTranslations } from "next-intl";
+import React from "react";
+import HomePage from "./(pages)/home";
 
-export default function HomePage() {
-	const t = useTranslations();
-	return <h1>{t("cart")}</h1>;
-}
+const Home = () => {
+	return <HomePage />;
+};
+
+export default Home;

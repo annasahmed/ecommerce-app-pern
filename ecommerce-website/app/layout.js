@@ -4,7 +4,7 @@ import ReactQueryProvider from "./providers/ReactQueryProvider";
 import { ToastContainer } from "react-toastify";
 import Layout from "@/app/components/Shared/layout/Layout";
 import { NextIntlClientProvider } from "next-intl";
-import { storeSettings } from "./data/storeSettings";
+import { storeSettingsSportsTheme } from "@/app/data/storeSettingsSportsTheme";
 import "@/app/styles/layout.css";
 import "@/app/styles/headings.css";
 import "@/app/styles/paragraphs.css";
@@ -25,7 +25,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-	const colors = storeSettings.theme || {
+	const colors = storeSettingsSportsTheme.theme || {
 		primary: "#1E40AF",
 		secondary: "#9333EA",
 		background: "#F9FAFB",
@@ -39,6 +39,7 @@ export default function RootLayout({ children }) {
 				style={{
 					["--color-header"]: colors.header,
 					["--color-footer"]: colors.footer,
+					["--color-cardsBg"]: colors.cardsBg,
 					["--color-secondary"]: colors.secondary,
 					["--color-background"]: colors.background,
 					["--color-text"]: colors.text,

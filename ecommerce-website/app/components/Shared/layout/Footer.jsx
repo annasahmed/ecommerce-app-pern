@@ -1,13 +1,13 @@
 import React from "react";
 import Logo from "../Logo";
-import { storeSettings } from "@/app/data/storeSettings";
+import { storeSettingsSportsTheme } from "@/app/data/storeSettingsSportsTheme";
 import BaseLink from "../../BaseComponents/BaseLink";
 import { FiFacebook, FiInstagram, FiMail, FiYoutube } from "react-icons/fi";
 
 const currentYear = new Date().getFullYear();
 
 const Footer = () => {
-	const footerContent = storeSettings.content.footer;
+	const footerContent = storeSettingsSportsTheme.content.footer;
 
 	return (
 		<footer className="bg-footer text-light">
@@ -15,35 +15,35 @@ const Footer = () => {
 				<section className="section-layout flex justify-between gap-10">
 					<div className="flex-1 flex flex-col gap-10">
 						<Logo
-							src={footerContent.logo || storeSettings.content.logo}
+							src={footerContent.logo || storeSettingsSportsTheme.content.logo}
 							className={`w-24 h-auto object-contain`}
 						/>
 						<h5 className="h5 md:max-w-54 font-medium">{footerContent.text}</h5>
 						<div className="flex gap-8 md:max-w-60 flex-wrap">
-							{storeSettings.socialLinks.email && (
+							{storeSettingsSportsTheme.socialLinks.email && (
 								<BaseLink
-									href={storeSettings.socialLinks.email}
+									href={storeSettingsSportsTheme.socialLinks.email}
 									className="hover:opacity-70">
 									<FiMail className="p2" />
 								</BaseLink>
 							)}
-							{storeSettings.socialLinks.instagram && (
+							{storeSettingsSportsTheme.socialLinks.instagram && (
 								<BaseLink
-									href={storeSettings.socialLinks.instagram}
+									href={storeSettingsSportsTheme.socialLinks.instagram}
 									className="hover:opacity-70">
 									<FiInstagram className="p2" />
 								</BaseLink>
 							)}
-							{storeSettings.socialLinks.facebook && (
+							{storeSettingsSportsTheme.socialLinks.facebook && (
 								<BaseLink
-									href={storeSettings.socialLinks.facebook}
+									href={storeSettingsSportsTheme.socialLinks.facebook}
 									className="hover:opacity-70">
 									<FiFacebook className="p2" />
 								</BaseLink>
 							)}
-							{storeSettings.socialLinks.youtube && (
+							{storeSettingsSportsTheme.socialLinks.youtube && (
 								<BaseLink
-									href={storeSettings.socialLinks.youtube}
+									href={storeSettingsSportsTheme.socialLinks.youtube}
 									className="hover:opacity-70">
 									<FiYoutube className="p2" />
 								</BaseLink>
@@ -72,18 +72,18 @@ const Footer = () => {
 						<section className="flex-1">
 							<h5 className="h5 mb-10 capitalize">Office</h5>
 							<p className="p4 capitalize">
-								{storeSettings.details.address}
+								{storeSettingsSportsTheme.details.address}
 								<br />
-								{storeSettings.details.contact}
+								{storeSettingsSportsTheme.details.contact}
 							</p>
-							{/* <p className="p4 capitalize">{storeSettings.details.contact}</p> */}
+							{/* <p className="p4 capitalize">{storeSettingsSportsTheme.details.contact}</p> */}
 						</section>
 					</div>
 				</section>
 				<div className="w-full h-[1px] rounded-full bg-light opacity-30" />
 				<p className="pt-10">
-					Copyright &copy; {currentYear} {storeSettings.name}. All rights
-					reserved
+					Copyright &copy; {currentYear} {storeSettingsSportsTheme.name}. All
+					rights reserved
 				</p>
 			</div>
 		</footer>

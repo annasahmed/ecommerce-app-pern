@@ -1,5 +1,5 @@
 :root {
-	--section-padding: 50px;
+	--section-padding: 70px;
 }
 .container-layout {
 	width: calc(100% - 64px); /* 32px left + 32px right */
