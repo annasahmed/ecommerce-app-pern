@@ -62,6 +62,8 @@ function createBaseService(model, options = {}) {
 		},
 
 		async update(id, data, userId) {
+			console.log(id, data, userId);
+			
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
 			await validations(data);
@@ -148,7 +150,7 @@ function createBaseService(model, options = {}) {
 				include: includes,
 				attributes: attributes?.length > 0 ? attributes : {},
 				// raw: true,
-				logging: console.warn,
+				// logging: console.warn,
 				unique: true,
 				distinct: true, // to fix count
 				col: 'id', // to fix count

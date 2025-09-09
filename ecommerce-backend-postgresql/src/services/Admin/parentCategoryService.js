@@ -19,6 +19,12 @@ const parentCategoryService = createBaseService(db.parent_category, {
 		if (data.icon) toUpdate.icon = data.icon;
 		return toUpdate;
 	},
+	includes: [
+		{
+			model: db.media,
+			required: false,
+		},
+	],
 	// isPagination: false,
 });
 

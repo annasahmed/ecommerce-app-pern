@@ -70,14 +70,14 @@ if (config.env === 'production') {
 // app.use(responseFormatter);
 
 // Example route
-// app.get('/v1/', async (req, res) => {
-// 	try {
-// 		// Some logic here
-// 		res.success({ user: 'Annas' }, 'Fetched successfully');
-// 	} catch (err) {
-// 		res.error(err, 'Failed to fetch user');
-// 	}
-// });
+app.get('/', async (req, res) => {
+	try {
+		// Some logic here
+		res.send('server running');
+	} catch (err) {
+		res.send(err, 'Failed to fetch user');
+	}
+});
 
 // v1 api routes
 app.use('/v1', routes);

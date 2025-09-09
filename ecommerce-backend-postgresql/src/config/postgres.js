@@ -6,7 +6,8 @@ let client;
 
 (async function name() {
 	try {
-		if (process.env.DATABASE_URL) { //only for render deployment
+		if (process.env.DATABASE_URL) {
+			//only for render deployment
 			// Render or any hosted PostgreSQL service
 			client = new Client({
 				connectionString: process.env.DATABASE_URL,
@@ -14,6 +15,7 @@ let client;
 					require: true,
 					rejectUnauthorized: false,
 				},
+				
 			});
 		} else {
 			client = new Client(config.sqlDB);
