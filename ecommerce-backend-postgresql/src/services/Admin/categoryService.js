@@ -7,7 +7,7 @@ const ApiError = require('../../utils/ApiError.js');
 const validations = async (data) => {
 	if (data.parentCategoryId) {
 		const exist = await db.parent_category
-			.scope(['onlyId', 'active'])
+			.scope(['onlyId', 'activeEntity'])
 			.findOne({
 				where: { id: data.parentCategoryId },
 			});
@@ -46,6 +46,7 @@ const categoryService = createBaseService(db.category, {
 	includes: [
 		{
 			model: db.media,
+			required: false,
 		},
 	],
 });

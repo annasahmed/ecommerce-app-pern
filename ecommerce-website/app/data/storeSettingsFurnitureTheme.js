@@ -1,6 +1,6 @@
-import logo from "@/app/assets/themes/sportsTheme/logo.png";
-import logoWhite from "@/app/assets/themes/sportsTheme/logo-white.png";
-import heroBanner from "@/app/assets/themes/sportsTheme/hero-banner.png";
+import logo from "@/app/assets/themes/furnitureTheme/logo.png";
+import logoWhite from "@/app/assets/themes/furnitureTheme/logo-white.png";
+import heroBanner from "@/app/assets/themes/furnitureTheme/hero-banner.png";
 
 // category images
 import golfBat from "@/app/assets/themes/sportsTheme/categories/golf-bat.png";
@@ -10,17 +10,17 @@ import tshirt from "@/app/assets/themes/sportsTheme/categories/t-shirt.png";
 import shoes from "@/app/assets/themes/sportsTheme/categories/shoes.png";
 import gloves from "@/app/assets/themes/sportsTheme/categories/gloves.png";
 
-export const storeSettingsSportsTheme = {
-	themeName: "SportsTheme",
+export const storeSettingsFurnitureTheme = {
+	themeName: "FurnitureTheme",
 	name: "3legant",
 	theme: {
-		header: "#38CB89",
+		header: "#F3F5F7",
 		footer: "#000000",
-		light: "#FEFEFE",
+		light: "#ffffff",
 		cardsBg: "#F3F5F7",
-		secondary: "#9333EA",
-		background: "#F9FAFB",
-		text: "#111827",
+		// secondary: "#9333EA",
+		// background: "#F9FAFB",
+		// text: "#111827",
 	},
 	content: {
 		header: {
@@ -30,8 +30,8 @@ export const storeSettingsSportsTheme = {
 		logo,
 		heroSection: {
 			image: heroBanner,
-			heading: "More than just a game. It’s a lifestyle.",
-			text: "Whether you’re just starting out, have played your whole life or you're a Tour pro, your swing is like a fingerprint.",
+			heading: "Simply Unique Simply Better.",
+			text: "3legant is a gift & decorations store based in HCMC, Vietnam. Est since 2019.",
 			button: "Shop Now",
 			link: "/shop",
 		},

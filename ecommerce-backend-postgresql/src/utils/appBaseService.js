@@ -84,19 +84,31 @@ function createAppBaseService(model, options = {}) {
 				? [[sortBy, sortOrder.toUpperCase()]]
 				: sort;
 			const lang = getLang(req);
-			const data = await model.findAndCountAll({
-				offset,
-				limit,
-				order: finalSort,
-				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
-				include,
-				attributes: attributes?.length > 0 ? attributes : {},
-				// raw: true,
-				// logging: console.warn,
-				unique: true,
-				distinct: true, // to fix count
-				col: 'id', // to fix count
-			});
+			const data = await model
+				.scope(
+					{ method: ['active'] }, // active scope with params
+					{
+						method: [
+							'localized',
+							['title', 'description'],
+							lang || 'en',
+						],
+					}
+				)
+				.findAndCountAll({
+					offset,
+					limit,
+					order: finalSort,
+					// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
+					include,
+					// attributes,
+					attributes: attributes?.length > 0 ? attributes : {},
+					// raw: true,
+					// logging: console.warn,
+					unique: true,
+					distinct: true, // to fix count
+					col: 'id', // to fix count
+				});
 			const parsedRows = pickLanguageFields(data.rows, lang);
 			if (isPagination) {
 				return {

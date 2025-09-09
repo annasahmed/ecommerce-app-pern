@@ -8,7 +8,7 @@ async function loginUserWithEmailAndPassword(req) {
 
 	const user = await userService.getUserByEmail(email, [
 		'withPassword',
-		'active',
+		'activeEntity',
 	]);
 
 	if (!user) {
@@ -17,6 +17,8 @@ async function loginUserWithEmailAndPassword(req) {
 			'Invalid email or password'
 		);
 	}
+	console.log(user);
+
 	const isPasswordMatch = await decryptData(password, user.password);
 
 	if (!isPasswordMatch) {

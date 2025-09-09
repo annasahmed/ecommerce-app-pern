@@ -3,6 +3,12 @@
 :root {
 	--background: #ffffff;
 	--foreground: #171717;
+
+	--color-header: #000000;
+	--color-footer: #000000;
+	--color-cardsBg: #000000;
+	--color-light: #fefefe;
+	--color-dark: #000000;
 }
 
 @theme {

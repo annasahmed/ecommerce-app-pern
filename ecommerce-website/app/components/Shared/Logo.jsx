@@ -7,6 +7,7 @@ const Logo = ({ src, className = "", width = 120, height = 60 }) => {
 		<BaseLink href="/">
 			<BaseImage
 				src={src}
+				alt="logo"
 				width={width}
 				height={height}
 				className={className}

@@ -1,4 +1,5 @@
 const { Op, DataTypes } = require('sequelize');
+const { localizeAttributes } = require('../../utils/commonUtils');
 
 const baseFields = {
 	status: {
@@ -41,7 +42,7 @@ const mediaAssociation = (modelName, models, foreignKey) => {
 	});
 };
 
-const baseScopes = (withPassword) => ({
+const baseScopes = (withPassword, withUserId = true, withStatus = true) => ({
 	defaultScope: {
 		...(!withPassword
 			? {
@@ -60,7 +61,6 @@ const baseScopes = (withPassword) => ({
 		},
 	},
 	scopes: {
-		
 		// defaultScope: {
 		// 	...(!withPassword ? {} : { attributes: { exclude: ['password'] } }),
 		// 	where: {
@@ -69,9 +69,7 @@ const baseScopes = (withPassword) => ({
 		// 	},
 		// },
 		withDeleted: {}, // returns everything
-		withPassword: {
-			attributes: {},
-		},
+
 		onlyDeleted: {
 			where: {
 				deleted_at: {
@@ -89,11 +87,47 @@ const baseScopes = (withPassword) => ({
 				status: false,
 			},
 		},
-		active: {
+		activeEntity: {
 			where: {
 				deleted_at: null,
 				status: true,
 			},
+		},
+		active: (
+			isPassword = withPassword,
+			isUserId = withUserId,
+			isStatus = withStatus
+		) => {
+			const exclude = ['updated_at', 'deleted_at', 'deleted_by'];
+
+			if (isPassword) {
+				exclude.push('password');
+			}
+			if (isUserId) {
+				exclude.push('user_id');
+			}
+			if (isStatus) {
+				exclude.push('status');
+			}
+
+			return {
+				attributes: { exclude },
+				where: {
+					deleted_at: null,
+					status: true,
+				},
+			};
+		},
+		withPassword: {
+			attributes: {},
+		},
+		localized: (fields, lang, alias) => {
+			return {
+				attributes: {
+					// exclude: fields, // remove raw JSON
+					include: localizeAttributes(fields, lang, alias),
+				},
+			};
 		},
 		onlyId: {
 			attributes: ['id'],

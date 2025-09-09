@@ -1,14 +1,13 @@
 "use client";
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
-import HeroSection from "@/app/components/Themes/SportsTheme/HeroSection";
-import {
-	categories,
-	storeSettingsSportsTheme,
-} from "@/app/data/storeSettingsSportsTheme";
-import React from "react";
+import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
+import { categories } from "@/app/data/storeSettingsSportsTheme";
+import { useStore } from "@/app/providers/StoreProvider";
 
 const HomePage = () => {
+	const store = useStore();
+	const { HeroSection } = loadThemeComponents(store.themeName);
 	return (
 		<main>
 			<HeroSection />

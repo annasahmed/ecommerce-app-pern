@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const ApiError = require('./ApiError');
+const { literal } = require('sequelize');
 
 const getUserId = (req) => {
 	return 1;
@@ -15,9 +16,21 @@ const softDelete = async (model, id, deletedByUserId) => {
 	);
 };
 
+const localizeAttributes = (fields, lang, alias = null) => {
+	return fields.map((field) => [
+		literal(`${alias ? `"${alias}".` : ''}${field}->>'${lang}'`),
+		field,
+	]);
+};
+
+const getLang = (req) =>
+	req?.query?.lang || req?.headers?.['accept-language'] || 'en';
+
 const commonUtils = {
 	getUserId,
 	softDelete,
+	localizeAttributes,
+	getLang,
 };
 
 module.exports = commonUtils;
