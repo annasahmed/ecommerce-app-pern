@@ -34,9 +34,7 @@ const productService = createBaseService(db.product, {
 		{
 			model: db.usp,
 			required: false,
-			// through: db.product_to_usp
 		},
-		// { model: db.branch, required: false },
 		{ model: db.vendor, required: false },
 		{
 			model: db.product_variant,

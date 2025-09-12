@@ -69,6 +69,7 @@ function createAppBaseService(model, options = {}) {
 			req,
 			include = [],
 			attributes = [],
+			scope = {},
 			sort = [['created_at', 'DESC']]
 		) {
 			const { page: defaultPage, limit: defaultLimit } =
@@ -87,13 +88,14 @@ function createAppBaseService(model, options = {}) {
 			const data = await model
 				.scope(
 					{ method: ['active'] }, // active scope with params
-					{
-						method: [
-							'localized',
-							['title', 'description'],
-							lang || 'en',
-						],
-					}
+					{ ...scope }
+					// {
+					// 	method: [
+					// 		'localized',
+					// 		['title', 'description'],
+					// 		lang || 'en',
+					// 	],
+					// }
 				)
 				.findAndCountAll({
 					offset,

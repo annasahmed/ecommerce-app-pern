@@ -1,4 +1,3 @@
-const { literal } = require('sequelize');
 const db = require('../../db/models/index.js');
 const createAppBaseService = require('../../utils/AppBaseService.js');
 const { localizeAttributes, getLang } = require('../../utils/commonUtils.js');
@@ -19,7 +18,7 @@ module.exports = {
 						'slug',
 						...localizeAttributes(
 							['title', 'description'],
-							getLang(req) || 'en',
+							getLang(req),
 							'categories'
 						),
 					],
@@ -30,13 +29,9 @@ module.exports = {
 				},
 			],
 			[],
+			{
+				method: ['localized', ['title', 'description'], getLang(req)],
+			},
 			[['created_at', 'ASC']]
 		),
 };
-// [
-// 				'id',
-// 				// Extract specific language from JSONB
-// 				[literal(`title->>'${'fr'}'`), 'title'],
-// 				[literal(`description->>'${'fr'}'`), 'description'],
-// 				'created_at',
-// 			],
