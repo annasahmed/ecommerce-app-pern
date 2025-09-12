@@ -1,9 +1,9 @@
 import requests from "./httpServices";
 
-const ParentCategoryServices = {
-	getParentCategories: async (themeName) => {
+const ProductServices = {
+	getLatestProducts: async (themeName) => {
 		try {
-			const data = await requests.get("/parent-category");
+			const data = await requests.get("/product?sort=latest");
 			if (data && data.records?.length > 0) {
 				return data;
 			}
@@ -17,4 +17,4 @@ const ParentCategoryServices = {
 	},
 };
 
-export default ParentCategoryServices;
+export default ProductServices;

@@ -1,5 +1,6 @@
 // app/loading.js
 export default function Loading() {
+	return <div className="p-4 text-center">Loading section...</div>;
 	return (
 		<div className="min-h-screen flex flex-col">
 			{/* Navbar skeleton */}
