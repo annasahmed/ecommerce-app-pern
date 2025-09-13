@@ -13,6 +13,7 @@ import gloves from "@/app/assets/themes/sportsTheme/categories/gloves.png";
 export const storeSettingsFurnitureTheme = {
 	themeName: "FurnitureTheme",
 	name: "3legant",
+	currency: "$",
 	theme: {
 		header: "#F3F5F7",
 		footer: "#000000",

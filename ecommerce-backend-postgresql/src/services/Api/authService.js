@@ -1,9 +1,9 @@
 const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError');
 const { decryptData } = require('../../utils/auth');
-const { apiAppUserService } = require('.');
 
 async function loginUserWithEmailAndPassword(req) {
+	const { apiAppUserService } = require('.');
 	const { email, password } = req.body;
 
 	const user = await apiAppUserService.getAppUserByEmail(email);

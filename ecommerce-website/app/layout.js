@@ -4,6 +4,9 @@ import { StoreProvider } from "@/app/providers/StoreProvider";
 import "@/app/styles/headings.css";
 import "@/app/styles/layout.css";
 import "@/app/styles/paragraphs.css";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import { NextIntlClientProvider } from "next-intl";
 // Import some common Google Fonts (extend this list as needed)
 import { Geist, Inter, Roboto } from "next/font/google";

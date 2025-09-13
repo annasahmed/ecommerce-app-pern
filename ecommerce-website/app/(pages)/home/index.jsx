@@ -1,41 +1,33 @@
 "use client";
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
+import BaseSlider from "@/app/components/BaseComponents/BaseSlider";
 import Loader from "@/app/components/Shared/Loader";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { categories } from "@/app/data/storeSettingsSportsTheme";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import ParentCategoryServices from "@/app/services/ParentCategoryServices";
+import ProductServices from "@/app/services/ProductServices";
 
 const HomePage = () => {
 	const store = useStore();
 	const { HeroSection } = loadThemeComponents(store.themeName);
+	const { data: parentCategories, isLoading: parentCategoriesLoading } =
+		useFetchReactQuery(
+			() => ParentCategoryServices.getParentCategories(store.themeName),
+			["parentCategory", store.themeName],
+			{ enabled: !!store.themeName },
+		);
+	const { data: latestProducts, isLoading: latestProdductsLoading } =
+		useFetchReactQuery(
+			() => ProductServices.getLatestProducts(store.themeName),
+			["latestProducts", store.themeName],
+			{ enabled: !!store.themeName },
+		);
 
-	// const {
-	// 	data: parentCategories,
-	// 	isLoading,
-	// 	error,
-	// } = useFetchReactQuery(
-	// 	() => ParentCategoryServices.getParentCategories(store.themeName),
-	// 	["parentCategories"],
-	// 	{
-	// 		retry: false,
-	// 	},
-	// );
-	const {
-		data: parentCategories,
-		isLoading,
-		error,
-	} = useFetchReactQuery(
-		() => ParentCategoryServices.getParentCategories(store.themeName),
-		["parentCategory"],
-		// ["parentCategory", store.themeName],
-		{ enabled: !!store.themeName },
-	);
-
-	console.log(parentCategories, "chkking data");
-	if (isLoading) return <Loader />;
+	if ((parentCategoriesLoading, latestProdductsLoading)) return <Loader />;
 
 	return (
 		<main>
@@ -60,8 +52,7 @@ const HomePage = () => {
 								<BaseImage
 									src={
 										pCategory.medium?.url
-											? process.env.NEXT_PUBLIC_IMAGE_BASE_URL +
-											  pCategory.medium?.url
+											? ENV_VARIABLES.IMAGE_BASE_URL + pCategory.medium?.url
 											: null
 									}
 									alt={pCategory.title}
@@ -74,6 +65,104 @@ const HomePage = () => {
 							</BaseLink>
 						);
 					})}
+				</div>
+			</section>
+			<section className="section-layout flex flex-col gap-10">
+				<h2 className="h2 font-bold container-layout">
+					New
+					<br />
+					Arrivals
+				</h2>
+				<div className="container-layout-only-left">
+					<BaseSlider
+						slides={latestProducts.records}
+						slidesPerView={4.5} // show 1 full card + part of next one
+						spaceBetween={20}
+						autoPlay={false}
+						showPagination={false}
+						showNavigation={false}
+						renderSlide={(product, idx) => {
+							console.log(product, "adsakndsa");
+
+							return (
+								<BaseLink
+									href={`/products/${product.slug}`}
+									key={idx}
+									className="flex flex-col h-full gap-1">
+									<div className="flex flex-1 justify-center items-center bg-cardsBg px-10 py-12 mb-4">
+										<BaseImage
+											src={
+												product.thumbnailImage?.url
+													? ENV_VARIABLES.IMAGE_BASE_URL +
+													  product.thumbnailImage.url
+													: null
+											}
+											alt={product.product_translations[0].title}
+											width={500}
+											height={500}
+											className="h-auto max-h-60 object-contain"
+										/>
+									</div>
+									<h5 className="h5 font-bold">
+										{product.product_translations[0].title}
+									</h5>
+									<p className="p4 font-bold">
+										{store.currency}
+										{product.product_variants[0].branches[0].pvb.sale_price}
+									</p>
+								</BaseLink>
+							);
+						}}
+					/>
+				</div>
+			</section>
+			<section className="section-layout flex flex-col gap-10">
+				<h2 className="h2 font-bold container-layout">
+					New
+					<br />
+					Arrivals
+				</h2>
+				<div className="container-layout-only-left">
+					<BaseSlider
+						slides={latestProducts.records}
+						slidesPerView={4.5} // show 1 full card + part of next one
+						spaceBetween={20}
+						autoPlay={false}
+						showPagination={false}
+						showNavigation={false}
+						renderSlide={(product, idx) => {
+							console.log(product, "adsakndsa");
+
+							return (
+								<BaseLink
+									href={`/products/${product.slug}`}
+									key={idx}
+									className="flex flex-col h-full gap-1">
+									<div className="flex flex-1 justify-center items-center bg-cardsBg px-10 py-12 mb-4">
+										<BaseImage
+											src={
+												product.thumbnailImage?.url
+													? ENV_VARIABLES.IMAGE_BASE_URL +
+													  product.thumbnailImage.url
+													: null
+											}
+											alt={product.product_translations[0].title}
+											width={500}
+											height={500}
+											className="h-auto max-h-60 object-contain"
+										/>
+									</div>
+									<h5 className="h5 font-bold">
+										{product.product_translations[0].title}
+									</h5>
+									<p className="p4 font-bold">
+										{store.currency}
+										{product.product_variants[0].branches[0].pvb.sale_price}
+									</p>
+								</BaseLink>
+							);
+						}}
+					/>
 				</div>
 			</section>
 		</main>

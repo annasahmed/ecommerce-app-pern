@@ -13,7 +13,7 @@ const ProductServices = {
 
 		const module = await import(`../data/${themeName}/data`);
 		// const module = await import(`./${themeName}/data.js`);
-		return module.parentCategories;
+		return module.latestProducts;
 	},
 };
 
