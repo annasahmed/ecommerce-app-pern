@@ -4,7 +4,6 @@ const { getOffset } = require('./query');
 const config = require('../config/config');
 const { pickLanguageFields } = require('./languageUtils');
 const { Op } = require('sequelize');
-const db = require('../db/models');
 
 function createBaseService(model, options = {}) {
 	const {
@@ -16,33 +15,25 @@ function createBaseService(model, options = {}) {
 		validations = () => {},
 		isPagination = true,
 		includes = [],
-		translationModel = null, // <-- NEW: pass translation model
-		translationForeignKey = null, // <-- e.g. "parent_category_id"
 	} = options;
 
 	const getLang = (req) =>
 		req?.query?.lang || req?.headers?.['accept-language'] || 'en';
 
 	return {
-		async getById(id, scope = 'defaultScope') {
-			const result = await model.scope(scope).findOne({
-				where: { id },
-				include: [
-					...includes,
-					...(translationModel
-						? [
-								{
-									model: translationModel,
-									// as: 'translations',
-									required: false,
-									// where: lang
-									// 	? { '$translations.language_id$': lang }
-									// 	: {},
-								},
-						  ]
-						: []),
-				],
-			});
+		async getById(id, include = [], scope = 'defaultScope') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { id }, include: includes });
+			if (!result)
+				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
+			return result;
+		},
+
+		async getBySlug(slug, scope = 'defaultScope') {
+			const result = await model
+				.scope(scope)
+				.findOne({ where: { slug } });
 			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return result;
@@ -50,7 +41,7 @@ function createBaseService(model, options = {}) {
 
 		async create(data, userId) {
 			await validations(data);
-			if (!translationModel && checkDuplicateSlug && data.slug) {
+			if (checkDuplicateSlug && data.slug) {
 				const exists = await model.findOne({
 					where: { slug: data.slug },
 				});
@@ -64,41 +55,24 @@ function createBaseService(model, options = {}) {
 			const formattedData = formatCreateData(data);
 			formattedData.user_id = userId;
 
-			const transaction = await db.sequelize.transaction();
-			try {
-				const entity = await model.create(formattedData, {
-					transaction,
-				});
-				if (translationModel && data.translations?.length > 0) {
-					const translations = data.translations.map((t) => ({
-						[translationForeignKey]: entity.id,
-						language_id: t.language_id,
-						title: t.title,
-						description: t.description || null,
-						slug: t.slug,
-					}));
-					await translationModel.bulkCreate(translations, {
-						transaction,
-					});
-				}
-				await transaction.commit();
-				return entity.get({ plain: true });
-			} catch (error) {
-				await transaction.rollback();
-				throw error;
-			}
+			console.log(formattedData, 'chkking model');
+
+			const entity = await model.create(formattedData);
+			return entity.get({ plain: true });
 		},
 
 		async update(id, data, userId) {
+			console.log(id, data, userId);
+			
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
 			await validations(data);
 
-			if (!translationModel && checkDuplicateSlug && data.slug) {
+			if (checkDuplicateSlug && data.slug) {
 				const exists = await model.findOne({
 					where: {
 						slug: data.slug,
-						id: { [Op.ne]: id },
+						id: { [Op.ne]: data.id },
 					},
 				});
 				if (exists)
@@ -108,56 +82,15 @@ function createBaseService(model, options = {}) {
 					);
 			}
 
-			const transaction = await db.sequelize.transaction();
-			try {
-				const [_, updated] = await model.update(toUpdate, {
-					where: { id },
-					transaction,
-					returning: true,
-					plain: true,
-					raw: true,
-				});
-				if (!updated)
-					throw new ApiError(
-						httpStatus.NOT_FOUND,
-						`${name} not found`
-					);
-
-				if (translationModel && Array.isArray(data.translations)) {
-					// 2. Delete translations not present in incoming
-					await translationModel.destroy({
-						where: {
-							[translationForeignKey]: id,
-							language_id: {
-								[Op.notIn]: data.translations.map(
-									(t) => t.language_id
-								),
-							},
-						},
-						transaction,
-					});
-				}
-
-				if (translationModel && data.translations?.length > 0) {
-					for (const t of data.translations) {
-						await translationModel.upsert(
-							{
-								[translationForeignKey]: id,
-								language_id: t.language_id,
-								title: t.title,
-								description: t.description || null,
-								slug: t.slug,
-							},
-							{ transaction }
-						);
-					}
-				}
-				await transaction.commit();
-				return updated;
-			} catch (error) {
-				await transaction.rollback();
-				throw error;
-			}
+			const [_, updated] = await model.update(toUpdate, {
+				where: { id },
+				returning: true,
+				plain: true,
+				raw: true,
+			});
+			if (!updated)
+				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
+			return updated;
 		},
 
 		async softDelete(id, deletedByUserId) {
