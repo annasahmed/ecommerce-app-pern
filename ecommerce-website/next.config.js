@@ -1,4 +1,5 @@
 const createNextIntlPlugin = require("next-intl/plugin");
+// import './app/i18n/request'
 
 const withNextIntl = createNextIntlPlugin("./app/i18n/request.js");
 

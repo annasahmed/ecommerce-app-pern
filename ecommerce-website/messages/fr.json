@@ -1,4 +1,18 @@
 {
-  "cart": "Panier",
-  "home": "Accueil"
+	"HomePage": {
+		"title": "Frہماری دکان میں خوش آمدید",
+		"description": "Frیہاں بہترین مصنوعات تلاش کریں"
+	},
+	"ProductPage": {
+		"title": "Frپروڈکٹ کی تفصیلات",
+		"addToCart": "Frٹوکری میں ڈالیں",
+		"price": "Frقیمت",
+		"description": "Frتفصیل"
+	},
+	"Navigation": {
+		"home": "Frگھر",
+		"products": "Frمصنوعات",
+		"about": "Frکے بارے میں",
+		"contact": "Frرابطہ"
+	}
 }

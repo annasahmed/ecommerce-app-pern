@@ -1,5 +1,18 @@
 {
-  "cart": "Cart111",
-  "home": "Home111"
+	"HomePage": {
+		"title": "Welcome to our store",
+		"description": "Find the best products here"
+	},
+	"ProductPage": {
+		"title": "Product Details En",
+		"addToCart": "Add to Cart",
+		"price": "Price",
+		"description": "Description En"
+	},
+	"Navigation": {
+		"home": "Home1",
+		"products": "Products",
+		"about": "About",
+		"contact": "Contact"
+	}
 }
-

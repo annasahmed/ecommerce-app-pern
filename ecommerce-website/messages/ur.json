@@ -1,5 +1,18 @@
 {
-  "cart": "Cart111",
-  "home": "Home111"
+	"HomePage": {
+		"title": "ہماری دکان میں خوش آمدید",
+		"description": "یہاں بہترین مصنوعات تلاش کریں"
+	},
+	"ProductPage": {
+		"title": "پروڈکٹ کی تفصیلات",
+		"addToCart": "ٹوکری میں ڈالیں",
+		"price": "قیمت",
+		"description": "تفصیل"
+	},
+	"Navigation": {
+		"home": "گھر",
+		"products": "مصنوعات",
+		"about": "کے بارے میں",
+		"contact": "رابطہ"
+	}
 }
-
