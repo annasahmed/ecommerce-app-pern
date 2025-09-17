@@ -3,61 +3,43 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('category', {
+		await queryInterface.createTable('usp_translation', {
 			id: {
 				type: Sequelize.INTEGER,
 				primaryKey: true,
-				allowNull: false,
 				autoIncrement: true,
+				allowNull: false,
 			},
-			icon: {
+			usp_id: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
-					model: 'media',
+					model: 'usp',
 					key: 'id',
 				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
+				onDelete: 'CASCADE',
 			},
-			parent_category_id: {
+			language_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'parent_category',
+					model: 'language',
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
-			user_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
-			status: {
-				type: Sequelize.BOOLEAN,
+			title: {
+				type: Sequelize.STRING,
 				allowNull: false,
-				defaultValue: true,
 			},
-			deleted_by: {
-				type: Sequelize.INTEGER,
+			description: {
+				type: Sequelize.TEXT,
 				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
 			},
-			deleted_at: {
-				type: Sequelize.DATE,
-				allowNull: true,
+			slug: {
+				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -70,9 +52,25 @@ module.exports = {
 				defaultValue: Sequelize.literal('NOW()'),
 			},
 		});
+		await queryInterface.addIndex(
+			'usp_translation',
+			['usp_id', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_usp_language_id',
+			}
+		);
+		await queryInterface.addIndex(
+			'usp_translation',
+			['slug', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_usp_slug_language',
+			}
+		);
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('category');
+		await queryInterface.dropTable('usp_translation');
 	},
 };

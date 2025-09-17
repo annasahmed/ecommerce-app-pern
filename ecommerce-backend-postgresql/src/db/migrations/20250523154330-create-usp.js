@@ -10,19 +10,6 @@ module.exports = {
 				allowNull: false,
 				autoIncrement: true,
 			},
-			title: {
-				type: Sequelize.JSONB,
-				allowNull: false,
-			},
-			description: {
-				type: Sequelize.JSONB,
-				allowNull: true,
-			},
-			slug: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true,
-			},
 			user_id: {
 				type: Sequelize.INTEGER,
 				allowNull: true,

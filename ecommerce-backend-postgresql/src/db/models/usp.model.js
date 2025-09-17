@@ -11,37 +11,6 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			title: {
-				type: DataTypes.JSONB,
-				allowNull: false,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(value, 'title');
-					},
-				},
-			},
-			description: {
-				type: DataTypes.JSONB,
-				allowNull: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(
-							value,
-							'description'
-						);
-					},
-				},
-			},
-			slug: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.validateSlug(value);
-					},
-				},
-			},
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,

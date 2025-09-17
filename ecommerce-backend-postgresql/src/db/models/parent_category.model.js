@@ -17,37 +17,6 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			title: {
-				type: DataTypes.JSONB,
-				allowNull: false,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(value, 'title');
-					},
-				},
-			},
-			description: {
-				type: DataTypes.JSONB,
-				allowNull: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(
-							value,
-							'description'
-						);
-					},
-				},
-			},
-			slug: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.validateSlug(value);
-					},
-				},
-			},
 			icon: { ...mediaField, field: 'icon' },
 			user_id: {
 				type: DataTypes.INTEGER,
@@ -75,6 +44,12 @@ module.exports = (sequelize, DataTypes) => {
 			onUpdate: 'CASCADE',
 		});
 		parent_category.hasMany(models.category);
+		parent_category.hasMany(models.parent_category_translation, {
+			foreignKey: 'parent_category_id',
+			as: 'translations',
+			onDelete: 'CASCADE',
+		});
+
 		baseAssociation(parent_category, models);
 		mediaAssociation(parent_category, models, 'icon');
 	};

@@ -3,22 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('category', {
+		await queryInterface.createTable('parent_category_translation', {
 			id: {
 				type: Sequelize.INTEGER,
 				primaryKey: true,
-				allowNull: false,
 				autoIncrement: true,
-			},
-			icon: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'media',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
+				allowNull: false,
 			},
 			parent_category_id: {
 				type: Sequelize.INTEGER,
@@ -28,36 +18,28 @@ module.exports = {
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
-				onUpdate: 'CASCADE',
 			},
-			user_id: {
+			language_id: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'user',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
-			status: {
-				type: Sequelize.BOOLEAN,
 				allowNull: false,
-				defaultValue: true,
-			},
-			deleted_by: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
 				references: {
-					model: 'user',
+					model: 'language',
 					key: 'id',
 				},
-				onDelete: 'SET NULL',
+				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
-			deleted_at: {
-				type: Sequelize.DATE,
+			title: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			description: {
+				type: Sequelize.TEXT,
 				allowNull: true,
+			},
+			slug: {
+				type: Sequelize.STRING,
+				allowNull: false,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -70,9 +52,25 @@ module.exports = {
 				defaultValue: Sequelize.literal('NOW()'),
 			},
 		});
+		await queryInterface.addIndex(
+			'parent_category_translation',
+			['parent_category_id', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_parent_category_language_id',
+			}
+		);
+		await queryInterface.addIndex(
+			'parent_category_translation',
+			['slug', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_parent_category_slug_language',
+			}
+		);
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('category');
+		await queryInterface.dropTable('parent_category_translation');
 	},
 };
