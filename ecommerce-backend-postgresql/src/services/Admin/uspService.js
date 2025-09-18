@@ -6,22 +6,17 @@ const uspService = createBaseService(db.usp, {
 	name: 'Usp',
 	checkDuplicateSlug: true,
 	formatCreateData: (data) => ({
-		title: data.title,
-		description: data.description,
-		slug: data.slug,
 		icon: data.icon,
 		status: data.status,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
-		if (data.title) toUpdate.title = data.title;
-		if (data.description) toUpdate.description = data.description;
-		if (data.slug) toUpdate.slug = data.slug;
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
-
 		return toUpdate;
 	},
+	translationModel: db.usp_translation,
+	translationForeignKey: 'usp_id',
 });
 
 // Using userId logic from request

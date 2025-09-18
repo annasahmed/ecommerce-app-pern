@@ -23,18 +23,12 @@ const categoryService = createBaseService(db.category, {
 	name: 'Category',
 	checkDuplicateSlug: true,
 	formatCreateData: (data) => ({
-		title: data.title,
-		description: data.description,
-		slug: data.slug,
 		icon: data.icon,
 		status: data.status,
 		parent_category_id: data.parentCategoryId,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
-		if (data.title) toUpdate.title = data.title;
-		if (data.description) toUpdate.description = data.description;
-		if (data.slug) toUpdate.slug = data.slug;
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
 		if (data.parentCategoryId)
@@ -49,6 +43,8 @@ const categoryService = createBaseService(db.category, {
 			required: false,
 		},
 	],
+	translationModel: db.category_translation,
+	translationForeignKey: 'category_id',
 });
 
 // Using userId logic from request

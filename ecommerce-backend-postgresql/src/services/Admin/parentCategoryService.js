@@ -6,17 +6,13 @@ const parentCategoryService = createBaseService(db.parent_category, {
 	name: 'Parent Category',
 	checkDuplicateSlug: true,
 	formatCreateData: (data) => ({
-		title: data.title,
-		description: data.description,
-		slug: data.slug,
 		icon: data.icon,
+		status: data.status,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
-		if (data.title) toUpdate.title = data.title;
-		if (data.description) toUpdate.description = data.description;
-		if (data.slug) toUpdate.slug = data.slug;
 		if (data.icon) toUpdate.icon = data.icon;
+		if (data.status !== undefined) toUpdate.status = data.status;
 		return toUpdate;
 	},
 	includes: [
@@ -25,6 +21,8 @@ const parentCategoryService = createBaseService(db.parent_category, {
 			required: false,
 		},
 	],
+	translationModel: db.parent_category_translation,
+	translationForeignKey: 'parent_category_id',
 	// isPagination: false,
 });
 

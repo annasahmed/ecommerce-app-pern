@@ -214,7 +214,21 @@ function createBaseService(model, options = {}) {
 				limit,
 				order: finalSort,
 				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
-				include: includes,
+				include: [
+					...includes,
+					...(translationModel
+						? [
+								{
+									model: translationModel,
+									// as: 'translations',
+									required: false,
+									// where: lang
+									// 	? { '$translations.language_id$': lang }
+									// 	: {},
+								},
+						  ]
+						: []),
+				],
 				attributes: attributes?.length > 0 ? attributes : {},
 				// raw: true,
 				// logging: console.warn,
