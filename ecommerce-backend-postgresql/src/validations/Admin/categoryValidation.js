@@ -4,11 +4,19 @@ const { validateSlug } = require('../customValidation');
 const createCategory = {
 	body: Joi.object().keys({
 		parentCategoryId: Joi.number().required(),
-		title: Joi.object().required(),
-		description: Joi.object().allow(null),
-		slug: Joi.string().custom(validateSlug).required(),
 		icon: Joi.number().allow(null),
 		status: Joi.boolean(),
+		translations: Joi.array()
+			.items(
+				Joi.object({
+					title: Joi.string().required(),
+					description: Joi.string().allow(null),
+					slug: Joi.string().custom(validateSlug).required(),
+					language_id: Joi.number().integer().required(),
+				})
+			)
+			.min(1)
+			.required(),
 	}),
 };
 
@@ -18,11 +26,19 @@ const updateCategory = {
 	}),
 	body: Joi.object().keys({
 		parentCategoryId: Joi.number().optional(),
-		title: Joi.object().optional(),
-		description: Joi.object().allow(null).optional(),
-		slug: Joi.string().custom(validateSlug).optional(),
 		icon: Joi.number().allow(null).optional(),
 		status: Joi.boolean(),
+		translations: Joi.array()
+			.items(
+				Joi.object({
+					title: Joi.string().required(),
+					description: Joi.string().allow(null),
+					slug: Joi.string().custom(validateSlug).required(),
+					language_id: Joi.number().integer().required(),
+				})
+			)
+			.min(1)
+			.required(),
 	}),
 };
 

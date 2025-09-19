@@ -3,10 +3,19 @@ const { validateSlug } = require('../customValidation');
 
 const createParentCategory = {
 	body: Joi.object().keys({
-		title: Joi.object().required(),
-		description: Joi.object(),
-		slug: Joi.string().custom(validateSlug).required(),
 		icon: Joi.number().allow(null),
+		status: Joi.boolean(),
+		translations: Joi.array()
+			.items(
+				Joi.object({
+					title: Joi.string().required(),
+					description: Joi.string().allow(null),
+					slug: Joi.string().custom(validateSlug).required(),
+					language_id: Joi.number().integer().required(),
+				})
+			)
+			.min(1)
+			.required(),
 	}),
 };
 
@@ -15,10 +24,19 @@ const updateParentCategory = {
 		parentCategoryId: Joi.number().required(),
 	}),
 	body: Joi.object().keys({
-		title: Joi.object(),
-		description: Joi.object(),
-		slug: Joi.string().custom(validateSlug),
 		icon: Joi.number().allow(null).optional(),
+		status: Joi.boolean(),
+		translations: Joi.array()
+			.items(
+				Joi.object({
+					title: Joi.string().required(),
+					description: Joi.string().allow(null),
+					slug: Joi.string().custom(validateSlug).required(),
+					language_id: Joi.number().integer().required(),
+				})
+			)
+			.min(1)
+			.required(),
 	}),
 };
 
