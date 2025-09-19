@@ -1055,6 +1055,7 @@
 	"ProductVariantSizePlaceholder": "Product Variant Size",
 	"ProductVariantColorPlaceholder": "Product Variant Color",
 	"ProductVariantBranchIdPlaceholder": "Product Variant Branch",
+	"BranchId": "Branch Id",
 	"ProductVariantCostPricePlaceholder": "Product Variant Cost Price",
 	"ProductVariantSalePricePlaceholder": "Product Variant Sale Price",
 	"Stock": "Stock",
@@ -1075,5 +1076,8 @@
 	"CategoryTitlePlaceholder": "Category Title",
 	"CategorySlugPlaceholder": "Category Slug",
 	"CategoryDescriptionPlaceholder": "Category Description",
-	"CategoriesTbl": "Categories"
+	"CategoriesTbl": "Categories",
+	"SelectCategories": "Select Categories",
+	"SelectUsp": "Select Usp",
+	"SelectVendor": "Select Vendor"
 }

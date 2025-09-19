@@ -66,6 +66,27 @@ const useUtilsFunction = () => {
 			);
 		};
 	}, [lang, globalSetting?.default_language]);
+	//for translation
+	const showSelectedLanguageTranslation = useMemo(() => {
+		return (data, objKey) => {
+			console.log(data, "chkking000");
+			console.log(
+				data,
+				!Array.isArray(data),
+				data?.length === 0,
+				!Array.isArray(data) || data.length === 0,
+				"chkking0101",
+			);
+			if (!Array.isArray(data) || data.length === 0) return ""; // Handle undefined or non-object cases
+			console.log(data[0], data[0][objKey], "chkking111");
+
+			return data[0][objKey] || "";
+			return (
+				// data.filter((v)=>v.lang)
+				data[lang] ?? data[globalSetting?.default_language] ?? data["en"] ?? ""
+			);
+		};
+	}, [lang, globalSetting?.default_language]);
 
 	const showingImage = (data) => {
 		return data !== undefined && data;
@@ -93,6 +114,7 @@ const useUtilsFunction = () => {
 		globalSetting,
 		showDateTimeFormat,
 		showingTranslateValue,
+		showSelectedLanguageTranslation,
 	};
 };
 

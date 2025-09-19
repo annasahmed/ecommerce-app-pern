@@ -16,7 +16,7 @@ const CategoryTable = ({
 	useParamId,
 }) => {
 	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
-	const { showingTranslateValue } = useUtilsFunction();
+	const { showSelectedLanguageTranslation } = useUtilsFunction();
 
 	const handleClick = (e) => {
 		const { id, checked } = e.target;
@@ -56,7 +56,7 @@ const CategoryTable = ({
 										import.meta.env.VITE_APP_CLOUDINARY_URL +
 										category?.medium.url
 									}
-									alt={showingTranslateValue(category?.title)}
+									alt={showSelectedLanguageTranslation(category?.title)}
 								/>
 							) : (
 								<Avatar
@@ -67,10 +67,13 @@ const CategoryTable = ({
 							)}
 						</TableCell>
 						<TableCell className="text-sm">
-							{showingTranslateValue(category?.title)}
+							{showSelectedLanguageTranslation(category?.translations, "title")}
 						</TableCell>
 						<TableCell className="text-sm">
-							{showingTranslateValue(category?.description)}
+							{showSelectedLanguageTranslation(
+								category?.translations,
+								"description",
+							)}
 						</TableCell>
 
 						<TableCell className="text-center">
@@ -88,7 +91,7 @@ const CategoryTable = ({
 								children={category?.children}
 								handleUpdate={handleUpdate}
 								handleModalOpen={handleModalOpen}
-								title={showingTranslateValue(category?.name)}
+								title={showSelectedLanguageTranslation(category?.title)}
 							/>
 						</TableCell>
 					</TableRow>

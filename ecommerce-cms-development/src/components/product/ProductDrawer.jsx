@@ -25,6 +25,7 @@ import InputMultipleSelectField from "../form/fields/InputMultipleSelectField";
 import InputSelectField from "../form/fields/InputSelectField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TextAreaField from "../form/fields/TextAreaField";
+import { IfMultilingual } from "../IfMultilingual";
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -50,12 +51,17 @@ const ProductDrawer = ({ id, data }) => {
 
 	const defaultValues = {
 		sku: null,
-		slug: null,
 		meta_title: null,
 		meta_description: null,
 		images: [],
 		translations: [
-			{ title: null, excerpt: null, description: null, language_id: null },
+			{
+				title: null,
+				slug: null,
+				excerpt: null,
+				description: null,
+				language_id: null,
+			},
 		],
 		variants: [
 			{
@@ -111,47 +117,14 @@ const ProductDrawer = ({ id, data }) => {
 
 	const onSubmit = async (data) => {
 		const { name, address, country } = data;
-
-		console.log(data, "chkking data");
-
-		// return;
-
 		try {
 			setIsSubmitting(true);
-			const nameTranslates = await handlerTextTranslateHandler(
-				name,
-				"en",
-				resData?.name,
-			);
-			const addressTranslates = await handlerTextTranslateHandler(
-				address,
-				"en",
-				resData?.address,
-			);
-			const countryTranslates = await handlerTextTranslateHandler(
-				country,
-				"en",
-				resData?.country,
-			);
-
 			const cleanedData = Object.fromEntries(
 				Object.entries(data).filter(([_, value]) => value !== ""),
 			);
 
 			const productData = {
 				...cleanedData,
-				// name: {
-				// 	...nameTranslates,
-				// 	["en"]: name,
-				// },
-				// address: {
-				// 	...addressTranslates,
-				// 	["en"]: address,
-				// },
-				// country: {
-				// 	...countryTranslates,
-				// 	...(country && { ["en"]: country }),
-				// },
 				is_featured: isFeatured,
 				status,
 				thumbnail: selectedThumbnail,
@@ -241,13 +214,13 @@ const ProductDrawer = ({ id, data }) => {
 						// ✅ Reset form values
 						reset({
 							sku: res.sku || null,
-							slug: res.slug || null,
 							meta_title: res.meta_title || null,
 							meta_description: res.meta_description || null,
 							// Translations
 							translations:
 								res.product_translations?.map((t) => ({
 									title: t.title || null,
+									slug: t.slug || null,
 									excerpt: t.excerpt || null,
 									description: t.description || null,
 									language_id: t.language_id || null,
@@ -339,16 +312,7 @@ const ProductDrawer = ({ id, data }) => {
 								inputPlaceholder={t("ProductSkuPlaceholder")}
 								errorName={errors.sku}
 							/>
-							<InputAreaField
-								label={t("Slug")}
-								required={true}
-								register={register}
-								inputLabel="slug"
-								inputName="slug"
-								inputType="text"
-								inputPlaceholder={t("ProductSlugPlaceholder")}
-								errorName={errors.slug}
-							/>
+
 							<ImageSelectorField
 								required
 								label={t("Thumbnail")}
@@ -428,9 +392,11 @@ const ProductDrawer = ({ id, data }) => {
 						</div>
 						{/* Translations */}
 						<div>
-							<h3 className="text-xl font-semibold mt-4">
-								{t("Translations")}
-							</h3>
+							<IfMultilingual>
+								<h3 className="text-xl font-semibold mt-4">
+									{t("Translations")}
+								</h3>
+							</IfMultilingual>
 							{translationFields.map((field, index) => (
 								<div
 									key={field.id}
@@ -444,6 +410,16 @@ const ProductDrawer = ({ id, data }) => {
 										inputType="text"
 										inputPlaceholder={t("ProductTranslationTitlePlaceholder")}
 										errorName={errors[`translations.${index}.title`]}
+									/>
+									<InputAreaField
+										label={t("Slug")}
+										required={true}
+										register={register}
+										inputLabel="slug"
+										inputName={`translations.${index}.slug`}
+										inputType="text"
+										inputPlaceholder={t("ProductSlugPlaceholder")}
+										errorName={errors[`translations.${index}.slug`]}
 									/>
 									<InputAreaField
 										label={t("Excerpt")}
@@ -496,26 +472,30 @@ const ProductDrawer = ({ id, data }) => {
 										})}
 										errorName={errors[`translations.${index}.language_id`]}
 									/>
-									<Button
-										layout="outline"
-										onClick={() => removeTranslation(index)}
-										className="mt-2">
-										{t("RemoveTranslation")}
-									</Button>
+									{translationFields.length > 1 ? (
+										<Button
+											layout="outline"
+											onClick={() => removeTranslation(index)}
+											className="mt-2">
+											{t("RemoveTranslation")}
+										</Button>
+									) : null}
 								</div>
 							))}
-							<Button
-								onClick={() =>
-									appendTranslation({
-										title: null,
-										excerpt: null,
-										description: null,
-										language_id: null,
-									})
-								}
-								className="mt-2">
-								{t("AddTranslation")}
-							</Button>
+							<IfMultilingual>
+								<Button
+									onClick={() =>
+										appendTranslation({
+											title: null,
+											excerpt: null,
+											description: null,
+											language_id: null,
+										})
+									}
+									className="mt-2">
+									{t("AddTranslation")}
+								</Button>
+							</IfMultilingual>
 						</div>
 
 						{/* Variants */}
