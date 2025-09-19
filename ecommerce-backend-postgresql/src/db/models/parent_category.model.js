@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 			onUpdate: 'CASCADE',
 		});
 		parent_category.hasMany(models.category);
+		// parent_category.hasMany(models.parent_category_translation);
 		parent_category.hasMany(models.parent_category_translation, {
 			foreignKey: 'parent_category_id',
 			as: 'translations',

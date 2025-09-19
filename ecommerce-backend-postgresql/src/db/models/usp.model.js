@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'usp_id',
 			otherKey: 'product_id',
 		});
+		usp.hasMany(models.usp_translation, {
+			foreignKey: 'usp_id',
+			as: 'translations',
+			onDelete: 'CASCADE',
+		});
 		baseAssociation(usp, models);
 	};
 

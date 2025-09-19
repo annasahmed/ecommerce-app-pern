@@ -15,7 +15,8 @@ const validateSlug = (value, helpers) => {
 		return helpers.message('Slug must be a non-empty string');
 	}
 
-	const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+	// const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+	const slugRegex = /^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u;
 
 	if (!slugRegex.test(value)) {
 		return helpers.message(

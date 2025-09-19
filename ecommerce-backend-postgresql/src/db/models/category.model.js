@@ -63,6 +63,11 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'category_id',
 			otherKey: 'product_id',
 		});
+		category.hasMany(models.category_translation, {
+			foreignKey: 'category_id',
+			as: 'translations',
+			onDelete: 'CASCADE',
+		});
 		baseAssociation(category, models);
 		mediaAssociation(category, models, 'icon');
 	};

@@ -33,8 +33,15 @@ function createBaseService(model, options = {}) {
 						? [
 								{
 									model: translationModel,
-									// as: 'translations',
+									as: 'translations',
 									required: false,
+									attributes: {
+										exclude: [
+											'created_at',
+											'updated_at',
+											translationForeignKey,
+										],
+									},
 									// where: lang
 									// 	? { '$translations.language_id$': lang }
 									// 	: {},
@@ -220,8 +227,17 @@ function createBaseService(model, options = {}) {
 						? [
 								{
 									model: translationModel,
-									// as: 'translations',
+									as: 'translations',
 									required: false,
+									attributes: {
+										exclude: [
+											'created_at',
+											'updated_at',
+											translationForeignKey,
+											'language_id',
+											'id',
+										],
+									},
 									// where: lang
 									// 	? { '$translations.language_id$': lang }
 									// 	: {},
