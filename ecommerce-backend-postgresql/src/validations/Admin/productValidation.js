@@ -4,7 +4,6 @@ const { validateSlug, validatePhoneNumber } = require('../customValidation');
 const createProduct = {
 	body: Joi.object().keys({
 		sku: Joi.string().optional(),
-		slug: Joi.string().required().custom(validateSlug),
 		thumbnail: Joi.number().required(),
 		images: Joi.array().items(Joi.number()).optional(),
 		is_featured: Joi.boolean().default(false),
@@ -22,6 +21,7 @@ const createProduct = {
 					title: Joi.string().required(),
 					excerpt: Joi.string().allow(null),
 					description: Joi.string().allow(null),
+					slug: Joi.string().optional().custom(validateSlug),
 					language_id: Joi.number().integer().required(),
 				})
 			)
@@ -79,7 +79,6 @@ const updateProduct = {
 
 	body: Joi.object().keys({
 		sku: Joi.string().optional().allow(null),
-		slug: Joi.string().optional().custom(validateSlug),
 		thumbnail: Joi.number().optional(),
 		images: Joi.array().items(Joi.number()).optional().allow(null),
 		is_featured: Joi.boolean().optional(),
@@ -103,6 +102,7 @@ const updateProduct = {
 					title: Joi.string().required(),
 					excerpt: Joi.string().allow(null),
 					description: Joi.string().allow(null),
+					slug: Joi.string().optional().custom(validateSlug),
 					language_id: Joi.number().integer().required(),
 				})
 			)

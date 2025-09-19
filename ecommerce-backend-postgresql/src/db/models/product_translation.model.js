@@ -15,11 +15,14 @@ module.exports = (sequelize, DataTypes) => {
 			excerpt: {
 				type: DataTypes.TEXT,
 				allowNull: true,
-
 			},
 			description: {
 				type: DataTypes.TEXT,
 				allowNull: true,
+			},
+			slug: {
+				type: DataTypes.STRING,
+				allowNull: false,
 			},
 			product_id: {
 				type: DataTypes.INTEGER,
@@ -45,6 +48,18 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			tableName: 'product_translation',
 			timestamps: true,
+			indexes: [
+				{
+					unique: true,
+					fields: ['product_id', 'language_id'],
+					name: 'uniq_product_language_id',
+				},
+				{
+					unique: true,
+					fields: ['slug', 'language_id'], // unique per lang
+					name: 'uniq_product_slug_language',
+				},
+			],
 		}
 	);
 

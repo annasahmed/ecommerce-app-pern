@@ -22,16 +22,6 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 				unique: true, // need to run migration for this
 			},
-			slug: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.validateSlug(value);
-					},
-				},
-			},
 			thumbnail: { ...mediaField, field: 'thumbnail' },
 			is_featured: {
 				type: DataTypes.BOOLEAN,

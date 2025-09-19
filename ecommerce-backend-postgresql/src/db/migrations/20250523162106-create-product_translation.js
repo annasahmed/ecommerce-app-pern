@@ -22,6 +22,10 @@ module.exports = {
 				type: Sequelize.TEXT,
 				allowNull: true,
 			},
+			slug: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
 			product_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
@@ -53,6 +57,22 @@ module.exports = {
 				defaultValue: Sequelize.literal('NOW()'),
 			},
 		});
+		await queryInterface.addIndex(
+			'product_translation',
+			['product_id', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_product_language_id',
+			}
+		);
+		await queryInterface.addIndex(
+			'product_translation',
+			['slug', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_product_slug_language',
+			}
+		);
 	},
 
 	async down(queryInterface, Sequelize) {
