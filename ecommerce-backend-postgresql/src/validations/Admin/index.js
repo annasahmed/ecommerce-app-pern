@@ -9,3 +9,4 @@ module.exports.adminProductValidation = require('./productValidation');
 module.exports.adminLanguageValidation = require('./languageValidation');
 module.exports.adminMediaValidation = require('./mediaValidation');
 module.exports.adminAttributeValidation = require('./attributeValidation');
+module.exports.adminSizeChartValidation = require('./sizeChartValidation');

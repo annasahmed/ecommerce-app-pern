@@ -3,57 +3,25 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('product', {
+		await queryInterface.createTable('size_chart', {
 			id: {
 				type: Sequelize.INTEGER,
-				primaryKey: true,
 				allowNull: false,
+				primaryKey: true,
 				autoIncrement: true,
 			},
-			sku: {
-				type: Sequelize.STRING,
-				allowNull: true,
-			},
-			base_price: {
-				type: Sequelize.FLOAT,
+			name: {
+				type: Sequelize.JSONB,
 				allowNull: false,
 			},
-			base_discount_percentage: {
-				type: Sequelize.FLOAT,
-				allowNull: true,
-			},
-			thumbnail: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'media',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
-			is_featured: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: false,
-			},
-			meta_title: {
-				type: Sequelize.STRING,
+			description: {
+				type: Sequelize.JSONB,
 				allowNull: false,
 			},
-			meta_description: {
-				type: Sequelize.TEXT,
+			chartData: {
+				type: Sequelize.JSONB,
 				allowNull: false,
-			},
-			size_chart_id: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'size_chart',
-					key: 'id',
-				},
-				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
+				defaultValue: {},
 			},
 			user_id: {
 				type: Sequelize.INTEGER,
@@ -98,6 +66,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('product');
+		await queryInterface.dropTable('size_chart');
 	},
 };
