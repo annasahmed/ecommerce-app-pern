@@ -1,6 +1,6 @@
 import LanguageServices from "@/services/LanguageServices";
 import { Button } from "@windmill/react-ui";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import InputAreaField from "../form/fields/InputAreaField";
@@ -47,6 +47,14 @@ const TranslationFields = ({
 			</p>
 		);
 	if (!translationFields || translationFields?.length === 0) return null;
+
+	const fieldNames = useMemo(() => {
+		const obj = {};
+		for (const f of translationFields) {
+			obj[f.name] = "";
+		}
+		return obj;
+	}, [translationFields]);
 
 	return (
 		<div className="mb-6">
@@ -125,13 +133,15 @@ const TranslationFields = ({
 
 			<IfMultilingual>
 				<Button
-					onClick={() =>
-						appendTranslation({
-							title: null,
-							excerpt: null,
-							description: null,
-							language_id: null,
-						})
+					disabled={translationFieldsArray.length === languages.length}
+					onClick={
+						() => appendTranslation(fieldNames)
+						// appendTranslation({
+						// 	title: null,
+						// 	// excerpt: null,
+						// 	description: null,
+						// 	language_id: null,
+						// })
 					}
 					className="">
 					{t("AddTranslation")}

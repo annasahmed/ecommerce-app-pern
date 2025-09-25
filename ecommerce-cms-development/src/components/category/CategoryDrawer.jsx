@@ -40,8 +40,8 @@ const CategoryDrawer = ({ id, data }) => {
 				title: null,
 				description: null,
 				slug: null,
-				language_id: null,
-				// language_id: selectedLanguage.id,
+				// language_id: null,
+				language_id: selectedLanguage.id,
 			},
 		],
 	};
@@ -67,28 +67,22 @@ const CategoryDrawer = ({ id, data }) => {
 
 	const onSubmit = async (data) => {
 		const { title, description, parentCategoryId, slug } = data;
+		console.log(
+			{
+				...data,
+				icon: selectedImage,
+				parentCategoryId,
+				slug,
+				status,
+			},
+			"chkking data",
+		);
+
 		try {
 			setIsSubmitting(true);
-			const nameTranslates = await handlerTextTranslateHandler(
-				title,
-				"en",
-				resData?.title,
-			);
-			const descriptionTranslates = await handlerTextTranslateHandler(
-				description,
-				"en",
-				resData?.description,
-			);
 
 			const categoryData = {
-				title: {
-					...nameTranslates,
-					["en"]: title,
-				},
-				description: {
-					...descriptionTranslates,
-					...(description && { ["en"]: description }),
-				},
+				...data,
 				icon: selectedImage,
 				parentCategoryId,
 				slug,
