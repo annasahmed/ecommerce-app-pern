@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { validateSlug, validatePhoneNumber } = require('../customValidation');
+const { validatePhoneNumber } = require('../customValidation');
 
 const createVendor = {
 	body: Joi.object().keys({

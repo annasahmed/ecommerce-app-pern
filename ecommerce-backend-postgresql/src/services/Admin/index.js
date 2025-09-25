@@ -14,3 +14,4 @@ module.exports.adminSettingService = require('./settingService');
 
 module.exports.adminLanguageService = require('./languageService');
 module.exports.adminMediaService = require('./mediaService');
+module.exports.adminAttributeService = require('./attributeService');

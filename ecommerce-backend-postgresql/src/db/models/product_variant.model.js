@@ -15,18 +15,6 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: true,
 			},
-			attributes: {
-				type: DataTypes.JSONB, // e.g., { "size": "M", "color": "Red" }
-				allowNull: false,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(
-							value,
-							'attributes'
-						);
-					},
-				},
-			},
 			image: mediaField,
 			product_id: {
 				type: DataTypes.INTEGER,

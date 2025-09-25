@@ -8,3 +8,4 @@ module.exports.adminProductController = require('./productController');
 module.exports.adminSettingController = require('./settingController');
 module.exports.adminLanguageController = require('./languageController');
 module.exports.adminMediaController = require('./mediaController');
+module.exports.adminAttributeController = require('./attributeController');

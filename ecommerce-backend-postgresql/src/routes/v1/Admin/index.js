@@ -9,6 +9,7 @@ const vendorRoute = require('./vendorRoute');
 const productRoute = require('./productRoute');
 const settingRoute = require('./settingRoute');
 const languageRoute = require('./languageRoute');
+const attributeRoute = require('./attributeRoute');
 
 const adminRouter = express.Router();
 
@@ -22,5 +23,6 @@ adminRouter.use('/product', productRoute);
 adminRouter.use('/setting', settingRoute);
 adminRouter.use('/language', languageRoute);
 adminRouter.use('/media', mediaRoute);
+adminRouter.use('/attribute', attributeRoute);
 
 module.exports = adminRouter;

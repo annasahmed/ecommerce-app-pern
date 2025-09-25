@@ -3,41 +3,50 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('product_variant', {
+		await queryInterface.createTable('attribute', {
 			id: {
 				type: Sequelize.INTEGER,
-				primaryKey: true,
 				allowNull: false,
+				primaryKey: true,
 				autoIncrement: true,
 			},
-			sku: {
-				type: Sequelize.STRING,
-				allowNull: true,
+			name: {
+				type: Sequelize.JSONB,
+				allowNull: false,
 			},
-			image: {
+			values: {
+				type: Sequelize.ARRAY(Sequelize.JSONB),
+				allowNull: false,
+				defaultValue: [],
+			},
+			user_id: {
 				type: Sequelize.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'media',
+					model: 'user',
 					key: 'id',
 				},
 				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
-			product_id: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'product',
-					key: 'id',
-				},
-				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
 			status: {
 				type: Sequelize.BOOLEAN,
 				allowNull: false,
 				defaultValue: true,
+			},
+			deleted_by: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
+			},
+			deleted_at: {
+				type: Sequelize.DATE,
+				allowNull: true,
 			},
 			created_at: {
 				type: Sequelize.DATE,
@@ -53,6 +62,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('product_variant');
+		await queryInterface.dropTable('attribute');
 	},
 };
