@@ -16,12 +16,12 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			name: {
-				type: DataTypes.STRING,
+			code: {
+				type: DataTypes.STRING, // en, ur
 				allowNull: false,
 			},
-			country: {
-				type: DataTypes.STRING,
+			name: {
+				type: DataTypes.STRING, //English, Urdu
 				allowNull: false,
 			},
 			flag: { ...mediaField, field: 'flag' },

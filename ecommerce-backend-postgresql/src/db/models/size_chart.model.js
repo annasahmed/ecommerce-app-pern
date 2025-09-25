@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});
-		size_chart.belongsToMany(models.product);
+		size_chart.hasMany(models.product);
 		baseAssociation(size_chart, models);
 	};
 

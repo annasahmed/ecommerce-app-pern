@@ -7,14 +7,14 @@ const languageService = createBaseService(db.language, {
 	checkDuplicateSlug: true,
 	formatCreateData: (data) => ({
 		name: data.name,
-		country: data.country,
+		code: data.code,
 		flag: data.flag,
 		status: data.status,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
 		if (data.name) toUpdate.name = data.name;
-		if (data.country) toUpdate.country = data.country;
+		if (data.code) toUpdate.code = data.code;
 		if (data.flag) toUpdate.flag = data.flag;
 		if (data.status !== undefined) toUpdate.status = data.status;
 		return toUpdate;

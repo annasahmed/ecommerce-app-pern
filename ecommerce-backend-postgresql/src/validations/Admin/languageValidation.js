@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi');
 const createLanguage = {
 	body: Joi.object().keys({
 		name: Joi.string().required(),
-		country: Joi.string().required(),
+		code: Joi.string().required(),
 		flag: Joi.number().allow(null),
 	}),
 };
@@ -14,7 +14,7 @@ const updateLanguage = {
 	}),
 	body: Joi.object().keys({
 		name: Joi.string(),
-		country: Joi.string(),
+		code: Joi.string(),
 		flag: Joi.number().allow(null).optional(),
 	}),
 };

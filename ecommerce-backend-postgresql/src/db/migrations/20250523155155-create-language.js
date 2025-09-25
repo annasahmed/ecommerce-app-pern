@@ -10,11 +10,11 @@ module.exports = {
 				allowNull: false,
 				autoIncrement: true,
 			},
-			name: {
+			code: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			country: {
+			name: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
