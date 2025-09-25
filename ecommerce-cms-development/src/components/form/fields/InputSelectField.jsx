@@ -11,6 +11,7 @@ const InputSelectField = ({
 	inputPlaceholder,
 	required,
 	errorName,
+	defaultValue,
 }) => {
 	return (
 		<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -19,6 +20,7 @@ const InputSelectField = ({
 				<Select
 					// multiple={multiple}
 					// multiple
+					defaultValue={defaultValue}
 					name={inputName}
 					{...register(`${inputName}`, {
 						required: required ? `${inputLabel} is required!` : false,

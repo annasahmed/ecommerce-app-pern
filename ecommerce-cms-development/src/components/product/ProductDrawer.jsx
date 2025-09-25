@@ -26,6 +26,8 @@ import InputSelectField from "../form/fields/InputSelectField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TextAreaField from "../form/fields/TextAreaField";
 import { IfMultilingual } from "../IfMultilingual";
+import LanguageSelector from "../newComponents/LanguageSelector";
+import TranslationFields from "../newComponents/TranslationFields";
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -95,14 +97,14 @@ const ProductDrawer = ({ id, data }) => {
 		defaultValues,
 	});
 
-	const {
-		fields: translationFields,
-		append: appendTranslation,
-		remove: removeTranslation,
-	} = useFieldArray({
-		control,
-		name: "translations",
-	});
+	// const {
+	// 	fields: translationFields,
+	// 	append: appendTranslation,
+	// 	remove: removeTranslation,
+	// } = useFieldArray({
+	// 	control,
+	// 	name: "translations",
+	// });
 
 	const {
 		fields: variantFields,
@@ -112,8 +114,6 @@ const ProductDrawer = ({ id, data }) => {
 		control,
 		name: "variants",
 	});
-
-	const { handlerTextTranslateHandler } = useTranslationValue();
 
 	const onSubmit = async (data) => {
 		const { name, address, country } = data;
@@ -286,6 +286,28 @@ const ProductDrawer = ({ id, data }) => {
 		});
 	}, []);
 
+	const translationFields = [
+		{
+			name: "title",
+			required: true,
+			fieldType: "inputArea",
+		},
+		{
+			name: "slug",
+			required: true,
+			fieldType: "inputArea",
+		},
+		{
+			name: "excerpt",
+			required: true,
+			fieldType: "inputArea",
+		},
+		{
+			name: "description",
+			fieldType: "textArea",
+		},
+	];
+
 	return (
 		<>
 			<DrawerHeader
@@ -391,7 +413,7 @@ const ProductDrawer = ({ id, data }) => {
 							/>
 						</div>
 						{/* Translations */}
-						<div>
+						{/* <div>
 							<IfMultilingual>
 								<h3 className="text-xl font-semibold mt-4">
 									{t("Translations")}
@@ -442,36 +464,8 @@ const ProductDrawer = ({ id, data }) => {
 										)}
 										errorName={errors[`translations.${index}.description`]}
 									/>
-									{/* <InputAreaField
-										label={t("Language")}
-										required={true}
-										register={register}
-										inputLabel="language_id"
-										inputName={`translations.${index}.language_id`}
-										inputType="number"
-										inputPlaceholder={t(
-											"ProductTranslationLanguagePlaceholder",
-										)}
-										errorName={errors[`translations.${index}.language_id`]}
-									/> */}
-									<InputSelectField
-										label={t("Language")}
-										required={true}
-										register={register}
-										inputLabel={t("language")}
-										inputName={`translations.${index}.language_id`}
-										inputPlaceholder={t(
-											"ProductTranslationLanguagePlaceholder",
-										)}
-										options={languages?.map((pCat, index) => {
-											return (
-												<option value={pCat.id} key={index}>
-													{pCat?.name}
-												</option>
-											);
-										})}
-										errorName={errors[`translations.${index}.language_id`]}
-									/>
+									<LanguageSelector index={index} />
+
 									{translationFields.length > 1 ? (
 										<Button
 											layout="outline"
@@ -496,7 +490,13 @@ const ProductDrawer = ({ id, data }) => {
 									{t("AddTranslation")}
 								</Button>
 							</IfMultilingual>
-						</div>
+						</div> */}
+						<TranslationFields
+							control={control}
+							errors={errors}
+							register={register}
+							translationFields={translationFields}
+						/>
 
 						{/* Variants */}
 						<div>

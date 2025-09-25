@@ -1079,5 +1079,11 @@
 	"CategoriesTbl": "Categories",
 	"SelectCategories": "Select Categories",
 	"SelectUsp": "Select Usp",
-	"SelectVendor": "Select Vendor"
+	"SelectVendor": "Select Vendor",
+
+	"title": "Title",
+	"slug": "Slug",
+	"excerpt": "Excerpt",
+	"description": "Description",
+	"selectLanguage": "Select Language"
 }

@@ -10,13 +10,15 @@ import useUtilsFunction from "@/hooks/useUtilsFunction";
 import CategoryServices from "@/services/CategoryServices";
 import ParentCategoryServices from "@/services/ParentCategoryServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import ImageSelectorField from "../form/fields/ImageSelectorField";
 import InputAreaField from "../form/fields/InputAreaField";
 import InputSelectField from "../form/fields/InputSelectField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TextAreaField from "../form/fields/TextAreaField";
 import DrawerHeader from "../newComponents/DrawerHeader";
+import { IfMultilingual } from "../IfMultilingual";
+import TranslationFields from "../newComponents/TranslationFields";
 
 const CategoryDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -26,16 +28,30 @@ const CategoryDrawer = ({ id, data }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const [parentCategories, setParentCategories] = useState([]);
-	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
+	const { closeDrawer, setIsUpdate, lang } = useContext(SidebarContext);
+
+	const defaultValues = {
+		parentCategoryId: null,
+		icon: null,
+		translations: [
+			{
+				title: null,
+				description: null,
+				slug: null,
+				language_id: lang,
+			},
+		],
+	};
 
 	const {
+		control,
 		register,
 		handleSubmit,
 		setValue,
 		clearErrors,
 		reset,
 		formState: { errors },
-	} = useForm();
+	} = useForm({ defaultValues });
 
 	const { showingTranslateValue } = useUtilsFunction();
 	const { handlerTextTranslateHandler } = useTranslationValue();
@@ -97,6 +113,23 @@ const CategoryDrawer = ({ id, data }) => {
 		}
 	};
 
+	const translationFields = [
+		{
+			name: "title",
+			required: true,
+			fieldType: "inputArea",
+		},
+		{
+			name: "slug",
+			required: true,
+			fieldType: "inputArea",
+		},
+		{
+			name: "description",
+			fieldType: "textArea",
+		},
+	];
+
 	useEffect(() => {
 		if (id) {
 			(async () => {
@@ -139,34 +172,12 @@ const CategoryDrawer = ({ id, data }) => {
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
-						<InputAreaField
-							label={t("Name")}
-							required={true}
+						{/* Translations */}
+						<TranslationFields
+							control={control}
+							errors={errors}
 							register={register}
-							inputLabel="Title"
-							inputName="title"
-							inputType="text"
-							inputPlaceholder={t("CategoryTitlePlaceholder")}
-							errorName={errors.title}
-						/>
-						<InputAreaField
-							label={t("Slug")}
-							required={true}
-							register={register}
-							inputLabel="Slug"
-							inputName="slug"
-							inputType="text"
-							inputPlaceholder={t("CategorySlugPlaceholder")}
-							errorName={errors.slug}
-						/>
-						<TextAreaField
-							label={t("Description")}
-							register={register}
-							inputLabel="Description"
-							inputName="description"
-							inputType="text"
-							inputPlaceholder={t("CategoryDescriptionPlaceholder")}
-							errorName={errors.description}
+							translationFields={translationFields}
 						/>
 						<InputSelectField
 							label={t("SelectParentCategory")}
