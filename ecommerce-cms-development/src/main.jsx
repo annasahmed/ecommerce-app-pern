@@ -19,7 +19,7 @@ import { SidebarProvider } from "@/context/SidebarContext";
 import ThemeSuspense from "@/components/theme/ThemeSuspense";
 import store from "@/reduxStore/store";
 import "@/i18n";
-import { UserSettingsProvider } from "./context/userSettingsContext";
+import { GlobalSettingsProvider } from "./context/GlobalSettingsContext";
 
 const updateSW = registerSW({
 	onNeedRefresh() {
@@ -42,7 +42,7 @@ let persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<QueryClientProvider client={queryClient}>
 		<AdminProvider>
-			<UserSettingsProvider>
+			<GlobalSettingsProvider>
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persistor}>
 						<SidebarProvider>
@@ -54,7 +54,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 						</SidebarProvider>
 					</PersistGate>
 				</Provider>
-			</UserSettingsProvider>
+			</GlobalSettingsProvider>
 		</AdminProvider>
 	</QueryClientProvider>,
 );

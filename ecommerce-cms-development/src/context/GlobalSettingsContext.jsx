@@ -1,10 +1,10 @@
-// 🟢 userSettingsContext.tsx
+// 🟢 GlobalSettingsContext.tsx
 import LanguageServices from "@/services/LanguageServices";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 
-export const UserSettingsContext = createContext({
+export const GlobalSettingsContext = createContext({
 	logo: "",
 	logoDark: "",
 	isMultiLingual: false,
@@ -13,7 +13,7 @@ export const UserSettingsContext = createContext({
 });
 
 // will fetch it from API later
-const userSettings = {
+const settings = {
 	logo: "https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
 	logoDark:
 		"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
@@ -21,7 +21,7 @@ const userSettings = {
 	isMultiBranch: false,
 	isInventory: true,
 };
-export const UserSettingsProvider = ({ children }) => {
+export const GlobalSettingsProvider = ({ children }) => {
 	const { i18n } = useTranslation();
 	const cookieLang = Cookies.get("selectedLanguage");
 	const [selectedLanguage, setSelectedLanguage] = useState(
@@ -49,7 +49,6 @@ export const UserSettingsProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchLanguages = async () => {
 			const data = await LanguageServices.getAllLanguages();
-
 			// Ensure selected language is valid
 			const isValidSelectedLanguage = data.find(
 				(v) => v.id === selectedLanguage.id,
@@ -66,16 +65,16 @@ export const UserSettingsProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<UserSettingsContext.Provider
+		<GlobalSettingsContext.Provider
 			value={{
-				userSettings,
+				settings,
 				languages,
 				selectedLanguage,
 				handleLanguageChange,
 			}}>
 			{children}
-		</UserSettingsContext.Provider>
+		</GlobalSettingsContext.Provider>
 	);
 };
 
-export const useUserSettings = () => useContext(UserSettingsContext);
+export const useGlobalSettings = () => useContext(GlobalSettingsContext);

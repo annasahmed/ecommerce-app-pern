@@ -1085,5 +1085,6 @@
 	"slug": "Slug",
 	"excerpt": "Excerpt",
 	"description": "Description",
-	"selectLanguage": "Select Language"
+	"selectLanguage": "Select Language",
+	"LanguageAlreadySelected": "Language Already Selected"
 }

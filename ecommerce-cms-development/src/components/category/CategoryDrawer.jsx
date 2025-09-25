@@ -19,6 +19,7 @@ import TextAreaField from "../form/fields/TextAreaField";
 import DrawerHeader from "../newComponents/DrawerHeader";
 import { IfMultilingual } from "../IfMultilingual";
 import TranslationFields from "../newComponents/TranslationFields";
+import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 
 const CategoryDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -28,7 +29,8 @@ const CategoryDrawer = ({ id, data }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const [parentCategories, setParentCategories] = useState([]);
-	const { closeDrawer, setIsUpdate, lang } = useContext(SidebarContext);
+	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
+	const { selectedLanguage } = useGlobalSettings();
 
 	const defaultValues = {
 		parentCategoryId: null,
@@ -38,7 +40,8 @@ const CategoryDrawer = ({ id, data }) => {
 				title: null,
 				description: null,
 				slug: null,
-				language_id: lang,
+				language_id: null,
+				// language_id: selectedLanguage.id,
 			},
 		],
 	};
