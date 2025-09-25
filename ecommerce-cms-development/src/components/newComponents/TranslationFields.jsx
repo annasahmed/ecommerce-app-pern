@@ -56,7 +56,6 @@ const TranslationFields = ({
 
 			{translationFieldsArray.map((field, index) => {
 				const selectedLangs = translations.map((tr) => tr.language_id);
-				console.log(translations, "chkking trans");
 
 				return (
 					<div
@@ -93,8 +92,7 @@ const TranslationFields = ({
 								.filter(
 									(lang) =>
 										!selectedLangs.some(
-											(selected, idx2) =>
-												idx2 !== index && selected === lang.id,
+											(selected, idx2) => idx2 !== index && selected == lang.id,
 										),
 								)
 								.map((pCat, idx) => (
