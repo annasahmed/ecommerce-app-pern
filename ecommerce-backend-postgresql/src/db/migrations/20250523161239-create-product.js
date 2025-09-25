@@ -14,6 +14,14 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
+			base_price: {
+				type: Sequelize.FLOAT,
+				allowNull: false,
+			},
+			base_discount_percentage: {
+				type: Sequelize.FLOAT,
+				allowNull: true,
+			},
 			thumbnail: {
 				type: Sequelize.INTEGER,
 				allowNull: true,

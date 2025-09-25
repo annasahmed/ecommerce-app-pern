@@ -1,9 +1,11 @@
 const Joi = require('@hapi/joi');
-const { validateSlug, validatePhoneNumber } = require('../customValidation');
+const { validateSlug } = require('../customValidation');
 
 const createProduct = {
 	body: Joi.object().keys({
 		sku: Joi.string().optional(),
+		base_price: Joi.number().required(),
+		base_discount_percentage: Joi.number().optional().allow(null),
 		thumbnail: Joi.number().required(),
 		images: Joi.array().items(Joi.number()).optional(),
 		is_featured: Joi.boolean().default(false),
@@ -79,6 +81,8 @@ const updateProduct = {
 
 	body: Joi.object().keys({
 		sku: Joi.string().optional().allow(null),
+		base_price: Joi.number().required(),
+		base_discount_percentage: Joi.number().optional().allow(null),
 		thumbnail: Joi.number().optional(),
 		images: Joi.array().items(Joi.number()).optional().allow(null),
 		is_featured: Joi.boolean().optional(),

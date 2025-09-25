@@ -3,9 +3,7 @@ const {
 	baseScopes,
 	baseAssociation,
 	mediaField,
-	mediaAssociation,
 } = require('./base_model');
-const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
 	const product = sequelize.define(
@@ -21,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: true,
 				unique: true, // need to run migration for this
+			},
+			base_price: {
+				type: DataTypes.FLOAT,
+				allowNull: false,
+			},
+			base_discount_percentage: {
+				type: DataTypes.FLOAT,
+				allowNull: true,
 			},
 			thumbnail: { ...mediaField, field: 'thumbnail' },
 			is_featured: {
@@ -89,11 +95,6 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'product_id',
 			otherKey: 'vendor_id',
 		});
-		// product.belongsToMany(models.product_variant, {
-		// 	through: 'product_to_product_variant',
-		// 	foreignKey: 'product_id',
-		// 	otherKey: 'product_variant_id',
-		// });
 		product.hasMany(models.product_variant);
 		product.hasMany(models.product_translation);
 		baseAssociation(product, models);

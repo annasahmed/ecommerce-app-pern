@@ -5,27 +5,8 @@ const createBaseService = require('../../utils/baseService.js');
 const productService = createBaseService(db.product, {
 	name: 'Product',
 	checkDuplicateSlug: true,
-	formatCreateData: (data) => ({
-		sku: data.sku,
-		address: data.address,
-		country: data.country,
-		phone: data.phone,
-		contact_person: data.contact_person,
-		email: data.email,
-		status: data.status,
-	}),
-	formatUpdateData: (data) => {
-		const toUpdate = {};
-		if (data.name) toUpdate.name = data.name;
-		if (data.address) toUpdate.address = data.address;
-		if (data.country) toUpdate.country = data.country;
-		if (data.contact_person) toUpdate.contact_person = data.contact_person;
-		if (data.phone) toUpdate.phone = data.phone;
-		if (data.email) toUpdate.email = data.email;
-		if (data.status !== undefined) toUpdate.status = data.status;
-
-		return toUpdate;
-	},
+	formatCreateData: (data) => ({}),
+	formatUpdateData: (data) => {},
 	includes: [
 		{ model: db.media, required: false, as: 'thumbnailImage' },
 		{ model: db.media, required: false, as: 'images' },
@@ -101,7 +82,11 @@ async function createProduct(req) {
 
 		// Product variants with branch data
 		for (const variant of variants) {
-			const { branch_data = [], ...variantData } = variant;
+			const {
+				branch_data = [],
+				attribute_data = [],
+				...variantData
+			} = variant;
 
 			const newVariant = await db.product_variant.create(
 				{
@@ -111,6 +96,16 @@ async function createProduct(req) {
 				{ transaction }
 			);
 
+			// Insert into product_variant_to_attribute for each attribute entry
+			for (const entry of attribute_data) {
+				await db.product_variant_to_attribute.create(
+					{
+						...entry,
+						product_variant_id: newVariant.id,
+					},
+					{ transaction }
+				);
+			}
 			// Insert into product_variant_to_branch for each branch entry
 			for (const entry of branch_data) {
 				await db.product_variant_to_branch.create(
@@ -194,6 +189,10 @@ async function updateProduct(req) {
 				where: { product_variant_id: oldVariantIds },
 				transaction,
 			});
+			await db.product_variant_to_attribute.destroy({
+				where: { product_variant_id: oldVariantIds },
+				transaction,
+			});
 			await db.product_variant.destroy({
 				where: { id: oldVariantIds },
 				transaction,
@@ -201,7 +200,11 @@ async function updateProduct(req) {
 		}
 
 		for (const variant of variants) {
-			const { branch_data = [], ...variantData } = variant;
+			const {
+				branch_data = [],
+				attribute_data = [],
+				...variantData
+			} = variant;
 
 			const newVariant = await db.product_variant.create(
 				{
@@ -211,6 +214,18 @@ async function updateProduct(req) {
 				{ transaction }
 			);
 
+			if (attribute_data.length > 0) {
+				const attributeEntries = attribute_data.map((entry) => ({
+					...entry,
+					product_variant_id: newVariant.id,
+				}));
+				await db.product_variant_to_attribute.bulkCreate(
+					attributeEntries,
+					{
+						transaction,
+					}
+				);
+			}
 			if (branch_data.length > 0) {
 				const branchEntries = branch_data.map((entry) => ({
 					...entry,
