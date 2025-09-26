@@ -15,7 +15,7 @@ import CustomerServices from "@/services/CustomerServices";
 import LanguageServices from "@/services/LanguageServices";
 import ProductServices from "@/services/ProductServicesOld";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import AttributeServices from "@/services/AttributeServices";
+import AttributeServices from "@/services/AttributeServicesOld";
 import CurrencyServices from "@/services/CurrencyServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useDisableForDemo from "@/hooks/useDisableForDemo";

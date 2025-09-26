@@ -13,6 +13,8 @@ const TranslationFields = ({
 	errors,
 	register,
 	translationFields,
+	getTranslationCode = false,
+	formName = "translations",
 }) => {
 	const { t } = useTranslation();
 	const [languages, setLanguages] = useState([]);
@@ -29,14 +31,14 @@ const TranslationFields = ({
 		remove: removeTranslation,
 	} = useFieldArray({
 		control,
-		name: "translations",
+		name: formName,
 	});
 
 	// 👇 Watch all translations so options re-render whenever a language is picked
 	const translations =
 		useWatch({
 			control,
-			name: "translations",
+			name: formName,
 		}) || [];
 
 	if (!control || !errors || !register)
@@ -46,7 +48,6 @@ const TranslationFields = ({
 				component
 			</p>
 		);
-	console.log(translationFields, "cjndsa");
 
 	if (!translationFields || translationFields?.length === 0) return null;
 
@@ -83,10 +84,10 @@ const TranslationFields = ({
 									required={input.required}
 									register={register}
 									inputLabel="title"
-									inputName={`translations.${index}.${input.name}`}
+									inputName={`${formName}.${index}.${input.name}`}
 									inputType="text"
 									inputPlaceholder={t(input.name)}
-									errorName={errors?.translations?.[index]?.[input.name]}
+									errorName={errors?.[formName]?.[index]?.[input.name]}
 								/>
 							);
 						})}
@@ -97,7 +98,7 @@ const TranslationFields = ({
 								required={true}
 								register={register}
 								inputLabel={t("language")}
-								inputName={`translations.${index}.language_id`}
+								inputName={`${formName}.${index}.language_id`}
 								inputPlaceholder={t("selectLanguage")}
 								options={languages
 									.filter(
@@ -108,11 +109,13 @@ const TranslationFields = ({
 											),
 									)
 									.map((pCat, idx) => (
-										<option value={pCat.id} key={idx}>
+										<option
+											value={getTranslationCode ? pCat.code : pCat.id}
+											key={idx}>
 											{pCat?.name}
 										</option>
 									))}
-								errorName={errors?.translations?.[index]?.language_id}
+								errorName={errors?.[formName]?.[index]?.language_id}
 								validate={{
 									unique: (value) => {
 										const duplicates = translations.filter(
@@ -123,9 +126,11 @@ const TranslationFields = ({
 										);
 									},
 								}}
-								{...register(`translations.${index}.language_id`, {
-									valueAsNumber: true,
-								})}
+								{...(!getTranslationCode
+									? register(`${formName}.${index}.language_id`, {
+											valueAsNumber: true,
+									  })
+									: {})}
 							/>
 						</IfMultilingual>
 						<IfMultilingual>

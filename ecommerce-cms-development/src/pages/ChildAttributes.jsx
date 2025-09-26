@@ -14,7 +14,7 @@ import { FiChevronRight, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 
 //internal import
-import ChildAttributeTable from "@/components/attribute/ChildAttributeTable";
+import ChildAttributeTable from "@/components/attributeOld/ChildAttributeTable";
 import AttributeChildDrawer from "@/components/drawer/AttributeChildDrawer";
 import BulkActionDrawer from "@/components/drawer/BulkActionDrawer";
 import MainDrawer from "@/components/drawer/MainDrawer";
@@ -27,7 +27,7 @@ import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useFilter from "@/hooks/useFilter";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import AttributeServices from "@/services/AttributeServices";
+import AttributeServices from "@/services/AttributeServicesOld";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import AnimatedContent from "@/components/common/AnimatedContent";
 

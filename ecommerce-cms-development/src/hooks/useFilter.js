@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 import useUtilsFunction from "./useUtilsFunction";
 import useDisableForDemo from "./useDisableForDemo";
 import { SidebarContext } from "@/context/SidebarContext";
-import AttributeServices from "@/services/AttributeServices";
+import AttributeServices from "@/services/AttributeServicesOld";
 import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CurrencyServices from "@/services/CurrencyServices";

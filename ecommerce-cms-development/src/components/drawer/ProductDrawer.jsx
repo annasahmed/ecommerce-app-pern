@@ -33,8 +33,8 @@ import InputValueFive from "@/components/form/input/InputValueFive";
 import Uploader from "@/components/image-uploader/Uploader";
 import ParentCategory from "@/components/category/ParentCategory";
 import UploaderThree from "@/components/image-uploader/UploaderThree";
-import AttributeOptionTwo from "@/components/attribute/AttributeOptionTwo";
-import AttributeListTable from "@/components/attribute/AttributeListTable";
+import AttributeOptionTwo from "@/components/attributeOld/AttributeOptionTwo";
+import AttributeListTable from "@/components/attributeOld/AttributeListTable";
 import SwitchToggleForCombination from "@/components/form/switch/SwitchToggleForCombination";
 
 //internal import

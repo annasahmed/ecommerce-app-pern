@@ -18,7 +18,7 @@ import useProductSubmit from "@/hooks/useProductSubmit";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServicesOld";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
-import AttributeList from "@/components/attribute/AttributeList";
+import AttributeList from "@/components/attributeOld/AttributeList";
 import MainDrawer from "@/components/drawer/MainDrawer";
 import ProductDrawer from "@/components/drawer/ProductDrawer";
 import Loading from "@/components/preloader/Loading";

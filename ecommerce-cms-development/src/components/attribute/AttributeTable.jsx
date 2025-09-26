@@ -1,98 +1,84 @@
 import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
-import React from "react";
-import { FiEdit } from "react-icons/fi";
-import { Link } from "react-router-dom";
 
 //internal import
-import Tooltip from "@/components/tooltip/Tooltip";
-import useUtilsFunction from "@/hooks/useUtilsFunction";
-import MainDrawer from "@/components/drawer/MainDrawer";
-import DeleteModal from "@/components/modal/DeleteModal";
-import useToggleDrawer from "@/hooks/useToggleDrawer";
+
 import CheckBox from "@/components/form/others/CheckBox";
-import ShowHideButton from "@/components/table/ShowHideButton";
+import DeleteModal from "@/components/modal/DeleteModal";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
-import AttributeDrawer from "@/components/drawer/AttributeDrawer";
+import ShowHideButton from "@/components/table/ShowHideButton";
+import useUtilsFunction from "@/hooks/useUtilsFunction";
+import useTranslationUtils from "@/hooks/newHooks/useTranslationHooks";
 
-const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
-	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
-
-	const { showingTranslateValue } = useUtilsFunction();
+const AttributeTable = ({
+	data,
+	toggleDrawerData,
+	isCheck,
+	setIsCheck,
+	useParamId,
+}) => {
+	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
+	const { showSelectedLanguageTranslation } = useUtilsFunction();
+	const { displayTranslatedValue } = useTranslationUtils();
 
 	const handleClick = (e) => {
 		const { id, checked } = e.target;
-		setIsCheck([...isCheck, id]);
+		setIsCheck([...isCheck, parseInt(id)]);
 		if (!checked) {
-			setIsCheck(isCheck.filter((item) => item !== id));
+			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
 		}
 	};
-
-	// console.log('attributes', attributes);
-
 	return (
 		<>
-			{isCheck.length < 1 && <DeleteModal id={serviceId} title={title} />}
-
-			{isCheck.length < 2 && (
-				<MainDrawer>
-					<AttributeDrawer id={serviceId} />
-				</MainDrawer>
+			{isCheck?.length < 1 && (
+				<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
 			)}
 
 			<TableBody>
-				{attributes?.map((attribute) => (
+				{data?.map((attribute) => (
 					<TableRow key={attribute.id}>
 						<TableCell>
 							<CheckBox
 								type="checkbox"
 								name="attribute"
-								id={attribute.id}
+								id={parseInt(attribute.id)}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(attribute.id)}
+								isChecked={isCheck?.includes(parseInt(attribute.id))}
 							/>
 						</TableCell>
 
 						<TableCell className="font-semibold uppercase text-xs">
-							{attribute?.id?.substring(20, 24)}
+							{attribute?.id}
 						</TableCell>
-
-						<TableCell className="font-medium text-sm">
-							{showingTranslateValue(attribute.title)}
+						<TableCell className="text-sm">
+							{displayTranslatedValue(attribute?.name)}
 						</TableCell>
-
-						<TableCell className="font-medium text-sm">
-							{showingTranslateValue(attribute.name)}
-						</TableCell>
-
-						<TableCell className="font-medium text-sm">
-							{attribute.option}
+						<TableCell className="text-sm">
+							[
+							{attribute?.values
+								?.map((v) => displayTranslatedValue(v))
+								.join(", ")}
+							]
 						</TableCell>
 
 						<TableCell className="text-center">
-							<ShowHideButton id={attribute.id} status={attribute.status} />
+							<ShowHideButton
+								id={attribute.id}
+								attribute
+								status={attribute.status}
+							/>
 						</TableCell>
-
-						<TableCell className="flex justify-center">
-							<Link
-								to={`/attributes/${attribute.id}`}
-								className="p-2 cursor-pointer text-customGray-400 hover:text-customTeal-600 focus:outline-none">
-								<Tooltip
-									id="edit values"
-									Icon={FiEdit}
-									title="Edit Values"
-									bgColor="#10B981"
-								/>
-							</Link>
-						</TableCell>
-
 						<TableCell>
 							<EditDeleteButton
-								id={attribute.id}
+								id={attribute?.id}
+								parent={attribute}
 								isCheck={isCheck}
-								setIsCheck={setIsCheck}
+								children={attribute?.children}
 								handleUpdate={handleUpdate}
 								handleModalOpen={handleModalOpen}
-								title={showingTranslateValue(attribute.title)}
+								title={showSelectedLanguageTranslation(
+									attribute?.translations,
+									"title",
+								)}
 							/>
 						</TableCell>
 					</TableRow>

@@ -1,75 +1,45 @@
-import requests from './httpService';
+import requests from "./httpService";
 
 const AttributeServices = {
-  getAllAttributes: async ({ type, option, option1 }) => {
-    return requests.get(
-      `/attributes?type=${type}&option=${option}&option1=${option1}`
-    );
-  },
+	getAllAttribute: async () => {
+		return requests.get("/attribute");
+	},
 
-  getShowingAttributes: async (body) => {
-    return requests.get('/attributes/show', body);
-  },
+	getAllAttributes: async () => {
+		return requests.get("/attribute");
+	},
 
-  addAttribute: async (body) => {
-    return requests.post('/attributes/add', body);
-  },
+	getAttributeById: async (id) => {
+		return requests.get(`/attribute/${id}`);
+	},
 
-  addChildAttribute: async (id, body) => {
-    return requests.put(`/attributes/add/child/${id}`, body);
-  },
+	addAttribute: async (body) => {
+		return requests.post("/attribute", body);
+	},
 
-  addAllAttributes: async (body) => {
-    return requests.post('/attributes/add/all', body);
-  },
+	addAllAttribute: async (body) => {
+		return requests.post("/attribute", body);
+	},
 
-  getAttributeById: async (id) => {
-    return requests.get(`/attributes/${id}`);
-  },
+	updateAttribute: async (id, body) => {
+		return requests.patch(`/attribute/${id}`, body);
+	},
 
-  getChildAttributeById: async ({ id, ids }) => {
-    return requests.get(`/attributes/child/${id}/${ids}`);
-  },
+	updateStatus: async (id, body) => {
+		return requests.patch(`/attribute/${id}`, body);
+	},
 
-  updateAttributes: async (id, body) => {
-    return requests.put(`/attributes/${id}`, body);
-  },
+	deleteAttribute: async (id, body) => {
+		return requests.delete(`/attribute/${id}`, body);
+	},
 
-  updateChildAttributes: async ({ id, ids }, body) => {
-    return requests.put(`/attributes/update/child/${ids}/${id}`, body);
-  },
+	updateManyAttribute: async (body) => {
+		return requests.patch("/attribute/update/many", body);
+	},
 
-  updateStatus: async (id, body) => {
-    return requests.put(`/attributes/status/${id}`, body);
-  },
-
-  updateChildStatus: async (id, body) => {
-    return requests.put(`/attributes/status/child/${id}`, body);
-  },
-
-  deleteAttribute: async (id, body) => {
-    return requests.delete(`/attributes/${id}`, body);
-  },
-
-  deleteChildAttribute: async ({ id, ids }, body) => {
-    return requests.put(`/attributes/delete/child/${ids}/${id}`, body);
-  },
-
-  updateManyAttribute: async (body) => {
-    return requests.patch('/attributes/update/many', body);
-  },
-
-  updateManyChildAttribute: async (body) => {
-    return requests.patch('/attributes/update/child/many', body);
-  },
-
-  deleteManyAttribute: async (body) => {
-    return requests.patch('/attributes/delete/many', body);
-  },
-
-  deleteManyChildAttribute: async (body) => {
-    return requests.patch('/attributes/delete/child/many', body);
-  },
+	deleteManyAttribute: async (body) => {
+		return requests.patch("/attribute/delete/many", body);
+	},
 };
 
 export default AttributeServices;

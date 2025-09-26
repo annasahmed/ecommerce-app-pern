@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 //internal import
-import AttributeTable from "@/components/attribute/AttributeTable";
+import AttributeTable from "@/components/attributeOld/AttributeTable";
 import UploadMany from "@/components/common/UploadMany";
 import AttributeDrawer from "@/components/drawer/AttributeDrawer";
 import BulkActionDrawer from "@/components/drawer/BulkActionDrawer";
@@ -29,7 +29,7 @@ import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useFilter from "@/hooks/useFilter";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import AttributeServices from "@/services/AttributeServices";
+import AttributeServices from "@/services/AttributeServicesOld";
 import AnimatedContent from "@/components/common/AnimatedContent";
 
 //internal import
