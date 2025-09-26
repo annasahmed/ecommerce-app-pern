@@ -40,6 +40,7 @@ function createBaseService(model, options = {}) {
 											'created_at',
 											'updated_at',
 											translationForeignKey,
+											'id'
 										],
 									},
 									// where: lang

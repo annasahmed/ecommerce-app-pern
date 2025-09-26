@@ -37,8 +37,8 @@ const updateCategory = {
 					language_id: Joi.number().integer().required(),
 				})
 			)
-			.min(1)
-			.required(),
+			// .min(1)
+			.optional(),
 	}),
 };
 
