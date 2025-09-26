@@ -8,6 +8,9 @@ const Products = lazy(() => import("@/pages/product/Product"));
 const Media = lazy(() => import("@/pages/media/Media"));
 const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
 const Category = lazy(() => import("@/pages/category/Category"));
+const ParentCategory = lazy(() =>
+	import("@/pages/parentCategory/parentCategory"),
+);
 const Usp = lazy(() => import("@/pages/usp/Usp"));
 const Branch = lazy(() => import("@/pages/branch/Branch"));
 const Vendor = lazy(() => import("@/pages/vendor/Vendor"));
@@ -63,6 +66,10 @@ const routes = [
 	{
 		path: "/categories",
 		component: Category,
+	},
+	{
+		path: "/parent-categories",
+		component: ParentCategory,
 	},
 	{
 		path: "/categories/:id",

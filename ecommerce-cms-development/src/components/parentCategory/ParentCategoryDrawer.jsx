@@ -4,19 +4,20 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
+import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 import { SidebarContext } from "@/context/SidebarContext";
-import useTranslationValue from "@/hooks/useTranslationValue";
-import UspServices from "@/services/UspServices";
+import ParentCategoryServices from "@/services/ParentCategoryServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
-import DrawerHeader from "../newComponents/DrawerHeader";
-import InputAreaField from "../form/fields/InputAreaField";
+import ImageSelectorField from "../form/fields/ImageSelectorField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
+import DrawerHeader from "../newComponents/DrawerHeader";
 import TranslationFields from "../newComponents/TranslationFields";
-import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 
-const UspDrawer = ({ id, data }) => {
+const ParentCategoryDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 	const [status, setStatus] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
@@ -24,6 +25,7 @@ const UspDrawer = ({ id, data }) => {
 	const { selectedLanguage } = useGlobalSettings();
 
 	const defaultValues = {
+		icon: null,
 		translations: [
 			{
 				title: null,
@@ -48,20 +50,26 @@ const UspDrawer = ({ id, data }) => {
 		try {
 			setIsSubmitting(true);
 
-			const uspData = {
+			const parentCategoryData = {
 				...data,
+				icon: selectedImage,
 				status,
 			};
 
 			if (id) {
-				const res = await UspServices.updateUsp(id, uspData);
+				const res = await ParentCategoryServices.updateParentCategory(
+					id,
+					parentCategoryData,
+				);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
 				closeDrawer();
 				reset();
 			} else {
-				const res = await UspServices.addUsp(uspData);
+				const res = await ParentCategoryServices.addParentCategory(
+					parentCategoryData,
+				);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
@@ -73,26 +81,6 @@ const UspDrawer = ({ id, data }) => {
 			notifyError(err ? err?.response?.data?.message : err?.message);
 		}
 	};
-
-	useEffect(() => {
-		if (id) {
-			(async () => {
-				try {
-					const res = await UspServices.getUspById(id);
-					if (res) {
-						setResData(res);
-						setValue("translations", res.translations);
-						setValue("slug", res.slug);
-						setStatus(res.status || false);
-					}
-				} catch (err) {
-					notifyError(err ? err.response?.data?.message : err.message);
-				}
-			})();
-		} else {
-			reset();
-		}
-	}, [id, setValue, clearErrors, data]);
 
 	const translationFields = [
 		{
@@ -111,25 +99,59 @@ const UspDrawer = ({ id, data }) => {
 		},
 	];
 
+	useEffect(() => {
+		if (id) {
+			(async () => {
+				try {
+					const res = await ParentCategoryServices.getParentCategoryById(id);
+					if (res) {
+						setResData(res);
+						setValue("translations", res.translations);
+						setValue("slug", res.slug);
+						setSelectedImage(res.icon);
+						setSelectedImageUrl(
+							res.medium.url
+								? import.meta.env.VITE_APP_CLOUDINARY_URL + res.medium.url
+								: null,
+						);
+						setStatus(res.status || false);
+					}
+				} catch (err) {
+					notifyError(err ? err.response?.data?.message : err.message);
+				}
+			})();
+		} else {
+			reset();
+		}
+	}, [id, setValue, clearErrors, data]);
+
 	return (
 		<>
 			<DrawerHeader
 				id={id}
 				register={register}
-				updateTitle={t("UpdateUsp")}
-				updateDescription={t("UpdateUspDescription")}
-				addTitle={t("AddUspTitle")}
-				addDescription={t("AddUspDescription")}
+				updateTitle={t("UpdateParentCategory")}
+				updateDescription={t("UpdateParentCategoryDescription")}
+				addTitle={t("AddParentCategoryTitle")}
+				addDescription={t("AddParentCategoryDescription")}
 			/>
 
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
+						{/* Translations */}
 						<TranslationFields
 							control={control}
 							errors={errors}
 							register={register}
 							translationFields={translationFields}
+						/>
+						<ImageSelectorField
+							label={t("Icon")}
+							selectedImage={selectedImage}
+							setSelectedImage={setSelectedImage}
+							selectedImageUrl={selectedImageUrl}
+							setSelectedImageUrl={setSelectedImageUrl}
 						/>
 						<SwitchToggleField
 							label={t("Status")}
@@ -138,11 +160,15 @@ const UspDrawer = ({ id, data }) => {
 						/>
 					</div>
 
-					<DrawerButton id={id} title="Usp" isSubmitting={isSubmitting} />
+					<DrawerButton
+						id={id}
+						title="ParentCategory"
+						isSubmitting={isSubmitting}
+					/>
 				</form>
 			</Scrollbars>
 		</>
 	);
 };
 
-export default UspDrawer;
+export default ParentCategoryDrawer;

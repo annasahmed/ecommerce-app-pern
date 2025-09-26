@@ -56,36 +56,21 @@ const CategoryDrawer = ({ id, data }) => {
 		formState: { errors },
 	} = useForm({ defaultValues });
 
-	const { showingTranslateValue } = useUtilsFunction();
-	const { handlerTextTranslateHandler } = useTranslationValue();
+	const { showSelectedLanguageTranslation } = useUtilsFunction();
 
 	useEffect(() => {
-		ParentCategoryServices.getAllCategories().then((data) => {
+		ParentCategoryServices.getAllParentCategories().then((data) => {
 			setParentCategories(data?.records);
 		});
 	}, []);
 
 	const onSubmit = async (data) => {
-		const { title, description, parentCategoryId, slug } = data;
-		console.log(
-			{
-				...data,
-				icon: selectedImage,
-				parentCategoryId,
-				slug,
-				status,
-			},
-			"chkking data",
-		);
-
 		try {
 			setIsSubmitting(true);
 
 			const categoryData = {
 				...data,
 				icon: selectedImage,
-				parentCategoryId,
-				slug,
 				status,
 			};
 
@@ -134,8 +119,8 @@ const CategoryDrawer = ({ id, data }) => {
 					const res = await CategoryServices.getCategoryById(id);
 					if (res) {
 						setResData(res);
-						setValue("title", res.title["en"]);
-						setValue("description", res.description && res.description["en"]);
+						// setValue("title", res.title["en"]);
+						setValue("translations", res.translations);
 						setValue("parentCategoryId", res.parent_category_id);
 						setValue("slug", res.slug);
 						setSelectedImage(res.icon);
@@ -144,6 +129,8 @@ const CategoryDrawer = ({ id, data }) => {
 								? import.meta.env.VITE_APP_CLOUDINARY_URL + res.medium.url
 								: null,
 						);
+						console.log(status, res.status, "asdsakdmk");
+
 						setStatus(res.status || false);
 					}
 				} catch (err) {
@@ -185,7 +172,10 @@ const CategoryDrawer = ({ id, data }) => {
 							options={parentCategories?.map((pCat, index) => {
 								return (
 									<option value={pCat.id} key={index}>
-										{showingTranslateValue(pCat?.title)}
+										{showSelectedLanguageTranslation(
+											pCat.translations,
+											"title",
+										)}
 									</option>
 								);
 							})}

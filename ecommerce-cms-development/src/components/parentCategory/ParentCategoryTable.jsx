@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
+import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
 //internal import
 
@@ -8,7 +8,7 @@ import EditDeleteButton from "@/components/table/EditDeleteButton";
 import ShowHideButton from "@/components/table/ShowHideButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
-const UspTable = ({
+const ParentCategoryTable = ({
 	data,
 	toggleDrawerData,
 	isCheck,
@@ -25,6 +25,7 @@ const UspTable = ({
 			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
 		}
 	};
+
 	return (
 		<>
 			{isCheck?.length < 1 && (
@@ -32,46 +33,71 @@ const UspTable = ({
 			)}
 
 			<TableBody>
-				{data?.map((usp) => (
-					<TableRow key={usp.id}>
+				{data?.map((parentCategory) => (
+					<TableRow key={parentCategory.id}>
 						<TableCell>
 							<CheckBox
 								type="checkbox"
-								name="usp"
-								id={parseInt(usp.id)}
+								name="parentCategory"
+								id={parseInt(parentCategory.id)}
 								handleClick={handleClick}
-								isChecked={isCheck?.includes(parseInt(usp.id))}
+								isChecked={isCheck?.includes(parseInt(parentCategory.id))}
 							/>
 						</TableCell>
 
 						<TableCell className="font-semibold uppercase text-xs">
-							{usp?.id}
+							{parentCategory?.id}
 						</TableCell>
-						<TableCell className="text-sm">
-							{showSelectedLanguageTranslation(usp?.translations, "title")}
+						<TableCell>
+							{parentCategory?.icon ? (
+								<Avatar
+									className="hidden mr-3 md:block bg-customGray-50 p-1"
+									src={
+										import.meta.env.VITE_APP_CLOUDINARY_URL +
+										parentCategory?.medium.url
+									}
+									alt={showSelectedLanguageTranslation(
+										parentCategory?.translations,
+										"title",
+									)}
+								/>
+							) : (
+								<Avatar
+									src="https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
+									alt="product"
+									className="hidden p-1 mr-2 md:block bg-customGray-50 shadow-none"
+								/>
+							)}
 						</TableCell>
 						<TableCell className="text-sm">
 							{showSelectedLanguageTranslation(
-								usp?.translations,
+								parentCategory?.translations,
+								"title",
+							)}
+						</TableCell>
+						<TableCell className="text-sm">
+							{showSelectedLanguageTranslation(
+								parentCategory?.translations,
 								"description",
 							)}
 						</TableCell>
 
 						<TableCell className="text-center">
-							<ShowHideButton id={usp.id} usp status={usp.status} />
+							<ShowHideButton
+								id={parentCategory.id}
+								parentCategory
+								status={parentCategory.status}
+							/>
 						</TableCell>
 						<TableCell>
 							<EditDeleteButton
-								id={usp?.id}
-								parent={usp}
+								id={parentCategory?.id}
+								parent={parentCategory}
 								isCheck={isCheck}
-								children={usp?.children}
+								children={parentCategory?.children}
 								handleUpdate={handleUpdate}
 								handleModalOpen={handleModalOpen}
-								title={showSelectedLanguageTranslation(
-									usp?.translations,
-									"title",
-								)}
+								title={showSelectedLanguageTranslation(parentCategory?.title)}
 							/>
 						</TableCell>
 					</TableRow>
@@ -81,4 +107,4 @@ const UspTable = ({
 	);
 };
 
-export default UspTable;
+export default ParentCategoryTable;

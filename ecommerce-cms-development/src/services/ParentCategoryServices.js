@@ -1,43 +1,43 @@
 import requests from "./httpService";
 
 const ParentCategoryServices = {
-	getAllCategory: async () => {
+	getAllParentCategory: async () => {
 		return requests.get("/parent-category");
 	},
 
-	getAllCategories: async () => {
+	getAllParentCategories: async () => {
 		return requests.get("/parent-category");
 	},
 
-	getCategoryById: async (id) => {
+	getParentCategoryById: async (id) => {
 		return requests.get(`/parent-category/${id}`);
 	},
 
-	addCategory: async (body) => {
-		return requests.post("/parent-category/add", body);
+	addParentCategory: async (body) => {
+		return requests.post("/parent-category", body);
 	},
 
-	addAllCategory: async (body) => {
+	addAllParentCategory: async (body) => {
 		return requests.post("/parent-category/add/all", body);
 	},
 
-	updateCategory: async (id, body) => {
-		return requests.put(`/parent-category/${id}`, body);
+	updateParentCategory: async (id, body) => {
+		return requests.patch(`/parent-category/${id}`, body);
 	},
 
 	updateStatus: async (id, body) => {
-		return requests.put(`/parent-category/status/${id}`, body);
+		return requests.patch(`/parent-category/${id}`, body);
 	},
 
-	deleteCategory: async (id, body) => {
+	deleteParentCategory: async (id, body) => {
 		return requests.delete(`/parent-category/${id}`, body);
 	},
 
-	updateManyCategory: async (body) => {
+	updateManyParentCategory: async (body) => {
 		return requests.patch("/parent-category/update/many", body);
 	},
 
-	deleteManyCategory: async (body) => {
+	deleteManyParentCategory: async (body) => {
 		return requests.patch("/parent-category/delete/many", body);
 	},
 };

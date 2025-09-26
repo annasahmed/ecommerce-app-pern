@@ -46,12 +46,14 @@ const TranslationFields = ({
 				component
 			</p>
 		);
+	console.log(translationFields, "cjndsa");
+
 	if (!translationFields || translationFields?.length === 0) return null;
 
 	const fieldNames = useMemo(() => {
 		const obj = {};
 		for (const f of translationFields) {
-			obj[f.name] = "";
+			obj[f.name] = null;
 		}
 		return obj;
 	}, [translationFields]);
@@ -89,44 +91,53 @@ const TranslationFields = ({
 							);
 						})}
 
-						<InputSelectField
-							label={t("Language")}
-							required={true}
-							register={register}
-							inputLabel={t("language")}
-							inputName={`translations.${index}.language_id`}
-							inputPlaceholder={t("selectLanguage")}
-							options={languages
-								.filter(
-									(lang) =>
-										!selectedLangs.some(
-											(selected, idx2) => idx2 !== index && selected == lang.id,
-										),
-								)
-								.map((pCat, idx) => (
-									<option value={pCat.id} key={idx}>
-										{pCat?.name}
-									</option>
-								))}
-							errorName={errors?.translations?.[index]?.language_id}
-							validate={{
-								unique: (value) => {
-									const duplicates = translations.filter(
-										(tr) => tr.language_id === value,
-									);
-									return duplicates.length <= 1 || t("LanguageAlreadySelected");
-								},
-							}}
-						/>
-
-						{translationFieldsArray.length > 1 ? (
-							<Button
-								layout="outline"
-								onClick={() => removeTranslation(index)}
-								className="mt-2">
-								{t("RemoveTranslation")}
-							</Button>
-						) : null}
+						<IfMultilingual>
+							<InputSelectField
+								label={t("Language")}
+								required={true}
+								register={register}
+								inputLabel={t("language")}
+								inputName={`translations.${index}.language_id`}
+								inputPlaceholder={t("selectLanguage")}
+								options={languages
+									.filter(
+										(lang) =>
+											!selectedLangs.some(
+												(selected, idx2) =>
+													idx2 !== index && selected == lang.id,
+											),
+									)
+									.map((pCat, idx) => (
+										<option value={pCat.id} key={idx}>
+											{pCat?.name}
+										</option>
+									))}
+								errorName={errors?.translations?.[index]?.language_id}
+								validate={{
+									unique: (value) => {
+										const duplicates = translations.filter(
+											(tr) => tr.language_id === value,
+										);
+										return (
+											duplicates.length <= 1 || t("LanguageAlreadySelected")
+										);
+									},
+								}}
+								{...register(`translations.${index}.language_id`, {
+									valueAsNumber: true,
+								})}
+							/>
+						</IfMultilingual>
+						<IfMultilingual>
+							{translationFieldsArray.length > 1 ? (
+								<Button
+									layout="outline"
+									onClick={() => removeTranslation(index)}
+									className="mt-2">
+									{t("RemoveTranslation")}
+								</Button>
+							) : null}
+						</IfMultilingual>
 					</div>
 				);
 			})}
@@ -134,15 +145,7 @@ const TranslationFields = ({
 			<IfMultilingual>
 				<Button
 					disabled={translationFieldsArray.length === languages.length}
-					onClick={
-						() => appendTranslation(fieldNames)
-						// appendTranslation({
-						// 	title: null,
-						// 	// excerpt: null,
-						// 	description: null,
-						// 	language_id: null,
-						// })
-					}
+					onClick={() => appendTranslation(fieldNames)}
 					className="">
 					{t("AddTranslation")}
 				</Button>

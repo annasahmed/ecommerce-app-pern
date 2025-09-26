@@ -1086,5 +1086,13 @@
 	"excerpt": "Excerpt",
 	"description": "Description",
 	"selectLanguage": "Select Language",
-	"LanguageAlreadySelected": "Language Already Selected"
+	"LanguageAlreadySelected": "Language Already Selected",
+
+	"AddParentCategory": "Add Parent Category",
+	"SearchParentCategory": "Search Parent Category",
+	"UpdateParentCategory": "Update Parent Category",
+	"UpdateParentCategoryDescription": "Update Parent Category Description",
+	"AddParentCategoryTitle": "Add Parent Category Title",
+	"AddParentCategoryDescription": "Update Parent Category Description",
+	"Icon": "Icon"
 }
