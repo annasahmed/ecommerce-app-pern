@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // internal import
 import "rc-tree/assets/index.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "@/assets/css/index.css";
 import "@/assets/css/custom.css";
 import "@/assets/css/tailwind.css";
 import App from "@/App";

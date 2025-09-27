@@ -8,9 +8,15 @@ const DrawerHeader = ({
 	addDescription,
 	updateTitle,
 	updateDescription,
+	isProductDrawer = false,
 }) => {
 	return (
-		<div className="w-full relative p-6 border-b border-customGray-100 bg-customGray-50 dark:border-customGray-700 dark:bg-customGray-800 dark:text-customGray-300">
+		<div
+			className={`w-full relative p-6 ${
+				isProductDrawer
+					? "my-6 bg-customWhite dark:bg-customGray-800 rounded-lg"
+					: " border-b border-customGray-100 bg-customGray-50 dark:border-customGray-700 dark:bg-customGray-800 dark:text-customGray-300"
+			}`}>
 			{id ? (
 				<Title
 					register={register}

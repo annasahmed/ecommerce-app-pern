@@ -7,6 +7,7 @@ import InputAreaField from "../form/fields/InputAreaField";
 import InputSelectField from "../form/fields/InputSelectField";
 import TextAreaField from "../form/fields/TextAreaField";
 import { IfMultilingual } from "../IfMultilingual";
+import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 
 const TranslationFields = ({
 	control,
@@ -17,6 +18,7 @@ const TranslationFields = ({
 	formName = "translations",
 }) => {
 	const { t } = useTranslation();
+	const { settings } = useGlobalSettings();
 	const [languages, setLanguages] = useState([]);
 
 	useEffect(() => {
@@ -71,8 +73,14 @@ const TranslationFields = ({
 				return (
 					<div
 						key={field.id}
-						className="border p-4 rounded mt-2 space-y-6 mb-6">
+						className={
+							settings.isMultiLingual
+								? "border p-4 rounded mt-2 space-y-6 mb-6"
+								: "space-y-6 grid grid-cols-2 gap-x-16 gap-y-0 items-end"
+						}>
 						{translationFields?.map((input, idx) => {
+							console.log(input.params, "asdkak");
+
 							const Field =
 								input.fieldType === "inputArea"
 									? InputAreaField
@@ -88,6 +96,7 @@ const TranslationFields = ({
 									inputType="text"
 									inputPlaceholder={t(input.name)}
 									errorName={errors?.[formName]?.[index]?.[input.name]}
+									{...(input.params || {})}
 								/>
 							);
 						})}

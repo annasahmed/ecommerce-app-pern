@@ -12,7 +12,7 @@ const DrawerButton = ({ id, title, isSubmitting, zIndex = "z-10" }) => {
 	return (
 		<>
 			<div
-				className={`fixed ${zIndex} bottom-0 w-full right-0 py-4 lg:py-8 px-6 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex bg-customGray-50 border-t border-customGray-100 dark:border-customGray-700 dark:bg-customGray-800 dark:text-customGray-300`}
+				className={`fixed/ ${zIndex} bottom-0 w-full right-0 py-4 lg:py-8 px-6 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex bg-customGray-50 border-t border-customGray-100 dark:border-customGray-700 dark:bg-customGray-800 dark:text-customGray-300`}
 				style={{ right: !isDrawerOpen && -50 }}>
 				<div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
 					<Button

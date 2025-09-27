@@ -11,6 +11,7 @@ export default function InputMultipleSelectField({
 	setValue, // from react-hook-form
 	required = false,
 	defaultSelected = [],
+	isVertical,
 }) {
 	const handleChange = (selectedList) => {
 		const ids = selectedList.map((item) => item.id);
@@ -18,7 +19,12 @@ export default function InputMultipleSelectField({
 	};
 
 	return (
-		<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+		<div
+			className={
+				isVertical
+					? "flex flex-col gap-2"
+					: `grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6`
+			}>
 			<LabelArea label={label} required={required} />
 			<div className="col-span-8 sm:col-span-4">
 				<Multiselect
@@ -29,13 +35,15 @@ export default function InputMultipleSelectField({
 					onRemove={handleChange}
 					placeholder={inputPlaceholder}
 					// showCheckbox
-					// style={{
-					// 	chips: { background: "#3B82F6" }, // Tailwind blue-500
-					// 	multiselectContainer: {
-					// 		border: "1px solid #D1D5DB",
-					// 		borderRadius: "0.5rem",
-					// 	},
-					// }}
+					style={{
+						chips: { background: "#3B82F6" }, // Tailwind blue-500
+						multiselectContainer: {
+							// border: "1px solid #D1D5DB",
+							// borderRadius: "0.5rem",
+						},
+						// padding:"20px"
+						
+					}}
 					avoidHighlightFirstOption
 				/>
 				<Error errorName={errorName} />

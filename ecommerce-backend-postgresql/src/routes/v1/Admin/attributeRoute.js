@@ -37,7 +37,7 @@ router
 		adminAttributeController.softDeleteAttribute
 	);
 router
-	.route('/permanent/:attribute')
+	.route('/permanent/:attributeId')
 	.delete(
 		checkPermission('delete_attribute'),
 		validate(adminAttributeValidation.deleteAttribute),

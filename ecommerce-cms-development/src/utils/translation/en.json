@@ -1104,5 +1104,8 @@
 	"RemoveValue": "Remove Value",
 	"Value": "Value",
 	"value": "Value",
-	"name": "Name"
+	"name": "Name",
+	"BasePrice": "Base Price",
+	"BaseDiscountPercentage": "Base Discount Percentage",
+	"HasVariants": "Has Variants"
 }
