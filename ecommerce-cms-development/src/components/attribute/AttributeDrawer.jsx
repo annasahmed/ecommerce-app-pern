@@ -69,9 +69,15 @@ const AttributeDrawer = ({ id }) => {
 
 			let res;
 			if (id) {
-				res = await AttributeServices.updateAttribute(id, attributeData);
+				res = await AttributeServices.updateAttribute(id, {
+					...attributeData,
+					status,
+				});
 			} else {
-				res = await AttributeServices.addAttribute(attributeData);
+				res = await AttributeServices.addAttribute({
+					...attributeData,
+					status,
+				});
 			}
 
 			setIsUpdate(true);

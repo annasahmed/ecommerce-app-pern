@@ -25,6 +25,9 @@ import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TranslationFields from "../newComponents/TranslationFields";
 import ProductStepper from "./ProductStepper";
 import ProductInfoForm from "./ProductInfoForm";
+import ProductTranslationForm from "./ProductTranslationForm";
+import { useGlobalSettings } from "@/context/GlobalSettingsContext";
+import ProductVariantForm from "./ProductVariantForm";
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -47,6 +50,17 @@ const ProductDrawer = ({ id, data }) => {
 	const [variantImages, setVariantImages] = useState({});
 	const [variantImageUrls, setVariantImageUrls] = useState({});
 	const [hasVariants, setHasVariants] = useState(false);
+	const [currentStep, setCurrentStep] = useState(1);
+	const { settings } = useGlobalSettings();
+	const steps = [
+		{ id: 1, title: "Product Information", show: true },
+		{ id: 2, title: "Translations", show: settings.isMultiLingual },
+		{
+			id: 3,
+			title: hasVariants ? "Variants & Inventory" : "Product Inventory",
+			show: true,
+		},
+	].filter((step) => step.show);
 	const { showingTranslateValue } = useUtilsFunction();
 
 	const defaultValues = {
@@ -324,39 +338,70 @@ const ProductDrawer = ({ id, data }) => {
 			{/* <Scrollbars className=" dark:bg-customGray-700 dark:text-customGray-200"> */}
 			{/* <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200"> */}
 			<main className="w-full p-6  space-y-6 relative bg-customWhite dark:bg-customGray-800 rounded-t-lg rounded-0 mb-4">
-				<ProductStepper />
+				<ProductStepper
+					hasVariants={hasVariants}
+					currentStep={currentStep}
+					steps={steps}
+					setCurrentStep={setCurrentStep}
+				/>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					className="w-full space-y-6 relative">
-					<ProductInfoForm
-						variantFields={variantFields}
-						appendVariant={appendVariant}
-						removeVariant={removeVariant}
-						errors={errors}
-						control={control}
-						register={register}
-						usps={usps}
-						categories={categories}
-						vendors={vendors}
-						branches={branches}
-						setValue={setValue}
-						selectedUsps={selectedUsps}
-						selectedCategories={selectedCategories}
-						selectedVendors={selectedVendors}
-						selectedThumbnail={selectedThumbnail}
-						setSelectedThumbnail={setSelectedThumbnail}
-						selectedThumbnailUrl={selectedThumbnailUrl}
-						setSelectedThumbnailUrl={setSelectedThumbnailUrl}
-						isFeatured={isFeatured}
-						setIsFeatured={setIsFeatured}
-						status={status}
-						setStatus={setStatus}
-						translationFields={translationFields}
-						variantImages={variantImages}
-						variantImageUrls={variantImageUrls}
-						hasVariants={hasVariants}
-						setHasVariants={setHasVariants}
-					/>
+					{currentStep === 3 ? (
+						<ProductVariantForm
+							variantFields={variantFields}
+							appendVariant={appendVariant}
+							removeVariant={removeVariant}
+							errors={errors}
+							control={control}
+							register={register}
+							usps={usps}
+							categories={categories}
+							vendors={vendors}
+							branches={branches}
+							setValue={setValue}
+							variantImages={variantImages}
+							variantImageUrls={variantImageUrls}
+							hasVariants={hasVariants}
+						/>
+					) : currentStep === 2 ? (
+						<ProductTranslationForm
+							control={control}
+							register={register}
+							translationFields={translationFields}
+							errors={errors}
+						/>
+					) : currentStep === 1 ? (
+						<ProductInfoForm
+							control={control}
+							variantFields={variantFields}
+							appendVariant={appendVariant}
+							removeVariant={removeVariant}
+							errors={errors}
+							register={register}
+							usps={usps}
+							categories={categories}
+							vendors={vendors}
+							branches={branches}
+							setValue={setValue}
+							selectedUsps={selectedUsps}
+							selectedCategories={selectedCategories}
+							selectedVendors={selectedVendors}
+							selectedThumbnail={selectedThumbnail}
+							setSelectedThumbnail={setSelectedThumbnail}
+							selectedThumbnailUrl={selectedThumbnailUrl}
+							setSelectedThumbnailUrl={setSelectedThumbnailUrl}
+							isFeatured={isFeatured}
+							setIsFeatured={setIsFeatured}
+							status={status}
+							setStatus={setStatus}
+							translationFields={translationFields}
+							variantImages={variantImages}
+							variantImageUrls={variantImageUrls}
+							hasVariants={hasVariants}
+							setHasVariants={setHasVariants}
+						/>
+					) : null}
 					<DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
 				</form>
 			</main>

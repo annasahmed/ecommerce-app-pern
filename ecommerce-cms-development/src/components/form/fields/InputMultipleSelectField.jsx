@@ -12,10 +12,17 @@ export default function InputMultipleSelectField({
 	required = false,
 	defaultSelected = [],
 	isVertical,
+	onChange = () => {},
+	isHandleChange = true,
 }) {
 	const handleChange = (selectedList) => {
-		const ids = selectedList.map((item) => item.id);
-		setValue(inputName, ids, { shouldValidate: true });
+		if (isHandleChange) {
+			const ids = selectedList.map((item) => item.id);
+			// onChange(selectedList);
+			setValue(inputName, ids, { shouldValidate: true });
+		} else {
+			onChange(selectedList);
+		}
 	};
 
 	return (
@@ -34,6 +41,7 @@ export default function InputMultipleSelectField({
 					onSelect={handleChange}
 					onRemove={handleChange}
 					placeholder={inputPlaceholder}
+					onChange={onChange}
 					// showCheckbox
 					style={{
 						chips: { background: "#3B82F6" }, // Tailwind blue-500
@@ -42,7 +50,6 @@ export default function InputMultipleSelectField({
 							// borderRadius: "0.5rem",
 						},
 						// padding:"20px"
-						
 					}}
 					avoidHighlightFirstOption
 				/>

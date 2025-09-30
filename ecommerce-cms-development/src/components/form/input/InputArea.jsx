@@ -10,6 +10,7 @@ const InputArea = ({
 	type,
 	autoComplete,
 	placeholder,
+	onChange,
 }) => {
 	return (
 		<>
@@ -24,6 +25,7 @@ const InputArea = ({
 				name={name}
 				autoComplete={autoComplete}
 				className="mr-2 h-12 p-2"
+				onChange={onChange}
 			/>
 		</>
 	);

@@ -3,6 +3,7 @@ import LanguageServices from "@/services/LanguageServices";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
+import BranchServices from "@/services/BranchServices";
 
 export const GlobalSettingsContext = createContext({
 	logo: "",
@@ -17,12 +18,13 @@ const settings = {
 	logo: "https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
 	logoDark:
 		"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
-	isMultiLingual: false,
+	isMultiLingual: true,
 	isMultiBranch: false,
 	isInventory: true,
 };
 export const GlobalSettingsProvider = ({ children }) => {
 	const { i18n } = useTranslation();
+	const [branches, setBranches] = useState([]);
 	const cookieLang = Cookies.get("selectedLanguage");
 	const [selectedLanguage, setSelectedLanguage] = useState(
 		cookieLang
@@ -60,7 +62,13 @@ export const GlobalSettingsProvider = ({ children }) => {
 
 			setLanguages(data);
 		};
+		const fetchBranches = async () => {
+			const data = await BranchServices.getAllBranches();
+			// Ensure selected language is valid
 
+			setBranches(data);
+		};
+		fetchBranches();
 		fetchLanguages();
 	}, []);
 
@@ -71,7 +79,9 @@ export const GlobalSettingsProvider = ({ children }) => {
 					...settings,
 					isMultiLingual:
 						languages?.length > 1 ? settings.isMultiLingual : false,
+					isMultiBranch: branches?.length > 1 ? settings.isMultiBranch : false,
 				},
+				branches,
 				languages,
 				selectedLanguage,
 				handleLanguageChange,

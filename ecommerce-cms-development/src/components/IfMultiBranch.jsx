@@ -1,6 +1,6 @@
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 
-export const IfMultilingual = ({ children }) => {
+export const IfMultiBranch = ({ children }) => {
 	const { settings } = useGlobalSettings();
-	return settings.isMultiLingual ? children : null;
+	return settings.isMultiBranch ? children : null;
 };

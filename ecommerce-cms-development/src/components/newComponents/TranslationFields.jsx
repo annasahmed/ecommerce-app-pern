@@ -109,6 +109,7 @@ const TranslationFields = ({
 								inputLabel={t("language")}
 								inputName={`${formName}.${index}.language_id`}
 								inputPlaceholder={t("selectLanguage")}
+								isVertical
 								options={languages
 									.filter(
 										(lang) =>
