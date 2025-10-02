@@ -3,34 +3,55 @@ import { useTranslation } from "react-i18next";
 
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
-import Error from "@/components/form/others/Error";
 import { SidebarContext } from "@/context/SidebarContext";
 import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import DrawerHeader from "../newComponents/DrawerHeader";
 
+import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import BranchServices from "@/services/BranchServices";
 import CategoryServices from "@/services/CategoryServices";
 import LanguageServices from "@/services/LanguageServices";
 import UspServices from "@/services/UspServices";
 import VendorServices from "@/services/VendorServices";
-import { Button } from "@windmill/react-ui";
-import ImageSelectorField from "../form/fields/ImageSelectorField";
-import InputAreaField from "../form/fields/InputAreaField";
-import InputMultipleSelectField from "../form/fields/InputMultipleSelectField";
-import InputSelectField from "../form/fields/InputSelectField";
-import SwitchToggleField from "../form/fields/SwitchToggleField";
-import TranslationFields from "../newComponents/TranslationFields";
-import ProductStepper from "./ProductStepper";
 import ProductInfoForm from "./ProductInfoForm";
+import ProductStepper from "./ProductStepper";
 import ProductTranslationForm from "./ProductTranslationForm";
-import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 import ProductVariantForm from "./ProductVariantForm";
+import { toast } from "react-toastify";
+import { Button } from "@windmill/react-ui";
+
+const translationFields = [
+	{
+		name: "title",
+		required: true,
+		fieldType: "inputArea",
+		params: { isVertical: true },
+	},
+	{
+		name: "slug",
+		required: true,
+		fieldType: "inputArea",
+		params: { isVertical: true },
+	},
+	{
+		name: "excerpt",
+		fieldType: "inputArea",
+		params: { className: "col-span-2", isVertical: true },
+	},
+	{
+		name: "description",
+		fieldType: "textArea",
+		params: { className: "col-span-2", isVertical: true },
+	},
+];
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
+	const { showingTranslateValue } = useUtilsFunction();
+	const { settings, selectedLanguage, isMultiLingual } = useGlobalSettings();
 
 	const [usps, setUsps] = useState([]);
 	const [categories, setCategories] = useState([]);
@@ -49,9 +70,10 @@ const ProductDrawer = ({ id, data }) => {
 	const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
 	const [variantImages, setVariantImages] = useState({});
 	const [variantImageUrls, setVariantImageUrls] = useState({});
+	const [productVariants, setProductVariants] = useState([]);
 	const [hasVariants, setHasVariants] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
-	const { settings } = useGlobalSettings();
+
 	const steps = [
 		{ id: 1, title: "Product Information", show: true },
 		{ id: 2, title: "Translations", show: settings.isMultiLingual },
@@ -61,7 +83,6 @@ const ProductDrawer = ({ id, data }) => {
 			show: true,
 		},
 	].filter((step) => step.show);
-	const { showingTranslateValue } = useUtilsFunction();
 
 	const defaultValues = {
 		sku: null,
@@ -74,7 +95,7 @@ const ProductDrawer = ({ id, data }) => {
 				slug: null,
 				excerpt: null,
 				description: null,
-				language_id: null,
+				language_id: selectedLanguage?.id,
 			},
 		],
 		variants: [
@@ -97,6 +118,10 @@ const ProductDrawer = ({ id, data }) => {
 		],
 	};
 
+	const methods = useForm({
+		defaultValues,
+	});
+
 	const {
 		control,
 		register,
@@ -104,10 +129,9 @@ const ProductDrawer = ({ id, data }) => {
 		setValue,
 		clearErrors,
 		reset,
+		trigger, // 🔥 Added for step validation
 		formState: { errors },
-	} = useForm({
-		defaultValues,
-	});
+	} = methods;
 
 	// const {
 	// 	fields: translationFields,
@@ -128,7 +152,8 @@ const ProductDrawer = ({ id, data }) => {
 	});
 
 	const onSubmit = async (data) => {
-		const { name, address, country } = data;
+		console.log(data, "chkking data");
+
 		try {
 			setIsSubmitting(true);
 			const cleanedData = Object.fromEntries(
@@ -167,6 +192,49 @@ const ProductDrawer = ({ id, data }) => {
 		} catch (err) {
 			setIsSubmitting(false);
 			notifyError(err ? err?.response?.data?.message : err?.message);
+		}
+	};
+
+	// 🔥 CHANGE: Step validation logic
+	const handleNext = async () => {
+		let isStepValid = false;
+
+		if (currentStep === 1) {
+			const reactHookFormValid = await trigger([
+				"sku",
+				"categories",
+				"usps",
+				"vendors",
+				"base_price",
+				"base_discount_percentage",
+				"meta_title",
+				"meta_description",
+				...(isMultiLingual ? ["translations"] : []),
+			]); // validate product info fields
+			if (!reactHookFormValid) {
+				toast.error("Required feilds missing");
+			} else if (!selectedThumbnail) {
+				toast.error("Thumnail is required");
+			}
+			isStepValid = reactHookFormValid && selectedThumbnail;
+		} else if (currentStep === 2) {
+			isStepValid = await trigger(["translations"]);
+		} else if (currentStep === 3) {
+			isStepValid = await trigger(["variants"]);
+		}
+
+		if (isStepValid) {
+			const currentIndex = steps.findIndex((step) => step.id === currentStep);
+			if (currentIndex < steps.length - 1) {
+				setCurrentStep(steps[currentIndex + 1].id); // 👈 move to next step’s id
+			}
+		}
+	};
+
+	const handleBack = () => {
+		const currentIndex = steps.findIndex((step) => step.id === currentStep);
+		if (currentIndex > 0) {
+			setCurrentStep(steps[currentIndex - 1].id); // 👈 move to previous step’s id
 		}
 	};
 
@@ -271,12 +339,6 @@ const ProductDrawer = ({ id, data }) => {
 			setSelectedVendors([]);
 			setSelectedThumbnail(null);
 			setSelectedThumbnailUrl(null);
-			// setVariantImages(null);
-			// setVariantImageUrls(null);
-			// setSelectedThumbnail(null);
-			// setSelectedThumbnailUrl(null);
-			// setVariantImageUrls(null);
-			// setVariantImages(null);
 		}
 	}, [id, setValue, clearErrors, data]);
 
@@ -298,31 +360,6 @@ const ProductDrawer = ({ id, data }) => {
 		});
 	}, []);
 
-	const translationFields = [
-		{
-			name: "title",
-			required: true,
-			fieldType: "inputArea",
-			params: { isVertical: true },
-		},
-		{
-			name: "slug",
-			required: true,
-			fieldType: "inputArea",
-			params: { isVertical: true },
-		},
-		{
-			name: "excerpt",
-			fieldType: "inputArea",
-			params: { className: "col-span-2", isVertical: true },
-		},
-		{
-			name: "description",
-			fieldType: "textArea",
-			params: { className: "col-span-2", isVertical: true },
-		},
-	];
-
 	return (
 		<>
 			<DrawerHeader
@@ -335,8 +372,6 @@ const ProductDrawer = ({ id, data }) => {
 				isProductDrawer
 			/>
 
-			{/* <Scrollbars className=" dark:bg-customGray-700 dark:text-customGray-200"> */}
-			{/* <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200"> */}
 			<main className="w-full p-6  space-y-6 relative bg-customWhite dark:bg-customGray-800 rounded-t-lg rounded-0 mb-4">
 				<ProductStepper
 					hasVariants={hasVariants}
@@ -344,69 +379,101 @@ const ProductDrawer = ({ id, data }) => {
 					steps={steps}
 					setCurrentStep={setCurrentStep}
 				/>
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					className="w-full space-y-6 relative">
-					{currentStep === 3 ? (
-						<ProductVariantForm
-							variantFields={variantFields}
-							appendVariant={appendVariant}
-							removeVariant={removeVariant}
-							errors={errors}
-							control={control}
-							register={register}
-							usps={usps}
-							categories={categories}
-							vendors={vendors}
-							branches={branches}
-							setValue={setValue}
-							variantImages={variantImages}
-							variantImageUrls={variantImageUrls}
-							hasVariants={hasVariants}
-						/>
-					) : currentStep === 2 ? (
-						<ProductTranslationForm
-							control={control}
-							register={register}
-							translationFields={translationFields}
-							errors={errors}
-						/>
-					) : currentStep === 1 ? (
-						<ProductInfoForm
-							control={control}
-							variantFields={variantFields}
-							appendVariant={appendVariant}
-							removeVariant={removeVariant}
-							errors={errors}
-							register={register}
-							usps={usps}
-							categories={categories}
-							vendors={vendors}
-							branches={branches}
-							setValue={setValue}
-							selectedUsps={selectedUsps}
-							selectedCategories={selectedCategories}
-							selectedVendors={selectedVendors}
-							selectedThumbnail={selectedThumbnail}
-							setSelectedThumbnail={setSelectedThumbnail}
-							selectedThumbnailUrl={selectedThumbnailUrl}
-							setSelectedThumbnailUrl={setSelectedThumbnailUrl}
-							isFeatured={isFeatured}
-							setIsFeatured={setIsFeatured}
-							status={status}
-							setStatus={setStatus}
-							translationFields={translationFields}
-							variantImages={variantImages}
-							variantImageUrls={variantImageUrls}
-							hasVariants={hasVariants}
-							setHasVariants={setHasVariants}
-						/>
-					) : null}
-					<DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
-				</form>
-			</main>
+				<FormProvider {...methods}>
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className="w-full space-y-6 relative">
+						{currentStep === 3 ? (
+							<ProductVariantForm
+								variantFields={variantFields}
+								appendVariant={appendVariant}
+								removeVariant={removeVariant}
+								errors={errors}
+								control={control}
+								register={register}
+								usps={usps}
+								categories={categories}
+								vendors={vendors}
+								branches={branches}
+								setValue={setValue}
+								variantImages={variantImages}
+								variantImageUrls={variantImageUrls}
+								hasVariants={true}
+								productVariants={productVariants}
+								setProductVariants={setProductVariants}
+							/>
+						) : currentStep === 2 ? (
+							<ProductTranslationForm
+								control={control}
+								register={register}
+								translationFields={translationFields}
+								errors={errors}
+							/>
+						) : currentStep === 1 ? (
+							<ProductInfoForm
+								control={control}
+								variantFields={variantFields}
+								appendVariant={appendVariant}
+								removeVariant={removeVariant}
+								errors={errors}
+								register={register}
+								usps={usps}
+								categories={categories}
+								vendors={vendors}
+								branches={branches}
+								setValue={setValue}
+								selectedUsps={selectedUsps}
+								selectedCategories={selectedCategories}
+								selectedVendors={selectedVendors}
+								selectedThumbnail={selectedThumbnail}
+								setSelectedThumbnail={setSelectedThumbnail}
+								selectedThumbnailUrl={selectedThumbnailUrl}
+								setSelectedThumbnailUrl={setSelectedThumbnailUrl}
+								isFeatured={isFeatured}
+								setIsFeatured={setIsFeatured}
+								status={status}
+								setStatus={setStatus}
+								translationFields={translationFields}
+								variantImages={variantImages}
+								variantImageUrls={variantImageUrls}
+								hasVariants={hasVariants}
+								setHasVariants={setHasVariants}
+							/>
+						) : null}
 
-			{/* </Scrollbars> */}
+						<div className="flex justify-end pt-4">
+							{currentStep > 1 && (
+								<Button
+									type="button"
+									layout="outline"
+									className="max-w-fit"
+									// className="px-4 py-2 bg-gray-200 rounded"
+									onClick={handleBack}>
+									Back
+								</Button>
+							)}
+							{currentStep < steps.length ? (
+								<Button
+									type="button"
+									// className="ml-auto px-4 py-2 bg-blue-500 text-white rounded"
+									onClick={handleNext}>
+									Next
+								</Button>
+							) : null}
+						</div>
+						{currentStep === steps.length && (
+							<div>
+								<DrawerButton
+									id={id}
+									title="Product"
+									isSubmitting={isSubmitting}
+								/>
+							</div>
+						)}
+						{/* <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} /> */}
+					</form>
+				</FormProvider>
+			</main>
 		</>
 	);
 };

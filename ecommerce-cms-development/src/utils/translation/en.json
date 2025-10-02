@@ -1107,5 +1107,7 @@
 	"name": "Name",
 	"BasePrice": "Base Price",
 	"BaseDiscountPercentage": "Base Discount Percentage",
-	"HasVariants": "Has Variants"
+	"HasVariants": "Has Variants",
+	"VariantImage": "Variant Image",
+	"SelectAttributes": "Select Attributes"
 }

@@ -18,7 +18,7 @@ const settings = {
 	logo: "https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
 	logoDark:
 		"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
-	isMultiLingual: true,
+	isMultiLingual: false,
 	isMultiBranch: false,
 	isInventory: true,
 };
@@ -80,6 +80,7 @@ export const GlobalSettingsProvider = ({ children }) => {
 					isMultiLingual:
 						languages?.length > 1 ? settings.isMultiLingual : false,
 					isMultiBranch: branches?.length > 1 ? settings.isMultiBranch : false,
+					defaultBranchId: branches?.length > 0 ? branches[0].id : null,
 				},
 				branches,
 				languages,

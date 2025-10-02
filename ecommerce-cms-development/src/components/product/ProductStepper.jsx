@@ -1,6 +1,3 @@
-import { useGlobalSettings } from "@/context/GlobalSettingsContext";
-import React from "react";
-
 export default function ProductStepper({
 	currentStep = 1,
 	steps,

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Table,
 	TableHeader,
@@ -6,146 +6,161 @@ import {
 	TableBody,
 	TableRow,
 } from "@windmill/react-ui";
-import { useForm, useFieldArray } from "react-hook-form";
+import ImageSelectorField from "../form/fields/ImageSelectorField";
 
 export default function VariantTable({
-	selectedVariants,
 	defaultValues,
 	onDelete,
 	onUpdate,
+	generatedVariants,
 }) {
-	const variants = useMemo(
-		() => generateVariants(selectedVariants),
-		[selectedVariants],
-	);
+	const [variants, setVariants] = useState([]);
 
-	const { control, register, reset, watch } = useForm({
-		defaultValues: { variants: [] },
-	});
-
-	const { fields, remove, replace } = useFieldArray({
-		control,
-		name: "variants",
-	});
-
-	const values = watch("variants");
-
-	// 🔑 Sync field array with generated variants
+	// Sync with generatedVariants
 	useEffect(() => {
-		if (variants.length !== fields.length) {
-			replace(
-				variants.map((variant) => ({
-					...variant,
-					costPrice: defaultValues.costPrice,
-					salePrice: defaultValues.salePrice,
-					stock: defaultValues.stock,
-					lowStock: defaultValues.lowStock,
-					reorderQty: defaultValues.reorderQty,
-					discount: defaultValues.discount,
-					image: defaultValues.image,
-				})),
-			);
-		}
-	}, [variants.length, replace, defaultValues, fields.length]);
-	const prevEnriched = useRef(null);
-	// Send enriched data back to parent, but only if changed
-	useEffect(() => {
-		const enriched = variants.map((variant, idx) => ({
-			...variant,
-			...values?.[idx],
-		}));
+		setVariants(
+			generatedVariants.map((variant) => ({
+				...variant,
+				costPrice: defaultValues.costPrice,
+				salePrice: defaultValues.salePrice,
+				stock: defaultValues.stock,
+				lowStock: defaultValues.lowStock,
+				reorderQty: defaultValues.reorderQty,
+				discount: defaultValues.discount,
+				imageId: defaultValues.imageId,
+				imageUrl: defaultValues.imageUrl,
+			})),
+		);
+	}, [generatedVariants, defaultValues]);
 
-		// simple deep check (JSON stringify works fine for this case)
-		if (JSON.stringify(prevEnriched.current) !== JSON.stringify(enriched)) {
-			prevEnriched.current = enriched;
-			onUpdate(enriched);
+	// Send updates to parent whenever variants change
+	useEffect(() => {
+		if (onUpdate) {
+			onUpdate(variants);
 		}
-	}, [values, variants, onUpdate]);
+	}, [variants, onUpdate]);
+
+	const handleChange = (idx, field, value) => {
+		setVariants((prev) =>
+			prev.map((variant, i) =>
+				i === idx ? { ...variant, [field]: value } : variant,
+			),
+		);
+	};
+
+	const handleDelete = (idx) => {
+		setVariants((prev) => prev.filter((_, i) => i !== idx));
+		if (onDelete) onDelete(idx);
+	};
 
 	return (
-		<Table>
+		<Table className="w-full overflow-x-auto">
 			<TableHeader>
 				<tr>
-					<TableCell>Variant Name</TableCell>
-					<TableCell>Cost Price</TableCell>
-					<TableCell>Sale Price</TableCell>
-					<TableCell>Stock</TableCell>
-					<TableCell>Low Stock</TableCell>
-					<TableCell>Reorder Qty</TableCell>
-					<TableCell>Discount %</TableCell>
-					<TableCell>Image</TableCell>
-					<TableCell>Delete</TableCell>
+					<TableCell className="w-12 text-xs px-2">Variant Name</TableCell>
+					<TableCell className="w-12 text-xs px-2">SKU</TableCell>
+					<TableCell className="w-12 text-xs px-2">Cost Price</TableCell>
+					<TableCell className="w-12 text-xs px-2">Sale Price</TableCell>
+					<TableCell className="w-12 text-xs px-2">Stock</TableCell>
+					<TableCell className="w-12 text-xs px-2">Low Stock</TableCell>
+					<TableCell className="w-12 text-xs px-2">Reorder Qty</TableCell>
+					<TableCell className="w-12 text-xs px-2">Discount %</TableCell>
+					<TableCell className="w-12 text-xs px-2">Image</TableCell>
+					<TableCell className="w-12 text-xs px-2">Delete</TableCell>
 				</tr>
 			</TableHeader>
 			<TableBody>
-				{fields.map((field, idx) => (
-					<TableRow key={field.id}>
-						<TableCell>{variants[idx]?.name}</TableCell>
+				{variants.map((variant, idx) => (
+					<TableRow key={idx} className="text-xs">
+						<TableCell>{variant?.name}</TableCell>
 
 						<TableCell>
 							<input
+								type="text"
+								value={variant.sku || ""}
+								onChange={(e) => handleChange(idx, "sku", e.target.value)}
+								className="border p-1 rounded w-24 text-xs"
+							/>
+						</TableCell>
+						<TableCell>
+							<input
 								type="number"
-								{...register(`variants.${idx}.costPrice`)}
-								className="border p-1 rounded w-20"
+								value={variant.costPrice || ""}
+								onChange={(e) => handleChange(idx, "costPrice", e.target.value)}
+								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
 						<TableCell>
 							<input
 								type="number"
-								{...register(`variants.${idx}.salePrice`)}
-								className="border p-1 rounded w-20"
+								value={variant.salePrice || ""}
+								onChange={(e) => handleChange(idx, "salePrice", e.target.value)}
+								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
 						<TableCell>
 							<input
 								type="number"
-								{...register(`variants.${idx}.stock`)}
-								className="border p-1 rounded w-20"
+								value={variant.stock || ""}
+								onChange={(e) => handleChange(idx, "stock", e.target.value)}
+								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
 						<TableCell>
 							<input
 								type="number"
-								{...register(`variants.${idx}.lowStock`)}
-								className="border p-1 rounded w-20"
+								value={variant.lowStock || ""}
+								onChange={(e) => handleChange(idx, "lowStock", e.target.value)}
+								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
 						<TableCell>
 							<input
 								type="number"
-								{...register(`variants.${idx}.reorderQty`)}
-								className="border p-1 rounded w-20"
+								value={variant.reorderQty || ""}
+								onChange={(e) =>
+									handleChange(idx, "reorderQty", e.target.value)
+								}
+								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
 						<TableCell>
 							<input
 								type="number"
-								{...register(`variants.${idx}.discount`)}
-								className="border p-1 rounded w-20"
+								value={variant.discount || ""}
+								onChange={(e) => handleChange(idx, "discount", e.target.value)}
+								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
 						<TableCell>
-							<input
-								type="file"
-								{...register(`variants.${idx}.image`)}
-								className="border p-1 rounded"
+							<ImageSelectorField
+								label={"image"}
+								selectedImage={variant.imageId}
+								setSelectedImage={(imageId) => {
+									handleChange(idx, "imageId", imageId);
+								}}
+								selectedImageUrl={variant.imageUrl}
+								setSelectedImageUrl={(imageUrl) => {
+									handleChange(idx, "imageUrl", imageUrl);
+								}}
+								isVertical
+								// className="col-span-2"
+								isSmall
+								className="border p-1 w-40 rounded"
 							/>
 						</TableCell>
 
 						<TableCell>
 							<button
 								type="button"
-								className="text-red-500"
-								onClick={() => {
-									remove(idx);
-									// onDelete(idx);
-								}}>
+								className="text-red-500 w-12"
+								onClick={() => handleDelete(idx)}>
 								Delete
 							</button>
 						</TableCell>
@@ -154,18 +169,4 @@ export default function VariantTable({
 			</TableBody>
 		</Table>
 	);
-}
-
-// Helper to generate variant combos
-function generateVariants(selectedVariants) {
-	if (!selectedVariants || selectedVariants.length === 0) return [];
-	const attributes = selectedVariants.map((attr) =>
-		attr.values.map((v) => ({ name: attr.name, value: v.en })),
-	);
-	const cartesian = (arr) =>
-		arr.reduce((a, b) => a.flatMap((d) => b.map((e) => [...d, e])), [[]]);
-	return cartesian(attributes).map((combo) => ({
-		name: combo.map((c) => `${c.name}: ${c.value}`).join(", "),
-		combo,
-	}));
 }

@@ -15,6 +15,7 @@ const ImageSelector = ({
 	isMultipleSelect,
 	selectedImageUrl,
 	setSelectedImageUrl,
+	isSmall,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -26,12 +27,16 @@ const ImageSelector = ({
 				onClick={() => {
 					setIsOpen(true);
 				}}
-				className="w-full h-52 flex items-center justify-center border-2 border-customGray-300 dark:border-customGray-600 border-dashed rounded-md cursor-pointer px-6 pt-5 pb-6">
+				className={`w-full  flex items-center justify-center border-2 border-customGray-300 dark:border-customGray-600 border-dashed rounded-md cursor-pointer ${
+					isSmall ? "min-h-20 py-1 px-1" : "h-52 px-6 pt-5 pb-6"
+				} `}>
 				{selectedImageUrl ? (
 					<img
 						src={selectedImageUrl}
 						alt={"selectedImage"}
-						className="w-full h-full max-h-52 px-6 pt-5 pb-6 object-contain"
+						className={`w-full h-full ${
+							isSmall ? "h-20 py-1 px-1" : "max-h-52 px-6 pt-5 pb-6"
+						} object-contain`}
 					/>
 				) : (
 					<button

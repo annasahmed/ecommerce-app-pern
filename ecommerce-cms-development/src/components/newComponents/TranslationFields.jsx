@@ -18,14 +18,8 @@ const TranslationFields = ({
 	formName = "translations",
 }) => {
 	const { t } = useTranslation();
-	const { settings } = useGlobalSettings();
-	const [languages, setLanguages] = useState([]);
-
-	useEffect(() => {
-		LanguageServices.getAllLanguages().then((data) => {
-			setLanguages(data);
-		});
-	}, []);
+	const { settings, languages, isMultiLingual, selectedLanguage } =
+		useGlobalSettings();
 
 	const {
 		fields: translationFieldsArray,
@@ -57,6 +51,10 @@ const TranslationFields = ({
 		const obj = {};
 		for (const f of translationFields) {
 			obj[f.name] = null;
+			// if (isMultiLingual && f.name === "language_id") {
+			// 	obj[f.name] = selectedLanguage.id;
+			// } else {
+			// }
 		}
 		return obj;
 	}, [translationFields]);
@@ -79,8 +77,6 @@ const TranslationFields = ({
 								: "space-y-6 grid grid-cols-2 gap-x-16 gap-y-0 items-end"
 						}>
 						{translationFields?.map((input, idx) => {
-							console.log(input.params, "asdkak");
-
 							const Field =
 								input.fieldType === "inputArea"
 									? InputAreaField
