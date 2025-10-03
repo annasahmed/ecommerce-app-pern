@@ -26,10 +26,11 @@ const ProductVariantForm = ({
 	hasVariants,
 	productVariants,
 	setProductVariants,
+	setVariantsToSend,
 }) => {
 	const { t } = useTranslation();
 	const { showingTranslateValue } = useUtilsFunction();
-	const { defaultBranchId } = useGlobalSettings();
+	const { settings } = useGlobalSettings();
 
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [selectedImageUrl, setSelectedImageUrl] = useState(null);
@@ -69,6 +70,17 @@ const ProductVariantForm = ({
 		setFinalVariants(variants);
 	};
 
+	console.log(
+		{
+			selectedAttriutes,
+			generatedVariants,
+			finalVariants,
+		},
+		"chkkinginifn",
+	);
+
+	console.log(settings.defaultBranchId, "defaultBranchIddefaultBranchId");
+
 	useEffect(() => {
 		const tempArr = finalVariants?.map((v) => {
 			return {
@@ -76,7 +88,7 @@ const ProductVariantForm = ({
 				image: v.imageId,
 				branch_data: [
 					{
-						branch_id: defaultBranchId,
+						branch_id: settings.defaultBranchId,
 						cost_price: v.costPrice ? parseFloat(v.costPrice) : null,
 						stock: v.stock ? parseInt(v.stock) : null,
 						low_stock: v.lowStock ? parseInt(v.lowStock) : null,
@@ -85,9 +97,17 @@ const ProductVariantForm = ({
 						discount_percentage: v.discount ? parseFloat(v.discount) : null,
 					},
 				],
-        attribute_data:[]
+				attribute_data: v.combo?.map((c) => {
+					return {
+						attribute_id: c.id,
+						value: c.value,
+					};
+				}),
 			};
 		});
+		console.log(tempArr, "chkking tempArr");
+
+		setVariantsToSend(tempArr);
 	}, [finalVariants]);
 
 	return (
@@ -294,27 +314,33 @@ const ProductVariantForm = ({
 export default ProductVariantForm;
 
 // Helper to generate variant combos with short meaningful SKUs
-function generateVariants(selectedVariants, baseSKU = "SKU") {
+function generateVariants(
+	selectedVariants,
+	baseSKU = "SKU",
+	selectedLanguage = "en",
+) {
 	if (!selectedVariants || selectedVariants.length === 0) return [];
 
 	const attributes = selectedVariants.map((attr) =>
-		attr.values.map((v) => ({ name: attr.name, value: v.en })),
+		attr.values.map((v) => ({
+			id: attr.id,
+			name: attr.name,
+			value: v,
+		})),
 	);
+	console.log(attributes, "chkkkingi");
 
 	// Cartesian product helper
 	const cartesian = (arr) =>
 		arr.reduce((a, b) => a.flatMap((d) => b.map((e) => [...d, e])), [[]]);
 
 	return cartesian(attributes).map((combo, idx) => {
-		// Build a short code from the first 3 letters of each value
-		const shortCode = combo
-			.map((c) => c.value.replace(/\s+/g, "").substring(0, 1).toUpperCase())
-			.join("-");
-
 		return {
-			name: combo.map((c) => `${c.name}: ${c.value}`).join(", "),
+			name: combo
+				.map((c) => `${c.name}: ${c.value[selectedLanguage]}`)
+				.join(", "),
 			combo,
-			sku: `${baseSKU}-${shortCode}-${idx + 1}`,
+			sku: `${baseSKU}-${idx + 1}`,
 		};
 	});
 }

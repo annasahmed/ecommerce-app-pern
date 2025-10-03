@@ -66,11 +66,19 @@ export const GlobalSettingsProvider = ({ children }) => {
 			const data = await BranchServices.getAllBranches();
 			// Ensure selected language is valid
 
-			setBranches(data);
+			setBranches(data.records);
 		};
 		fetchBranches();
 		fetchLanguages();
 	}, []);
+
+	console.log(
+		{
+			branches,
+			branhcId: branches?.length > 0 ? branches[0].id : null,
+		},
+		"adnsakdmsa",
+	);
 
 	return (
 		<GlobalSettingsContext.Provider

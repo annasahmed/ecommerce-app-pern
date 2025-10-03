@@ -1,6 +1,7 @@
 import { Table, TableCell, TableHeader } from "@windmill/react-ui";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 //internal import
 
@@ -23,6 +24,7 @@ const Product = () => {
 		loading,
 		error,
 	} = useAsync(ProductServices.getAllProducts);
+	const history = useHistory();
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
@@ -47,6 +49,13 @@ const Product = () => {
 				buttonText={t("AddProduct")}
 				inputPlaceholder={t("SearchProduct")}
 				onClick={toggleDrawer}
+				// onClick={() => {
+				// 	if (serviceId) {
+				// 		history.push(`/product/update/${serviceId}`);
+				// 	} else {
+				// 		history.push("/product/add");
+				// 	}
+				// }}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}

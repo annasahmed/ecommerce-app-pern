@@ -19,7 +19,6 @@ export const transformForBackend = (formData) => {
 	return {
 		name,
 		values,
-		status,
 	};
 };
 

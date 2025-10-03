@@ -74,6 +74,8 @@ const ProductDrawer = ({ id, data }) => {
 	const [hasVariants, setHasVariants] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
 
+	const [variantsToSend, setVariantsToSend] = useState([]);
+
 	const steps = [
 		{ id: 1, title: "Product Information", show: true },
 		{ id: 2, title: "Translations", show: settings.isMultiLingual },
@@ -151,6 +153,8 @@ const ProductDrawer = ({ id, data }) => {
 		name: "variants",
 	});
 
+	console.log(variantsToSend, "chkking variantsToSend");
+
 	const onSubmit = async (data) => {
 		console.log(data, "chkking data");
 
@@ -162,6 +166,7 @@ const ProductDrawer = ({ id, data }) => {
 
 			const productData = {
 				...cleanedData,
+				variants: variantsToSend,
 				is_featured: isFeatured,
 				status,
 				thumbnail: selectedThumbnail,
@@ -220,7 +225,7 @@ const ProductDrawer = ({ id, data }) => {
 		} else if (currentStep === 2) {
 			isStepValid = await trigger(["translations"]);
 		} else if (currentStep === 3) {
-			isStepValid = await trigger(["variants"]);
+			isStepValid = await trigger(["base", "variants"]);
 		}
 
 		if (isStepValid) {
@@ -294,6 +299,8 @@ const ProductDrawer = ({ id, data }) => {
 						// ✅ Reset form values
 						reset({
 							sku: res.sku || null,
+							base_price: res.base_price || null,
+							base_discount_percentage: res.base_discount_percentage || null,
 							meta_title: res.meta_title || null,
 							meta_description: res.meta_description || null,
 							// Translations
@@ -369,7 +376,7 @@ const ProductDrawer = ({ id, data }) => {
 				updateDescription={t("UpdateProductDescription")}
 				addTitle={t("AddProductTitle")}
 				addDescription={t("AddProductDescription")}
-				isProductDrawer
+				
 			/>
 
 			<main className="w-full p-6  space-y-6 relative bg-customWhite dark:bg-customGray-800 rounded-t-lg rounded-0 mb-4">
@@ -401,6 +408,7 @@ const ProductDrawer = ({ id, data }) => {
 								hasVariants={true}
 								productVariants={productVariants}
 								setProductVariants={setProductVariants}
+								setVariantsToSend={setVariantsToSend}
 							/>
 						) : currentStep === 2 ? (
 							<ProductTranslationForm
@@ -441,7 +449,7 @@ const ProductDrawer = ({ id, data }) => {
 							/>
 						) : null}
 
-						<div className="flex justify-end pt-4">
+						<div className="flex justify-end pt-4 ">
 							{currentStep > 1 && (
 								<Button
 									type="button"
@@ -461,7 +469,7 @@ const ProductDrawer = ({ id, data }) => {
 								</Button>
 							) : null}
 						</div>
-						{currentStep === steps.length && (
+						{currentStep >= steps.length && (
 							<div>
 								<DrawerButton
 									id={id}
