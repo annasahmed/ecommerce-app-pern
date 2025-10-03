@@ -45,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'product_variant_id',
 			otherKey: 'branch_id',
 		});
+		product_variant.belongsToMany(models.attribute, {
+			through: 'product_variant_to_attribute',
+			foreignKey: 'product_variant_id',
+			otherKey: 'attribute_id',
+		});
 		mediaAssociation(product_variant, models, 'image');
 	};
 

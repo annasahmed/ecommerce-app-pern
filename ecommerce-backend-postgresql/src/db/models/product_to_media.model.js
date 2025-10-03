@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 			 * References: https://sequelize.org/master/manual/model-basics.html#table-name-inference
 			 */
 			tableName: 'product_to_media',
-			timestamps: true,
+			timestamps: false,
 		}
 	);
 	product_to_media.associate = (models) => {

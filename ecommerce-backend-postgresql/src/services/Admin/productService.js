@@ -23,6 +23,13 @@ const productService = createBaseService(db.product, {
 			include: [
 				{ model: db.media, required: false },
 				{
+					model: db.attribute,
+					required: false,
+					through: {
+						as: 'pva',
+					},
+				},
+				{
 					model: db.branch,
 					required: false,
 					through: {
