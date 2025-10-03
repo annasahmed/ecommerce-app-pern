@@ -20,11 +20,6 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			values: {
-				type: DataTypes.ARRAY(DataTypes.JSONB), // [{"en":"Red","ur":"سرخ"},{"en":"Blue","ur":"نیلا"}]
-				allowNull: false,
-				defaultValue: [],
-			},
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -49,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'user_id',
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
+		});
+		attribute.hasMany(models.attribute_value, {
+			foreignKey: 'attribute_id',
+			// as: 'values', // alias
+			onDelete: 'RESTRICT',
 		});
 		attribute.belongsToMany(models.product_variant, {
 			through: 'product_variant_to_attribute',

@@ -54,8 +54,8 @@ const AttributeTable = ({
 						</TableCell>
 						<TableCell className="text-sm">
 							[
-							{attribute?.values
-								?.map((v) => displayTranslatedValue(v))
+							{attribute?.attribute_values
+								?.map((v) => displayTranslatedValue(v.values))
 								.join(", ")}
 							]
 						</TableCell>

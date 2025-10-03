@@ -69,6 +69,15 @@ const ProductVariantForm = ({
 		setFinalVariants(variants);
 	};
 
+	console.log(
+		{
+			selectedVariants,
+			generatedVariants,
+			finalVariants,
+		},
+		"chkking variants",
+	);
+
 	useEffect(() => {
 		const tempArr = finalVariants?.map((v) => {
 			return {
@@ -85,7 +94,7 @@ const ProductVariantForm = ({
 						discount_percentage: v.discount ? parseFloat(v.discount) : null,
 					},
 				],
-        attribute_data:[]
+				attribute_data: [],
 			};
 		});
 	}, [finalVariants]);
@@ -204,7 +213,7 @@ const ProductVariantForm = ({
 							inputPlaceholder={t("SelectAttributes")}
 							options={attributes?.map((pCat) => ({
 								id: pCat.id,
-								values: pCat.values,
+								values: pCat.attribute_values,
 								name: showingTranslateValue(pCat.name),
 							}))}
 							onChange={(selectedList) => {
@@ -217,14 +226,16 @@ const ProductVariantForm = ({
 
 					<div className="grid grid-cols-2 gap-x-16 gap-y-6 items-end mt-8">
 						{selectedAttriutes?.map((v, i) => {
+							console.log(v, "chkkingvvv");
+
 							return (
 								<InputMultipleSelectField
 									key={v.id}
 									label={`Select available ${v.name}:`}
 									inputPlaceholder={`Select available ${v.name}`}
 									options={v.values?.map((pCat) => ({
-										id: pCat,
-										name: showingTranslateValue(pCat),
+										id: pCat.id,
+										name: showingTranslateValue(pCat.values),
 									}))}
 									onChange={(selectedList) => {
 										setSelectedVariants((prev) => {
@@ -295,6 +306,8 @@ export default ProductVariantForm;
 
 // Helper to generate variant combos with short meaningful SKUs
 function generateVariants(selectedVariants, baseSKU = "SKU") {
+	console.log(selectedVariants, "chkking selectedVariants111");
+
 	if (!selectedVariants || selectedVariants.length === 0) return [];
 
 	const attributes = selectedVariants.map((attr) =>

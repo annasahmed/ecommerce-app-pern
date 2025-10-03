@@ -220,7 +220,7 @@ const ProductDrawer = ({ id, data }) => {
 		} else if (currentStep === 2) {
 			isStepValid = await trigger(["translations"]);
 		} else if (currentStep === 3) {
-			isStepValid = await trigger(["variants"]);
+			isStepValid = await trigger(["base","variants"]);
 		}
 
 		if (isStepValid) {

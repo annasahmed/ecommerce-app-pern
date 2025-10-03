@@ -19,7 +19,6 @@ export const transformForBackend = (formData) => {
 	return {
 		name,
 		values,
-		status,
 	};
 };
 
@@ -30,8 +29,9 @@ export const transformForForm = (res) => {
 		language_id: langId,
 	}));
 
-	const values = (res.values || []).map((val) => ({
-		translations: Object.entries(val).map(([langId, value]) => ({
+	const values = (res.attribute_values || []).map((val) => ({
+		id: val.id, // keep id for update fn
+		translations: Object.entries(val.values || {}).map(([langId, value]) => ({
 			value,
 			language_id: langId,
 		})),

@@ -27,12 +27,18 @@ module.exports = {
 					model: 'attribute',
 					key: 'id',
 				},
-				onDelete: 'CASCADE',
+				onDelete: 'RESTRICT',
 				onUpdate: 'CASCADE',
 			},
-			value: {
-				type: Sequelize.JSONB, // attributes values like {"en":"Red","ur":"سرخ"} {"en":"S","ur":"چھوٹا"}
+			attribute_value_id: {
+				type: Sequelize.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'attribute_value',
+					key: 'id',
+				},
+				onDelete: 'RESTRICT',
+				onUpdate: 'CASCADE',
 			},
 			created_at: {
 				type: Sequelize.DATE,

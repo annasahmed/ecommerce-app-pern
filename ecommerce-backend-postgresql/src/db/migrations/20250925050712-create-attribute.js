@@ -14,11 +14,6 @@ module.exports = {
 				type: Sequelize.JSONB,
 				allowNull: false,
 			},
-			values: {
-				type: Sequelize.ARRAY(Sequelize.JSONB),
-				allowNull: false,
-				defaultValue: [],
-			},
 			user_id: {
 				type: Sequelize.INTEGER,
 				allowNull: true,

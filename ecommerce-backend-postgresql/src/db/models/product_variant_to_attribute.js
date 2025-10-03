@@ -25,12 +25,18 @@ module.exports = (sequelize, DataTypes) => {
 					model: 'attribute',
 					key: 'id',
 				},
-				onDelete: 'CASCADE',
+				onDelete: 'RESTRICT',
 				onUpdate: 'CASCADE',
 			},
-			value: {
-				type: DataTypes.JSONB, // attributes values like {"en":"Red","ur":"سرخ"} {"en":"S","ur":"چھوٹا"}
+			attribute_value_id: {
+				type: DataTypes.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'attribute_value',
+					key: 'id',
+				},
+				onDelete: 'RESTRICT',
+				onUpdate: 'CASCADE',
 			},
 		},
 		{
@@ -46,7 +52,12 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		product_variant_to_attribute.belongsTo(models.attribute, {
 			foreignKey: 'attribute_id',
-			onDelete: 'CASCADE',
+			onDelete: 'RESTRICT',
+			onUpdate: 'CASCADE',
+		});
+		product_variant_to_attribute.belongsTo(models.attribute_value, {
+			foreignKey: 'attribute_value_id',
+			onDelete: 'RESTRICT',
 			onUpdate: 'CASCADE',
 		});
 	};
