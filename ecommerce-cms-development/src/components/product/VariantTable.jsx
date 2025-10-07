@@ -15,20 +15,21 @@ export default function VariantTable({
 	generatedVariants,
 }) {
 	const [variants, setVariants] = useState([]);
+	console.log(generatedVariants, "chkkninsin");
 
 	// Sync with generatedVariants
 	useEffect(() => {
 		setVariants(
 			generatedVariants.map((variant) => ({
 				...variant,
-				costPrice: defaultValues.costPrice,
-				salePrice: defaultValues.salePrice,
-				stock: defaultValues.stock,
-				lowStock: defaultValues.lowStock,
-				reorderQty: defaultValues.reorderQty,
-				discount: defaultValues.discount,
-				imageId: defaultValues.imageId,
-				imageUrl: defaultValues.imageUrl,
+				costPrice: variant.costPrice || defaultValues.costPrice,
+				salePrice: variant.salePrice || defaultValues.salePrice,
+				stock: variant.stock || defaultValues.stock,
+				lowStock: variant.lowStock || defaultValues.lowStock,
+				reorderQty: variant.reorderQty || defaultValues.reorderQty,
+				discount: variant.discount || defaultValues.discount,
+				imageId: variant.imageId || defaultValues.imageId,
+				imageUrl: variant.imageUrl || defaultValues.imageUrl,
 			})),
 		);
 	}, [generatedVariants, defaultValues]);

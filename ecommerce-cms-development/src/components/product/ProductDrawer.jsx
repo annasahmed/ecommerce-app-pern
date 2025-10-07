@@ -23,6 +23,31 @@ import ProductVariantForm from "./ProductVariantForm";
 import { toast } from "react-toastify";
 import { Button } from "@windmill/react-ui";
 
+const transformFromApi = (variants, settings) => {
+	return variants.map((v) => {
+		// Extract branch data (assuming one branch for now)
+		const branch = v.branches?.[0]?.pvb || {};
+
+		return {
+			id: v.id,
+			sku: v.sku,
+			imageId: v.image || null,
+			imageUrl: v.medium?.url || null, // useful for preview
+			costPrice: branch.cost_price ?? "",
+			stock: branch.stock ?? "",
+			lowStock: branch.low_stock ?? "",
+			reorderQty: branch.reorder_quantity ?? "",
+			salePrice: branch.sale_price ?? "",
+			discount: branch.discount_percentage ?? "",
+			combo: v.attributes?.map((attr) => ({
+				id: attr.id,
+				name: attr.name.en,
+				value: attr.pva?.value?.en || "",
+			})),
+		};
+	});
+};
+
 const translationFields = [
 	{
 		name: "title",
@@ -50,7 +75,6 @@ const translationFields = [
 
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
-	const { showingTranslateValue } = useUtilsFunction();
 	const { settings, selectedLanguage, isMultiLingual } = useGlobalSettings();
 
 	const [usps, setUsps] = useState([]);
@@ -73,6 +97,19 @@ const ProductDrawer = ({ id, data }) => {
 	const [productVariants, setProductVariants] = useState([]);
 	const [hasVariants, setHasVariants] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
+	const [defaultValues, setDefaultValues] = useState({
+		costPrice: null,
+		salePrice: null,
+		stock: null,
+		lowStock: null,
+		reorderQty: null,
+		discount: null,
+		imageId: null,
+		imageUrl: null,
+	});
+	const [finalVariants, setFinalVariants] = useState([]);
+	const { showingTranslateValue, showSelectedLanguageTranslation } =
+		useUtilsFunction();
 
 	const [variantsToSend, setVariantsToSend] = useState([]);
 
@@ -86,7 +123,7 @@ const ProductDrawer = ({ id, data }) => {
 		},
 	].filter((step) => step.show);
 
-	const defaultValues = {
+	const formDefaultValues = {
 		sku: null,
 		meta_title: null,
 		meta_description: null,
@@ -121,7 +158,7 @@ const ProductDrawer = ({ id, data }) => {
 	};
 
 	const methods = useForm({
-		defaultValues,
+		formDefaultValues,
 	});
 
 	const {
@@ -263,16 +300,27 @@ const ProductDrawer = ({ id, data }) => {
 						);
 						setStatus(res.status ?? false);
 						setIsFeatured(res.is_featured ?? false);
+
+						// name: showSelectedLanguageTranslation(
+						// pCat?.translations,
+						// "title",
+						// ),
 						setSelectedCategories(
 							res.categories?.map((cat) => ({
 								id: cat.id,
-								name: showingTranslateValue(cat.title),
+								name: showSelectedLanguageTranslation(
+									cat.translations,
+									"title",
+								),
 							})),
 						);
 						setSelectedUsps(
 							res.usps?.map((cat) => ({
 								id: cat.id,
-								name: showingTranslateValue(cat.title),
+								name: showSelectedLanguageTranslation(
+									cat.translations,
+									"title",
+								),
 							})),
 						);
 						setSelectedVendors(
@@ -281,19 +329,21 @@ const ProductDrawer = ({ id, data }) => {
 								name: showingTranslateValue(cat.name),
 							})),
 						);
+						// setVariantsToSend(res.product_variants);
 
 						// ✅ Variant images (for ImageSelectorField)
 						if (res.product_variants?.length) {
-							const imgObj = {};
-							const imgUrlObj = {};
-							res.product_variants.forEach((variant, idx) => {
-								imgObj[idx] = variant.image || null;
-								imgUrlObj[idx] =
-									import.meta.env.VITE_APP_CLOUDINARY_URL +
-										variant.medium?.url || null;
-							});
-							setVariantImages(imgObj);
-							setVariantImageUrls(imgUrlObj);
+							setProductVariants(res.product_variants);
+							// const imgObj = {};
+							// const imgUrlObj = {};
+							// res.product_variants.forEach((variant, idx) => {
+							// 	imgObj[idx] = variant.image || null;
+							// 	imgUrlObj[idx] =
+							// 		import.meta.env.VITE_APP_CLOUDINARY_URL +
+							// 			variant.medium?.url || null;
+							// });
+							// setVariantImages(imgObj);
+							// setVariantImageUrls(imgUrlObj);
 						}
 
 						// ✅ Reset form values
@@ -313,26 +363,26 @@ const ProductDrawer = ({ id, data }) => {
 									language_id: t.language_id || null,
 								})) || [],
 
-							// Variants
-							variants:
-								res.product_variants?.map((v) => ({
-									sku: v.sku || null,
-									attributes: {
-										size: v.attributes?.size || null,
-										color: v.attributes?.color || null,
-									},
-									image: v.image || null, // actual image ID
-									branch_data:
-										v.branches?.map((b) => ({
-											branch_id: b.id || null,
-											cost_price: b.pvb?.cost_price || null,
-											sale_price: b.pvb?.sale_price || null,
-											stock: b.pvb?.stock || null,
-											low_stock: b.pvb?.low_stock || null,
-											reorder_quantity: b.pvb?.reorder_quantity || null,
-											discount_percentage: b.pvb?.discount_percentage || null,
-										})) || [],
-								})) || [],
+							// // Variants
+							// variants:
+							// 	res.product_variants?.map((v) => ({
+							// 		sku: v.sku || null,
+							// 		attributes: {
+							// 			size: v.attributes?.size || null,
+							// 			color: v.attributes?.color || null,
+							// 		},
+							// 		image: v.image || null, // actual image ID
+							// 		branch_data:
+							// 			v.branches?.map((b) => ({
+							// 				branch_id: b.id || null,
+							// 				cost_price: b.pvb?.cost_price || null,
+							// 				sale_price: b.pvb?.sale_price || null,
+							// 				stock: b.pvb?.stock || null,
+							// 				low_stock: b.pvb?.low_stock || null,
+							// 				reorder_quantity: b.pvb?.reorder_quantity || null,
+							// 				discount_percentage: b.pvb?.discount_percentage || null,
+							// 			})) || [],
+							// 	})) || [],
 						});
 					}
 				} catch (err) {
@@ -340,7 +390,7 @@ const ProductDrawer = ({ id, data }) => {
 				}
 			})();
 		} else {
-			reset({ ...defaultValues }); // New product mode
+			reset({ ...formDefaultValues }); // New product mode
 			setSelectedCategories([]);
 			setSelectedUsps([]);
 			setSelectedVendors([]);
@@ -376,7 +426,6 @@ const ProductDrawer = ({ id, data }) => {
 				updateDescription={t("UpdateProductDescription")}
 				addTitle={t("AddProductTitle")}
 				addDescription={t("AddProductDescription")}
-				
 			/>
 
 			<main className="w-full p-6  space-y-6 relative bg-customWhite dark:bg-customGray-800 rounded-t-lg rounded-0 mb-4">
@@ -409,6 +458,10 @@ const ProductDrawer = ({ id, data }) => {
 								productVariants={productVariants}
 								setProductVariants={setProductVariants}
 								setVariantsToSend={setVariantsToSend}
+								defaultValues={defaultValues}
+								setDefaultValues={setDefaultValues}
+								finalVariants={finalVariants}
+								setFinalVariants={setFinalVariants}
 							/>
 						) : currentStep === 2 ? (
 							<ProductTranslationForm

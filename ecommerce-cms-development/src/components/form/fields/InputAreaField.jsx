@@ -15,6 +15,7 @@ const InputAreaField = ({
 	isVertical,
 	className = "",
 	onChange = () => {},
+	defaultValue,
 }) => {
 	return (
 		<div
@@ -33,6 +34,7 @@ const InputAreaField = ({
 					type={inputType}
 					placeholder={inputPlaceholder}
 					onChange={onChange}
+					defaultValue={defaultValue}
 				/>
 				<Error errorName={errorName} />
 			</div>

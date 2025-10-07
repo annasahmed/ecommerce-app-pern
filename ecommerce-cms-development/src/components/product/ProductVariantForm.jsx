@@ -11,6 +11,119 @@ import { IfMultiBranch } from "../IfMultiBranch";
 import VariantTable from "./VariantTable";
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 
+function transformProductForEdit(product, settings) {
+	// if (!product) return {};
+	let defaultValues = {};
+	const variantDetails = product?.map((v, i) => {
+		const branchData = v.branches?.[0].pvb;
+		if (i === 0) {
+			defaultValues = {
+				costPrice: branchData.cost_price,
+				salePrice: branchData.sale_price,
+				stock: branchData.stock,
+				lowStock: branchData.low_stock,
+				reorderQty: branchData.reorder_quantity,
+				discount: branchData.discount_percentage,
+				imageId: v.image,
+				imageUrl: import.meta.env.VITE_APP_CLOUDINARY_URL + v.medium?.url,
+			};
+		}
+
+		console.log(branchData, "chkkingvvv");
+		return {
+			sku: v.sku,
+			imageId: v.image,
+			imageUrl: import.meta.env.VITE_APP_CLOUDINARY_URL + v.medium?.url,
+			costPrice: branchData.cost_price,
+			stock: branchData.stock,
+			lowStock: branchData.low_stock,
+			reorderQty: branchData.reorder_quantity,
+			salePrice: branchData.sale_price,
+			discount: branchData.discount_percentage,
+			combo: v.attributes?.map((c) => {
+				return {
+					id: c.id,
+					value: c.pva?.value,
+				};
+			}),
+			name: v.attributes
+				?.map((c) => {
+					return `${c.name["en"]}:${c.pva.value["en"]}`;
+				})
+				.join(", "),
+		};
+	});
+	return { variantDetails, defaultValues };
+	// generatedVariants
+	console.log(product?.product_variants, "product.brancheschkking product");
+	const pvArr = product.product_variants || [];
+	// 🧩 Transform variants from API → finalVariants
+	const finalVariants = pvArr.map((v) => {
+		const branch = v.branches?.[0]?.pvb || {};
+		console.log(v, branch, "chkking product");
+
+		return {
+			id: v.id,
+			sku: v.sku,
+			imageId: v.image || null,
+			imageUrl: v.medium?.url || null,
+			costPrice: branch.cost_price ?? "",
+			salePrice: branch.sale_price ?? "",
+			stock: branch.stock ?? "",
+			lowStock: branch.low_stock ?? "",
+			reorderQty: branch.reorder_quantity ?? "",
+			discount: branch.discount_percentage ?? "",
+			combo: v.attributes?.map((attr) => ({
+				id: attr.id,
+				name: attr.name.en,
+				value: attr.pva?.value?.en || "",
+			})),
+		};
+	});
+
+	// 🧩 Prepare base values for the "Inventory Information" section
+	const baseBranch = product?.product_variants?.[0]?.branches?.[0]?.pvb || {};
+	console.log(pvArr, "chkkbaseBranch");
+
+	// const defaultValues = {
+	// 	costPrice: baseBranch.cost_price ?? "",
+	// 	salePrice: baseBranch.sale_price ?? "",
+	// 	stock: baseBranch.stock ?? "",
+	// 	lowStock: baseBranch.low_stock ?? "",
+	// 	reorderQty: baseBranch.reorder_quantity ?? "",
+	// 	discount: baseBranch.discount_percentage ?? "",
+	// 	imageId: product.image || null,
+	// 	imageUrl: product.medium?.url || null,
+	// };
+
+	// 🧩 Extract attribute list to preselect in multi-selects
+	// const selectedAttributes = pvArr?.map((product) => {
+	// 	return product.attributes?.map((attr) => ({
+	// 		id: attr.id,
+	// 		name: attr.name.en,
+	// 		values: attr.values || [],
+	// 	}));
+	// });
+
+	// 🧩 Extract selectedVariants (attribute id + values)
+	// const selectedVariants = pvArr?.map((product) => {
+	// 	product.attributes?.map((attr) => ({
+	// 		id: attr.id,
+	// 		name: attr.name.en,
+	// 		values: attr.values || [],
+	// 	}));
+	// });
+
+	return {
+		finalVariants,
+		defaultValues,
+		selectedAttributes,
+		selectedVariants,
+		selectedImage: product.image || null,
+		selectedImageUrl: product.medium?.url || null,
+	};
+}
+
 const ProductVariantForm = ({
 	variantFields,
 	appendVariant,
@@ -27,6 +140,10 @@ const ProductVariantForm = ({
 	productVariants,
 	setProductVariants,
 	setVariantsToSend,
+	defaultValues,
+	setDefaultValues,
+	finalVariants,
+	setFinalVariants,
 }) => {
 	const { t } = useTranslation();
 	const { showingTranslateValue } = useUtilsFunction();
@@ -38,17 +155,7 @@ const ProductVariantForm = ({
 	const [attributes, setAttribtes] = useState([]);
 	const [selectedAttriutes, setSelectedAttriutes] = useState();
 	const [selectedVariants, setSelectedVariants] = useState([]);
-	const [defaultValues, setDefaultValues] = useState({
-		costPrice: null,
-		salePrice: null,
-		stock: null,
-		lowStock: null,
-		reorderQty: null,
-		discount: null,
-		imageId: null,
-		imageUrl: null,
-	});
-	const [finalVariants, setFinalVariants] = useState([]);
+
 	const [generatedVariants, setGeneratedVariants] = useState([]);
 
 	useEffect(() => {
@@ -70,16 +177,7 @@ const ProductVariantForm = ({
 		setFinalVariants(variants);
 	};
 
-	console.log(
-		{
-			selectedAttriutes,
-			generatedVariants,
-			finalVariants,
-		},
-		"chkkinginifn",
-	);
-
-	console.log(settings.defaultBranchId, "defaultBranchIddefaultBranchId");
+	console.log(generatedVariants, defaultValues, "chkkins");
 
 	useEffect(() => {
 		const tempArr = finalVariants?.map((v) => {
@@ -105,10 +203,19 @@ const ProductVariantForm = ({
 				}),
 			};
 		});
-		console.log(tempArr, "chkking tempArr");
-
 		setVariantsToSend(tempArr);
 	}, [finalVariants]);
+
+	useEffect(() => {
+		const { variantDetails, defaultValues } =
+			transformProductForEdit(productVariants);
+		setGeneratedVariants(variantDetails);
+		setDefaultValues({
+			...defaultValues,
+		});
+		setSelectedImage(defaultValues.imageId);
+		setSelectedImageUrl(defaultValues.imageUrl);
+	}, []);
 
 	return (
 		<section className="flex flex-col gap-8">
@@ -125,6 +232,7 @@ const ProductVariantForm = ({
 						inputLabel="cost_price"
 						inputName="base.cost_price"
 						inputType="number"
+						defaultValue={defaultValues?.costPrice}
 						onChange={(e) =>
 							setDefaultValues((prev) => ({
 								...prev,
@@ -140,6 +248,7 @@ const ProductVariantForm = ({
 						inputLabel="sale_price"
 						inputName="base.sale_price"
 						inputType="number"
+						defaultValue={defaultValues?.salePrice}
 						onChange={(e) =>
 							setDefaultValues((prev) => ({
 								...prev,
@@ -155,6 +264,7 @@ const ProductVariantForm = ({
 						inputLabel="stock"
 						inputName="base.stock"
 						inputType="number"
+						defaultValue={defaultValues?.stock}
 						onChange={(e) =>
 							setDefaultValues((prev) => ({ ...prev, stock: e.target.value }))
 						}
@@ -166,6 +276,7 @@ const ProductVariantForm = ({
 						inputLabel="low_stock"
 						inputName="base.low_stock"
 						inputType="number"
+						defaultValue={defaultValues?.lowStock}
 						onChange={(e) =>
 							setDefaultValues((prev) => ({
 								...prev,
@@ -180,6 +291,7 @@ const ProductVariantForm = ({
 						inputLabel="reorder_quantity"
 						inputName="base.reorder_quantity"
 						inputType="number"
+						defaultValue={defaultValues?.reorderQty}
 						onChange={(e) =>
 							setDefaultValues((prev) => ({
 								...prev,
@@ -194,6 +306,7 @@ const ProductVariantForm = ({
 						inputLabel="discount"
 						inputName="base.discount"
 						inputType="number"
+						defaultValue={defaultValues?.discount}
 						onChange={(e) =>
 							setDefaultValues((prev) => ({
 								...prev,
