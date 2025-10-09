@@ -15,7 +15,7 @@ const sizeChartService = createBaseService(db.size_chart, {
 		const toUpdate = {};
 		if (data.name) toUpdate.name = data.name;
 		if (data.description) toUpdate.description = data.description;
-		if (data.chartData) toUpdate.chart_data = data.description;
+		if (data.chartData) toUpdate.chart_data = data.chartData;
 		if (data.status !== undefined) toUpdate.status = data.status;
 
 		return toUpdate;
@@ -25,6 +25,8 @@ const sizeChartService = createBaseService(db.size_chart, {
 // Using userId logic from request
 async function createSizeChart(req) {
 	const userId = commonUtils.getUserId(req);
+	console.log(req.body, 'chkking reqbody');
+
 	return sizeChartService.create(req.body, userId);
 }
 

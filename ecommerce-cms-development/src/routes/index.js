@@ -13,6 +13,7 @@ const ParentCategory = lazy(() =>
 	import("@/pages/parentCategory/parentCategory"),
 );
 const Usp = lazy(() => import("@/pages/usp/Usp"));
+const SizeChart = lazy(() => import("@/pages/sizeChart/SizeChart"));
 const Branch = lazy(() => import("@/pages/branch/Branch"));
 const Vendor = lazy(() => import("@/pages/vendor/Vendor"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
@@ -85,8 +86,12 @@ const routes = [
 		component: ChildCategory,
 	},
 	{
-		path: "/usps",
+		path: "/usp",
 		component: Usp,
+	},
+	{
+		path: "/size-chart",
+		component: SizeChart,
 	},
 	{
 		path: "/media",

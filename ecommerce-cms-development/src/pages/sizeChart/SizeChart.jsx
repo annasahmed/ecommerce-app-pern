@@ -8,21 +8,21 @@ import CheckBox from "@/components/form/others/CheckBox";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
 import TableWrapperWithPagination from "@/components/newComponents/TableWrapperWithPagination";
 import PageTitle from "@/components/Typography/PageTitle";
-import UspTable from "@/components/usp/UspTable";
+import SizeChartTable from "@/components/sizeChart/SizeChartTable";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import UspServices from "@/services/UspServices";
+import SizeChartServices from "@/services/SizeChartServices";
 import MainDrawer from "@/components/drawer/MainDrawer";
-import UspDrawer from "@/components/usp/UspDrawer";
+import SizeChartDrawer from "@/components/sizeChart/SizeChartDrawer";
 
-const Usp = () => {
+const SizeChart = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
 	const {
-		data: uspsData,
+		data: sizeChartsData,
 		loading,
 		error,
-	} = useAsync(UspServices.getAllUsps);
+	} = useAsync(SizeChartServices.getAllSizeCharts);
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
@@ -42,16 +42,16 @@ const Usp = () => {
 
 	return (
 		<>
-			<PageTitle>{t("Usp")}</PageTitle>
+			<PageTitle>{t("SizeChart")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddUsp")}
-				inputPlaceholder={t("SearchUsp")}
+				buttonText={t("AddSizeChart")}
+				inputPlaceholder={t("SearchSizeChart")}
 				onClick={toggleDrawer}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={uspsData}>
+				data={sizeChartsData}>
 				<Table>
 					<TableHeader>
 						<tr>
@@ -66,13 +66,12 @@ const Usp = () => {
 							</TableCell>
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
-							<TableCell>{t("ValuesTbl")}</TableCell>
-							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
-							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
+							<TableCell>{t("DescriptionTbl")}</TableCell>
+							<TableCell className="text-center">{t("ActionsTbl")}</TableCell>
 						</tr>
 					</TableHeader>
-					<UspTable
-						data={uspsData.records}
+					<SizeChartTable
+						data={sizeChartsData.records}
 						isCheck={isCheck}
 						setIsCheck={setIsCheck}
 						toggleDrawerData={toggleDrawerData}
@@ -81,9 +80,9 @@ const Usp = () => {
 			</TableWrapperWithPagination>
 
 			<MainDrawer>
-				<UspDrawer
+				<SizeChartDrawer
 					id={serviceId}
-					data={uspsData.records}
+					data={sizeChartsData.records}
 					lang={lang}
 				/>
 			</MainDrawer>
@@ -91,4 +90,4 @@ const Usp = () => {
 	);
 };
 
-export default Usp;
+export default SizeChart;

@@ -1109,5 +1109,17 @@
 	"BaseDiscountPercentage": "Base Discount Percentage",
 	"HasVariants": "Has Variants",
 	"VariantImage": "Variant Image",
-	"SelectAttributes": "Select Attributes"
+	"SelectAttributes": "Select Attributes",
+	"NamePlaceholder": "Enter Name",
+	"DescriptionPlaceholder": "Enter Description",
+	"SizeChartData": "Size Chart Data",
+	"SizeChart": "Size Chart",
+	"AddSizeChart": "Add Size Chart",
+	"UpdateSizeChart": "Update Size Chart",
+	"UpdateSizeChartDescription": "Update Size Chart Description",
+	"AddSizeChartTitle": "Add Size Chart Title",
+	"AddSizeChartDescription": "Add Size Chart Description",
+	"SearchSizeChart": "Search Size Chart",
+	"AddColumn": "Add Column",
+	"AddRow": "Add Row"
 }

@@ -1,11 +1,10 @@
 import { headers } from "next/headers";
-import { storeSettingsFurnitureTheme } from "../data/storeSettingsFurnitureTheme";
-import { storeSettingsSportsTheme } from "../data/storeSettingsSportsTheme";
+import { storeSettingsKidsTheme } from "../data/storeSettingsKidsTheme";
 
 // return storeSettingsSportsTheme;
 export async function getTheme() {
 	await new Promise((resolve) => setTimeout(resolve, 5000)); // wait 5 sec
-	return storeSettingsFurnitureTheme;
+	return storeSettingsKidsTheme;
 	return;
 	const domain = headers().get("host");
 	const res = await fetch(

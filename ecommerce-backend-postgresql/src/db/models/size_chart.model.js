@@ -32,17 +32,16 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			chartData: {
+			chart_data: {
 				type: DataTypes.JSONB,
 				allowNull: false,
 				defaultValue: {},
 			},
 			// {
 			//   "columns": [
-			//     { "en": "Size", "ur": "سائز", "ar": "الحجم" },
-			//     { "en": "Chest (in)", "ur": "چھاتی (انچ)", "ar": "صدر" },
-			//     { "en": "Waist (in)", "ur": "کمر (انچ)", "ar": "خصر" },
-			//     { "en": "Length (in)", "ur": "لمبائی (انچ)", "ar": "الطول" }
+			// 	   "Size",
+			// 	   "Chest (in)",
+			//     "Length (in)",
 			//   ],
 			//   "rows": [
 			//     ["S", "36", "30", "25"],

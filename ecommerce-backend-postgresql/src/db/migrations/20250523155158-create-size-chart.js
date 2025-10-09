@@ -18,7 +18,7 @@ module.exports = {
 				type: Sequelize.JSONB,
 				allowNull: false,
 			},
-			chartData: {
+			chart_data: {
 				type: Sequelize.JSONB,
 				allowNull: false,
 				defaultValue: {},

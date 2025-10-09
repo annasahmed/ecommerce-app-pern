@@ -42,8 +42,12 @@ const sidebar = [
 				name: "Categories",
 			},
 			{
-				path: "/usps",
+				path: "/usp",
 				name: "Usps",
+			},
+			{
+				path: "/size-chart",
+				name: "SizeChart",
 			},
 			{
 				path: "/attributes",

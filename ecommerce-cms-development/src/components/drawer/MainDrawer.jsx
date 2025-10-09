@@ -14,7 +14,10 @@ const MainDrawer = ({ children, product }) => {
 	const location = useLocation();
 
 	useEffect(() => {
-		if (location.pathname === "/products") {
+		if (
+			location.pathname === "/products" ||
+			location.pathname === "/size-chart"
+		) {
 			setIsProduct(true);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

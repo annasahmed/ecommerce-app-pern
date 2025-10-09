@@ -5,6 +5,7 @@
 	--foreground: #171717;
 
 	--color-header: #000000;
+	--color-headerText: #000000;
 	--color-footer: #000000;
 	--color-cardsBg: #000000;
 	--color-light: #fefefe;
@@ -13,6 +14,7 @@
 
 @theme {
 	--color-header: #000000;
+	--color-headerText: #000000;
 	--color-footer: #000000;
 	--color-cardsBg: #000000;
 	--color-light: #fefefe;

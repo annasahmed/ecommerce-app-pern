@@ -25,11 +25,11 @@ export function loadThemeComponents(theme) {
 			`Theme "${theme}" not found, falling back to FurnitureTheme`,
 			err,
 		);
-
+		// default theme
 		components = {
-			HeroSection: dynamic(() => import("./FurnitureTheme/HeroSection")),
-			Footer: dynamic(() => import("./FurnitureTheme/Footer")),
-			Navbar: dynamic(() => import("./FurnitureTheme/Navbar")),
+			HeroSection: dynamic(() => import("./KidsTheme/HeroSection")),
+			Footer: dynamic(() => import("./KidsTheme/Footer")),
+			Navbar: dynamic(() => import("./KidsTheme/Navbar")),
 		};
 	}
 

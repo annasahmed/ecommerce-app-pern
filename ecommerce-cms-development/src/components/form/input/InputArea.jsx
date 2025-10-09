@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "@windmill/react-ui";
 
 const InputArea = ({
-	register,
+	register = () => {},
 	defaultValue,
 	required,
 	name,

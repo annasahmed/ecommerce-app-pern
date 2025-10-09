@@ -8,7 +8,6 @@ const Layout = ({ children }) => {
 	return (
 		<>
 			<Navbar />
-			{/* <main className="w-full min-h-[50vh]"></main> */}
 			{children}
 			<Footer />
 		</>

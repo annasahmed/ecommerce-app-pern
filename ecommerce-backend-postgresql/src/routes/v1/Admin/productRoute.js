@@ -28,7 +28,7 @@ router
 	)
 	.patch(
 		checkPermission('update_product'),
-		validate(adminProductValidation.updateProduct),
+		// validate(adminProductValidation.updateProduct),
 		adminProductController.updateProduct
 	)
 	.delete(

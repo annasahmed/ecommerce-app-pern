@@ -10,11 +10,46 @@ const productService = createBaseService(db.product, {
 	includes: [
 		{ model: db.media, required: false, as: 'thumbnailImage' },
 		{ model: db.media, required: false, as: 'images' },
-		{ model: db.category, required: false },
+		{
+			model: db.category,
+			required: false,
+			include: [
+				{
+					model: db.category_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'category_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
 		{ model: db.product_translation, required: false },
 		{
 			model: db.usp,
 			required: false,
+			include: [
+				{
+					model: db.usp_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'usp_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
 		},
 		{ model: db.vendor, required: false },
 		{

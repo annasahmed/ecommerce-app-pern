@@ -86,7 +86,9 @@ export default async function RootLayout({ children }) {
 			<body
 				className={`${fontClass} antialiased`}
 				style={{
+					// need to define theme colors here and in app/globals.css in @theme <-- for new colors
 					["--color-header"]: colors.header,
+					["--color-headerText"]: colors.headerText,
 					["--color-footer"]: colors.footer,
 					["--color-cardsBg"]: colors.cardsBg,
 					["--color-secondary"]: colors.secondary,

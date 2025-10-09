@@ -1,17 +1,7 @@
 const Joi = require('@hapi/joi');
 
 const chartDataSchema = Joi.object({
-	columns: Joi.array()
-		.items(
-			Joi.object()
-				.pattern(
-					Joi.string().min(2).max(5), // language code (e.g., en, ur, ar, fr)
-					Joi.string().min(1) // translated label
-				)
-				.required()
-		)
-		.min(1)
-		.required(),
+	columns: Joi.array().items(Joi.string().required()).min(1).required(),
 
 	rows: Joi.array()
 		.items(
