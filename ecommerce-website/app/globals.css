@@ -10,15 +10,20 @@
 	--color-cardsBg: #000000;
 	--color-light: #fefefe;
 	--color-dark: #000000;
+
+	--color-border-color: #DBE2E5;
 }
 
 @theme {
+	--color-primary: #000000;
 	--color-header: #000000;
 	--color-headerText: #000000;
 	--color-footer: #000000;
 	--color-cardsBg: #000000;
 	--color-light: #fefefe;
 	--color-dark: #000000;
+	--color-border-color: #DBE2E5;
+	
 }
 
 @theme inline {
@@ -38,3 +43,7 @@
 .hide-scrollbar::-webkit-scrollbar {
 	display: none;
 }
+
+/* *:not([class*="border-"]) {
+	border-color: #5daae9;
+} */

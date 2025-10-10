@@ -89,6 +89,7 @@ export default async function RootLayout({ children }) {
 					// need to define theme colors here and in app/globals.css in @theme <-- for new colors
 					["--color-header"]: colors.header,
 					["--color-headerText"]: colors.headerText,
+					["--color-primary"]: colors.primary,
 					["--color-footer"]: colors.footer,
 					["--color-cardsBg"]: colors.cardsBg,
 					["--color-secondary"]: colors.secondary,

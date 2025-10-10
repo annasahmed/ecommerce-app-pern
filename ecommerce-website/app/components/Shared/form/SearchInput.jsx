@@ -1,56 +1,43 @@
 import React from "react";
-import Label from "./Label";
-import { Search } from "lucide-react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const SearchInput = ({
-	name,
-	label,
-	type,
-	Icon,
-	register = () => {},
-	readOnly,
+	name = "search",
+	placeholder = "Search...",
+	register,
+	onChange,
+	onKeyDown,
 	defaultValue,
-	autocomplete,
-	placeholder,
-	required = true,
-	pattern, // Added pattern as a prop
-	patternMessage = "Invalid input", // Optional: Custom error message for pattern validation
+	readOnly = false,
+	className = "",
 }) => {
 	return (
-		<>
-			<Label label={label} />
-			<div className="relative">
-				{/* {Icon && (
-				)} */}
-				<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-					<span className="text-gray-800 focus-within:text-gray-900 sm:text-base">
-						<Search />
-					</span>
-				</div>
-				<input
-					{...register(`${name}`, {
-						required: required ? `${label} is required!` : false,
-						pattern: pattern
-							? {
-									value: pattern,
-									message: patternMessage, // Show a custom error message for pattern mismatch
-							  }
-							: undefined,
-					})}
-					type={type}
-					name={name}
-					readOnly={readOnly}
-					defaultValue={defaultValue}
-					placeholder={placeholder}
-					autoComplete={autocomplete}
-					className={`${
-						Icon ? "py-2 pl-10" : "py-2 px-4 md:px-5"
-					} w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:border-emerald-500 h-11 md:h-12 ${
-						readOnly ? "bg-gray-100 cursor-not-allowed text-gray-500" : ""
-					}`}
-				/>
+		<div className={`relative w-full/ ${className}`}>
+			{/* Search Icon */}
+			<div className="absolute inset-y-0 right-3 pl-3 flex items-center pointer-events-none">
+				<MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
 			</div>
-		</>
+
+			{/* Input Field */}
+			<input
+				{...(register ? register(name) : {})}
+				type="text"
+				name={name}
+				defaultValue={defaultValue}
+				readOnly={readOnly}
+				onChange={onChange}
+				onKeyDown={onKeyDown}
+				placeholder={placeholder}
+				className={`py-2 pl-3 pr-10 w-full border text-sm text-gray-800 rounded-md placeholder-gray-400 min-h-12 transition duration-200 
+          		focus:ring-0 focus:outline-none focus:border-emerald-500
+				${
+					readOnly
+						? "bg-gray-100 cursor-not-allowed text-gray-500"
+						: "bg-white border-gray-200"
+				}
+        		`}
+			/>
+		</div>
 	);
 };
 

@@ -1,6 +1,13 @@
 "use client";
 import { useStore } from "@/app/providers/StoreProvider";
-import { Search, ShoppingCart, UserRound } from "lucide-react";
+import {
+	Heart,
+	Search,
+	ShoppingCart,
+	ShoppingCartIcon,
+	User,
+	UserRound,
+} from "lucide-react";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import Logo from "@/app/components/Shared/Logo";
 import SearchInput from "../../Shared/form/SearchInput";
@@ -16,28 +23,35 @@ const Navbar = () => {
 					{store.content.header.text}
 				</BaseLink>
 			</header>
-			<section>
-				<SearchInput />
-			</section>
-			<nav className=" py-5 shadow-sm sticky top-0 bg-light z-100">
-				<section className="flex justify-between items-center container-layout">
-					<Logo
-						src={store.content.logo}
-						className={`w-24 h-auto object-contain`}
-					/>
-					<ul className="flex-1 flex items-center justify-center gap-10">
-						{store.content.nav.map((item, index) => (
-							<li key={index} className="p4 font-medium">
-								{item.text}
-							</li>
-						))}
-					</ul>
-					<div className="flex items-center gap-5">
-						<Search />
-						<ShoppingCart />
-						<UserRound />
+			<div className="border border-border-color py-6">
+				<section className="flex container-layout items-center justify-between gap-20">
+					<SearchInput className="flex-1" />
+					<div className="flex-1">
+						<Logo
+							src={store.content.logo}
+							className={`w-28 h-auto object-contain mx-auto`}
+						/>
+					</div>
+					<div className="flex-1 flex items-center justify-end gap-5">
+						<Heart />
+						<ShoppingCartIcon />
+						<User />
 					</div>
 				</section>
+			</div>
+
+			<nav className=" py-5 shadow-sm sticky top-0 bg-light z-100">
+				<ul className="flex-1 flex items-center justify-center gap-10 container-layout">
+					{store.content.navCategories.map((item, index) => (
+						<li key={index} className="p4 font-medium">
+							<BaseLink
+								href={`/${item.slug}`}
+								className={`uppercase hover:bg-primary hover:text-light px-4 py-1 rounded-full`}>
+								{item.title}
+							</BaseLink>
+						</li>
+					))}
+				</ul>
 			</nav>
 		</>
 	);
