@@ -6,7 +6,7 @@ const TrendingCategoriesSection = () => {
 	const store = useStore();
 
 	return (
-		<section className="container-layout section-layout grid grid-cols-3 gap-6">
+		<section className="container-layout grid grid-cols-3 gap-6">
 			{store.content.trendingCategories?.map((cat, index) => {
 				return <CategoryCards category={cat} key={`trending-cat-${index}`} />;
 			})}

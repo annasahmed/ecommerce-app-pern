@@ -6,7 +6,7 @@ import BaseSlider from "../../BaseComponents/BaseSlider";
 const CategoriesSection = () => {
 	const store = useStore();
 	return (
-		<section className="container-layout section-layout">
+		<section className="container-layout">
 			<BaseSlider
 				slides={store.content.categories}
 				slidesPerView={7}

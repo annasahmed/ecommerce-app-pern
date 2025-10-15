@@ -6,7 +6,7 @@ import ProductCard from "./ProductCard";
 const PopularCatTabs = () => {
 	const store = useStore();
 	return (
-		<section className="container-layout section-layout">
+		<section className="container-layout">
 			<h3 className="text-center font-bold h4 text-primary mb-2">
 				NEW IN STORE
 			</h3>

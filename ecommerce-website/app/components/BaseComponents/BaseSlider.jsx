@@ -53,8 +53,8 @@ const BaseSlider = ({
 					setTimeout(() => {
 						if (
 							showNavigation &&
-							prevRef.current &&
-							nextRef.current &&
+							prevRef?.current &&
+							nextRef?.current &&
 							swiper.params.navigation
 						) {
 							swiper.params.navigation.prevEl = prevRef.current;
