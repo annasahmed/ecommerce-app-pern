@@ -24,7 +24,7 @@ const Footer = () => {
 					<div className="flex-1 flex justify-between gap-10">
 						{footerContent.sections?.map((sect, i) => {
 							return (
-								<section key={i} className="flex-1">
+								<section key={i} className="flex-1/">
 									<h5 className="h5 mb-8 uppercase font-bold">{sect.title}</h5>
 									<ul className="flex flex-col gap-3">
 										{sect.links?.map((link, index) => {
@@ -46,7 +46,7 @@ const Footer = () => {
 								</section>
 							);
 						})}
-						<section className="flex-1">
+						<section className="flex-1/">
 							<h5 className="h5 mb-8 uppercase font-bold">SOCIAL</h5>
 							<ul className="flex flex-col gap-3 p4">
 								{store.socialLinks.email && (

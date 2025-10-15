@@ -19,6 +19,11 @@ export function loadThemeComponents(theme) {
 			HeroSection: dynamic(() => import(`./${theme}/HeroSection`)),
 			Footer: dynamic(() => import(`./${theme}/Footer`)),
 			Navbar: dynamic(() => import(`./${theme}/Navbar`)),
+			CategoriesSection: dynamic(() => import(`./${theme}/CategoriesSection`)),
+			PopularCatTabs: dynamic(() => import(`./${theme}/PopularCatTabs`)),
+			TrendingCategoriesSection: dynamic(() =>
+				import(`./${theme}/TrendingCategoriesSection`),
+			),
 		};
 	} catch (err) {
 		console.error(
@@ -30,6 +35,11 @@ export function loadThemeComponents(theme) {
 			HeroSection: dynamic(() => import("./KidsTheme/HeroSection")),
 			Footer: dynamic(() => import("./KidsTheme/Footer")),
 			Navbar: dynamic(() => import("./KidsTheme/Navbar")),
+			CategoriesSection: dynamic(() => import("./KidsTheme/CategoriesSection")),
+			PopularCatTabs: dynamic(() => import("./KidsTheme/PopularCatTabs")),
+			TrendingCategoriesSection: dynamic(() =>
+				import("./KidsTheme/TrendingCategoriesSection"),
+			),
 		};
 	}
 

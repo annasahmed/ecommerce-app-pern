@@ -1,4 +1,22 @@
 import heroSliderSlide from "@/app/assets/themes/kidsTheme/hero-slider-slide.png";
+import babaCat from "@/app/assets/themes/kidsTheme/categories/baba.png";
+import babyCat from "@/app/assets/themes/kidsTheme/categories/baby.png";
+import bathCat from "@/app/assets/themes/kidsTheme/categories/bath.png";
+import feedingCat from "@/app/assets/themes/kidsTheme/categories/feeding.png";
+import softToysCat from "@/app/assets/themes/kidsTheme/categories/soft-toys.png";
+import nurseryCat from "@/app/assets/themes/kidsTheme/categories/nursery.png";
+import shoesCat from "@/app/assets/themes/kidsTheme/categories/shoes.png";
+import p1 from "@/app/assets/themes/kidsTheme/products/p1.png";
+import p2 from "@/app/assets/themes/kidsTheme/products/p2.png";
+import p3 from "@/app/assets/themes/kidsTheme/products/p3.png";
+import p4 from "@/app/assets/themes/kidsTheme/products/p4.png";
+import p5 from "@/app/assets/themes/kidsTheme/products/p5.png";
+import p6 from "@/app/assets/themes/kidsTheme/products/p6.png";
+import p7 from "@/app/assets/themes/kidsTheme/products/p7.png";
+import p8 from "@/app/assets/themes/kidsTheme/products/p8.png";
+import trendingCategory from "@/app/assets/themes/kidsTheme/trending-category.png";
+import bestSellerCategory from "@/app/assets/themes/kidsTheme/best-seller-category.png";
+import comfortableClothesCategory from "@/app/assets/themes/kidsTheme/comfortable-clothes-category.png";
 
 export const KIDSTHEME_DATA = {
 	navCategories: [
@@ -44,6 +62,205 @@ export const KIDSTHEME_DATA = {
 		},
 		{
 			img: heroSliderSlide,
+		},
+	],
+
+	categories: [
+		{ title: "baba", icon: babaCat },
+		{ title: "baby", icon: babyCat },
+		{ title: "bath", icon: bathCat },
+		{ title: "feeding", icon: feedingCat },
+		{ title: "shoes", icon: shoesCat },
+		{ title: "nursery", icon: nurseryCat },
+		{ title: "soft toys", icon: softToysCat },
+		{ title: "baba", icon: babaCat },
+		{ title: "baby", icon: babyCat },
+		{ title: "bath", icon: bathCat },
+		{ title: "feeding", icon: feedingCat },
+		{ title: "shoes", icon: shoesCat },
+		{ title: "nursery", icon: nurseryCat },
+		{ title: "soft toys", icon: softToysCat },
+	],
+
+	popularTabs: [
+		{
+			label: "Girls' Clothing",
+			products: [
+				{
+					id: 1,
+					image: p1,
+					title: "Little Stars Dress",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 2,
+					image: p2,
+					title: "Baby Bear Hoodie",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 3,
+					image: p3,
+					title: "Junior Jogger Pants",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 4,
+					image: p4,
+					title: "Mini Denim Jacket",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 5,
+					image: p5,
+					title: "Petite Plaid Skirt",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 6,
+					image: p6,
+					title: "Little Ladybug Overalls",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 7,
+					image: p7,
+					title: "Junior Jersey Dress",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 8,
+					image: p8,
+					title: "Toddler Tutu Dress",
+					base_sale_price: 16.0,
+				},
+			],
+		},
+		{
+			label: "Boys' Clothing",
+			products: [
+				{
+					id: 1,
+					image: p1,
+					title: "Little Stars Dress",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 2,
+					image: p2,
+					title: "Baby Bear Hoodie",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 3,
+					image: p3,
+					title: "Junior Jogger Pants",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 4,
+					image: p4,
+					title: "Mini Denim Jacket",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 5,
+					image: p5,
+					title: "Petite Plaid Skirt",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 6,
+					image: p6,
+					title: "Little Ladybug Overalls",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 7,
+					image: p7,
+					title: "Junior Jersey Dress",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 8,
+					image: p8,
+					title: "Toddler Tutu Dress",
+					base_sale_price: 16.0,
+				},
+			],
+		},
+		{
+			label: "Accessories",
+			products: [
+				{
+					id: 1,
+					image: p1,
+					title: "Little Stars Dress",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 2,
+					image: p2,
+					title: "Baby Bear Hoodie",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 3,
+					image: p3,
+					title: "Junior Jogger Pants",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 4,
+					image: p4,
+					title: "Mini Denim Jacket",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 5,
+					image: p5,
+					title: "Petite Plaid Skirt",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 6,
+					image: p6,
+					title: "Little Ladybug Overalls",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 7,
+					image: p7,
+					title: "Junior Jersey Dress",
+					base_sale_price: 16.0,
+				},
+				{
+					id: 8,
+					image: p8,
+					title: "Toddler Tutu Dress",
+					base_sale_price: 16.0,
+				},
+			],
+		},
+	],
+	trendingCategories: [
+		{
+			title: "Latest Trending",
+			description: "Holiday Deals On Fashion Clothes",
+			query: "trending",
+			image: trendingCategory,
+		},
+		{
+			title: "Best Seller",
+			description: "Spring & Summer Accessories Trend",
+			query: "best-seller",
+			image: bestSellerCategory,
+		},
+		{
+			title: "Comfortable Clothes",
+			description: "Practical Clothes For Your Kids",
+			query: "clothes",
+			image: comfortableClothesCategory,
 		},
 	],
 };
