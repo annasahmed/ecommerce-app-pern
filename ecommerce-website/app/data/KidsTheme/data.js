@@ -371,4 +371,146 @@ export const KIDSTHEME_DATA = {
 			base_sale_price: 16.0,
 		},
 	],
+	allProducts: [
+		{
+			id: 1,
+			image: p1,
+			title: "Little Stars Dress",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 2,
+			image: p2,
+			title: "Baby Bear Hoodie",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 3,
+			image: p3,
+			title: "Junior Jogger Pants",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 4,
+			image: p4,
+			title: "Mini Denim Jacket",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 5,
+			image: p5,
+			title: "Petite Plaid Skirt",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 6,
+			image: p6,
+			title: "Little Ladybug Overalls",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 7,
+			image: p7,
+			title: "Junior Jersey Dress",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 8,
+			image: p8,
+			title: "Toddler Tutu Dress",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 9,
+			image: p13,
+			title: "Petite Plaid Skirt",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 10,
+			image: p14,
+			title: "Little Ladybug Overalls",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 11,
+			image: p15,
+			title: "Junior Jersey Dress",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 12,
+			image: p16,
+			title: "Toddler Tutu Dress",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 13,
+			image: p9,
+			title: "Little Stars Dress",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 14,
+			image: p10,
+			title: "Baby Bear Hoodie",
+			base_sale_price: 16.0,
+		},
+		{
+			id: 15,
+			image: p11,
+			title: "Junior Jogger Pants",
+			base_sale_price: 16.0,
+		},
+	],
+	filters: {
+		categories: [
+			{
+				id: 1,
+				title: "girls",
+			},
+			{
+				id: 2,
+				title: "boys clothing",
+			},
+			{
+				id: 3,
+				title: "baby care",
+			},
+			{
+				id: 4,
+				title: "safety equipment",
+			},
+			{
+				id: 5,
+				title: "activity and gear",
+			},
+			{
+				id: 6,
+				title: "baby shoes",
+			},
+			{
+				id: 7,
+				title: "children's shoes",
+			},
+			{
+				id: 8,
+				title: "family outlet",
+			},
+		],
+		prize: [
+			{ id: 1, title: "Rs. 100 - Rs. 200", min: 100, max: 200 },
+			{ id: 2, title: "Rs. 200 - Rs. 400", min: 200, max: 400 },
+			{ id: 3, title: "Rs. 400 - Rs. 600", min: 400, max: 600 },
+			{ id: 4, title: "Rs. 600 - Rs. 800", min: 600, max: 800 },
+			{ id: 5, title: "over Rs. 1000", min: 1000, max: 0 },
+		],
+		size: [
+			{ id: 1, title: "XS" },
+			{ id: 2, title: "S" },
+			{ id: 3, title: "M" },
+			{ id: 4, title: "L" },
+			{ id: 5, title: "XL" },
+		],
+	},
 };

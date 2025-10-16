@@ -24,6 +24,8 @@
 	--color-light: #fefefe;
 	--color-dark: #000000;
 	--color-border-color: #dbe2e5;
+
+	--color-muted: #99a1af;
 }
 
 @theme inline {
@@ -56,4 +58,9 @@ a {
 .bubble-text {
 	text-shadow: 2px 2px 0 var(--color-light), -2px 2px 0 var(--color-light),
 		2px -2px 0 var(--color-light), -2px -2px 0 var(--color-light);
+}
+@layer base {
+	* {
+		border-color: #dbe2e5;
+	}
 }

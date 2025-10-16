@@ -2,15 +2,23 @@ import { Eye, Heart, Repeat } from "lucide-react";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
 import PrimaryButton from "./PrimaryButton";
+import Overlay from "../../Shared/Overlay";
 
 const ProductCard = ({ product }) => {
 	if (!product) return null;
 
 	return (
-		<div className="relative/ group flex flex-col gap-3  overflow-hidden transition-all duration-300">
+		<div className="group w-full h-full flex flex-col gap-3  overflow-hidden transition-all duration-300">
 			{/* Product Image */}
-			<div className="relative">
-				<BaseImage src={product.image} alt={product.title} className="w-full h-full object-conver" />
+			<div className="relative w-full">
+				<BaseImage
+					src={product.image}
+					alt={product.title}
+					className="w-full h-full object-conver"
+				/>
+				<div className="transition-all duration-300 opacity-0 group-hover:opacity-100">
+					<Overlay />
+				</div>
 
 				{/* Top-right icons (appear on hover) */}
 				<div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">

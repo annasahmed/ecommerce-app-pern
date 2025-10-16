@@ -26,16 +26,20 @@ const HomePage = () => {
 					className="w-full h-auto object-contain"
 				/>
 				<TrendingCategoriesSection />
-				<ProductsSlider
-					title="best selling products"
-					slug=""
-					productsData={store.content.bestSellingProducts}
-				/>
-				<ProductsSlider
-					title="sale"
-					slug=""
-					productsData={store.content.saleProducts}
-				/>
+				<section className="container-layout">
+					<ProductsSlider
+						title="best selling products"
+						slug=""
+						productsData={store.content.bestSellingProducts}
+					/>
+				</section>
+				<section className="container-layout">
+					<ProductsSlider
+						title="sale"
+						slug=""
+						productsData={store.content.saleProducts}
+					/>
+				</section>
 			</section>
 		</main>
 	);
