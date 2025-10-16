@@ -63,7 +63,7 @@ export default function FilterSidebar() {
 	const [priceRange, setPriceRange] = useState(50);
 
 	return (
-		<aside>
+		<aside className="overflow-y-scroll max-h-[115vh] hide-scrollbar">
 			<h4 className="h4 font-bold border-b pb-1">Filter</h4>
 
 			{/* Categories */}

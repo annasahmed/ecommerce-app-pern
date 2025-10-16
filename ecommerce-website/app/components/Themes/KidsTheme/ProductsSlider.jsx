@@ -2,10 +2,12 @@ import { ArrowRight } from "lucide-react";
 import BaseLink from "../../BaseComponents/BaseLink";
 import BaseSlider from "../../BaseComponents/BaseSlider";
 import ProductCard from "./ProductCard";
+import clsx from "clsx";
 
 const ProductsSlider = ({
 	title = "",
 	slug = "",
+	columns = 3,
 	productsData = [],
 	isSlider = true,
 	showTitle = true,
@@ -34,7 +36,8 @@ const ProductsSlider = ({
 					)}
 				/>
 			) : (
-				<section className="grid grid-cols-3 gap-4 items-stretch">
+				<section
+					className={clsx(`grid grid-cols-${columns} gap-4 items-stretch`)}>
 					{productsData?.map((product) => (
 						<ProductCard product={product} key={product.id} />
 					))}

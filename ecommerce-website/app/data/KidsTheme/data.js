@@ -513,4 +513,38 @@ export const KIDSTHEME_DATA = {
 			{ id: 5, title: "XL" },
 		],
 	},
+	productDetails: {
+		id: 1,
+		title: "Minimalist Black Round Side Table",
+		description:
+			"Modern and functional round side table designed with a sleek black finish and sturdy steel frame. Perfect for living rooms, bedrooms, or offices.",
+		price: 120.0,
+		discount: 50,
+		isNew: true,
+		rating: 4.7,
+		reviewsCount: 86,
+		sku: "TB-4591-BLK",
+		categories: ["Furniture", "Tables", "Living Room"],
+		tags: ["modern", "black", "metal", "round table"],
+		images: [p1, p2, p3],
+		additionalInfo: {
+			material: "Metal Frame + MDF Top",
+			dimensions: "45 x 45 x 50 cm",
+			weight: "5.2 kg",
+			color: "Black",
+			madeIn: "Turkey",
+		},
+		reviews: [
+			{
+				user: "Sarah Ahmed",
+				rating: 5,
+				comment: "Perfect size for my living room! Sturdy and stylish.",
+			},
+			{
+				user: "Ali Raza",
+				rating: 4,
+				comment: "Good value for money. Easy to assemble.",
+			},
+		],
+	},
 };
