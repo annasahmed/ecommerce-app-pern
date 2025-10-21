@@ -3,30 +3,12 @@ import Image from "next/image";
 import { useState } from "react";
 import { Trash2, ArrowLeft, ArrowRight } from "lucide-react";
 import Button from "@/app/components/Shared/PrimaryButton";
+import { useStore } from "@/app/providers/StoreProvider";
 
 export default function CartPage() {
 	// ✅ Cart data in one object (easy to replace with API)
-	const [cart, setCart] = useState({
-		items: [
-			{
-				id: 1,
-				name: "Minimalist Black Round Side Table",
-				price: 120,
-				discount: 50,
-				quantity: 1,
-				image: "/images/table1.png",
-			},
-			{
-				id: 2,
-				name: "Modern Wooden Lamp",
-				price: 80,
-				discount: 0,
-				quantity: 2,
-				image: "/images/lamp1.png",
-			},
-		],
-		shipping: 10,
-	});
+	const store = useStore();
+	const [cart, setCart] = useState(store.content.cartData);
 
 	const updateQuantity = (id, type) => {
 		setCart((prev) => ({
@@ -164,13 +146,11 @@ export default function CartPage() {
 							<span>${total.toFixed(2)}</span>
 						</div>
 
-						<Button className="w-full bg-primary text-white">
-							Proceed to Checkout <ArrowRight className="ml-2" size={18} />
+						<Button className="w-full bg-primary text-white flex items-center justify-center gap-2">
+							Proceed to Checkout <ArrowRight size={18} />
 						</Button>
 
-						<Button
-							variant="outline"
-							className="w-full mt-3 flex items-center justify-center gap-2">
+						<Button className="w-full mt-3 flex items-center justify-center gap-2">
 							<ArrowLeft size={18} />
 							Continue Shopping
 						</Button>

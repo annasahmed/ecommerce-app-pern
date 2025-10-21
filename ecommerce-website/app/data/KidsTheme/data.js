@@ -547,4 +547,25 @@ export const KIDSTHEME_DATA = {
 			},
 		],
 	},
+	cartData: {
+		items: [
+			{
+				id: 1,
+				name: "Little Stars Dress",
+				price: 120,
+				discount: 50,
+				quantity: 1,
+				image: p1,
+			},
+			{
+				id: 2,
+				name: "Baby Bear Hoodie",
+				price: 80,
+				discount: 0,
+				quantity: 2,
+				image: p2,
+			},
+		],
+		shipping: 10,
+	},
 };
