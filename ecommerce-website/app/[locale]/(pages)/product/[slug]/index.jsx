@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Heart, Share2, ShoppingCart, Star } from "lucide-react";
-import ProductImageSlider from "@/app/components/shared/ProductImageSlider";
+import ProductImageSlider from "@/app/components/Shared/ProductImageSlider";
 import Button from "@/app/components/Shared/PrimaryButton";
 import Image from "next/image";
 import { useStore } from "@/app/providers/StoreProvider";
