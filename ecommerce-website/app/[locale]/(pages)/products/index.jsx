@@ -1,28 +1,27 @@
 "use client";
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import FilterSidebar from "@/app/components/Shared/FiltersSidebar";
-import Filters from "@/app/components/Shared/FiltersSidebar";
 import SearchInput from "@/app/components/Shared/form/SearchInput";
 import Pagination from "@/app/components/Shared/Pagination";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
+import productsHeroBanner from "@/app/assets/themes/kidsTheme/products-banner.jpg";
 import { useStore } from "@/app/providers/StoreProvider";
 import React, { useState } from "react";
 
 const ProductsPage = () => {
 	const store = useStore();
-	const {
-		HeroSection,
-		CategoriesSection,
-		PopularCatTabs,
-		TrendingCategoriesSection,
-		ProductsSlider,
-	} = loadThemeComponents(store.themeName);
+	const { ProductsSlider } = loadThemeComponents(store.themeName);
 	const [page, setPage] = useState(1);
 	const productsPerPage = 9;
 	const totalProducts = store.content.allProducts?.length || 0;
 	const totalPages = Math.ceil(totalProducts / productsPerPage);
 	return (
 		<main>
-			<HeroSection />
+			<BaseImage
+				src={productsHeroBanner}
+				alt="products-banner"
+				className="w-full h-auto object-contain/"
+			/>
 			<section className="container-layout section-layout">
 				<section className="mb-10">
 					<SearchInput />

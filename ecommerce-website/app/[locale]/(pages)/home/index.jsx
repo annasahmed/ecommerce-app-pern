@@ -1,6 +1,7 @@
 "use client";
 import homeSmallBanner from "@/app/assets/themes/kidsTheme/home-small-banner.png";
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
+import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
 import { useStore } from "@/app/providers/StoreProvider";
 
@@ -20,11 +21,14 @@ const HomePage = () => {
 			<section className="flex flex-col gap-18 section-layout">
 				<CategoriesSection />
 				<PopularCatTabs />
-				<BaseImage
-					src={homeSmallBanner}
-					alt="special-sale"
-					className="w-full h-auto object-contain"
-				/>
+				<BaseLink href="/products">
+					<BaseImage
+						src={homeSmallBanner}
+						alt="special-sale"
+						className="w-full h-auto object-contain cursor-pointer"
+					/>
+				</BaseLink>
+
 				<TrendingCategoriesSection />
 				<section className="container-layout">
 					<ProductsSlider

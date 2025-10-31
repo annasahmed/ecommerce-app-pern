@@ -1,7 +1,15 @@
 "use client";
+
 import { useState } from "react";
+import { useCartStore } from "@/app/store/cartStore";
+import BasePrice from "@/app/components/BaseComponents/BasePrice";
+import PrimaryButton from "@/app/components/Shared/PrimaryButton";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
+import { toast } from "react-toastify";
 
 export default function CheckoutPage() {
+	const { cart, clearCart } = useCartStore();
 	const [voucher, setVoucher] = useState("");
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -15,98 +23,78 @@ export default function CheckoutPage() {
 		paymentMethod: "cod",
 	});
 
-	const orderSummary = {
-		subtotal: 180,
-		shipping: 20,
-		discount: voucher ? 15 : 0,
-		total: 180 + 20 - (voucher ? 15 : 0),
-		items: [
-			{
-				id: 1,
-				name: "Modern Wooden Chair",
-				price: 120,
-				quantity: 1,
-			},
-			{
-				id: 2,
-				name: "Stylish Lamp",
-				price: 60,
-				quantity: 1,
-			},
-		],
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log("Order placed:", { formData, voucher, orderSummary });
-		alert("Order placed successfully!");
-	};
+	// 🧮 Calculate totals dynamically from cart
+	const subtotal = cart.reduce(
+		(acc, item) => acc + (item.base_price ?? item.price ?? 0) * item.quantity,
+		0,
+	);
+	const shipping = cart.length > 0 ? 20 : 0; // can be dynamic later
+	const discount = voucher ? 15 : 0;
+	const total = subtotal + shipping - discount;
 
 	const handleInputChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (cart.length === 0) {
+			toast.error("Your cart is empty!");
+			return;
+		}
+
+		console.log("✅ Order placed:", {
+			customer: formData,
+			voucher,
+			cart,
+			summary: { subtotal, shipping, discount, total },
+		});
+
+		toast.success("🎉 Order placed successfully!");
+		clearCart();
+	};
+
 	return (
 		<div className="max-w-6xl mx-auto py-10 px-4 md:px-6 lg:px-8">
-			<h1 className="text-2xl md:text-3xl font-semibold mb-8 text-gray-800">
-				Checkout
-			</h1>
+			<h1 className="text-2xl md:text-3xl font-semibold mb-8">Checkout</h1>
 
 			<form
 				onSubmit={handleSubmit}
 				className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-				{/* Left Column - Details */}
+				{/* LEFT COLUMN - CUSTOMER DETAILS */}
 				<div className="lg:col-span-2 space-y-8">
 					{/* Personal Info */}
-					<div className="bg-white border rounded-lg p-6 shadow-sm">
-						<h2 className="text-lg font-semibold mb-4 text-gray-800">
-							Personal Information
-						</h2>
+					<div className="bg-light border rounded-lg p-6 shadow-sm">
+						<h2 className="h5 font-semibold mb-4">Personal Information</h2>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-							<input
-								type="text"
-								name="firstName"
-								placeholder="First Name"
-								value={formData.firstName}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
-							<input
-								type="text"
-								name="lastName"
-								placeholder="Last Name"
-								value={formData.lastName}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
-							<input
-								type="email"
-								name="email"
-								placeholder="Email"
-								value={formData.email}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
-							<input
-								type="tel"
-								name="phone"
-								placeholder="Phone"
-								value={formData.phone}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
+							{["firstName", "lastName", "email", "phone"].map((field) => (
+								<input
+									key={field}
+									type={
+										field === "email"
+											? "email"
+											: field === "phone"
+											? "tel"
+											: "text"
+									}
+									name={field}
+									placeholder={
+										field.charAt(0).toUpperCase() +
+										field.slice(1).replace(/([A-Z])/g, " $1")
+									}
+									value={formData[field]}
+									onChange={handleInputChange}
+									className="border rounded-md p-2 w-full"
+									required
+								/>
+							))}
 						</div>
 					</div>
 
-					{/* Delivery Address */}
-					<div className="bg-white border rounded-lg p-6 shadow-sm">
-						<h2 className="text-lg font-semibold mb-4 text-gray-800">
-							Delivery Address
-						</h2>
+					{/* Address */}
+					<div className="bg-light border rounded-lg p-6 shadow-sm">
+						<h2 className="h5 font-semibold mb-4">Delivery Address</h2>
 						<textarea
 							name="address"
 							placeholder="Street Address"
@@ -117,128 +105,121 @@ export default function CheckoutPage() {
 							required
 						/>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							<input
-								type="text"
-								name="city"
-								placeholder="City"
-								value={formData.city}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
-							<input
-								type="text"
-								name="postalCode"
-								placeholder="Postal Code"
-								value={formData.postalCode}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
-							<input
-								type="text"
-								name="country"
-								placeholder="Country"
-								value={formData.country}
-								onChange={handleInputChange}
-								className="border rounded-md p-2 w-full"
-								required
-							/>
+							{["city", "postalCode", "country"].map((field) => (
+								<input
+									key={field}
+									type="text"
+									name={field}
+									placeholder={
+										field.charAt(0).toUpperCase() +
+										field.slice(1).replace(/([A-Z])/g, " $1")
+									}
+									value={formData[field]}
+									onChange={handleInputChange}
+									className="border rounded-md p-2 w-full"
+									required
+								/>
+							))}
 						</div>
 					</div>
 
-					{/* Payment Method */}
-					<div className="bg-white border rounded-lg p-6 shadow-sm">
-						<h2 className="text-lg font-semibold mb-4 text-gray-800">
-							Payment Method
-						</h2>
+					{/* Payment */}
+					<div className="bg-light border rounded-lg p-6 shadow-sm">
+						<h2 className="h5 font-semibold mb-4">Payment Method</h2>
 						<div className="flex flex-col gap-3">
-							<label className="flex items-center gap-2">
-								<input
-									type="radio"
-									name="paymentMethod"
-									value="cod"
-									checked={formData.paymentMethod === "cod"}
-									onChange={handleInputChange}
-								/>
-								Cash on Delivery
-							</label>
-							<label className="flex items-center gap-2">
-								<input
-									type="radio"
-									name="paymentMethod"
-									value="card"
-									checked={formData.paymentMethod === "card"}
-									onChange={handleInputChange}
-								/>
-								Credit / Debit Card
-							</label>
-							<label className="flex items-center gap-2">
-								<input
-									type="radio"
-									name="paymentMethod"
-									value="paypal"
-									checked={formData.paymentMethod === "paypal"}
-									onChange={handleInputChange}
-								/>
-								PayPal
-							</label>
+							{["cod", "card", "paypal"].map((method) => (
+								<label key={method} className="flex items-center gap-2">
+									<input
+										type="radio"
+										name="paymentMethod"
+										value={method}
+										checked={formData.paymentMethod === method}
+										onChange={handleInputChange}
+									/>
+									{method === "cod"
+										? "Cash on Delivery"
+										: method === "card"
+										? "Credit / Debit Card"
+										: "PayPal"}
+								</label>
+							))}
 						</div>
 					</div>
 				</div>
 
-				{/* Right Column - Order Summary */}
+				{/* RIGHT COLUMN - ORDER SUMMARY */}
 				<div>
-					<div className="bg-white border rounded-lg p-6 shadow-sm mb-6">
-						<h2 className="text-lg font-semibold mb-4 text-gray-800">
-							Order Summary
-						</h2>
-						<div className="space-y-4">
-							{orderSummary.items.map((item) => (
-								<div key={item.id} className="flex items-center gap-4">
-									<div className="flex-1">
-										<p className="text-sm font-medium text-gray-800">
-											{item.name}
-										</p>
-										<p className="text-sm text-gray-500">
-											Qty: {item.quantity}
-										</p>
+					<div className="bg-light border rounded-lg p-6 shadow-sm mb-6">
+						<h2 className="h5 font-semibold mb-4">Order Summary</h2>
+
+						{/* Cart Items */}
+						{cart.length === 0 ? (
+							<p className="text-gray-500 text-center p-4">
+								No items in your cart.
+							</p>
+						) : (
+							<div className="space-y-4">
+								{cart.map((item) => (
+									<div key={item.id} className="flex items-center gap-4">
+										<BaseImage
+											src={
+												item.thumbnail
+													? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+													: null
+											}
+											alt={item.title}
+											width={60}
+											height={60}
+											className="rounded-md object-cover border"
+										/>
+										<div className="flex-1">
+											<p className="p5 font-medium line-clamp-1">
+												{item.title}
+											</p>
+											<p className="text-gray-500 text-sm">
+												Qty: {item.quantity}
+											</p>
+										</div>
+										<BasePrice
+											className="font-medium"
+											price={
+												(item.base_price ?? item.price ?? 0) * item.quantity
+											}
+										/>
 									</div>
-									<p className="text-sm font-semibold text-gray-800">
-										${item.price.toFixed(2)}
-									</p>
-								</div>
-							))}
-						</div>
+								))}
+							</div>
+						)}
+
 						<hr className="my-4" />
-						<div className="space-y-2 text-sm text-gray-700">
+
+						{/* Summary Totals */}
+						<div className="space-y-2 text-gray-700">
 							<div className="flex justify-between">
 								<span>Subtotal</span>
-								<span>${orderSummary.subtotal.toFixed(2)}</span>
+								<BasePrice price={subtotal} />
 							</div>
 							<div className="flex justify-between">
 								<span>Shipping</span>
-								<span>${orderSummary.shipping.toFixed(2)}</span>
+								<BasePrice price={shipping} />
 							</div>
 							{voucher && (
 								<div className="flex justify-between text-green-600">
 									<span>Discount</span>
-									<span>- ${orderSummary.discount.toFixed(2)}</span>
+									<BasePrice price={discount} />
 								</div>
 							)}
 							<hr />
-							<div className="flex justify-between font-semibold text-gray-900 text-base">
+							<div className="flex justify-between font-semibold p4">
 								<span>Total</span>
-								<span>${orderSummary.total.toFixed(2)}</span>
+								<BasePrice price={total} />
 							</div>
 						</div>
 					</div>
 
 					{/* Voucher */}
-					<div className="bg-white border rounded-lg p-6 shadow-sm mb-6">
-						<h2 className="text-lg font-semibold mb-4 text-gray-800">
-							Voucher Code
-						</h2>
+					<div className="bg-light border rounded-lg p-6 shadow-sm mb-6">
+						<h2 className="h5 font-semibold mb-4">Voucher Code</h2>
 						<div className="flex gap-2">
 							<input
 								type="text"
@@ -247,21 +228,18 @@ export default function CheckoutPage() {
 								placeholder="Enter voucher code"
 								className="border rounded-md p-2 flex-1"
 							/>
-							<button
+							<PrimaryButton
 								type="button"
-								onClick={() => alert("Voucher Applied!")}
-								className="bg-black text-white px-4 py-2 rounded-md text-sm">
+								onClick={() => toast.success("Voucher applied successfully!")}>
 								Apply
-							</button>
+							</PrimaryButton>
 						</div>
 					</div>
 
-					{/* Place Order Button */}
-					<button
-						type="submit"
-						className="w-full bg-black text-white py-3 rounded-md font-medium hover:bg-gray-900 transition">
+					{/* Place Order */}
+					<PrimaryButton type="submit" className="w-full">
 						Place Order
-					</button>
+					</PrimaryButton>
 				</div>
 			</form>
 		</div>

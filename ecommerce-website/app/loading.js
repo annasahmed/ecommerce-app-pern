@@ -1,5 +1,8 @@
+import Loader from "./components/Shared/Loader";
+
 // app/loading.js
 export default function Loading() {
+	return <Loader />;
 	return <div className="p-4 text-center">Loading section...</div>;
 	return (
 		<div className="min-h-screen flex flex-col">

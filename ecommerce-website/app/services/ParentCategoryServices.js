@@ -11,9 +11,9 @@ const ParentCategoryServices = {
 			console.error("API error:", err);
 		}
 
-		const module = await import(`../data/${themeName}/data`);
+		const dataModule = await import(`../data/${themeName}/data`);
 		// const module = await import(`./${themeName}/data.js`);
-		return module.parentCategories;
+		return dataModule.parentCategories;
 	},
 };
 

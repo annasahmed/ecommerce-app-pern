@@ -2,6 +2,7 @@
 import { useStore } from "@/app/providers/StoreProvider";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BaseSlider from "../../BaseComponents/BaseSlider";
+import BaseLink from "../../BaseComponents/BaseLink";
 
 const CategoriesSection = () => {
 	const store = useStore();
@@ -14,11 +15,15 @@ const CategoriesSection = () => {
 				showNavigation={true}
 				showPagination={false}
 				renderSlide={(category, idx) => (
-					<BaseImage
-						src={category.icon}
-						key={idx}
-						className="w-full rounded-full h-auto border-2 border-dotted p-1 border-secondary"
-					/>
+					<div>
+						<BaseLink href={`/products?category=${category.slug}`}>
+							<BaseImage
+								src={category.icon}
+								key={idx}
+								className="w-full rounded-full h-auto border-2 border-dotted p-1 border-secondary"
+							/>
+						</BaseLink>
+					</div>
 				)}
 			/>
 		</section>

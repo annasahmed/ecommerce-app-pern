@@ -1,124 +1,117 @@
 "use client";
-import Image from "next/image";
-import { useState } from "react";
+
 import { Trash2, ArrowLeft, ArrowRight } from "lucide-react";
 import Button from "@/app/components/Shared/PrimaryButton";
-import { useStore } from "@/app/providers/StoreProvider";
+import { useCartStore } from "@/app/store/cartStore";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import { toast } from "react-toastify";
+import BasePrice from "@/app/components/BaseComponents/BasePrice";
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
+import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 
 export default function CartPage() {
-	// ✅ Cart data in one object (easy to replace with API)
-	const store = useStore();
-	const [cart, setCart] = useState(store.content.cartData);
+	const { cart, removeFromCart, addToCart, clearCart } = useCartStore();
 
-	const updateQuantity = (id, type) => {
-		setCart((prev) => ({
-			...prev,
-			items: prev.items.map((item) =>
-				item.id === id
-					? {
-							...item,
-							quantity:
-								type === "increase"
-									? item.quantity + 1
-									: Math.max(1, item.quantity - 1),
-					  }
-					: item,
-			),
-		}));
+	// Update quantity handler
+	const updateQuantity = (product, type) => {
+		if (type === "increase") {
+			addToCart(product, 1);
+		} else {
+			// Decrease only if quantity > 1
+			const current = cart.find((item) => item.id === product.id);
+			if (current && current.quantity > 1) {
+				// Update by setting negative quantity (you can also add a decrease function in your store)
+				addToCart(product, -1);
+			}
+		}
 	};
 
 	const removeItem = (id) => {
-		setCart((prev) => ({
-			...prev,
-			items: prev.items.filter((item) => item.id !== id),
-		}));
+		removeFromCart(id);
+		toast.success("Item removed from cart");
 	};
 
 	const getSubtotal = () =>
-		cart.items.reduce((acc, item) => {
-			const discounted =
-				item.discount > 0
-					? item.price - (item.price * item.discount) / 100
-					: item.price;
-			return acc + discounted * item.quantity;
+		cart.reduce((acc, item) => {
+			const price = item.base_price ?? item.price ?? 0;
+			return acc + price * item.quantity;
 		}, 0);
 
+	const shipping = 10; // fixed for now — you can replace later
 	const subtotal = getSubtotal();
-	const total = subtotal + cart.shipping;
+	const total = subtotal + shipping;
 
 	return (
 		<section className="max-w-7xl mx-auto px-4 py-10">
-			<h1 className="text-2xl font-semibold mb-6">Shopping Cart</h1>
+			<h1 className="h4 font-semibold mb-6">Shopping Cart</h1>
 
-			{cart.items.length === 0 ? (
-				<div className="text-center py-20 text-gray-500">
+			{cart.length === 0 ? (
+				<div className="text-center py-20 text-muted">
 					<p>Your cart is empty.</p>
-					<Button className="mt-4 bg-primary text-white">
-						<ArrowLeft size={18} className="mr-2" />
+					<PrimaryButton className="mt-4 bg-primary text-light flex items-center gap-2">
+						<ArrowLeft size={18} />
 						Continue Shopping
-					</Button>
+					</PrimaryButton>
 				</div>
 			) : (
 				<div className="grid lg:grid-cols-3 gap-10">
 					{/* Cart Items */}
 					<div className="lg:col-span-2 space-y-6">
-						{cart.items.map((item) => {
-							const discounted =
-								item.discount > 0
-									? item.price - (item.price * item.discount) / 100
-									: item.price;
-							const subtotal = discounted * item.quantity;
+						{cart.map((item) => {
+							const price = item.base_price ?? item.price ?? 0;
+							const subtotal = price * item.quantity;
 
 							return (
 								<div
 									key={item.id}
 									className="flex flex-col sm:flex-row items-center gap-6 border p-4 rounded-lg">
-									<Image
-										src={item.image}
-										alt={item.name}
+									<BaseImage
+										src={
+											item.thumbnail
+												? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+												: null
+										}
+										alt={item.title}
 										width={120}
 										height={120}
 										className="rounded-md object-contain"
 									/>
 
 									<div className="flex-1 text-center sm:text-left">
-										<h3 className="font-medium text-lg">{item.name}</h3>
-										<div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
-											<p className="text-primary font-semibold">
-												${discounted.toFixed(2)}
-											</p>
-											{item.discount > 0 && (
-												<span className="text-gray-400 line-through text-sm">
-													${item.price.toFixed(2)}
-												</span>
-											)}
-										</div>
+										<h3 className="font-medium h5 line-clamp-2">
+											{item.title}
+										</h3>
+										<BasePrice
+											price={price}
+											className="text-primary font-semibold mt-1"
+										/>
 									</div>
 
 									{/* Quantity Controls */}
 									<div className="flex items-center gap-3 border rounded-md px-2">
 										<button
-											onClick={() => updateQuantity(item.id, "decrease")}
-											className="px-2 py-1 text-lg">
+											onClick={() => updateQuantity(item, "decrease")}
+											className="px-2 py-1 p2">
 											-
 										</button>
-										<span>{item.quantity}</span>
+										<span className="p4">{item.quantity}</span>
 										<button
-											onClick={() => updateQuantity(item.id, "increase")}
-											className="px-2 py-1 text-lg">
+											onClick={() => updateQuantity(item, "increase")}
+											className="px-2 py-1 p2">
 											+
 										</button>
 									</div>
 
 									{/* Subtotal */}
-									<p className="w-20 text-right font-semibold">
-										${subtotal.toFixed(2)}
-									</p>
+									<BasePrice
+										price={subtotal}
+										className="w-20 text-right font-semibold"
+									/>
 
 									{/* Remove */}
 									<button
 										onClick={() => removeItem(item.id)}
-										className="text-gray-500 hover:text-red-600 transition">
+										className="text-muted hover:text-red-600 transition">
 										<Trash2 size={18} />
 									</button>
 								</div>
@@ -128,32 +121,36 @@ export default function CartPage() {
 
 					{/* Summary */}
 					<div className="border rounded-lg p-6 h-fit bg-gray-50">
-						<h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+						<h2 className="h4 font-semibold mb-4">Order Summary</h2>
 
 						<div className="flex justify-between mb-2">
 							<span>Subtotal</span>
-							<span>${subtotal.toFixed(2)}</span>
+							<BasePrice price={subtotal} />
 						</div>
 						<div className="flex justify-between mb-2">
 							<span>Shipping</span>
-							<span>${cart.shipping.toFixed(2)}</span>
+							<BasePrice price={shipping} />
 						</div>
 
 						<hr className="my-3" />
 
-						<div className="flex justify-between text-lg font-semibold mb-4">
+						<div className="flex justify-between h6 font-semibold mb-4">
 							<span>Total</span>
-							<span>${total.toFixed(2)}</span>
+							<BasePrice price={total} />
 						</div>
 
-						<Button className="w-full bg-primary text-white flex items-center justify-center gap-2">
+						<PrimaryButton
+							link={"/checkout"}
+							className="w-full bg-primary text-light flex items-center justify-center gap-2">
 							Proceed to Checkout <ArrowRight size={18} />
-						</Button>
+						</PrimaryButton>
 
-						<Button className="w-full mt-3 flex items-center justify-center gap-2">
+						<PrimaryButton
+							link={"/products"}
+							className="w-full mt-3 flex items-center justify-center gap-2">
 							<ArrowLeft size={18} />
 							Continue Shopping
-						</Button>
+						</PrimaryButton>
 					</div>
 				</div>
 			)}

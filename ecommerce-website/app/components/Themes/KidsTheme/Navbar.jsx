@@ -11,9 +11,13 @@ import {
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import Logo from "@/app/components/Shared/Logo";
 import SearchInput from "../../Shared/form/SearchInput";
+import { useCartStore } from "@/app/store/cartStore";
 
 const Navbar = () => {
 	const store = useStore();
+	const { cart, favourites } = useCartStore();
+	const cartCount = cart?.length || 0;
+	const favCount = favourites?.length || 0;
 	return (
 		<>
 			<header className="text-headerText bg-header w-full py-2 text-center font-normal">
@@ -32,10 +36,31 @@ const Navbar = () => {
 							className={`w-28 h-auto object-contain mx-auto`}
 						/>
 					</div>
-					<div className="flex-1 flex items-center justify-end gap-5">
-						<Heart />
-						<ShoppingCartIcon />
-						<User />
+					<div className="flex-1 flex items-center justify-end gap-5 relative">
+						{/* Favorites */}
+						<BaseLink href="/favourites" className="relative">
+							<Heart className="cursor-pointer hover:text-primary transition" />
+							{favCount > 0 && (
+								<span className="absolute -top-2 -right-2 bg-primary text-light p6 font-medium rounded-full w-4 h-4 flex items-center justify-center">
+									{favCount}
+								</span>
+							)}
+						</BaseLink>
+
+						{/* Cart */}
+						<BaseLink href="/cart" className="relative">
+							<ShoppingCartIcon className="cursor-pointer hover:text-primary transition" />
+							{cartCount > 0 && (
+								<span className="absolute -top-2 -right-2 bg-primary text-light p6 font-medium rounded-full w-4 h-4 flex items-center justify-center">
+									{cartCount}
+								</span>
+							)}
+						</BaseLink>
+
+						{/* User */}
+						<div className="relative">
+							<User className="cursor-pointer hover:text-primary transition" />
+						</div>
 					</div>
 				</section>
 			</div>
