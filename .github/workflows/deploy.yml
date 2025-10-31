@@ -1,36 +1,38 @@
-name: 🚀 Deploy Next.js App to Hostinger VPS
+name: 🚀 Deploy to Hostinger VPS
 
 on:
   push:
     branches:
-      - main   # Trigger when pushing to main branch (change if needed)
+      - main  # or your branch name
 
 jobs:
   deploy:
-    name: Deploy to VPS
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your code
-      - name: 🧩 Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # 2️⃣ Connect to your VPS and deploy
-      - name: 🚀 SSH to VPS and deploy
+      - name: SSH to Hostinger and deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: 72.61.149.213              # your VPS IP
-          username: root                   # VPS username
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             echo "🔁 Pulling latest changes..."
             cd /var/www/ecommerce-app-pern/ecommerce-website
             git fetch origin main
             git reset --hard origin/main
+
             echo "📦 Installing dependencies..."
             npm install --omit=dev
+
             echo "🏗️ Building Next.js app..."
             npm run build
+
             echo "🚀 Restarting PM2 process..."
             pm2 restart ecommerce-app || pm2 start npm --name "ecommerce-app" -- run start
+
             echo "✅ Deployment complete!"
