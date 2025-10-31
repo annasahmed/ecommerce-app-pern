@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,7 +24,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script_stop: true
-          debug: true  # 👈 Add this line
+          debug: true
+          known_hosts: 'false'
           script: |
             echo "🔁 Pulling latest changes..."
             cd /var/www/ecommerce-app-pern/ecommerce-website
