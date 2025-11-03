@@ -57,7 +57,7 @@ const SidebarContent = () => {
 				{mode === "dark" ? (
 					<img
 						src={
-							"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png"
+							"https://res.cloudinary.com/drju2eij9/image/upload/v1762174834/logo_ceyjeh.png"
 						}
 						alt="eCom-store"
 						width="135"
@@ -66,7 +66,7 @@ const SidebarContent = () => {
 				) : (
 					<img
 						src={
-							"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png"
+							"https://res.cloudinary.com/drju2eij9/image/upload/v1762174834/logo_ceyjeh.png"
 						}
 						alt="eCom-store"
 						width="135"

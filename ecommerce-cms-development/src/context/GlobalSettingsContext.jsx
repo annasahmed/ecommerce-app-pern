@@ -15,9 +15,9 @@ export const GlobalSettingsContext = createContext({
 
 // will fetch it from API later
 const settings = {
-	logo: "https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
+	logo: "https://res.cloudinary.com/drju2eij9/image/upload/v1762174834/logo_ceyjeh.png",
 	logoDark:
-		"https://res.cloudinary.com/drju2eij9/image/upload/v1746712700/ecomStore-logo-final-removebg-preview_ievymx.png",
+		"https://res.cloudinary.com/drju2eij9/image/upload/v1762174834/logo_ceyjeh.png",
 	isMultiLingual: false,
 	isMultiBranch: false,
 	isInventory: true,
