@@ -44,11 +44,11 @@ const ProductCard = ({ product }) => {
 					src={
 						product.thumbnail
 							? ENV_VARIABLES.IMAGE_BASE_URL + product.thumbnail
-							: null
+							: product.image || null
 					}
 					alt={product.title}
 					className="
-						w-full h-full object-cover p-2 rounded-t-md 
+						w-full h-full object-cover p-2/ rounded-t-md 
 						transform group-hover:scale-105 transition-transform duration-500 ease-in-out
 					"
 					width={0}
