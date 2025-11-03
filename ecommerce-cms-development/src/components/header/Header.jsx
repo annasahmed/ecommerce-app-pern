@@ -165,24 +165,22 @@ const Header = () => {
 					<span></span>
 
 					<ul className="flex justify-end items-center flex-shrink-0 space-x-6">
-						<li className="changeLanguage">
+						{/* <li className="changeLanguage">
 							<div className="dropdown">
 								<button className="dropbtn focus:outline-none flex">
 									<div
 										className={`text-sm flag ${currLang?.flag?.toLowerCase()}`}></div>{" "}
 									<span className="md:inline-block hidden text-customGray-900 dark:text-customGray-300">
-										{/* {currentLanguageCode === "de" ? "GERMAN" : "ENGLISH"} */}
 										{currLang?.name}
 									</span>
 									<span className="md:hidden uppercase">
-										{/* {currentLanguageCode === "de" ? "DE" : "EN"} */}
 										{currLang?.iso_code}
 									</span>
 								</button>
 
 								<SelectLanguage handleLanguageChange={handleLanguageChange} />
 							</div>
-						</li>
+						</li> */}
 
 						{/* <!-- Theme toggler --> */}
 

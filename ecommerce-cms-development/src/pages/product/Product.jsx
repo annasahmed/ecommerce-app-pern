@@ -76,7 +76,7 @@ const Product = () => {
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							<TableCell>{t("SKUTbl")}</TableCell>
-							<TableCell>{t("CategoriesTbl")}</TableCell>
+							{/* <TableCell>{t("CategoriesTbl")}</TableCell> */}
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>

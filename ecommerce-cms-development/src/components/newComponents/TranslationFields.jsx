@@ -74,7 +74,7 @@ const TranslationFields = ({
 						className={
 							settings.isMultiLingual
 								? "border p-4 rounded mt-2 space-y-6 mb-6"
-								: "space-y-6 grid grid-cols-2 gap-x-16 gap-y-0 items-end"
+								: "space-y-6 grid grid-cols-2/ gap-x-16 gap-y-0 items-end"
 						}>
 						{translationFields?.map((input, idx) => {
 							const Field =

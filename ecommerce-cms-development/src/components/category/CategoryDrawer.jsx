@@ -100,15 +100,18 @@ const CategoryDrawer = ({ id, data }) => {
 			name: "title",
 			required: true,
 			fieldType: "inputArea",
+			isVertical: true,
 		},
 		{
 			name: "slug",
 			required: true,
 			fieldType: "inputArea",
+			isVertical: true,
 		},
 		{
 			name: "description",
 			fieldType: "textArea",
+			isVertical: true,
 		},
 	];
 
