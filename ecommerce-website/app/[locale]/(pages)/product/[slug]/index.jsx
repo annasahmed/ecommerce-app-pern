@@ -7,16 +7,32 @@ import Image from "next/image";
 import { useStore } from "@/app/providers/StoreProvider";
 import SocialShare from "@/app/components/Shared/SocialShare";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
+import { useCartStore } from "@/app/store/cartStore";
+import { toast } from "react-toastify";
 
 export default function ProductDetailsPage() {
+	const store = useStore();
+	const { addToCart, toggleFavourite, favourites } = useCartStore();
 	const [quantity, setQuantity] = useState(1);
 	const [activeTab, setActiveTab] = useState("description");
-	const store = useStore();
+
 	const product = store.content.productDetails;
 	const discountedPrice = (
-		product.price *
-		(1 - product.discount / 100)
+		product.base_price || product.price * (1 - product.discount / 100)
 	).toFixed(2);
+
+	const handleAddToCart = () => {
+		addToCart(product);
+		toast.success("Added to cart!");
+	};
+	const isFavourite = favourites?.some((f) => f.id === product.id);
+
+	const handleFavourite = () => {
+		toggleFavourite(product);
+		toast.success(
+			isFavourite ? "Removed from favourites!" : "Added to favourites!",
+		);
+	};
 
 	return (
 		<main>
@@ -87,13 +103,21 @@ export default function ProductDetailsPage() {
 
 					{/* Buttons */}
 					<div className="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b">
-						<Button className="flex items-center gap-2 bg-primary text-light">
+						<Button
+							className="flex items-center gap-2 bg-primary text-light"
+							onClick={handleAddToCart}>
 							<ShoppingCart size={18} />
 							Add to Cart
 						</Button>
 						<Button className="bg-dark text-light">Buy Now</Button>
-						<Button variant="outline" className="flex items-center gap-2">
-							<Heart size={18} />
+						<Button
+							variant="outline"
+							className="flex items-center gap-2"
+							onClick={handleFavourite}>
+							<Heart
+								size={18}
+								className={isFavourite ? "fill-red-500 text-red-500" : ""}
+							/>
 							Add to Wishlist
 						</Button>
 					</div>

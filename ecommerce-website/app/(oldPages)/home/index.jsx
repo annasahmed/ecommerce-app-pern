@@ -131,8 +131,6 @@ const HomePage = () => {
 						showPagination={false}
 						showNavigation={false}
 						renderSlide={(product, idx) => {
-							console.log(product, "adsakndsa");
-
 							return (
 								<BaseLink
 									href={`/products/${product.slug}`}

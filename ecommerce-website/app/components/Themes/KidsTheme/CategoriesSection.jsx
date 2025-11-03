@@ -4,12 +4,13 @@ import BaseImage from "../../BaseComponents/BaseImage";
 import BaseSlider from "../../BaseComponents/BaseSlider";
 import BaseLink from "../../BaseComponents/BaseLink";
 
-const CategoriesSection = () => {
+const CategoriesSection = ({ data }) => {
 	const store = useStore();
 	return (
 		<section className="container-layout">
 			<BaseSlider
-				slides={store.content.categories}
+				slides={data && data.length > 0 ? data : store.content.categories}
+				// slides={data && data.length > 0 ? data : store.content.categories}
 				slidesPerView={7}
 				spaceBetween={20}
 				showNavigation={true}
