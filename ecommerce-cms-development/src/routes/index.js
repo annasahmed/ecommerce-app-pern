@@ -10,7 +10,7 @@ const Media = lazy(() => import("@/pages/media/Media"));
 const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
 const Category = lazy(() => import("@/pages/category/Category"));
 const ParentCategory = lazy(() =>
-	import("@/pages/parentCategory/parentCategory"),
+	import("@/pages/parentCategory/ParentCategory"),
 );
 const Usp = lazy(() => import("@/pages/usp/Usp"));
 const SizeChart = lazy(() => import("@/pages/sizeChart/SizeChart"));
