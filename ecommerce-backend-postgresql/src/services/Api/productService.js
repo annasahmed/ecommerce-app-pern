@@ -1,5 +1,5 @@
 const db = require('../../db/models/index.js');
-const createAppBaseService = require('../../utils/AppBaseService.js');
+const createAppBaseService = require('../../utils/appBaseService.js');
 const { getLang } = require('../../utils/commonUtils.js');
 const { translationInclude } = require('../../utils/includeHelpers.js');
 

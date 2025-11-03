@@ -1,5 +1,5 @@
 const db = require('../../db/models/index.js');
-const createAppBaseService = require('../../utils/AppBaseService.js');
+const createAppBaseService = require('../../utils/appBaseService.js');
 const { localizeAttributes, getLang } = require('../../utils/commonUtils.js');
 
 const parentCategoryService = createAppBaseService(db.parent_category, {
