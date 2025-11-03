@@ -124,6 +124,7 @@ function createAppBaseService(model, options = {}) {
 					order: finalSort,
 					include,
 					attributes: attributes?.length > 0 ? attributes : {},
+					// raw: true,
 					unique: true,
 					distinct: true, // to fix count
 					col: 'id', // to fix count
