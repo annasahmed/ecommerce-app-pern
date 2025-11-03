@@ -67,7 +67,7 @@ if (config.env === 'production') {
 	app.use('/v1/auth', authLimiter);
 }
 // Apply the formatter middleware
-// app.use(responseFormatter);
+app.use(responseFormatter);
 
 // Example route
 app.get('/', async (req, res) => {

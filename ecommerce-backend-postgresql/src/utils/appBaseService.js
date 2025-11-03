@@ -38,19 +38,47 @@ function createAppBaseService(model, options = {}) {
 			return updated;
 		},
 
-		async getById(id, include = [], scope = 'active') {
+		async getById(id, include = [], attributes = [], scope = {}) {
 			const result = await model
-				.scope(scope)
-				.findOne({ where: { id }, include });
+				.scope(
+					{ method: ['active'] }, // active scope with params
+					{ ...scope }
+				)
+				.findOne({
+					where: { id },
+					include,
+					attributes: attributes?.length > 0 ? attributes : {},
+				});
 			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return result;
 		},
 
-		async getBySlug(slug, scope = 'active') {
+		async getBySlug(
+			slug,
+			include = [],
+			attributes = [],
+			scope = {},
+			isTranslation,
+			lang
+		) {
+			if (!slug) {
+				throw new ApiError(httpStatus.BAD_REQUEST, 'Slug is required');
+			}
+			let whereCondition = { slug };
+			if (isTranslation && lang) {
+				whereCondition = {};
+			}
 			const result = await model
-				.scope(scope)
-				.findOne({ where: { slug } });
+				.scope(
+					{ method: ['active'] }, // active scope with params
+					{ ...scope }
+				)
+				.findOne({
+					where: { slug },
+					include,
+					attributes: attributes?.length > 0 ? attributes : {},
+				});
 			if (!result)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return result;
@@ -84,43 +112,32 @@ function createAppBaseService(model, options = {}) {
 			const finalSort = sortBy
 				? [[sortBy, sortOrder.toUpperCase()]]
 				: sort;
-			const lang = getLang(req);
+			// const lang = getLang(req);
 			const data = await model
 				.scope(
 					{ method: ['active'] }, // active scope with params
 					{ ...scope }
-					// {
-					// 	method: [
-					// 		'localized',
-					// 		['title', 'description'],
-					// 		lang || 'en',
-					// 	],
-					// }
 				)
 				.findAndCountAll({
 					offset,
 					limit,
 					order: finalSort,
-					// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
 					include,
-					// attributes,
 					attributes: attributes?.length > 0 ? attributes : {},
-					// raw: true,
-					// logging: console.warn,
 					unique: true,
 					distinct: true, // to fix count
 					col: 'id', // to fix count
 				});
-			const parsedRows = pickLanguageFields(data.rows, lang);
+			// const parsedRows = pickLanguageFields(data.rows, lang);
 			if (isPagination) {
 				return {
 					total: data.count,
-					records: parsedRows,
+					records: data.rows,
 					limit: limit,
 					page: page,
 				};
 			}
-			return parsedRows;
+			return data.rows;
 		},
 	};
 }

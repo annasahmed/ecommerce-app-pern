@@ -1,5 +1,6 @@
 const catchAsync = require('../../utils/catchAsync');
 const { adminProductService } = require('../../services/Admin');
+const httpStatus = require('http-status');
 
 const getProductById = catchAsync(async (req, res) => {
 	const product = await adminProductService.getProductById(
@@ -13,7 +14,7 @@ const getProducts = catchAsync(async (req, res) => {
 });
 const createProduct = catchAsync(async (req, res) => {
 	const products = await adminProductService.createProduct(req);
-	res.send(products);
+	res.status(httpStatus.CREATED).send(products);
 });
 
 const softDeleteProduct = catchAsync(async (req, res) => {

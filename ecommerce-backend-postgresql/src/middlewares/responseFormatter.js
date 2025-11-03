@@ -23,15 +23,19 @@ const responseFormatter = (req, res, next) => {
 		// If already formatted, don't wrap again
 		if (
 			data &&
-			typeof data === 'object' &&
-			data.code &&
-			(data.message || data.error)
+			typeof data === 'object'
+			// && data._isFormatted &&
+			// data.code &&
+			// (data.message || data.error)
 		) {
 			return oldSend.call(this, body);
 		}
 
 		// Format successful response
 		const formattedResponse = data;
+
+		// will euncomment below to make formatter work well
+
 		// const formattedResponse = {
 		// 	code: res.statusCode,
 		// 	message: res.statusMessage || 'Success',

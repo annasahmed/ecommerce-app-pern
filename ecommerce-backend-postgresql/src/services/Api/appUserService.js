@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const db = require('../../db/models/index.js');
 const ApiError = require('../../utils/ApiError.js');
-const createAppBaseService = require('../../utils/AppBaseService.js');
+const createAppBaseService = require('../../utils/appBaseService.js');
 
 const validations = async (data) => {
 	if (data.email) {
