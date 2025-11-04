@@ -6,8 +6,9 @@ const Ratings = ({ rating = 4.5 }) => {
 		<div className="flex text-yellow-500">
 			{[...Array(5)].map((_, i) => (
 				<Star
+                className="size-4 max-md:size-3"
 					key={i}
-					size={16}
+					
 					fill={i < Math.floor(rating) ? "currentColor" : "none"}
 				/>
 			))}

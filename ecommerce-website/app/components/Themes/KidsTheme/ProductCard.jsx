@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Heart, Repeat } from "lucide-react";
+import { Eye, Heart, Plus, Repeat } from "lucide-react";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
 import Overlay from "../../Shared/Overlay";
@@ -36,8 +36,9 @@ const ProductCard = ({ product }) => {
 			className="
 				group relative w-full h-full overflow-hidden 
 				rounded-md border border-gray-200 bg-light
-				shadow-sm/ hover:shadow-lg/ transition-all duration-300 
+				shadow-sm hover:shadow-md/ transition-all duration-300 
 				hover:-translate-y-1
+				flex flex-col
 			">
 			{/* Product Image */}
 			<div className="relative w-full aspect-square overflow-hidden">
@@ -49,61 +50,41 @@ const ProductCard = ({ product }) => {
 					}
 					alt={product.title}
 					className="
-						w-full h-full object-cover p-2/ rounded-t-md 
+						w-full h-full object-cover rounded-t-md 
 						transform group-hover:scale-105 transition-transform duration-500 ease-in-out
 					"
 					width={0}
 					height={0}
 					sizes={100}
 				/>
-				{/* Overlay on hover */}
-				<div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+				{/* Overlay only visible on desktop hover */}
+				<div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-md:hidden">
 					<Overlay />
 				</div>
-				{/* Top-right icons (appear on hover) */}
-				<div className="absolute top-3 right-3 max-md:right-1.5 flex flex-col gap-2 max-md:gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
-					{/* View Details */}
-					<button
-						title="View Details"
-						onClick={() =>
-							router.push(`/product/${product.slug || product.id}`)
-						}
-						className="bg-light rounded-full p-2 max-md:p-1 shadow hover:brightness-95 transition">
-						<Eye className="size-5 max-md:size-4" />
-					</button>
-					{/* Compare (not functional yet) */}
-					<button
-						title="Compare"
-						className="bg-light rounded-full p-2 max-md:p-1 shadow hover:brightness-95 transition">
-						<Repeat className="size-5 max-md:size-4" />
-					</button>
-					{/* Add to Favourites */}
+
+				<div className="flex flex-col gap-1 md:gap-2 absolute top-2 right-2 md:top-3 md:right-3 transition-all duration-300">
 					<button
 						title="Add to Favorites"
 						onClick={handleFavourite}
-						className="bg-light rounded-full p-2 max-md:p-1 shadow hover:brightness-95 transition">
+						className="transition bg-light rounded-full p-1 md:p-2 shadow hover:brightness-95">
 						<Heart
-							className={`size-5 max-md:size-4 ${
+							className={`size-3.5 md:size-4 ${
 								isFavourite ? "fill-red-500 text-red-500" : ""
 							}`}
 						/>
 					</button>
+					<button
+						title="Compare"
+						// onClick={handleFavourite}
+						className="transition bg-light rounded-full p-1 md:p-2 shadow hover:brightness-95">
+						<Repeat className={`size-3.5 md:size-4`} />
+					</button>
 				</div>
-				{/* Add to Cart button */}
-				<PrimaryButton
-					onClick={handleAddToCart}
-					className="
-						absolute bottom-3 max-md:bottom-2 w-[90%] left-1/2 -translate-x-1/2 
-						opacity-0 group-hover:opacity-100 translate-y-3 max-md:translate-y-2 group-hover:translate-y-0
-						transition-all duration-300
-						rounded-fulls
-					">
-					Add to Cart
-				</PrimaryButton>
 			</div>
 
 			{/* Product Info */}
-			<div className="flex flex-col gap-2 px-4 py-3 max-md:px-2 max-md:py-1 border-t border-gray-100">
+			<div className="flex-1 flex flex-col gap-2 max-md:gap-1 px-4 py-3 border-t border-gray-100 max-md:px-2 max-md:py-2">
 				<h5
 					className="
 						h6 font-semibold line-clamp-2
@@ -111,12 +92,27 @@ const ProductCard = ({ product }) => {
 					">
 					{product.title}
 				</h5>
-				<div className="flex justify-between items-center">
+
+				<div className="flex-1 flex md:justify-between md:items-center max-md:flex-col gap-2 max-md:gap-1.5">
 					<BasePrice
 						className="p3 font-semibold text-secondary"
 						price={product.base_price || product.price}
 					/>
 					<Ratings rating={4} />
+				</div>
+				<div className="flex flex-col gap-0.5/">
+					<PrimaryButton
+						onClick={handleAddToCart}
+						className="w-full mt-1.5 flex items-center justify-center gap-1">
+						Add To Cart
+					</PrimaryButton>
+					<PrimaryButton
+						onClick={() =>
+							router.push(`/product/${product.slug || product.id}`)
+						}
+						className="w-full mt-1.5 flex items-center justify-center gap-1 bg-transparent border border-primary text-primary">
+						View Details
+					</PrimaryButton>
 				</div>
 			</div>
 		</div>

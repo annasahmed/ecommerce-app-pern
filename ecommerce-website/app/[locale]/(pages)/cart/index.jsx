@@ -68,7 +68,7 @@ export default function CartPage() {
 										src={
 											item.thumbnail
 												? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
-												: item.images.length > 0
+												: item.images?.length > 0
 												? item.images[0]
 												: item.image || null
 										}
