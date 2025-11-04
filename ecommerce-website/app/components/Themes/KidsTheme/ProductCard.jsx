@@ -60,30 +60,31 @@ const ProductCard = ({ product }) => {
 					<Overlay />
 				</div>
 				{/* Top-right icons (appear on hover) */}
-				<div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+				<div className="absolute top-3 right-3 max-md:right-1.5 flex flex-col gap-2 max-md:gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
 					{/* View Details */}
 					<button
 						title="View Details"
 						onClick={() =>
 							router.push(`/product/${product.slug || product.id}`)
 						}
-						className="bg-light rounded-full p-2 shadow hover:brightness-95 transition">
-						<Eye size={16} />
+						className="bg-light rounded-full p-2 max-md:p-1 shadow hover:brightness-95 transition">
+						<Eye className="size-5 max-md:size-4" />
 					</button>
 					{/* Compare (not functional yet) */}
 					<button
 						title="Compare"
-						className="bg-light rounded-full p-2 shadow hover:brightness-95 transition">
-						<Repeat size={16} />
+						className="bg-light rounded-full p-2 max-md:p-1 shadow hover:brightness-95 transition">
+						<Repeat className="size-5 max-md:size-4" />
 					</button>
 					{/* Add to Favourites */}
 					<button
 						title="Add to Favorites"
 						onClick={handleFavourite}
-						className="bg-light rounded-full p-2 shadow hover:brightness-95 transition">
+						className="bg-light rounded-full p-2 max-md:p-1 shadow hover:brightness-95 transition">
 						<Heart
-							size={16}
-							className={isFavourite ? "fill-red-500 text-red-500" : ""}
+							className={`size-5 max-md:size-4 ${
+								isFavourite ? "fill-red-500 text-red-500" : ""
+							}`}
 						/>
 					</button>
 				</div>
@@ -91,17 +92,17 @@ const ProductCard = ({ product }) => {
 				<PrimaryButton
 					onClick={handleAddToCart}
 					className="
-						absolute bottom-3 w-[90%] left-1/2 -translate-x-1/2 
-						opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0
+						absolute bottom-3 max-md:bottom-2 w-[90%] left-1/2 -translate-x-1/2 
+						opacity-0 group-hover:opacity-100 translate-y-3 max-md:translate-y-2 group-hover:translate-y-0
 						transition-all duration-300
-						rounded-full text-sm font-medium
+						rounded-fulls
 					">
 					Add to Cart
 				</PrimaryButton>
 			</div>
 
 			{/* Product Info */}
-			<div className="flex flex-col gap-2 px-4 py-3 border-t border-gray-100">
+			<div className="flex flex-col gap-2 px-4 py-3 max-md:px-2 max-md:py-1 border-t border-gray-100">
 				<h5
 					className="
 						h6 font-semibold line-clamp-2
@@ -112,7 +113,7 @@ const ProductCard = ({ product }) => {
 
 				<BasePrice
 					className="p3 font-semibold text-secondary"
-					price={product.base_price}
+					price={product.base_price || product.price}
 				/>
 			</div>
 		</div>

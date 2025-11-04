@@ -15,7 +15,7 @@ const PopularCatTabs = () => {
 					return {
 						label: tab.label,
 						content: (
-							<div className="grid grid-cols-4 gap-6">
+							<div className="grid grid-cols-4 max-md:grid-cols-2 gap-4 max-md:gap-3">
 								{tab.products.map((product) => {
 									return (
 										<ProductCard

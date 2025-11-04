@@ -26,9 +26,9 @@ const ProductsPage = () => {
 				<section className="mb-10">
 					<SearchInput />
 				</section>
-				<section className="grid grid-cols-4 gap-10 max-h-[115vh] overflow-hidden">
+				<section className="grid md:grid-cols-4 max gap-10 md:max-h-[115vh] md:overflow-hidden">
 					<FilterSidebar />
-					<section className="col-span-3 overflow-y-scroll max-h-[115vh] hide-scrollbar">
+					<section className="md:col-span-3 overflow-y-scroll md:max-h-[115vh] hide-scrollbar">
 						<h4 className="h4 font-bold mb-4 border-b pb-1">Results</h4>
 						<ProductsSlider
 							productsData={store.content.allProducts.slice(

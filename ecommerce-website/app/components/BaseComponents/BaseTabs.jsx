@@ -51,9 +51,7 @@ export default function BaseTab({
 			</div>
 
 			{/* Tab Content */}
-			<div className="p-4">
-				{tabs[activeIndex] && tabs[activeIndex].content}
-			</div>
+			<div>{tabs[activeIndex] && tabs[activeIndex].content}</div>
 		</div>
 	);
 }

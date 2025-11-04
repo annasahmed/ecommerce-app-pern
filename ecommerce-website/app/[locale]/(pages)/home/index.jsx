@@ -36,14 +36,14 @@ const HomePage = () => {
 	return (
 		<main>
 			<HeroSection />
-			<section className="flex flex-col gap-18 section-layout">
+			<section className="flex flex-col gap-18 section-layout max-md:gap-10">
 				<CategoriesSection data={parentCategories} />
 				<PopularCatTabs />
 				<BaseLink href="/products">
 					<BaseImage
 						src={homeSmallBanner}
 						alt="special-sale"
-						className="w-full h-auto object-contain cursor-pointer"
+						className="w-full h-auto max-md:min-h-[16vh] object-cover md:object-contain cursor-pointer"
 					/>
 				</BaseLink>
 

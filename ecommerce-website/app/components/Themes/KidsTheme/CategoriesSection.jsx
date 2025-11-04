@@ -6,15 +6,22 @@ import BaseLink from "../../BaseComponents/BaseLink";
 
 const CategoriesSection = ({ data }) => {
 	const store = useStore();
+	const slidesData = data && data.length > 0 ? data : store.content.categories;
 	return (
 		<section className="container-layout">
 			<BaseSlider
-				slides={data && data.length > 0 ? data : store.content.categories}
-				// slides={data && data.length > 0 ? data : store.content.categories}
-				slidesPerView={7}
+				slides={slidesData}
+				slidesPerView={slidesData?.length > 3 ? 3 : slidesData?.length}
 				spaceBetween={20}
-				showNavigation={true}
+				showNavigation={false}
 				showPagination={false}
+				breakpoints={{
+					768: {
+						showNavigation: slidesData?.length > 7,
+						slidesPerView: slidesData?.length > 7 ? 7 : slidesData?.length,
+						spaceBetween: 20,
+					},
+				}}
 				renderSlide={(category, idx) => (
 					<div>
 						<BaseLink href={`/products?category=${category.slug}`}>

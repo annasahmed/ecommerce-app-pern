@@ -60,16 +60,16 @@ export default function CartPage() {
 						{cart.map((item) => {
 							const price = item.base_price ?? item.price ?? 0;
 							const subtotal = price * item.quantity;
-							console.log(item, "chkking item");
-
 							return (
 								<div
 									key={item.id}
-									className="flex flex-col sm:flex-row items-center gap-6 border p-4 rounded-lg">
+									className="flex flex-col sm:flex-row items-center gap-6 max-md:gap-4 border p-4 rounded-lg">
 									<BaseImage
 										src={
 											item.thumbnail
 												? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+												: item.images.length > 0
+												? item.images[0]
 												: item.image || null
 										}
 										alt={item.title}

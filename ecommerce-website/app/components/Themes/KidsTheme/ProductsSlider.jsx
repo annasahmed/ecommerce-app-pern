@@ -19,25 +19,35 @@ const ProductsSlider = ({
 					<h4 className="h3 font-bold text-primary uppercase">{title}</h4>
 					<BaseLink
 						href={`/${slug}`}
-						className="flex gap-2 hover:gap-4 font-medium p5 items-center transition-all">
-						View All <ArrowRight size={18} className="mt-[2px]" />
+						className="flex gap-2 whitespace-nowrap hover:gap-4 font-medium p5 items-center transition-all">
+						View All <ArrowRight className="size-6 max-md:size-4 mt-0.5 max-md:mt-0" />
 					</BaseLink>
 				</div>
 			)}
 			{isSlider ? (
 				<BaseSlider
 					slides={productsData}
-					slidesPerView={4}
-					spaceBetween={20}
-					showNavigation={true}
+					slidesPerView={2}
+					spaceBetween={12}
+					showNavigation={false}
 					showPagination={false}
+					breakpoints={{
+						768: {
+							slidesPerView: 4,
+							showNavigation: true,
+							showPagination: true,
+							spaceBetween: 16,
+						},
+					}}
 					renderSlide={(product) => (
 						<ProductCard product={product} key={product.id} />
 					)}
 				/>
 			) : (
 				<section
-					className={clsx(`grid grid-cols-${columns} gap-4 items-stretch`)}>
+					className={clsx(
+						`grid grid-cols-${columns} gap-4 max-md:gap-3 max-md:grid-cols-2 items-stretch`,
+					)}>
 					{productsData?.map((product) => (
 						<ProductCard product={product} key={product.id} />
 					))}
