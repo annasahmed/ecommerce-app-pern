@@ -71,7 +71,7 @@ const SocialShare = ({ url, title, description, image }) => {
 							title={shareData.title}
 							quote={shareData.description}
 							media={shareData.image}>
-							<Icon size={40} round />
+							<Icon className="size-8 max-md:size-6" round />
 						</Button>
 						<span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs bg-dark text-light px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
 							{name}

@@ -1,77 +1,58 @@
-"use client";
-import { useState } from "react";
-import BaseSlider from "@/app/components/BaseComponents/BaseSlider";
-import Image from "next/image";
+import React, { useRef, useState } from "react";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-export default function ProductImageSlider({
-	images = [],
-	isNew = false,
-	discount = 0,
-}) {
-	const [activeIndex, setActiveIndex] = useState(0);
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+
+// import required modules
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import BaseImage from "../BaseComponents/BaseImage";
+
+export default function BaseSliderWithThumbnails({ images }) {
+	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
 	return (
-		<div className="w-full">
-			{/* --- Main Image Slider --- */}
-			<div className="relative bg-gray-50 rounded-md overflow-hidden">
-				{/* Badges */}
-				<div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
-					{isNew && (
-						<span className="bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded">
-							NEW
-						</span>
-					)}
-					{discount > 0 && (
-						<span className="bg-[#00B67A]/10 text-[#00B67A] text-xs font-semibold px-2 py-1 rounded">
-							-{discount}%
-						</span>
-					)}
-				</div>
-
-				{/* Main Slider */}
-				<BaseSlider
-					slides={images}
-					showPagination={false}
-					showNavigation={true}
-					slidesPerView={1}
-					className="w-full"
-					renderSlide={(img, index) => (
-						<div
-							className="flex justify-center items-center w-full h-[400px] bg-white cursor-pointer transition-all"
-							onClick={() => setActiveIndex(index)}>
-							<Image
-								src={img}
-								alt={`product-${index}`}
-								width={400}
-								height={400}
-								className="object-contain max-h-[400px]"
-							/>
+		<section>
+			<Swiper
+				style={{
+					"--swiper-navigation-color": "#a9a9a9",
+					"--swiper-pagination-color": "#a9a9a9",
+				}}
+				spaceBetween={10}
+				navigation={true}
+				loop
+				thumbs={{ swiper: thumbsSwiper }}
+				modules={[FreeMode, Navigation, Thumbs]}
+				className="mySwiper2 mb-2">
+				{images?.map((v, idx) => (
+					<SwiperSlide key={`product-images-${idx}`}>
+						<div className="w-full border">
+							<BaseImage src={v} className="mx-auto h-full max-h-80 object-contain" />
 						</div>
-					)}
-				/>
-			</div>
-
-			{/* --- Thumbnails --- */}
-			<div className="grid grid-cols-3 gap-2 mt-3">
-				{images.map((img, index) => (
-					<div
-						key={index}
-						onClick={() => setActiveIndex(index)}
-						className={`border rounded-md overflow-hidden cursor-pointer ${
-							activeIndex === index
-								? "border-black"
-								: "border-gray-200 hover:border-gray-400"
-						}`}>
-						<Image
-							src={img}
-							alt={`thumb-${index}`}
-							width={120}
-							height={120}
-							className="w-full h-[100px] object-cover"
-						/>
-					</div>
+					</SwiperSlide>
 				))}
-			</div>
-		</div>
+			</Swiper>
+			<Swiper
+				onSwiper={setThumbsSwiper}
+				spaceBetween={10}
+				slidesPerView={3}
+				freeMode={true}
+				watchSlidesProgress={true}
+				modules={[FreeMode, Navigation, Thumbs]}
+				className="mySwiper">
+				{images?.map((v, idx) => (
+					<SwiperSlide key={`product-images-${idx}`}>
+						<BaseImage
+							src={v}
+							className="w-full h-auto max-h-30 object-cover cursor-pointer active:border border-dark"
+						/>
+					</SwiperSlide>
+				))}
+			</Swiper>
+		</section>
 	);
 }

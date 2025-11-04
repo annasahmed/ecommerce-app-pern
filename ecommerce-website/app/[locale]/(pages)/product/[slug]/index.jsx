@@ -1,16 +1,13 @@
 "use client";
-import { useState } from "react";
-import { Heart, Share2, ShoppingCart, Star } from "lucide-react";
+import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import ProductImageSlider from "@/app/components/Shared/ProductImageSlider";
-import Button from "@/app/components/Shared/PrimaryButton";
-import Image from "next/image";
-import { useStore } from "@/app/providers/StoreProvider";
+import Ratings from "@/app/components/Shared/Ratings";
 import SocialShare from "@/app/components/Shared/SocialShare";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
+import { useStore } from "@/app/providers/StoreProvider";
 import { useCartStore } from "@/app/store/cartStore";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import PrimaryButton from "@/app/components/Shared/PrimaryButton";
-import Ratings from "@/app/components/Shared/Ratings";
 
 export default function ProductDetailsPage() {
 	const store = useStore();
@@ -49,7 +46,7 @@ export default function ProductDetailsPage() {
 
 				{/* Right Section - Product Info */}
 				<div className="flex flex-col">
-					<h1 className="h3 font-bold mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+					<h1 className="h3 text-primary font-bold mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
 						{product.title}
 					</h1>
 
@@ -78,6 +75,39 @@ export default function ProductDetailsPage() {
 						{product.description}
 					</p>
 
+					{/* Color Guide */}
+					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
+						<span className="font-medium">Color:</span>
+						<div className="flex flex-wrap gap-3">
+							{[
+								{ name: "Red", color: "bg-red-500" },
+								{ name: "Green", color: "bg-green-500" },
+								{ name: "Orange", color: "bg-orange-500" },
+								{ name: "Yellow", color: "bg-yellow-400" },
+								{ name: "Blue", color: "bg-blue-500" },
+								{ name: "Gray", color: "bg-gray-400" },
+							].map(({ name, color }) => (
+								<div
+									key={name}
+									className={`relative w-5 h-5 rounded-full cursor-pointer border-2 border-transparent ${color}`}></div>
+							))}
+						</div>
+					</div>
+					{/* Size Guide */}
+					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
+						<span className="font-medium">Size:</span>
+						{/* <div className="flex items-center border rounded-md"> */}
+						<div className="flex gap-1">
+							{["XS", "S", "M", "XL", "XXL"].map((size) => (
+								<button
+									key={size}
+									className="border text-sm px-3 py-1 rounded-sm">
+									{size}
+								</button>
+							))}
+						</div>
+						{/* </div> */}
+					</div>
 					{/* Quantity Selector */}
 					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
 						<span className="font-medium">Quantity:</span>
@@ -99,21 +129,15 @@ export default function ProductDetailsPage() {
 					{/* Buttons */}
 					<div className="flex md:items-center gap-3 max-md:gap-1 mb-6 pb-6 border-b">
 						<PrimaryButton
-							className="flex-1 flex items-center justify-center gap-2 max-md:gap-0.5"
+							className="flex-1 bg-transparent border border-primary text-primary"
 							onClick={handleAddToCart}>
-							<ShoppingCart className="size-6 max-md:size-4" />
 							Add to Cart
 						</PrimaryButton>
 						<PrimaryButton className="flex-1">Buy Now</PrimaryButton>
 						<PrimaryButton
 							variant="outline"
-							className="flex-1 flex items-center justify-center gap-2 max-md:gap-0.5"
+							className="flex-1 bg-transparent border border-primary text-primary"
 							onClick={handleFavourite}>
-							<Heart
-								className={`size-6 max-md:size-4 min-w-8 ${
-									isFavourite ? "fill-red-500 text-red-500" : ""
-								}`}
-							/>
 							Add to Wishlist
 						</PrimaryButton>
 					</div>
