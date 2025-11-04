@@ -13,7 +13,7 @@ const CategoriesSection = ({ data }) => {
 				slides={slidesData}
 				slidesPerView={slidesData?.length > 3 ? 3 : slidesData?.length}
 				spaceBetween={20}
-				showNavigation={slidesData?.length > 3}
+				showNavigation={false}
 				showPagination={false}
 				breakpoints={{
 					768: {
@@ -30,7 +30,9 @@ const CategoriesSection = ({ data }) => {
 								key={idx}
 								className="w-full rounded-full h-auto border-2 border-dotted p-1 border-secondary"
 							/>
-							<p className="text-center capitalize mt-2 font-medium">{category.title}</p>
+							<p className="text-center capitalize mt-2 font-medium">
+								{category.title}
+							</p>
 						</BaseLink>
 					</div>
 				)}
