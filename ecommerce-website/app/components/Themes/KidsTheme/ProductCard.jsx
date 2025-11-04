@@ -9,6 +9,7 @@ import { useCartStore } from "@/app/store/cartStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import PrimaryButton from "../../Shared/PrimaryButton";
+import Ratings from "../../Shared/Ratings";
 
 const ProductCard = ({ product }) => {
 	const router = useRouter();
@@ -110,11 +111,13 @@ const ProductCard = ({ product }) => {
 					">
 					{product.title}
 				</h5>
-
-				<BasePrice
-					className="p3 font-semibold text-secondary"
-					price={product.base_price || product.price}
-				/>
+				<div className="flex justify-between items-center">
+					<BasePrice
+						className="p3 font-semibold text-secondary"
+						price={product.base_price || product.price}
+					/>
+					<Ratings rating={4} />
+				</div>
 			</div>
 		</div>
 	);

@@ -22,6 +22,11 @@ import p13 from "@/app/assets/themes/kidsTheme/products/p13.png";
 import p14 from "@/app/assets/themes/kidsTheme/products/p14.png";
 import p15 from "@/app/assets/themes/kidsTheme/products/p5.png";
 import p16 from "@/app/assets/themes/kidsTheme/products/p16.png";
+
+import returnFeatureIcon from "@/app/assets/themes/kidsTheme/return.png";
+import securePaymentFeatureIcon from "@/app/assets/themes/kidsTheme/secure-payment.png";
+import certifiedFeatureIcon from "@/app/assets/themes/kidsTheme/certified.png";
+import shippingFeatureIcon from "@/app/assets/themes/kidsTheme/fast-shipping.png";
 import trendingCategory from "@/app/assets/themes/kidsTheme/trending-category.png";
 import bestSellerCategory from "@/app/assets/themes/kidsTheme/best-seller-category.png";
 import comfortableClothesCategory from "@/app/assets/themes/kidsTheme/comfortable-clothes-category.png";
@@ -77,6 +82,29 @@ export const KIDSTHEME_DATA = {
 		},
 		{
 			img: heroSliderSlide,
+		},
+	],
+
+	features: [
+		{
+			icon: returnFeatureIcon,
+			title: "30 DAY RETURNS",
+			description: "No-nonsense return policy if you are not happy",
+		},
+		{
+			icon: shippingFeatureIcon,
+			title: "FAST SHIPING",
+			description: "Your precious package is expedited and insured",
+		},
+		{
+			icon: certifiedFeatureIcon,
+			title: "GLOBAL CERTIFIED",
+			description: "5 star reviews from reputable units around the world",
+		},
+		{
+			icon: securePaymentFeatureIcon,
+			title: "SECURE PAYMENT",
+			description: "Pay with the smartest and most secure apps",
 		},
 	],
 

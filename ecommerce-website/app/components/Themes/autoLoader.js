@@ -22,6 +22,7 @@ export function loadThemeComponents(theme) {
 			CategoriesSection: dynamic(() => import(`./${theme}/CategoriesSection`)),
 			PopularCatTabs: dynamic(() => import(`./${theme}/PopularCatTabs`)),
 			ProductsSlider: dynamic(() => import(`./${theme}/ProductsSlider`)),
+			FeaturesSection: dynamic(() => import(`./${theme}/FeaturesSection`)),
 			TrendingCategoriesSection: dynamic(() =>
 				import(`./${theme}/TrendingCategoriesSection`),
 			),
@@ -39,6 +40,7 @@ export function loadThemeComponents(theme) {
 			CategoriesSection: dynamic(() => import("./KidsTheme/CategoriesSection")),
 			PopularCatTabs: dynamic(() => import("./KidsTheme/PopularCatTabs")),
 			ProductsSlider: dynamic(() => import("./KidsTheme/ProductsSlider")),
+			FeaturesSection: dynamic(() => import("./KidsTheme/FeaturesSection")),
 			TrendingCategoriesSection: dynamic(() =>
 				import("./KidsTheme/TrendingCategoriesSection"),
 			),

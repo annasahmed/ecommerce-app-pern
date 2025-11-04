@@ -30,6 +30,7 @@ const CategoriesSection = ({ data }) => {
 								key={idx}
 								className="w-full rounded-full h-auto border-2 border-dotted p-1 border-secondary"
 							/>
+							<p className="text-center capitalize mt-2 font-medium">{category.title}</p>
 						</BaseLink>
 					</div>
 				)}

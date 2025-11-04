@@ -16,6 +16,7 @@ const HomePage = () => {
 		PopularCatTabs,
 		TrendingCategoriesSection,
 		ProductsSlider,
+		FeaturesSection,
 	} = loadThemeComponents(store.themeName);
 
 	const { data: parentCategories, isLoading: parentCategoriesLoading } =
@@ -62,6 +63,7 @@ const HomePage = () => {
 						productsData={store.content.saleProducts}
 					/>
 				</section>
+				<FeaturesSection />
 			</section>
 		</main>
 	);

@@ -10,6 +10,7 @@ import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 import { useCartStore } from "@/app/store/cartStore";
 import { toast } from "react-toastify";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
+import Ratings from "@/app/components/Shared/Ratings";
 
 export default function ProductDetailsPage() {
 	const store = useStore();
@@ -54,17 +55,7 @@ export default function ProductDetailsPage() {
 
 					{/* Rating */}
 					<div className="flex items-center gap-2 mb-4">
-						<div className="flex text-yellow-500">
-							{[...Array(5)].map((_, i) => (
-								<Star
-									key={i}
-									size={18}
-									fill={
-										i < Math.floor(product.rating) ? "currentColor" : "none"
-									}
-								/>
-							))}
-						</div>
+						<Ratings />
 						<span className="p5 text-muted text-sm sm:text-base">
 							({product.reviewsCount} reviews)
 						</span>
@@ -119,7 +110,9 @@ export default function ProductDetailsPage() {
 							className="flex-1 flex items-center justify-center gap-2 max-md:gap-0.5"
 							onClick={handleFavourite}>
 							<Heart
-								className={`size-6 max-md:size-4 min-w-8 ${isFavourite ? "fill-red-500 text-red-500" : ""}`}
+								className={`size-6 max-md:size-4 min-w-8 ${
+									isFavourite ? "fill-red-500 text-red-500" : ""
+								}`}
 							/>
 							Add to Wishlist
 						</PrimaryButton>
@@ -179,15 +172,7 @@ export default function ProductDetailsPage() {
 							{product.reviews.map((r, i) => (
 								<div key={i} className="border-b py-3">
 									<p className="font-medium">{r.user}</p>
-									<div className="flex text-yellow-500">
-										{[...Array(5)].map((_, j) => (
-											<Star
-												key={j}
-												size={16}
-												fill={j < r.rating ? "currentColor" : "none"}
-											/>
-										))}
-									</div>
+									<Ratings rating={r.rating} />
 									<p className="text-dark/60 text-sm mt-1">{r.comment}</p>
 								</div>
 							))}
