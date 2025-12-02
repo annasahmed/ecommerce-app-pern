@@ -11,15 +11,8 @@ const instance = axios.create({
 		Accept: "application/json",
 		"Content-Type": "application/json",
 	},
+	withCredentials: true, // <-- sends cookies
 });
-
-export const setToken = (token) => {
-	if (token) {
-		instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-	} else {
-		delete instance.defaults.headers.common["Authorization"];
-	}
-};
 
 // ✅ Global response interceptor
 instance.interceptors.response.use(
@@ -28,14 +21,32 @@ instance.interceptors.response.use(
 	},
 	async (error) => {
 		const status = error.response?.status || 500;
+		const originalRequest = error.config;
+		if (originalRequest.url.includes("/auth/refresh")) {
+			return Promise.reject(error);
+		}
+		// Handle 401 (unauthorized) — Try refreshing the access token first
+		if (status === 401 && !originalRequest._retry) {
+			// if (status === 401 && !error.config._retry) {
+			originalRequest._retry = true;
+			try {
+				//  Attempt to refresh tokens via backend refresh endpoint
+				await instance.post("/auth/refresh");
 
-		if (status === 401) {
-			// 🚨 Token expired / user unauthorized → auto logout
-			// clearAuth(); // e.g. remove token from storage, reset store, etc.
+				//  Retry the original failed request
+				return instance(originalRequest);
+			} catch (refreshError) {
+				console.error("Refresh token failed:", refreshError);
 
-			// Optional: redirect to login page
-			if (typeof window !== "undefined") {
-				window.location.href = "/login";
+				// Optional: clear user auth state if using store/context
+				// const { logout } = useAuthStore.getState();
+				// logout();
+
+				//  Redirect to login if refresh fails
+				// if (typeof window !== "undefined") {
+				// 	window.location.href = "/login";
+				// }
+				return Promise.reject(refreshError);
 			}
 		}
 
@@ -58,6 +69,7 @@ const requests = {
 	get: (url, config) => instance.get(url, config),
 	post: (url, body, config) => instance.post(url, body, config),
 	put: (url, body, config) => instance.put(url, body, config),
+	delete: (url, config) => instance.delete(url, config),
 };
 
 export default requests;

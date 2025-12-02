@@ -1,4 +1,3 @@
-import Layout from "@/app/components/Shared/layout/Layout";
 import { getTheme } from "@/app/lib/getTheme";
 import { StoreProvider } from "@/app/providers/StoreProvider";
 import "@/app/styles/headings.css";
@@ -13,6 +12,7 @@ import { Geist, Inter, Roboto } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 
 import ReactQueryProvider from "@/app/providers/ReactQueryProvider";
+import { AuthProvider } from "@/app/providers/AuthProvider";
 
 const geist = Geist({
 	subsets: ["latin"],
@@ -100,9 +100,9 @@ export default async function RootLayout({ children }) {
 				<ToastContainer />
 				<ReactQueryProvider>
 					<NextIntlClientProvider>
-						<StoreProvider value={store}>
-							<Layout>{children}</Layout>
-						</StoreProvider>
+						<AuthProvider>
+							<StoreProvider value={store}>{children}</StoreProvider>
+						</AuthProvider>
 					</NextIntlClientProvider>
 				</ReactQueryProvider>
 			</body>

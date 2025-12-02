@@ -1,5 +1,6 @@
 import React from "react";
 import Label from "@/app/components/Shared/form/Label";
+import Error from "./Error";
 
 const InputArea = ({
 	name,
@@ -14,10 +15,11 @@ const InputArea = ({
 	required = true,
 	pattern, // Added pattern as a prop
 	patternMessage = "Invalid input", // Optional: Custom error message for pattern validation
+	errorName,
 }) => {
 	return (
-		<>
-			<Label label={label} />
+		<section>
+			<Label htmlFor={name} label={label} required={required} />
 			<div className="relative">
 				{Icon && (
 					<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -34,6 +36,11 @@ const InputArea = ({
 									value: pattern,
 									message: patternMessage, // Show a custom error message for pattern mismatch
 							  }
+							: type === "email"
+							? {
+									value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+									message: "Please enter a valid email address", // Show a custom error message for pattern mismatch
+							  }
 							: undefined,
 					})}
 					type={type}
@@ -43,13 +50,14 @@ const InputArea = ({
 					placeholder={placeholder}
 					autoComplete={autocomplete}
 					className={`${
-						Icon ? "py-2 pl-10" : "py-2 px-4 md:px-5"
+						Icon ? "py-2 pl-10" : "py-2 px-4 md:px-2"
 					} w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none focus:border-emerald-500 h-11 md:h-12 ${
 						readOnly ? "bg-gray-100 cursor-not-allowed text-gray-500" : ""
 					}`}
 				/>
+				<Error errorName={errorName} />
 			</div>
-		</>
+		</section>
 	);
 };
 
