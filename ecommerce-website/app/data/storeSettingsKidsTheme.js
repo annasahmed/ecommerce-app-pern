@@ -1,5 +1,6 @@
-import logo from "@/app/assets/themes/kidsTheme/logo.png";
-import logoWhite from "@/app/assets/themes/kidsTheme/footer-logo.png";
+import logo from "@/app/assets/themes/kidsTheme/logo/logo-bnb-color.svg";
+import logoWhite from "@/app/assets/themes/kidsTheme/logo/logo-bnb-white.svg";
+import logoBlack from "@/app/assets/themes/kidsTheme/logo/logo-bnb-black.svg";
 import footerBg from "@/app/assets/themes/kidsTheme/footer-bg.png";
 import heroBanner from "@/app/assets/themes/furnitureTheme/hero-banner.png";
 
@@ -48,16 +49,44 @@ export const storeSettingsKidsTheme = {
 				text: "Home",
 			},
 			{
-				link: "/shop",
-				text: "Shop",
+				link: "/fashion",
+				text: "Fashion",
 			},
 			{
-				link: "/prodcuts",
-				text: "Products",
+				link: "/gear",
+				text: "Gear",
 			},
 			{
-				link: "/contact",
-				text: "Contact Us",
+				link: "/feeding",
+				text: "feeding",
+			},
+			{
+				link: "/bath-and-shower",
+				text: "bath & shower",
+			},
+			{
+				link: "/safety-toys",
+				text: "safety toys",
+			},
+			{
+				link: "/diapering",
+				text: "diapering",
+			},
+			{
+				link: "/nursery",
+				text: "nursery",
+			},
+			{
+				link: "/moms",
+				text: "moms",
+			},
+			{
+				link: "/sale",
+				text: "sale",
+			},
+			{
+				link: "/new-arrival",
+				text: "new arrival",
 			},
 		],
 		footer: {

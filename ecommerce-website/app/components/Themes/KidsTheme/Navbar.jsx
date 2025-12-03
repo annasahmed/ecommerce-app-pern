@@ -46,7 +46,7 @@ const Navbar = () => {
 					<div className="flex-1">
 						<Logo
 							src={store.content.logo}
-							className="w-20 sm:w-28 h-auto object-contain mx-auto"
+							className="w-40 max-md:w-28 h-auto object-contain mx-auto"
 						/>
 					</div>
 					{/* Right Section (Icons) */}
@@ -94,7 +94,7 @@ const Navbar = () => {
 			{/* Navigation Menu */}
 			<nav className="bg-light shadow-sm sticky top-0 z-40">
 				{/* Desktop Nav */}
-				<ul className="hidden sm:flex flex-wrap items-center justify-center gap-8 py-4 container-layout">
+				<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 py-4 container-layout">
 					{store.content.navCategories.map((item, index) => (
 						<li key={index} className="text-sm sm:text-base font-medium">
 							<BaseLink

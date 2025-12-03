@@ -6,6 +6,9 @@ import feedingCat from "@/app/assets/themes/kidsTheme/categories/feeding.png";
 import softToysCat from "@/app/assets/themes/kidsTheme/categories/soft-toys.png";
 import nurseryCat from "@/app/assets/themes/kidsTheme/categories/nursery.png";
 import shoesCat from "@/app/assets/themes/kidsTheme/categories/shoes.png";
+import socksCat from "@/app/assets/themes/kidsTheme/categories/socks.jpeg";
+import bootiesCat from "@/app/assets/themes/kidsTheme/categories/booties.webp";
+import sandalsCat from "@/app/assets/themes/kidsTheme/categories/sandals.png";
 import p1 from "@/app/assets/themes/kidsTheme/products/p1.png";
 import p2 from "@/app/assets/themes/kidsTheme/products/p2.png";
 import p3 from "@/app/assets/themes/kidsTheme/products/p3.png";
@@ -34,40 +37,49 @@ import comfortableClothesCategory from "@/app/assets/themes/kidsTheme/comfortabl
 export const KIDSTHEME_DATA = {
 	navCategories: [
 		{
-			title: "Hot Deals",
-			// slug: "hot-deals",
-			slug: "products",
+			slug: "/",
+			title: "Home",
 		},
 		{
-			title: "New Arrivals",
-			// slug: "new-arrivals",
-			slug: "products",
+			slug: "/fashion",
+			title: "Fashion",
 		},
 		{
-			title: "Baby's",
-			// slug: "baby",
-			slug: "products",
+			slug: "/gear",
+			title: "Gear",
 		},
 		{
-			title: "Baba's",
-			// slug: "baba",
-			slug: "products",
+			slug: "/feeding",
+			title: "feeding",
 		},
 		{
-			title: "Feeding",
-			// slug: "feeding",
-			slug: "products",
+			slug: "/bath-and-shower",
+			title: "bath & shower",
 		},
 		{
-			title: "Toys",
-			// slug: "toys",
-			slug: "products",
+			slug: "/safety-toys",
+			title: "safety toys",
 		},
 		{
-			title: "Accessories",
-			// slug: "accessories",
-			slug: "products",
+			slug: "/diapering",
+			title: "diapering",
 		},
+		{
+			slug: "/nursery",
+			title: "nursery",
+		},
+		{
+			slug: "/moms",
+			title: "moms",
+		},
+		{
+			slug: "/sale",
+			title: "sale",
+		},
+		// {
+		// 	slug: "/new-arrival",
+		// 	title: "new arrival",
+		// },
 	],
 
 	heroSlider: [
@@ -116,13 +128,13 @@ export const KIDSTHEME_DATA = {
 		{ title: "shoes", icon: shoesCat, slug: "shoes" },
 		{ title: "nursery", icon: nurseryCat, slug: "nursery" },
 		{ title: "soft toys", icon: softToysCat, slug: "toys" },
-		{ title: "baba", icon: babaCat, slug: "baba" },
-		{ title: "baby", icon: babyCat, slug: "baby" },
-		{ title: "bath", icon: bathCat, slug: "bath" },
-		{ title: "feeding", icon: feedingCat, slug: "feeding" },
+	],
+
+	parentCatgores: [
+		{ title: "booties", icon: bootiesCat, slug: "booties" },
 		{ title: "shoes", icon: shoesCat, slug: "shoes" },
-		{ title: "nursery", icon: nurseryCat, slug: "nursery" },
-		{ title: "soft toys", icon: softToysCat, slug: "toys" },
+		{ title: "socks", icon: socksCat, slug: "socks" },
+		{ title: "sandals", icon: sandalsCat, slug: "sandals" },
 	],
 
 	popularTabs: [

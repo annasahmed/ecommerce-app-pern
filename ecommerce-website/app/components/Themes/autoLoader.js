@@ -23,9 +23,13 @@ export function loadThemeComponents(theme) {
 			PopularCatTabs: dynamic(() => import(`./${theme}/PopularCatTabs`)),
 			ProductsSlider: dynamic(() => import(`./${theme}/ProductsSlider`)),
 			FeaturesSection: dynamic(() => import(`./${theme}/FeaturesSection`)),
+			ParentCategoriesGrid: dynamic(() =>
+				import(`./${theme}/ParentCategoriesGrid`),
+			),
 			TrendingCategoriesSection: dynamic(() =>
 				import(`./${theme}/TrendingCategoriesSection`),
 			),
+			Newsletter: dynamic(() => import(`./${theme}/Newsletter`)),
 		};
 	} catch (err) {
 		console.error(

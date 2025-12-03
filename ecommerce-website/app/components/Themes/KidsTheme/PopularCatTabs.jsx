@@ -7,9 +7,9 @@ const PopularCatTabs = () => {
 	const store = useStore();
 	return (
 		<section className="container-layout">
-			<h3 className="text-center font-bold h4 text-primary mb-2">
+			<h4 className="text-center font-bold h4 text-primary mb-2">
 				NEW IN STORE
-			</h3>
+			</h4>
 			<BaseTab
 				tabs={store.content.popularTabs?.map((tab) => {
 					return {

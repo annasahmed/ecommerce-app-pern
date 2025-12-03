@@ -61,6 +61,10 @@ h6 {
 	font-family: var(--font-konnect);
 }
 
+label {
+	cursor: pointer;
+}
+
 .hide-scrollbar::-webkit-scrollbar {
 	display: none;
 }

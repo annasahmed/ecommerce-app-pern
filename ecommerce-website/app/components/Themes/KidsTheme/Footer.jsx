@@ -100,7 +100,7 @@ const Footer = () => {
 					<div className="flex justify-center md:justify-start w-full md:w-auto">
 						<Logo
 							src={footerContent.logo}
-							className="w-24 md:w-28 h-auto object-contain"
+							className="w-32 max-md:w-28 h-auto object-contain"
 						/>
 					</div>
 					<p className="p5 text-sm md:text-base">

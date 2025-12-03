@@ -3,6 +3,9 @@ import homeSmallBanner from "@/app/assets/themes/kidsTheme/home-small-banner.png
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
+import CategoriesSection from "@/app/components/Themes/KidsTheme/CategoriesSection";
+import Newsletter from "@/app/components/Themes/KidsTheme/Newsletter";
+import ParentCategoriesGrid from "@/app/components/Themes/KidsTheme/ParentCategoriesGrid";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import ParentCategoryServices from "@/app/services/ParentCategoryServices";
@@ -12,11 +15,13 @@ const HomePage = () => {
 	const store = useStore();
 	const {
 		HeroSection,
-		CategoriesSection,
+		// CategoriesSection,
 		PopularCatTabs,
 		TrendingCategoriesSection,
 		ProductsSlider,
 		FeaturesSection,
+		// ParentCategoriesGrid,
+		// Newsletter,
 	} = loadThemeComponents(store.themeName);
 
 	const { data: parentCategories, isLoading: parentCategoriesLoading } =
@@ -56,6 +61,15 @@ const HomePage = () => {
 						productsData={store.content.bestSellingProducts}
 					/>
 				</section>
+
+				<ParentCategoriesGrid />
+
+				<section>
+					<h3 className="mb-4 container-layout h3 font-bold text-center text-primary uppercase">
+						More To Explore
+					</h3>
+					<CategoriesSection data={parentCategories} isSlider={false} />
+				</section>
 				<section className="container-layout">
 					<ProductsSlider
 						title="sale"
@@ -63,8 +77,10 @@ const HomePage = () => {
 						productsData={store.content.saleProducts}
 					/>
 				</section>
+
 				<FeaturesSection />
 			</section>
+			<Newsletter />
 		</main>
 	);
 };
