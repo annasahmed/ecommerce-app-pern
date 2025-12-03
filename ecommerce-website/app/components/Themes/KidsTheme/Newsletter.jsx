@@ -26,13 +26,13 @@ export default function Newsletter() {
 		try {
 			// Replace this with your actual API endpoint
 			setMessage("Thank you for subscribing!");
-			const res = await fetch("/api/subscribe", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email }),
-			});
+			// const res = await fetch("/api/subscribe", {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify({ email }),
+			// });
 
 			// if (res.ok) {
 			// 	setEmail("");
