@@ -1,0 +1,12 @@
+:root {
+	--customWhite: #ffffff;
+	--customBlack: #000000;
+}
+
+.wm-modal {
+	z-index: 2000 !important;
+}
+
+.searchWrapper {
+	padding: 8px 10px 11px !important;
+}
