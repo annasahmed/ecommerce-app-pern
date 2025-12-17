@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bycrypt = require('bcrypt');
 const config = require('../config/config');
 const db = require('../db/models');
+const { tokenTypes } = require('../config/tokens');
+const ApiError = require('./ApiError');
 
 function generateToken(data, expiresMs, secret = config.jwt.secret) {
 	const token = jwt.sign(
@@ -11,12 +13,24 @@ function generateToken(data, expiresMs, secret = config.jwt.secret) {
 	return token;
 }
 
-async function verifyToken(token) {
+async function verifyToken(token, type = tokenTypes.ACCESS) {
 	try {
 		const payload = jwt.verify(token, config.jwt.secret);
+		if (type === tokenTypes.REFRESH) {
+			const tokenInDb = await db.token.findOne({
+				where: {
+					jti,
+					expires_at: { [Op.gt]: new Date() },
+					revoked: false,
+				},
+			});
+
+			if (!tokenInDb)
+				throw new ApiError(httpStatus.UNAUTHORIZED, 'Session Expired');
+		}
 		return payload;
 	} catch (err) {
-		throw new Error(`Invalid token: ${err}`);
+		throw new ApiError(httpStatus.UNAUTHORIZED, `Invalid token: ${err}`);
 	}
 }
 
@@ -33,8 +47,19 @@ async function decryptData(string, hashedString) {
 
 function setCookie(res, cookieName, cookieValue, expiresMs) {
 	res.cookie(cookieName, cookieValue, {
-		httpOnly: true,
+		// httpOnly: true,
+		// secure: config.env === 'production',
+		// sameSite: 'strict',
+		sameSite: 'lax',
 		expires: new Date(expiresMs),
+	});
+}
+function clearCookie(res, cookieName) {
+	res.clearCookie(cookieName, {
+		// httpOnly: true,
+		// secure: config.env === 'production',
+		// sameSite: 'strict',
+		sameSite: 'lax',
 	});
 }
 
@@ -50,4 +75,5 @@ module.exports = {
 	encryptData,
 	decryptData,
 	setCookie,
+	clearCookie,
 };

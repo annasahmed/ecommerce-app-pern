@@ -9,7 +9,7 @@ const validations = async (data) => {
 			where: { email: data.email },
 		});
 		if (exist)
-			throw new ApiError(httpStatus.NOT_FOUND, `Email already exists`);
+			throw new ApiError(httpStatus.BAD_REQUEST, `Email already exists`);
 	}
 };
 
@@ -37,11 +37,12 @@ const appUserService = createAppBaseService(db.app_user, {
 });
 
 module.exports = {
+	getAppUserById: (id) => appUserService.getById(id),
 	getAppUserByEmail: (email) =>
 		appUserService.getByAttribute('email', email, [
 			'activeEntity',
 			'withPassword',
 		]),
-	createAppUser: (req) => appUserService.create(req),
-	updateAppUser: (req) => appUserService.update(req),
+	createAppUser: (req) => appUserService.create(req.body),
+	updateAppUser: (req) => appUserService.update(req.body),
 };

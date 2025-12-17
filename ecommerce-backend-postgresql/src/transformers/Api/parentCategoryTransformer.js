@@ -2,13 +2,12 @@ const { extractTranslation } = require('../../utils/transformerHelpers');
 
 function transformParentCategory(product, lang) {
 	const translation = extractTranslation(product.translations, lang);
-
 	return {
 		id: product.id,
 		title: translation.title,
 		description: translation.description,
 		slug: translation.slug,
-		icons: product.medium?.url,
+		icons: product.medium?.url || null,
 	};
 }
 

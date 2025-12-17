@@ -10,7 +10,7 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true,
 			},
-			token: {
+			jti: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},

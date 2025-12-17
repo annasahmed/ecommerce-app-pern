@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			image: mediaField,
+			image: mediaField, // will change this late no need of media table association here will change to simple string
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -51,8 +51,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: false,
 			},
-
-			...baseFields,
+			status: baseFields.status,
 		},
 		{
 			/**
@@ -66,12 +65,6 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	app_user.associate = (models) => {
 		app_user.hasOne(models.token);
-		app_user.belongsTo(models.media, {
-			foreignKey: 'user_id',
-			onDelete: 'SET NULL',
-			onUpdate: 'CASCADE',
-		});
-		baseAssociation(app_user, models);
 		mediaAssociation(app_user, models, 'image');
 	};
 

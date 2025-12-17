@@ -46,8 +46,14 @@ app.use(xss());
 app.use(compression());
 
 // enable cors
-app.use(cors());
-app.options('*', cors());
+// app.use(cors());
+// app.options('*', cors());
+app.use(
+	cors({
+		origin: 'http://localhost:3000', // ✅ your Next.js origin
+		credentials: true, // ✅ allow cookies/headers
+	})
+);
 
 app.use(cookieParser());
 

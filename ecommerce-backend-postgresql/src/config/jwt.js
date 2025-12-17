@@ -9,7 +9,7 @@ async function isRevoked(req, token) {
 		const jwtToken = req.headers.authorization?.split(' ')[1];
 		if (!jwtToken) return true;
 
-		const isRefreshRoute = req.originalUrl.includes('/refresh-token');
+		const isRefreshRoute = req.originalUrl.includes('/refresh');
 
 		if (!isRefreshRoute) {
 			// It's an access token route, don't revoke

@@ -1,27 +1,22 @@
 const db = require('../../db/models/index.js');
 const createAppBaseService = require('../../utils/appBaseService.js');
-const { localizeAttributes, getLang } = require('../../utils/commonUtils.js');
+const { translationInclude } = require('../../utils/includeHelpers.js');
 
-const parentCategoryService = createAppBaseService(db.parent_category, {
-	name: 'Parent Category',
+const categoryService = createAppBaseService(db.category, {
+	name: 'Category',
 });
 
 module.exports = {
-	getParentCategories: (req) =>
-		parentCategoryService.list(
+	getCategories: (req) =>
+		categoryService.list(
 			req,
 			[
 				{
-					model: db.category.scope({ method: ['active'] }),
-					attributes: [
-						'id',
-						'slug',
-						...localizeAttributes(
-							['title', 'description'],
-							getLang(req),
-							'categories'
-						),
-					],
+					model: db.category_translation,
+					separate: true,
+					as: 'translations',
+					attributes: ['title', 'description', 'slug'],
+					include: [translationInclude(req)],
 				},
 				{
 					model: db.media,
@@ -29,9 +24,6 @@ module.exports = {
 				},
 			],
 			[],
-			{
-				method: ['localized', ['title', 'description'], getLang(req)],
-			},
 			[['created_at', 'ASC']]
 		),
 };

@@ -10,10 +10,25 @@ router.post(
 	validate(apiAuthValidation.login),
 	apiAuthController.login
 );
+
 router.post(
 	'/register',
 	validate(apiAuthValidation.register),
 	apiAuthController.register
 );
+
+router.post(
+	'/logout',
+	validate(apiAuthValidation.logout),
+	apiAuthController.logout
+);
+
+router.post(
+	'/refresh',
+	validate(apiAuthValidation.refresh),
+	apiAuthController.refreshAccessToken
+);
+
+router.get('/me', apiAuthController.me);
 
 module.exports = router;

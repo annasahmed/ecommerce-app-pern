@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-const { validatePhoneNumber } = require('../customValidation');
 
 const login = {
 	body: Joi.object().keys({
@@ -12,11 +11,24 @@ const register = {
 		email: Joi.string().required(),
 		password: Joi.string().required(),
 		name: Joi.string().required(),
-		phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
+		user_type: Joi.string().valid('website', 'mobile').required().messages({
+			'any.only': "User type must be either 'website' or 'mobile'",
+			'string.empty': 'User type is required',
+		}),
+
+		// phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
 	}),
+};
+const logout = {
+	body: Joi.object().keys({}),
+};
+const refresh = {
+	body: Joi.object().keys({}),
 };
 
 module.exports = {
 	login,
 	register,
+	logout,
+	refresh,
 };

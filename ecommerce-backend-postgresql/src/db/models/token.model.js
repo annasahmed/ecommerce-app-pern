@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			token: {
+			jti: {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},

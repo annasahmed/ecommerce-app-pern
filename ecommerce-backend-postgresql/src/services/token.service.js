@@ -5,6 +5,7 @@ const ApiError = require('../utils/ApiError');
 const { generateToken, generateExpires } = require('../utils/auth');
 const db = require('../db/models');
 const { tokenTypes } = require('../config/tokens');
+const crypto = require('crypto');
 
 async function generateResetPasswordToken(email) {
 	const user = await userService.getUserByEmail(email);
@@ -24,20 +25,26 @@ async function generateResetPasswordToken(email) {
 }
 
 async function generateAuthTokens({ userId, roleId }, isCmsUser) {
+	const refreshJti = crypto.randomUUID();
 	const refreshTokenExpires = generateExpires(
-		config.jwt.refreshExpirationDays * 24
+		config.jwt.refreshExpirationDays * 24 // multiply by 24 to convert days to hours
 	);
 
-	const refreshToken = generateToken({ userId }, refreshTokenExpires);
+	const refreshToken = generateToken(
+		{ userId, type: tokenTypes.REFRESH, jti: refreshJti, isCmsUser },
+		refreshTokenExpires
+	);
 
 	const accessTokenExpires = generateExpires(
-		config.jwt.accessExpirationMinutes / 60
+		config.jwt.accessExpirationMinutes / 60 // divide by 60 to convert minutes to hours
 	);
-	const accessToken = generateToken({ userId, roleId }, accessTokenExpires);
+	const accessToken = generateToken(
+		{ userId, roleId, type: tokenTypes.ACCESS, isCmsUser },
+		accessTokenExpires
+	);
 
 	await db.token.create({
-		token: refreshToken, // only refresh token
-		type: 'refresh',
+		jti: refreshJti, // save only refresh token Jti in db
 		expires_at: refreshTokenExpires,
 		type: tokenTypes.REFRESH,
 		...(isCmsUser ? { user_id: userId } : { app_user_id: userId }),
@@ -54,8 +61,25 @@ async function generateAuthTokens({ userId, roleId }, isCmsUser) {
 		},
 	};
 }
+async function generateAccessTokens({ userId, roleId }, isCmsUser) {
+	const accessTokenExpires = generateExpires(
+		config.jwt.accessExpirationMinutes / 60 // divide by 60 to convert minutes to hours
+	);
+	const accessToken = generateToken(
+		{ userId, roleId, type: tokenTypes.ACCESS, isCmsUser },
+		accessTokenExpires
+	);
+
+	return {
+		access: {
+			token: accessToken,
+			expires: accessTokenExpires,
+		},
+	};
+}
 
 module.exports = {
 	generateResetPasswordToken,
 	generateAuthTokens,
+	generateAccessTokens,
 };
