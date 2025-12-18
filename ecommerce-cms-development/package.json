@@ -19,7 +19,7 @@
 		"axios": "^1.4.0",
 		"browser-image-compression": "^2.0.2",
 		"chart.js": "^4.4.0",
-		"cloudinary": "^1.40.0",
+		"cloudinary": "^2.8.0",
 		"combinate": "^1.1.11",
 		"csvtojson": "^2.0.10",
 		"dayjs": "^1.11.8",
