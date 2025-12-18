@@ -50,7 +50,7 @@ app.use(compression());
 // app.options('*', cors());
 app.use(
 	cors({
-		origin: 'http://localhost:3000', // ✅ your Next.js origin
+		origin: 'http://72.61.149.213:4000', // ✅ your Next.js origin
 		credentials: true, // ✅ allow cookies/headers
 	})
 );
