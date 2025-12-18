@@ -48,13 +48,26 @@ app.use(compression());
 // enable cors
 // app.use(cors());
 // app.options('*', cors());
+
+const allowedOrigins = [
+	'http://72.61.149.213:3000', // website
+	'http://72.61.149.213:5000', // cms
+	// add any other frontend URLs here
+];
 app.use(
 	cors({
-		origin: 'http://72.61.149.213:4000', // ✅ your Next.js origin
-		credentials: true, // ✅ allow cookies/headers
+		origin: function (origin, callback) {
+			// allow requests with no origin (like Postman or curl)
+			if (!origin) return callback(null, true);
+			if (allowedOrigins.includes(origin)) {
+				return callback(null, true);
+			} else {
+				return callback(new Error('Not allowed by CORS'));
+			}
+		},
+		credentials: true,
 	})
 );
-
 app.use(cookieParser());
 
 // connect to postgres database
