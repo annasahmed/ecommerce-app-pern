@@ -60,7 +60,8 @@ const Section = ({ title, children, defaultOpen = true }) => {
 // --- Main Component ---
 export default function FilterSidebar() {
 	const [selectedColor, setSelectedColor] = useState("Red");
-	const [priceRange, setPriceRange] = useState(50);
+	const [selectedSize, setSelectedSize] = useState(null);
+	const [priceRange, setPriceRange] = useState(null);
 
 	return (
 		<aside className="overflow-y-scroll md:max-h-[115vh] hide-scrollbar max-md:hidden">
@@ -83,18 +84,18 @@ export default function FilterSidebar() {
 
 			{/* Price */}
 			<Section title="Price">
-				<p className="text-xs text-muted mb-1">
+				{/* <p className="text-xs text-muted mb-1">
 					Price Range: ${filterData.price.range.min} – $
 					{filterData.price.range.max}
-				</p>
-				<input
+				</p> */}
+				{/* <input
 					type="range"
 					min="0"
 					max="100"
 					value={priceRange}
 					onChange={(e) => setPriceRange(e.target.value)}
 					className="w-full accent-secondary mb-2"
-				/>
+				/> */}
 				{filterData.price.options.map(({ label, count }) => (
 					<label
 						key={label}
@@ -112,7 +113,12 @@ export default function FilterSidebar() {
 			<Section title="Size">
 				<div className="flex gap-2 flex-wrap">
 					{filterData.sizes.map((size) => (
-						<button key={size} className="border text-sm px-3 py-1 rounded-md">
+						<button
+							key={size}
+							className={`border text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl ${
+								selectedSize === size ? "border-dark border-2 shadow-2xl" : ""
+							}`}
+							onClick={() => setSelectedSize(size)}>
 							{size}
 						</button>
 					))}

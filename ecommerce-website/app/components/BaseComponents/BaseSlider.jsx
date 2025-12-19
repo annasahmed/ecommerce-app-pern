@@ -53,7 +53,7 @@ const BaseSlider = ({
 				spaceBetween={spaceBetween}
 				slidesPerView={slidesPerView}
 				loop={loop}
-				lazy={true}
+				lazy={`true`}
 				onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance
 				pagination={showPagination ? { clickable: true } : false}
 				autoplay={
