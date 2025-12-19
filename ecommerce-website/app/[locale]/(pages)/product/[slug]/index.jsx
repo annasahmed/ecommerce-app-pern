@@ -6,6 +6,7 @@ import SocialShare from "@/app/components/Shared/SocialShare";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 import { useStore } from "@/app/providers/StoreProvider";
 import { useCartStore } from "@/app/store/cartStore";
+import { Check } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -14,6 +15,8 @@ export default function ProductDetailsPage() {
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
 	const [quantity, setQuantity] = useState(1);
 	const [activeTab, setActiveTab] = useState("description");
+	const [selectedColor, setSelectedColor] = useState(null);
+	const [selectedSize, setSelectedSize] = useState(null);
 
 	const product = store.content.productDetails;
 	const discountedPrice = (
@@ -89,7 +92,19 @@ export default function ProductDetailsPage() {
 							].map(({ name, color }) => (
 								<div
 									key={name}
-									className={`relative w-5 h-5 rounded-full cursor-pointer border-2 border-transparent ${color}`}></div>
+									onClick={() => setSelectedColor(name)}
+									className={`relative w-6 h-6 rounded-full cursor-pointer border-2 ${
+										selectedColor === name
+											? "border-dark"
+											: "border-transparent"
+									} ${color}`}>
+									{selectedColor === name && (
+										<Check
+											className="absolute inset-0 m-auto text-light"
+											size={14}
+										/>
+									)}
+								</div>
 							))}
 						</div>
 					</div>
@@ -101,7 +116,12 @@ export default function ProductDetailsPage() {
 							{["XS", "S", "M", "XL", "XXL"].map((size) => (
 								<button
 									key={size}
-									className="border text-sm px-3 py-1 rounded-sm">
+									className={`border text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl ${
+										selectedSize === size
+											? "border-dark border-2 shadow-2xl"
+											: ""
+									}`}
+									onClick={() => setSelectedSize(size)}>
 									{size}
 								</button>
 							))}
