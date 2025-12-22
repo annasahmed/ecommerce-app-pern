@@ -17,10 +17,10 @@ export default function BaseSliderWithThumbnails({ images }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
 	return (
-		<section className="md:pr-20">
+		<section>
 			<Swiper
 				style={{
-					"--swiper-navigation-color": "#000000",
+					"--swiper-navigation-color": "#525252",
 					"--swiper-pagination-color": "#000000",
 				}}
 				spaceBetween={10}

@@ -18,11 +18,11 @@ const filterData = {
 	price: {
 		range: { min: 36, max: 173 },
 		options: [
-			{ label: "$100 - $200", count: 12 },
-			{ label: "$200 - $400", count: 24 },
-			{ label: "$400 - $600", count: 54 },
-			{ label: "$600 - $800", count: 78 },
-			{ label: "Over $1000", count: 125 },
+			{ label: "Rs.100 - Rs.200", count: 12 },
+			{ label: "Rs.200 - Rs.400", count: 24 },
+			{ label: "Rs.400 - Rs.600", count: 54 },
+			{ label: "Rs.600 - Rs.800", count: 78 },
+			{ label: "Over Rs.1000", count: 125 },
 		],
 	},
 

@@ -1,4 +1,5 @@
 "use client";
+import BasePrice from "@/app/components/BaseComponents/BasePrice";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import ProductImageSlider from "@/app/components/Shared/ProductImageSlider";
 import Ratings from "@/app/components/Shared/Ratings";
@@ -23,7 +24,8 @@ export default function ProductDetailsPage() {
 		store.content.productDetails.find((v) => v.id == slug || v.slug === slug) ||
 		store.content.productDetails[0];
 	const discountedPrice = (
-		product.base_price || product.price * (1 - product.discount / 100)
+		(product.base_price || product.price) *
+		(1 - product.discount / 100)
 	).toFixed(2);
 
 	const handleAddToCart = () => {
@@ -42,7 +44,7 @@ export default function ProductDetailsPage() {
 	return (
 		<main>
 			{/* Product Section */}
-			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
+			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
 					images={product.images}
@@ -52,7 +54,7 @@ export default function ProductDetailsPage() {
 
 				{/* Right Section - Product Info */}
 				<div className="flex flex-col">
-					<h1 className="h3 text-primary font-bold mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+					<h1 className="h3 text-primary font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
 						{product.title}
 					</h1>
 
@@ -66,13 +68,14 @@ export default function ProductDetailsPage() {
 
 					{/* Price */}
 					<div className="flex items-center gap-3 mb-5 flex-wrap">
-						<span className="h3 font-bold text-secondary text-xl md:text-2xl">
-							${discountedPrice}
-						</span>
+						<BasePrice
+							className="h3 font-bold text-secondary text-xl md:text-2xl"
+							price={discountedPrice}></BasePrice>
+
 						{product.discount > 0 && (
-							<span className="text-muted h5 line-through text-sm md:text-base">
-								${product.price.toFixed(2)}
-							</span>
+							<BasePrice
+								className="text-muted h5 line-through text-sm md:text-base"
+								price={product.price}></BasePrice>
 						)}
 					</div>
 
@@ -82,7 +85,7 @@ export default function ProductDetailsPage() {
 					</p>
 
 					{/* Color Guide */}
-					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
+					{/* <div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
 						<span className="font-medium">Color:</span>
 						<div className="flex flex-wrap gap-3">
 							{[
@@ -110,11 +113,10 @@ export default function ProductDetailsPage() {
 								</div>
 							))}
 						</div>
-					</div>
+					</div> */}
 					{/* Size Guide */}
-					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
+					{/* <div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
 						<span className="font-medium">Size:</span>
-						{/* <div className="flex items-center border rounded-md"> */}
 						<div className="flex gap-1">
 							{["XS", "S", "M", "XL", "XXL"].map((size) => (
 								<button
@@ -129,8 +131,7 @@ export default function ProductDetailsPage() {
 								</button>
 							))}
 						</div>
-						{/* </div> */}
-					</div>
+					</div> */}
 					{/* Quantity Selector */}
 					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
 						<span className="font-medium">Quantity:</span>
@@ -174,10 +175,10 @@ export default function ProductDetailsPage() {
 							<span className="font-medium">Categories:</span>{" "}
 							{product.categories.join(", ")}
 						</p>
-						<p>
+						{/* <p>
 							<span className="font-medium">Usps:</span>{" "}
 							{product.tags.join(", ")}
-						</p>
+						</p> */}
 					</div>
 
 					{/* Social Share */}

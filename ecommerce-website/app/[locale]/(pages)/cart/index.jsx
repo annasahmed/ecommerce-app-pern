@@ -60,8 +60,6 @@ export default function CartPage() {
 						{cart.map((item) => {
 							const price = item.base_price ?? item.price ?? 0;
 							const subtotal = price * item.quantity;
-							console.log(item.images, "chkking images");
-
 							return (
 								<div
 									key={item.id}
