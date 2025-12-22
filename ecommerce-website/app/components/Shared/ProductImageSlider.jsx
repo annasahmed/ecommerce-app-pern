@@ -11,16 +11,17 @@ import "swiper/css/thumbs";
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import BaseImage from "../BaseComponents/BaseImage";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 
 export default function BaseSliderWithThumbnails({ images }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
 	return (
-		<section>
+		<section className="md:pr-20">
 			<Swiper
 				style={{
-					"--swiper-navigation-color": "#a9a9a9",
-					"--swiper-pagination-color": "#a9a9a9",
+					"--swiper-navigation-color": "#000000",
+					"--swiper-pagination-color": "#000000",
 				}}
 				spaceBetween={10}
 				navigation={true}
@@ -31,7 +32,12 @@ export default function BaseSliderWithThumbnails({ images }) {
 				{images?.map((v, idx) => (
 					<SwiperSlide key={`product-images-${idx}`}>
 						<div className="w-full border">
-							<BaseImage src={v} className="mx-auto h-full max-h-80 object-contain" />
+							<BaseImage
+								src={ENV_VARIABLES.IMAGE_BASE_URL + v}
+								width={500}
+								height={500}
+								className="mx-auto/ w-full max-h-80/ object-cover"
+							/>
 						</div>
 					</SwiperSlide>
 				))}
@@ -47,7 +53,9 @@ export default function BaseSliderWithThumbnails({ images }) {
 				{images?.map((v, idx) => (
 					<SwiperSlide key={`product-images-${idx}`}>
 						<BaseImage
-							src={v}
+							src={ENV_VARIABLES.IMAGE_BASE_URL + v}
+							width={500}
+							height={500}
 							className="w-full h-auto max-h-30 object-cover cursor-pointer active:border border-dark"
 						/>
 					</SwiperSlide>

@@ -68,10 +68,11 @@ const LoginPage = () => {
 				<CheckboxInput
 					name="remember"
 					label="Remember Me"
+					required={false}
 					register={register}
 					errorName={errors.remember}
 				/>
-				<PrimaryButton className="w-full">Sign Up</PrimaryButton>
+				<PrimaryButton className="w-full">Sign In</PrimaryButton>
 			</form>
 		</AuthLayout>
 	);

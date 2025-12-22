@@ -139,16 +139,19 @@ export const KIDSTHEME_DATA = {
 
 	popularTabs: [
 		{
-			label: "Girls' Clothing",
+			label: "New Products",
 			products: [
 				{
-					id: 6,
-					sku: "PRD1",
-					title: "Test Product 1",
-					slug: "product-1",
-					base_price: 150,
-					base_discount_percentage: null,
-					thumbnail: "ecommerce/uploads/tshirt_1755265091408.jpg",
+					id: 106,
+					sku: "100078",
+					title: "Baby adjustable swaddle doted blue | Kidzo",
+					excerpt:
+						"Soft, breathable, and adjustable blue swaddle by Kidzo—designed to keep your baby safe, cozy, and comfortably wrapped all night.",
+					slug: "baby-adjustable-swaddle-blue-kidzo",
+					base_price: 400,
+					base_discount_percentage: 25,
+					thumbnail:
+						"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
 				},
 				{
 					id: 1,
@@ -322,6 +325,18 @@ export const KIDSTHEME_DATA = {
 		},
 	],
 	bestSellingProducts: [
+		{
+			id: 106,
+			sku: "100078",
+			title: "Baby adjustable swaddle doted blue | Kidzo",
+			excerpt:
+				"Soft, breathable, and adjustable blue swaddle by Kidzo—designed to keep your baby safe, cozy, and comfortably wrapped all night.",
+			slug: "baby-adjustable-swaddle-blue-kidzo",
+			base_price: 400,
+			base_discount_percentage: 25,
+			thumbnail:
+				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+		},
 		{
 			id: 1,
 			image: p9,
@@ -565,18 +580,24 @@ export const KIDSTHEME_DATA = {
 	},
 	productDetails: {
 		id: 1,
-		title: "Minimalist Black Round Side Table",
+		title: "Baby adjustable swaddle doted blue | Kidzo",
 		description:
-			"Modern and functional round side table designed with a sleek black finish and sturdy steel frame. Perfect for living rooms, bedrooms, or offices.",
-		price: 120.0,
-		discount: 50,
+			"The Kidzo Baby Adjustable Swaddle in Blue is made with ultra-soft, breathable cotton to provide your newborn with maximum comfort and security. Its adjustable Velcro wings ensure a perfect fit, helping prevent startle reflex and promoting longer, more peaceful sleep. Ideal for newborns and infants, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.",
+		price: 400,
+		discount: 25,
 		isNew: true,
 		rating: 4.7,
 		reviewsCount: 86,
-		sku: "TB-4591-BLK",
-		categories: ["Furniture", "Tables", "Living Room"],
-		tags: ["modern", "black", "metal", "round table"],
-		images: [p1, p2, p3],
+		sku: "100078",
+		categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+		tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+		// tags: ["modern", "black", "metal", "round table"],
+		images: [
+			// https://res.cloudinary.com/drju2eij9/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg
+			"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+			"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+			"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+		],
 		additionalInfo: {
 			material: "Metal Frame + MDF Top",
 			dimensions: "45 x 45 x 50 cm",
