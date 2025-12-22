@@ -180,6 +180,32 @@ export const KIDSTHEME_DATA = {
 					sku: "100075",
 				},
 				{
+					id: 109,
+					title: "Baby adjustable swaddle bear white | Kidzo",
+					slug: "baby-adjustable-swaddle-bear-white-kidzo",
+					base_price: 400,
+					base_discount_percentage: 25,
+					thumbnail:
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+
+					price: 400,
+					discount: 25,
+					sku: "100078",
+				},
+				{
+					id: 110,
+					title: "Baby adjustable swaddle box baby pink | Kidzo",
+					slug: "baby-adjustable-swaddle-box-baby-pink-kidzo",
+					sku: "100083",
+					base_price: 400,
+					base_discount_percentage: 25,
+					thumbnail:
+						"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+
+					price: 400,
+					discount: 25,
+				},
+				{
 					id: 1,
 					image: p1,
 					title: "Little Stars Dress",
@@ -388,6 +414,32 @@ export const KIDSTHEME_DATA = {
 			price: 400,
 			discount: 25,
 			sku: "100075",
+		},
+		{
+			id: 109,
+			title: "Baby adjustable swaddle bear white | Kidzo",
+			slug: "baby-adjustable-swaddle-bear-white-kidzo",
+			base_price: 400,
+			base_discount_percentage: 25,
+			thumbnail:
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+
+			price: 400,
+			discount: 25,
+			sku: "100078",
+		},
+		{
+			id: 110,
+			title: "Baby adjustable swaddle box baby pink | Kidzo",
+			slug: "baby-adjustable-swaddle-box-baby-pink-kidzo",
+			sku: "100083",
+			base_price: 400,
+			base_discount_percentage: 25,
+			thumbnail:
+				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+
+			price: 400,
+			discount: 25,
 		},
 		{
 			id: 1,
@@ -732,6 +784,89 @@ export const KIDSTHEME_DATA = {
 				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
 				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
 				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+			],
+			// additionalInfo: {
+			// 	material: "Metal Frame + MDF Top",
+			// 	dimensions: "45 x 45 x 50 cm",
+			// 	weight: "5.2 kg",
+			// 	color: "Black",
+			// 	madeIn: "Turkey",
+			// },
+			reviews: [
+				{
+					user: "Sarah Ahmed",
+					rating: 5,
+					comment: "Perfect size for my living room! Sturdy and stylish.",
+				},
+				{
+					user: "Ali Raza",
+					rating: 4,
+					comment: "Good value for money. Easy to assemble.",
+				},
+			],
+		},
+		{
+			id: 109,
+			title: "Baby adjustable swaddle bear white | Kidzo",
+			slug: "baby-adjustable-swaddle-bear-white-kidzo",
+			description:
+				"The Kidzo Baby Adjustable Swaddle in Bear White features a soft, breathable cotton fabric with an adorable bear print, offering comfort and style together. Its adjustable Velcro wings allow a secure and customized fit, helping reduce the startle reflex and promoting longer, peaceful sleep. Perfect for newborns, this swaddle keeps your baby warm, snug, and safely wrapped throughout the night.",
+			price: 400,
+			discount: 25,
+			isNew: true,
+			rating: 4.7,
+			reviewsCount: 86,
+			sku: "100078",
+			categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			// tags: ["modern", "black", "metal", "round table"],
+			images: [
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+				"image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+			],
+			// additionalInfo: {
+			// 	material: "Metal Frame + MDF Top",
+			// 	dimensions: "45 x 45 x 50 cm",
+			// 	weight: "5.2 kg",
+			// 	color: "Black",
+			// 	madeIn: "Turkey",
+			// },
+			reviews: [
+				{
+					user: "Sarah Ahmed",
+					rating: 5,
+					comment: "Perfect size for my living room! Sturdy and stylish.",
+				},
+				{
+					user: "Ali Raza",
+					rating: 4,
+					comment: "Good value for money. Easy to assemble.",
+				},
+			],
+		},
+		{
+			id: 110,
+			title: "Baby adjustable swaddle box baby pink | Kidzo",
+			slug: "baby-adjustable-swaddle-box-baby-pink-kidzo",
+			description:
+				"The Kidzo Baby Adjustable Swaddle in Box Baby Pink is made from soft, breathable cotton and features a charming box pattern for a sweet and stylish look. Its adjustable Velcro wings provide a secure and customized fit that helps reduce the startle reflex, allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, snug, and safely wrapped throughout the night.",
+			price: 400,
+			discount: 25,
+			isNew: true,
+			rating: 4.7,
+			reviewsCount: 86,
+			sku: "100083",
+			categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			// tags: ["modern", "black", "metal", "round table"],
+			images: [
+				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
 			],
 			// additionalInfo: {
 			// 	material: "Metal Frame + MDF Top",
