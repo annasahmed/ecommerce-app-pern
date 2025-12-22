@@ -92,6 +92,8 @@ const ProductDrawer = ({ id, data }) => {
 	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
 	const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 	const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
+	const [selectedImages, setSelectedImages] = useState([]);
+	const [selectedImagesUrl, setSelectedImagesUrl] = useState([]);
 	const [variantImages, setVariantImages] = useState({});
 	const [variantImageUrls, setVariantImageUrls] = useState({});
 	const [productVariants, setProductVariants] = useState([]);
@@ -207,6 +209,7 @@ const ProductDrawer = ({ id, data }) => {
 				is_featured: isFeatured,
 				status,
 				thumbnail: selectedThumbnail,
+				images: selectedImages,
 			};
 
 			if (id) {
@@ -229,6 +232,8 @@ const ProductDrawer = ({ id, data }) => {
 			setSelectedVendors([]);
 			setSelectedThumbnail(null);
 			setSelectedThumbnailUrl(null);
+			setSelectedImages([]);
+			setSelectedImagesUrl([]);
 			setVariantImages(null);
 			setVariantImageUrls(null);
 		} catch (err) {
@@ -297,6 +302,15 @@ const ProductDrawer = ({ id, data }) => {
 								? import.meta.env.VITE_APP_CLOUDINARY_URL +
 										res.thumbnailImage.url
 								: null,
+						);
+						setSelectedImages(res.images?.map((v) => v.id)); // update this with image
+						// If API returns thumbnail via medium, adjust accordingly
+						setSelectedImagesUrl(
+							res.images.length > 0
+								? res.images?.map(
+										(v) => import.meta.env.VITE_APP_CLOUDINARY_URL + v.url,
+								  )
+								: [],
 						);
 						setStatus(res.status ?? false);
 						setIsFeatured(res.is_featured ?? false);
@@ -396,6 +410,8 @@ const ProductDrawer = ({ id, data }) => {
 			setSelectedVendors([]);
 			setSelectedThumbnail(null);
 			setSelectedThumbnailUrl(null);
+			setSelectedImages([]);
+			setSelectedImagesUrl([]);
 		}
 	}, [id, setValue, clearErrors, data]);
 
@@ -454,7 +470,7 @@ const ProductDrawer = ({ id, data }) => {
 								setValue={setValue}
 								variantImages={variantImages}
 								variantImageUrls={variantImageUrls}
-								hasVariants={true}
+								hasVariants={hasVariants}
 								productVariants={productVariants}
 								setProductVariants={setProductVariants}
 								setVariantsToSend={setVariantsToSend}
@@ -490,6 +506,10 @@ const ProductDrawer = ({ id, data }) => {
 								setSelectedThumbnail={setSelectedThumbnail}
 								selectedThumbnailUrl={selectedThumbnailUrl}
 								setSelectedThumbnailUrl={setSelectedThumbnailUrl}
+								selectedImages={selectedImages}
+								setSelectedImages={setSelectedImages}
+								selectedImagesUrl={selectedImagesUrl}
+								setSelectedImagesUrl={setSelectedImagesUrl}
 								isFeatured={isFeatured}
 								setIsFeatured={setIsFeatured}
 								status={status}
@@ -522,7 +542,7 @@ const ProductDrawer = ({ id, data }) => {
 								</Button>
 							) : null}
 						</div>
-						{currentStep >= steps.length && (
+						{(currentStep >= steps.length || id) && (
 							<div>
 								<DrawerButton
 									id={id}

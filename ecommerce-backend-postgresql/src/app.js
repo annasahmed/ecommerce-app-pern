@@ -50,6 +50,8 @@ app.use(compression());
 // app.options('*', cors());
 
 const allowedOrigins = [
+	'http://localhost:4100', // local_website
+	'http://localhost:3000', // local_website
 	'http://72.61.149.213:3000', // website
 	'http://72.61.149.213:5000', // cms
 	// add any other frontend URLs here

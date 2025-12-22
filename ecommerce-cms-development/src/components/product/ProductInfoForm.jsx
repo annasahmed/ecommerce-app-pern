@@ -6,6 +6,7 @@ import InputAreaField from "../form/fields/InputAreaField";
 import InputMultipleSelectField from "../form/fields/InputMultipleSelectField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TranslationFields from "../newComponents/TranslationFields";
+import TextAreaField from "../form/fields/TextAreaField";
 
 const ProductInfoForm = ({
 	variantFields,
@@ -34,12 +35,18 @@ const ProductInfoForm = ({
 
 	hasVariants,
 	setHasVariants,
+	selectedImages,
+	setSelectedImages,
+	selectedImagesUrl,
+	setSelectedImagesUrl,
 }) => {
 	const { t } = useTranslation();
 	const { showingTranslateValue, showSelectedLanguageTranslation } =
 		useUtilsFunction();
 
 	const { settings } = useGlobalSettings();
+
+	console.log(selectedImages, "chkking selectedImages");
 
 	return (
 		<div className="flex-grow scrollbar-hide flex flex-col gap-8 w-full max-h-full">
@@ -167,17 +174,18 @@ const ProductInfoForm = ({
 					<ImageSelectorField
 						required
 						label={t("Images")}
-						selectedImage={selectedThumbnail}
-						setSelectedImage={setSelectedThumbnail}
-						selectedImageUrl={selectedThumbnailUrl}
-						setSelectedImageUrl={setSelectedThumbnailUrl}
+						selectedImage={selectedImages}
+						setSelectedImage={setSelectedImages}
+						selectedImageUrl={selectedImagesUrl}
+						setSelectedImageUrl={setSelectedImagesUrl}
 						isVertical
+						isMultipleSelect
 					/>
 				</div>
 			</section>
 			<section className={`w-full relative p-6 rounded-lg border`}>
 				<h3 className="font-semibold text-2xl h3 mb-4">SEO Information</h3>
-				<div className="grid grid-cols-2 gap-x-16 gap-y-6 items-end">
+				<div className="grid grid-cols-1 gap-x-16 gap-y-6 items-end">
 					<InputAreaField
 						label={t("MetaTitle")}
 						required={true}
@@ -189,7 +197,7 @@ const ProductInfoForm = ({
 						errorName={errors.meta_title}
 						isVertical
 					/>
-					<InputAreaField
+					<TextAreaField
 						label={t("MetaDescription")}
 						required={true}
 						register={register}

@@ -68,6 +68,10 @@ function transformProduct(product, lang) {
 		base_discount_percentage: product.base_discount_percentage,
 		is_featured: product.is_featured,
 		thumbnail: product.thumbnailImage ? product.thumbnailImage.url : null,
+		images: [
+			...(product.thumbnailImage ? [product.thumbnailImage.url] : []),
+			...product.images?.map((v) => v.url),
+		],
 
 		categories: (product.categories || []).map((cat) =>
 			transformCategory(cat, lang)
@@ -88,6 +92,7 @@ function transformProduct(product, lang) {
 function transformProductsResponse(response, lang = 'en') {
 	return {
 		...response,
+		// records: (response.records || []).map((product) => product),
 		records: (response.records || []).map((product) =>
 			transformProduct(product, lang)
 		),

@@ -36,8 +36,6 @@ const Media = ({
 	const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 	const [hoveredImage, setHoveredImage] = useState(null);
 
-
-
 	const {
 		data: mediaData,
 		loading,
@@ -60,6 +58,14 @@ const Media = ({
 		return (
 			<span className="text-center mx-auto text-customRed-500">{error}</span>
 		);
+	console.log(
+		{
+			isSelectImage,
+			selectedImage,
+			isMultipleSelect,
+		},
+		"chknisadnisa1",
+	);
 
 	return (
 		<>
@@ -93,17 +99,27 @@ const Media = ({
 							onMouseLeave={() => setHoveredImage(null)}
 							onClick={() => {
 								if (!isSelectImage) return;
+
+								const imageUrl =
+									import.meta.env.VITE_APP_CLOUDINARY_URL + image.url;
+
 								if (isMultipleSelect) {
-									setSelectedImage((prev) =>
-										prev.includes(image.id)
-											? prev.filter((v) => v !== image.id)
-											: [...prev, image.id],
-									);
+									setSelectedImage((prev) => {
+										const exists = prev.includes(image.id);
+										return exists
+											? prev.filter((id) => id !== image.id)
+											: [...prev, image.id];
+									});
+
+									setSelectedImageUrl((prev) => {
+										const exists = prev.includes(imageUrl);
+										return exists
+											? prev.filter((url) => url !== imageUrl)
+											: [...prev, imageUrl];
+									});
 								} else {
-									setSelectedImageUrl(
-										import.meta.env.VITE_APP_CLOUDINARY_URL + image.url,
-									);
 									setSelectedImage(image.id);
+									setSelectedImageUrl(imageUrl);
 									onClose();
 								}
 							}}>
@@ -134,7 +150,7 @@ const Media = ({
 									)}
 									{isSelectImage &&
 										isMultipleSelect &&
-										selectedImage?.includes(image.id) && (
+										selectedImage.includes(image.id) && (
 											<div className="absolute inset-0 bg-blue-200 bg-opacity-50 flex items-center justify-center space-x-2 transition-opacity duration-200">
 												<FiCheck className="h-12 w-12 text-blue-500" />
 											</div>

@@ -50,6 +50,7 @@ function setCookie(res, cookieName, cookieValue, expiresMs) {
 		// httpOnly: true,
 		// secure: config.env === 'production',
 		// sameSite: 'strict',
+		secure: false,
 		sameSite: 'lax',
 		expires: new Date(expiresMs),
 	});

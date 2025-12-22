@@ -315,15 +315,17 @@ const ProductVariantForm = ({
 						}
 						isVertical
 					/>
-					<ImageSelectorField
-						label={t("VariantImage")}
-						selectedImage={selectedImage}
-						setSelectedImage={setSelectedImage}
-						selectedImageUrl={selectedImageUrl}
-						setSelectedImageUrl={setSelectedImageUrl}
-						isVertical
-						className="col-span-2"
-					/>
+					{hasVariants && (
+						<ImageSelectorField
+							label={t("VariantImage")}
+							selectedImage={selectedImage}
+							setSelectedImage={setSelectedImage}
+							selectedImageUrl={selectedImageUrl}
+							setSelectedImageUrl={setSelectedImageUrl}
+							isVertical
+							className="col-span-2"
+						/>
+					)}
 				</div>
 			</section>
 

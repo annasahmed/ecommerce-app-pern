@@ -9,18 +9,12 @@ async function loginUserWithEmailAndPassword(req) {
 	const user = await apiAppUserService.getAppUserByEmail(email);
 
 	if (!user) {
-		throw new ApiError(
-			httpStatus.UNAUTHORIZED,
-			'Invalid email or password'
-		);
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid email or password');
 	}
 	const isPasswordMatch = await decryptData(password, user.password);
 
 	if (!isPasswordMatch) {
-		throw new ApiError(
-			httpStatus.UNAUTHORIZED,
-			'Invalid email or password'
-		);
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid email or password');
 	}
 
 	delete user.password;

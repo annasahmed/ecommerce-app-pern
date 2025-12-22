@@ -49,11 +49,12 @@ module.exports = (sequelize, DataTypes) => {
 		// 	onDelete: 'SET NULL',
 		// 	onUpdate: 'CASCADE',
 		// });
-		// media.belongsToMany(models.product, {
-		// 	through: 'product_to_media',
-		// 	foreignKey: 'media_id',
-		// 	otherKey: 'product_id',
-		// });
+		media.belongsToMany(models.product, {
+			through: 'product_to_media',
+			otherKey: 'product_id',
+			foreignKey: 'media_id',
+			as: 'images',
+		});
 		baseAssociation(media, models);
 	};
 

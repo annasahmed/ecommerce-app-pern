@@ -13,38 +13,18 @@ module.exports = {
 			name: {
 				type: Sequelize.JSONB,
 				allowNull: false,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(value, 'name');
-					},
-				},
 			},
 			address: {
 				type: Sequelize.JSONB,
 				allowNull: false,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(value, 'address');
-					},
-				},
 			},
 			country: {
 				type: Sequelize.JSONB,
 				allowNull: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.stringWithTranslation(value, 'country');
-					},
-				},
 			},
 			phone: {
 				type: Sequelize.STRING,
 				allowNull: true,
-				validate: {
-					isValidOption(value) {
-						modelValidators.validatePhoneNumber(value);
-					},
-				},
 			},
 			contact_person: {
 				type: Sequelize.STRING,
@@ -53,9 +33,6 @@ module.exports = {
 			email: {
 				type: Sequelize.STRING,
 				allowNull: false,
-				validate: {
-					isEmail: true,
-				},
 			},
 			user_id: {
 				type: Sequelize.INTEGER,

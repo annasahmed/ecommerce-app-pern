@@ -87,6 +87,7 @@ async function createProduct(req) {
 		vendors = [],
 		translations = [],
 		variants = [],
+		images = [],
 		...productData
 	} = req.body;
 
@@ -114,6 +115,15 @@ async function createProduct(req) {
 		}
 
 		// Product associations
+		console.log(images, 'chkking images');
+
+		if (images.length > 0) {
+			const createdImages = await newProduct.setImages(images, {
+				transaction,
+			});
+			console.log(createdImages);
+		}
+
 		if (categories.length > 0)
 			await newProduct.setCategories(categories, { transaction });
 		if (branches.length > 0)
@@ -176,6 +186,7 @@ async function updateProduct(req) {
 		vendors = [],
 		translations = [],
 		variants = [],
+		images = [],
 		...productData
 	} = req.body;
 
@@ -210,13 +221,14 @@ async function updateProduct(req) {
 		}
 
 		// Update associations
-		if (product.setCategories)
+		console.log(categories, product.setCategories, 'chkking categories');
+		if (images?.length) await product.setImages(images, { transaction });
+		if (categories?.length)
 			await product.setCategories(categories, { transaction });
-		if (product.setBranches)
+		if (branches?.length)
 			await product.setBranches(branches, { transaction });
-		if (product.setUsps) await product.setUsps(usps, { transaction });
-		if (product.setVendors)
-			await product.setVendors(vendors, { transaction });
+		if (usps?.length) await product.setUsps(usps, { transaction });
+		if (vendors?.length) await product.setVendors(vendors, { transaction });
 
 		// Handle variants
 		// For simplicity, remove old variants and re-add (you can do smarter diffing later)

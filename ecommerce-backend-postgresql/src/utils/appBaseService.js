@@ -84,11 +84,16 @@ function createAppBaseService(model, options = {}) {
 			return result;
 		},
 
-		async getByAttribute(attribute, attributeValues, scope = 'active') {
+		async getByAttribute(
+			attribute,
+			attributeValues,
+			scope = 'active',
+			showError = true
+		) {
 			const result = await model
 				.scope(scope)
 				.findOne({ where: { [attribute]: attributeValues } });
-			if (!result)
+			if (!result && showError)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return result;
 		},
@@ -123,7 +128,7 @@ function createAppBaseService(model, options = {}) {
 					limit,
 					order: finalSort,
 					include,
-					attributes: attributes?.length > 0 ? attributes : {},
+					attributes: attributes?.length > 0 ? attributes : undefined,
 					// raw: true,
 					unique: true,
 					distinct: true, // to fix count

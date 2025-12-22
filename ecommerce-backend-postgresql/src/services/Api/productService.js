@@ -18,6 +18,7 @@ module.exports = {
 	getProducts: (req) => {
 		return productService.list(
 			req,
+			// [],
 			getProductsIncludes(req),
 			[], // keep attribtes array empty to get all the attributes
 			[['created_at', 'ASC']]
@@ -44,7 +45,6 @@ const getProductsIncludes = (req) => [
 		model: db.usp.scope('active'),
 		attributes: ['id'],
 		required: false,
-		scope: 'active',
 		include: [
 			{
 				model: db.usp_translation,

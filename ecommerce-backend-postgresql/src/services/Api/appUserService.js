@@ -39,10 +39,12 @@ const appUserService = createAppBaseService(db.app_user, {
 module.exports = {
 	getAppUserById: (id) => appUserService.getById(id),
 	getAppUserByEmail: (email) =>
-		appUserService.getByAttribute('email', email, [
-			'activeEntity',
-			'withPassword',
-		]),
+		appUserService.getByAttribute(
+			'email',
+			email,
+			['activeEntity', 'withPassword'],
+			false
+		),
 	createAppUser: (req) => appUserService.create(req.body),
 	updateAppUser: (req) => appUserService.update(req.body),
 };
