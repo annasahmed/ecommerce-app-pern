@@ -129,6 +129,8 @@ const ProductDrawer = ({ id, data }) => {
 		sku: null,
 		meta_title: null,
 		meta_description: null,
+		base_price: null,
+		base_discount_percentage: null,
 		images: [],
 		translations: [
 			{
@@ -319,6 +321,7 @@ const ProductDrawer = ({ id, data }) => {
 						// pCat?.translations,
 						// "title",
 						// ),
+						// setSelectedCategories(res.categories?.map((cat) => cat.id));
 						setSelectedCategories(
 							res.categories?.map((cat) => ({
 								id: cat.id,
@@ -432,6 +435,8 @@ const ProductDrawer = ({ id, data }) => {
 			setLanguages(data);
 		});
 	}, []);
+
+	console.log(selectedCategories, "chkkingasksam");
 
 	return (
 		<>
