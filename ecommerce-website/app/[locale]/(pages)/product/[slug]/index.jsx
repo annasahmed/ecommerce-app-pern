@@ -7,18 +7,21 @@ import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 import { useStore } from "@/app/providers/StoreProvider";
 import { useCartStore } from "@/app/store/cartStore";
 import { Check } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function ProductDetailsPage() {
+	const { slug } = useParams();
 	const store = useStore();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
 	const [quantity, setQuantity] = useState(1);
 	const [activeTab, setActiveTab] = useState("description");
 	const [selectedColor, setSelectedColor] = useState(null);
 	const [selectedSize, setSelectedSize] = useState(null);
-
-	const product = store.content.productDetails;
+	const product =
+		store.content.productDetails.find((v) => v.id == slug || v.slug === slug) ||
+		store.content.productDetails[0];
 	const discountedPrice = (
 		product.base_price || product.price * (1 - product.discount / 100)
 	).toFixed(2);
@@ -187,7 +190,7 @@ export default function ProductDetailsPage() {
 				<div className="col-span-1 md:col-span-2 mt-12/ border-t pt-4">
 					{/* Tabs */}
 					<div className="flex flex-wrap gap-6 md:gap-8 mb-4 border-b pb-4 md:pb-6 md:justify-start">
-						{["description", "reviews", "additional"].map((tab) => (
+						{["description", "reviews"].map((tab) => (
 							<button
 								key={tab}
 								className={`capitalize font-medium text-sm sm:text-base h6 pb-1 ${
@@ -223,7 +226,7 @@ export default function ProductDetailsPage() {
 						</div>
 					)}
 
-					{activeTab === "additional" && (
+					{activeTab === "additional" && product.additionalInfo && (
 						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm md:text-base">
 							{Object.entries(product.additionalInfo).map(([key, value]) => (
 								<p key={key}>

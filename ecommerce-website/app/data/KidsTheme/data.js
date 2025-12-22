@@ -139,7 +139,7 @@ export const KIDSTHEME_DATA = {
 
 	popularTabs: [
 		{
-			label: "New Products",
+			label: "Kidzo",
 			products: [
 				{
 					id: 106,
@@ -152,6 +152,32 @@ export const KIDSTHEME_DATA = {
 					base_discount_percentage: 25,
 					thumbnail:
 						"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+				},
+				{
+					id: 107,
+					title: "Baby adjustable swaddle doted white | Kidzo",
+					slug: "baby-adjustable-swaddle-white-kidzo",
+					base_price: 400,
+					base_discount_percentage: 25,
+					thumbnail:
+						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+
+					price: 400,
+					discount: 25,
+					sku: "100077",
+				},
+				{
+					id: 108,
+					title: "Baby adjustable swaddle doted pink | Kidzo",
+					slug: "baby-adjustable-swaddle-pink-kidzo",
+					base_price: 400,
+					base_discount_percentage: 25,
+					thumbnail:
+						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+
+					price: 400,
+					discount: 25,
+					sku: "100075",
 				},
 				{
 					id: 1,
@@ -336,6 +362,32 @@ export const KIDSTHEME_DATA = {
 			base_discount_percentage: 25,
 			thumbnail:
 				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+		},
+		{
+			id: 107,
+			title: "Baby adjustable swaddle doted white | Kidzo",
+			slug: "baby-adjustable-swaddle-white-kidzo",
+			base_price: 400,
+			base_discount_percentage: 25,
+			thumbnail:
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+
+			price: 400,
+			discount: 25,
+			sku: "100077",
+		},
+		{
+			id: 108,
+			title: "Baby adjustable swaddle doted pink | Kidzo",
+			slug: "baby-adjustable-swaddle-pink-kidzo",
+			base_price: 400,
+			base_discount_percentage: 25,
+			thumbnail:
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+
+			price: 400,
+			discount: 25,
+			sku: "100075",
 		},
 		{
 			id: 1,
@@ -578,46 +630,130 @@ export const KIDSTHEME_DATA = {
 			{ id: 5, title: "XL" },
 		],
 	},
-	productDetails: {
-		id: 1,
-		title: "Baby adjustable swaddle doted blue | Kidzo",
-		description:
-			"The Kidzo Baby Adjustable Swaddle in Blue is made with ultra-soft, breathable cotton to provide your newborn with maximum comfort and security. Its adjustable Velcro wings ensure a perfect fit, helping prevent startle reflex and promoting longer, more peaceful sleep. Ideal for newborns and infants, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.",
-		price: 400,
-		discount: 25,
-		isNew: true,
-		rating: 4.7,
-		reviewsCount: 86,
-		sku: "100078",
-		categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
-		tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
-		// tags: ["modern", "black", "metal", "round table"],
-		images: [
-			// https://res.cloudinary.com/drju2eij9/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg
-			"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
-			"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
-			"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
-		],
-		additionalInfo: {
-			material: "Metal Frame + MDF Top",
-			dimensions: "45 x 45 x 50 cm",
-			weight: "5.2 kg",
-			color: "Black",
-			madeIn: "Turkey",
+	productDetails: [
+		{
+			id: 106,
+			title: "Baby adjustable swaddle doted blue | Kidzo",
+			slug: "baby-adjustable-swaddle-blue-kidzo",
+			description:
+				"The Kidzo Baby Adjustable Swaddle in Blue is made with ultra-soft, breathable cotton to provide your newborn with maximum comfort and security. Its adjustable Velcro wings ensure a perfect fit, helping prevent startle reflex and promoting longer, more peaceful sleep. Ideal for newborns and infants, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.",
+			price: 400,
+			discount: 25,
+			isNew: true,
+			rating: 4.7,
+			reviewsCount: 86,
+			sku: "100078",
+			categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			// tags: ["modern", "black", "metal", "round table"],
+			images: [
+				// image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg
+				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+				"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+				"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+			],
+			// additionalInfo: {
+			// 	material: "Metal Frame + MDF Top",
+			// 	dimensions: "45 x 45 x 50 cm",
+			// 	weight: "5.2 kg",
+			// 	color: "Black",
+			// 	madeIn: "Turkey",
+			// },
+			reviews: [
+				{
+					user: "Sarah Ahmed",
+					rating: 5,
+					comment: "Perfect size for my living room! Sturdy and stylish.",
+				},
+				{
+					user: "Ali Raza",
+					rating: 4,
+					comment: "Good value for money. Easy to assemble.",
+				},
+			],
 		},
-		reviews: [
-			{
-				user: "Sarah Ahmed",
-				rating: 5,
-				comment: "Perfect size for my living room! Sturdy and stylish.",
-			},
-			{
-				user: "Ali Raza",
-				rating: 4,
-				comment: "Good value for money. Easy to assemble.",
-			},
-		],
-	},
+		{
+			id: 108,
+			title: "Baby adjustable swaddle doted pink | Kidzo",
+			slug: "baby-adjustable-swaddle-pink-kidzo",
+			description:
+				"The Kidzo Baby Adjustable Swaddle in Pink is made from ultra-soft, breathable cotton to provide maximum comfort for newborns. Its adjustable Velcro wings offer a snug and secure fit, helping reduce the startle reflex and allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, cozy, and safely wrapped.",
+			price: 400,
+			discount: 25,
+			isNew: true,
+			rating: 4.7,
+			reviewsCount: 86,
+			sku: "100075",
+			categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			// tags: ["modern", "black", "metal", "round table"],
+			images: [
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+			],
+			// additionalInfo: {
+			// 	material: "Metal Frame + MDF Top",
+			// 	dimensions: "45 x 45 x 50 cm",
+			// 	weight: "5.2 kg",
+			// 	color: "Black",
+			// 	madeIn: "Turkey",
+			// },
+			reviews: [
+				{
+					user: "Sarah Ahmed",
+					rating: 5,
+					comment: "Perfect size for my living room! Sturdy and stylish.",
+				},
+				{
+					user: "Ali Raza",
+					rating: 4,
+					comment: "Good value for money. Easy to assemble.",
+				},
+			],
+		},
+		{
+			id: 107,
+			title: "Baby adjustable swaddle doted white | Kidzo",
+			slug: "baby-adjustable-swaddle-white-kidzo",
+			description:
+				"The Kidzo Baby Adjustable Swaddle in White is crafted from gentle, breathable cotton to ensure maximum comfort for newborns. Its adjustable Velcro wings provide a secure and customized fit, reducing the startle reflex and helping babies sleep longer and more peacefully. Perfect for daily use, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.",
+			price: 400,
+			discount: 25,
+			isNew: true,
+			rating: 4.7,
+			reviewsCount: 86,
+			sku: "100077",
+			categories: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
+			// tags: ["modern", "black", "metal", "round table"],
+			images: [
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+			],
+			// additionalInfo: {
+			// 	material: "Metal Frame + MDF Top",
+			// 	dimensions: "45 x 45 x 50 cm",
+			// 	weight: "5.2 kg",
+			// 	color: "Black",
+			// 	madeIn: "Turkey",
+			// },
+			reviews: [
+				{
+					user: "Sarah Ahmed",
+					rating: 5,
+					comment: "Perfect size for my living room! Sturdy and stylish.",
+				},
+				{
+					user: "Ali Raza",
+					rating: 4,
+					comment: "Good value for money. Easy to assemble.",
+				},
+			],
+		},
+	],
 	cartData: {
 		items: [
 			{
