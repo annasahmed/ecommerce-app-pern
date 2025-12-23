@@ -98,7 +98,7 @@ const Navbar = () => {
 					{store.content.navCategories.map((item, index) => (
 						<li key={index} className="text-sm sm:text-base font-medium">
 							<BaseLink
-								href={`/${item.slug}`}
+								href={`${item.to || `/products?category=${item.slug}`}`}
 								className="uppercase hover:bg-primary hover:text-light px-4 py-1 rounded-full transition">
 								{item.title}
 							</BaseLink>
@@ -112,7 +112,7 @@ const Navbar = () => {
 						{store.content.navCategories.map((item, index) => (
 							<li key={index} className="w-full text-center">
 								<BaseLink
-									href={`/${item.slug}`}
+									href={`${item.to || `/products?category=${item.slug}`}`}
 									className="block w-full py-2 uppercase font-medium hover:bg-primary hover:text-light transition">
 									{item.title}
 								</BaseLink>

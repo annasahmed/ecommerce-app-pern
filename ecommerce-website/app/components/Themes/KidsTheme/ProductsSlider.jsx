@@ -7,7 +7,7 @@ import clsx from "clsx";
 const ProductsSlider = ({
 	title = "",
 	slug = "",
-	columns = 3,
+	columns = 5,
 	productsData = [],
 	isSlider = true,
 	showTitle = true,
@@ -33,7 +33,7 @@ const ProductsSlider = ({
 					showPagination={false}
 					breakpoints={{
 						768: {
-							slidesPerView: 4,
+							slidesPerView: 5,
 							showNavigation: true,
 							showPagination: true,
 							spaceBetween: 16,

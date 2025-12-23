@@ -37,43 +37,43 @@ import comfortableClothesCategory from "@/app/assets/themes/kidsTheme/comfortabl
 export const KIDSTHEME_DATA = {
 	navCategories: [
 		{
-			slug: "/",
+			to: "/",
 			title: "Home",
 		},
 		{
-			slug: "/fashion",
+			slug: "fashion",
 			title: "Fashion",
 		},
 		{
-			slug: "/gear",
+			slug: "gear",
 			title: "Gear",
 		},
 		{
-			slug: "/feeding",
+			slug: "feeding",
 			title: "feeding",
 		},
 		{
-			slug: "/bath-and-shower",
+			slug: "bath-and-shower",
 			title: "bath & shower",
 		},
 		{
-			slug: "/safety-toys",
+			slug: "safety-toys",
 			title: "safety toys",
 		},
 		{
-			slug: "/diapering",
+			slug: "diapering",
 			title: "diapering",
 		},
 		{
-			slug: "/nursery",
+			slug: "nursery",
 			title: "nursery",
 		},
 		{
-			slug: "/moms",
+			slug: "moms",
 			title: "moms",
 		},
 		{
-			slug: "/sale",
+			slug: "sale",
 			title: "sale",
 		},
 		// {
@@ -135,6 +135,7 @@ export const KIDSTHEME_DATA = {
 		{ title: "shoes", icon: shoesCat, slug: "shoes" },
 		{ title: "socks", icon: socksCat, slug: "socks" },
 		{ title: "sandals", icon: sandalsCat, slug: "sandals" },
+		{ title: "shoes", icon: shoesCat, slug: "shoes" },
 	],
 
 	popularTabs: [
@@ -152,6 +153,11 @@ export const KIDSTHEME_DATA = {
 					base_discount_percentage: 25,
 					thumbnail:
 						"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+					images: [
+						"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+						"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+						"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+					],
 				},
 				{
 					id: 107,
@@ -165,6 +171,13 @@ export const KIDSTHEME_DATA = {
 					price: 400,
 					discount: 25,
 					sku: "100077",
+
+					images: [
+						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+					],
 				},
 				{
 					id: 108,
@@ -178,6 +191,11 @@ export const KIDSTHEME_DATA = {
 					price: 400,
 					discount: 25,
 					sku: "100075",
+					images: [
+						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+					],
 				},
 				{
 					id: 109,
@@ -191,6 +209,15 @@ export const KIDSTHEME_DATA = {
 					price: 400,
 					discount: 25,
 					sku: "100078",
+					images: [
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+						"image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+					],
 				},
 				{
 					id: 110,
@@ -204,6 +231,10 @@ export const KIDSTHEME_DATA = {
 
 					price: 400,
 					discount: 25,
+					images: [
+						"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+						"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
+					],
 				},
 				{
 					id: 1,
@@ -235,18 +266,18 @@ export const KIDSTHEME_DATA = {
 					title: "Petite Plaid Skirt",
 					base_price: 16.0,
 				},
+				// // {
+				// // 	id: 6,
+				// // 	image: p6,
+				// // 	title: "Little Ladybug Overalls",
+				// // 	base_price: 16.0,
+				// // },
 				// {
-				// 	id: 6,
-				// 	image: p6,
-				// 	title: "Little Ladybug Overalls",
+				// 	id: 7,
+				// 	image: p7,
+				// 	title: "Junior Jersey Dress",
 				// 	base_price: 16.0,
 				// },
-				{
-					id: 7,
-					image: p7,
-					title: "Junior Jersey Dress",
-					base_price: 16.0,
-				},
 			],
 		},
 		{
@@ -298,6 +329,18 @@ export const KIDSTHEME_DATA = {
 					id: 8,
 					image: p8,
 					title: "Toddler Tutu Dress",
+					base_price: 16.0,
+				},
+				{
+					id: 4,
+					image: p4,
+					title: "Mini Denim Jacket",
+					base_price: 16.0,
+				},
+				{
+					id: 5,
+					image: p5,
+					title: "Petite Plaid Skirt",
 					base_price: 16.0,
 				},
 			],
@@ -353,6 +396,18 @@ export const KIDSTHEME_DATA = {
 					title: "Toddler Tutu Dress",
 					base_price: 16.0,
 				},
+				{
+					id: 3,
+					image: p3,
+					title: "Junior Jogger Pants",
+					base_price: 16.0,
+				},
+				{
+					id: 4,
+					image: p4,
+					title: "Mini Denim Jacket",
+					base_price: 16.0,
+				},
 			],
 		},
 	],
@@ -388,6 +443,11 @@ export const KIDSTHEME_DATA = {
 			base_discount_percentage: 25,
 			thumbnail:
 				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+			images: [
+				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+				"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+				"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+			],
 		},
 		{
 			id: 107,
@@ -401,6 +461,13 @@ export const KIDSTHEME_DATA = {
 			price: 400,
 			discount: 25,
 			sku: "100077",
+
+			images: [
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+			],
 		},
 		{
 			id: 108,
@@ -414,6 +481,11 @@ export const KIDSTHEME_DATA = {
 			price: 400,
 			discount: 25,
 			sku: "100075",
+			images: [
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+			],
 		},
 		{
 			id: 109,
@@ -427,6 +499,15 @@ export const KIDSTHEME_DATA = {
 			price: 400,
 			discount: 25,
 			sku: "100078",
+			images: [
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+				"image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+			],
 		},
 		{
 			id: 110,
@@ -440,6 +521,10 @@ export const KIDSTHEME_DATA = {
 
 			price: 400,
 			discount: 25,
+			images: [
+				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
+			],
 		},
 		{
 			id: 1,
@@ -691,7 +776,6 @@ export const KIDSTHEME_DATA = {
 				"The Kidzo Baby Adjustable Swaddle in Blue is made with ultra-soft, breathable cotton to provide your newborn with maximum comfort and security. Its adjustable Velcro wings ensure a perfect fit, helping prevent startle reflex and promoting longer, more peaceful sleep. Ideal for newborns and infants, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.",
 			price: 400,
 			discount: 25,
-			isNew: true,
 			rating: 4.7,
 			reviewsCount: 86,
 			sku: "100078",
@@ -699,7 +783,6 @@ export const KIDSTHEME_DATA = {
 			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
 			// tags: ["modern", "black", "metal", "round table"],
 			images: [
-				// image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg
 				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
 				"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
 				"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
@@ -732,7 +815,6 @@ export const KIDSTHEME_DATA = {
 				"The Kidzo Baby Adjustable Swaddle in Pink is made from ultra-soft, breathable cotton to provide maximum comfort for newborns. Its adjustable Velcro wings offer a snug and secure fit, helping reduce the startle reflex and allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, cozy, and safely wrapped.",
 			price: 400,
 			discount: 25,
-			isNew: true,
 			rating: 4.7,
 			reviewsCount: 86,
 			sku: "100075",
@@ -772,7 +854,6 @@ export const KIDSTHEME_DATA = {
 				"The Kidzo Baby Adjustable Swaddle in White is crafted from gentle, breathable cotton to ensure maximum comfort for newborns. Its adjustable Velcro wings provide a secure and customized fit, reducing the startle reflex and helping babies sleep longer and more peacefully. Perfect for daily use, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.",
 			price: 400,
 			discount: 25,
-			isNew: true,
 			rating: 4.7,
 			reviewsCount: 86,
 			sku: "100077",
@@ -813,7 +894,6 @@ export const KIDSTHEME_DATA = {
 				"The Kidzo Baby Adjustable Swaddle in Bear White features a soft, breathable cotton fabric with an adorable bear print, offering comfort and style together. Its adjustable Velcro wings allow a secure and customized fit, helping reduce the startle reflex and promoting longer, peaceful sleep. Perfect for newborns, this swaddle keeps your baby warm, snug, and safely wrapped throughout the night.",
 			price: 400,
 			discount: 25,
-			isNew: true,
 			rating: 4.7,
 			reviewsCount: 86,
 			sku: "100078",
@@ -857,7 +937,6 @@ export const KIDSTHEME_DATA = {
 				"The Kidzo Baby Adjustable Swaddle in Box Baby Pink is made from soft, breathable cotton and features a charming box pattern for a sweet and stylish look. Its adjustable Velcro wings provide a secure and customized fit that helps reduce the startle reflex, allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, snug, and safely wrapped throughout the night.",
 			price: 400,
 			discount: 25,
-			isNew: true,
 			rating: 4.7,
 			reviewsCount: 86,
 			sku: "100083",

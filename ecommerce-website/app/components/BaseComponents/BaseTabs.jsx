@@ -31,7 +31,7 @@ export default function BaseTab({
 	return (
 		<div className={clsx("w-full", className)}>
 			{/* Tab Headers */}
-			<div className="flex justify-center">
+			<div className="flex justify-center" role="tablist">
 				{tabs.map((tab, index) => (
 					<button
 						key={index}
@@ -51,7 +51,7 @@ export default function BaseTab({
 			</div>
 
 			{/* Tab Content */}
-			<div>{tabs[activeIndex] && tabs[activeIndex].content}</div>
+			<div key={activeIndex}>{tabs[activeIndex] && tabs[activeIndex].content()}</div>
 		</div>
 	);
 }

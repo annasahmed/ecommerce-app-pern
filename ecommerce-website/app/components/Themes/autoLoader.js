@@ -23,6 +23,7 @@ export function loadThemeComponents(theme) {
 			PopularCatTabs: dynamic(() => import(`./${theme}/PopularCatTabs`)),
 			ProductsSlider: dynamic(() => import(`./${theme}/ProductsSlider`)),
 			FeaturesSection: dynamic(() => import(`./${theme}/FeaturesSection`)),
+			AboutUsSection: dynamic(() => import(`./${theme}/AboutUsSection`)),
 			ParentCategoriesGrid: dynamic(() =>
 				import(`./${theme}/ParentCategoriesGrid`),
 			),

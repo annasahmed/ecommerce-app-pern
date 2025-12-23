@@ -6,7 +6,8 @@ import BaseLink from "../../BaseComponents/BaseLink";
 
 const CategoriesSection = ({ data, isSlider = true }) => {
 	const store = useStore();
-	const slidesData = data && data.length > 0 ? data : store.content.categories;
+	const slidesData =
+		data && data.length > 0 ? data : store.content.categories;
 	return (
 		<section className="container-layout">
 			{isSlider ? (
@@ -39,8 +40,8 @@ const CategoriesSection = ({ data, isSlider = true }) => {
 					)}
 				/>
 			) : (
-				<section className="grid grid-cols-5 max-md:grid-cols-3 gap-5 items-center">
-					{slidesData.map((category, idx) => (
+				<section className="grid grid-cols-6 max-md:grid-cols-3 gap-5 items-center">
+					{slidesData.slice(0, 6).map((category, idx) => (
 						<div key={idx}>
 							<BaseLink href={`/products?category=${category.slug}`}>
 								<BaseImage

@@ -44,11 +44,10 @@ export default function ProductDetailsPage() {
 	return (
 		<main>
 			{/* Product Section */}
-			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-10">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
 					images={product.images}
-					isNew={product.isNew}
 					discount={product.discount}
 				/>
 
@@ -157,7 +156,7 @@ export default function ProductDetailsPage() {
 							onClick={handleAddToCart}>
 							Add to Cart
 						</PrimaryButton>
-						<PrimaryButton className="flex-1">Buy Now</PrimaryButton>
+						{/* <PrimaryButton className="flex-1">Buy Now</PrimaryButton> */}
 						<PrimaryButton
 							variant="outline"
 							className="flex-1 bg-transparent border border-primary text-primary"

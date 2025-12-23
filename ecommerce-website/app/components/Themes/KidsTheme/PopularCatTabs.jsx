@@ -2,6 +2,7 @@
 import { useStore } from "@/app/providers/StoreProvider";
 import BaseTab from "../../BaseComponents/BaseTabs";
 import ProductCard from "./ProductCard";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 
 const PopularCatTabs = () => {
 	const store = useStore();
@@ -14,16 +15,14 @@ const PopularCatTabs = () => {
 				tabs={store.content.popularTabs?.map((tab) => {
 					return {
 						label: tab.label,
-						content: (
-							<div className="grid grid-cols-4 max-md:grid-cols-2 gap-4 max-md:gap-3">
-								{tab.products.map((product) => {
-									return (
-										<ProductCard
-											key={`${tab.label}-product-${product.id}`}
-											product={product}
-										/>
-									);
-								})}
+						content: () => (
+							<div className="grid grid-cols-5 max-md:grid-cols-2 gap-4 max-md:gap-3">
+								{tab.products.map((product) => (
+									<ProductCard
+										key={`${tab.label}-product-${product.id}`}
+										product={product}
+									/>
+								))}
 							</div>
 						),
 					};
