@@ -158,8 +158,7 @@ export default function ProductDetailsPage() {
 						</PrimaryButton>
 						{/* <PrimaryButton className="flex-1">Buy Now</PrimaryButton> */}
 						<PrimaryButton
-							variant="outline"
-							className="flex-1 bg-transparent border border-primary text-primary"
+							className="flex-1"
 							onClick={handleFavourite}>
 							Add to Wishlist
 						</PrimaryButton>
@@ -242,10 +241,10 @@ export default function ProductDetailsPage() {
 			{/* Recently Viewed Products */}
 			<section className="container-layout section-layout-bottom">
 				<ProductsSlider
-					productsData={store.content.allProducts.slice(8, 12)}
+					productsData={store.content.allProducts.slice(7, 12)}
 					isSlider={false}
 					title="Recently Viewed Products"
-					columns={4}
+					columns={5}
 				/>
 			</section>
 		</main>

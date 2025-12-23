@@ -7,7 +7,7 @@ import clsx from "clsx";
 const ProductsSlider = ({
 	title = "",
 	slug = "",
-	columns = 5,
+	columns = 3,
 	productsData = [],
 	isSlider = true,
 	showTitle = true,

@@ -138,7 +138,7 @@ const ProductCard = ({ product }) => {
 			bg-secondary
 			px-2.5 py-1 md:px-3 md:py-1
 			p6
-			font-medium text-white
+			font-normal konnect-font text-white
 			shadow-md
 			select-none
 		">
@@ -153,11 +153,11 @@ const ProductCard = ({ product }) => {
 					onClick={() => {
 						router.push(`/product/${product.slug || product.id}`);
 					}}
-					className="flex-1 h7 font-semibold line-clamp-2 text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
+					className="flex-1 h7 font-normal line-clamp-2 text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
 					{product.title}
 				</h5>
 
-				<h6 className="flex font-semibold gap-1 h7">
+				<h6 className="flex font-normal gap-1 h7">
 					{product.base_discount_percentage > 0 && (
 						<BasePrice
 							className="text-muted line-through"
