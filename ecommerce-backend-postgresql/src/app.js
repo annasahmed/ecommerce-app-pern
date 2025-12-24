@@ -98,7 +98,7 @@ app.use(responseFormatter);
 app.get('/', async (req, res) => {
 	try {
 		// Some logic here
-		res.send('server running');
+		res.send('server running111');
 	} catch (err) {
 		res.send(err, 'Failed to fetch user');
 	}
