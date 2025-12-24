@@ -9,9 +9,11 @@ const productService = createAppBaseService(db.product, {
 
 module.exports = {
 	getProductBySlug: (req) => {
+		console.log(req.params.slug, 'chkking slug');
+
 		return productService.getBySlug(
 			req.params.slug,
-			getProductsIncludes(req),
+			getProductsIncludes(req, true),
 			[] // keep attribtes array empty to get all the attributes
 		);
 	},
@@ -26,7 +28,7 @@ module.exports = {
 	},
 };
 
-const getProductsIncludes = (req) => [
+const getProductsIncludes = (req, includeSlugCond = false) => [
 	{
 		model: db.category.scope('active'),
 		attributes: ['id'],
@@ -37,6 +39,7 @@ const getProductsIncludes = (req) => [
 				separate: true,
 				as: 'translations',
 				attributes: ['title', 'description', 'slug'],
+
 				include: [translationInclude(req)],
 			},
 		],
@@ -115,6 +118,11 @@ const getProductsIncludes = (req) => [
 		model: db.product_translation,
 		required: false,
 		attributes: ['title', 'excerpt', 'description', 'slug'],
+		where: includeSlugCond
+			? {
+					slug: req.params.slug,
+			  }
+			: {},
 		include: [
 			{
 				model: db.language,

@@ -75,7 +75,7 @@ function createAppBaseService(model, options = {}) {
 					{ ...scope }
 				)
 				.findOne({
-					where: { slug },
+					// where: { slug },
 					include,
 					attributes: attributes?.length > 0 ? attributes : {},
 				});
