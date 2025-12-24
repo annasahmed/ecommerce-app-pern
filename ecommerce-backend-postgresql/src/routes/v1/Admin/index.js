@@ -11,6 +11,7 @@ const settingRoute = require('./settingRoute');
 const languageRoute = require('./languageRoute');
 const attributeRoute = require('./attributeRoute');
 const sizeChartRoute = require('./sizeChartRoute');
+const scriptRoute = require('./scriptRoute');
 
 const adminRouter = express.Router();
 
@@ -26,5 +27,6 @@ adminRouter.use('/language', languageRoute);
 adminRouter.use('/media', mediaRoute);
 adminRouter.use('/attribute', attributeRoute);
 adminRouter.use('/sizeChart', sizeChartRoute);
+adminRouter.use('/script', scriptRoute);
 
 module.exports = adminRouter;

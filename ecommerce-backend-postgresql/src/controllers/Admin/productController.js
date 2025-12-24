@@ -78,7 +78,7 @@ const bulkProductData = [
 	{
 		sku: '100077',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle White\n – Soft & Breathable Newborn Swaddle',
+			'Kidzo Baby Adjustable Swaddle White – Soft & Breathable Newborn Swaddle',
 		meta_description:
 			'Buy the Kidzo Baby Adjustable Swaddle in White. Soft, breathable, and adjustable design for newborn comfort and peaceful sleep. Ideal for everyday use.',
 		base_price: '400',
@@ -89,9 +89,9 @@ const bulkProductData = [
 				title: 'Baby adjustable swaddle doted white | Kidzo',
 				slug: 'baby-adjustable-swaddle-white-kidzo',
 				excerpt:
-					'Soft and breathable adjustable white swaddle by Kidzo,\n designed to keep your baby cozy, safe, and comfortably wrapped.',
+					'Soft and breathable adjustable white swaddle by Kidzo, designed to keep your baby cozy, safe, and comfortably wrapped.',
 				description:
-					'The Kidzo Baby Adjustable Swaddle in White is crafted from gentle, breathable cotton to ensure\n maximum comfort for newborns. Its adjustable Velcro wings provide a secure and customized fit, reducing the startle reflex and helping babies sleep longer and more peacefully. Perfect for daily use, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.',
+					'The Kidzo Baby Adjustable Swaddle in White is crafted from gentle, breathable cotton to ensure maximum comfort for newborns. Its adjustable Velcro wings provide a secure and customized fit, reducing the startle reflex and helping babies sleep longer and more peacefully. Perfect for daily use, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.',
 				language_id: 1,
 			},
 		],
@@ -102,9 +102,9 @@ const bulkProductData = [
 	{
 		sku: '100075',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle Pink –\n Soft & Breathable Newborn Swaddle',
+			'Kidzo Baby Adjustable Swaddle Pink – Soft & Breathable Newborn Swaddle',
 		meta_description:
-			'Buy the Kidzo Baby Adjustable Swaddle in Pink. Soft, breathable,\n and adjustable design for newborn comfort and restful sleep. Perfect for daily use.',
+			'Buy the Kidzo Baby Adjustable Swaddle in Pink. Soft, breathable, and adjustable design for newborn comfort and restful sleep. Perfect for daily use.',
 		base_price: '400',
 		base_discount_percentage: '20',
 		images: [],
@@ -113,9 +113,9 @@ const bulkProductData = [
 				title: 'Baby adjustable swaddle doted pink | Kidzo',
 				slug: 'baby-adjustable-swaddle-pink-kidzo',
 				excerpt:
-					'Soft and breathable adjustable pink swaddle by Kidzo, designed\n to keep your baby cozy, safe, and comfortably wrapped.',
+					'Soft and breathable adjustable pink swaddle by Kidzo, designed to keep your baby cozy, safe, and comfortably wrapped.',
 				description:
-					'The Kidzo Baby Adjustable Swaddle in Pink is made from ultra-soft, breathable cotton to provide\n maximum comfort for newborns. Its adjustable Velcro wings offer a snug and secure fit, helping reduce the startle reflex and allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, cozy, and safely wrapped.',
+					'The Kidzo Baby Adjustable Swaddle in Pink is made from ultra-soft, breathable cotton to provide maximum comfort for newborns. Its adjustable Velcro wings offer a snug and secure fit, helping reduce the startle reflex and allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, cozy, and safely wrapped.',
 				language_id: 1,
 			},
 		],
@@ -126,7 +126,7 @@ const bulkProductData = [
 	{
 		sku: '100078',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle Bear White\n – Soft, Cute & Breathable',
+			'Kidzo Baby Adjustable Swaddle Bear White – Soft, Cute & Breathable',
 		meta_description:
 			'Buy the Kidzo Baby Adjustable Swaddle in Bear White. Soft,breathable cotton with adorable bear print, adjustable fit, and ideal newborn comfort.',
 		base_price: '400',
@@ -135,9 +135,9 @@ const bulkProductData = [
 		translations: [
 			{
 				title: 'Baby adjustable swaddle bear white | Kidzo',
-				slug: 'baby-adjustable-swaddle-\n bear-white-kidzo',
+				slug: 'baby-adjustable-swaddle-bear-white-kidzo',
 				excerpt:
-					'Soft and breathable white swaddle with cute bear print by Kidzo,\n designed to keep your baby cozy, secure, and comfortably wrapped.',
+					'Soft and breathable white swaddle with cute bear print by Kidzo, designed to keep your baby cozy, secure, and comfortably wrapped.',
 				description:
 					'The Kidzo Baby Adjustable Swaddle in Bear White features a soft, breathable cotton fabric with an adorable bear print, offering comfort and style together. Its adjustable Velcro wings allow a secure and customized fit, helping reduce the startle reflex and promoting longer, peaceful sleep. Perfect for newborns, this swaddle keeps your baby warm, snug, and safely wrapped throughout the night.',
 				language_id: 1,
@@ -150,7 +150,7 @@ const bulkProductData = [
 	{
 		sku: '100080',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle Box Pink\n – Soft & Breathable Newborn Swaddle',
+			'Kidzo Baby Adjustable Swaddle Box Pink – Soft & Breathable Newborn Swaddle',
 		meta_description:
 			'Buy the Kidzo Baby Adjustable Swaddle in Box Pink. Soft,breathable cotton with box pattern, adjustable fit, and ideal newborn comfort.',
 		base_price: '545',
@@ -161,9 +161,9 @@ const bulkProductData = [
 				title: 'Baby adjustable swaddle box pink | Kidzo',
 				slug: 'baby-adjustable-swaddle-box-pink-kidzo',
 				excerpt:
-					'Soft, breathable, and adjustable pink swaddle by Kidzo with\n a charming box pattern, designed to keep your baby cozy, safe, and comfortably wrapped.',
+					'Soft, breathable, and adjustable pink swaddle by Kidzo with a charming box pattern, designed to keep your baby cozy, safe, and comfortably wrapped.',
 				description:
-					'The Kidzo Baby Adjustable Swaddle in Box Pink features soft, breathable cotton with a stylish box pattern,\n offering comfort and a cute look for your newborn. Its adjustable Velcro wings allow a secure and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Ideal for daily use, this swaddle keeps your baby warm, snug, and safely wrapped throughout the night.',
+					'The Kidzo Baby Adjustable Swaddle in Box Pink features soft, breathable cotton with a stylish box pattern, offering comfort and a cute look for your newborn. Its adjustable Velcro wings allow a secure and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Ideal for daily use, this swaddle keeps your baby warm, snug, and safely wrapped throughout the night.',
 				language_id: 1,
 			},
 		],
@@ -174,7 +174,7 @@ const bulkProductData = [
 	{
 		sku: '100083',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle Box Baby Pink\n – Soft & Breathable Newborn Swaddle',
+			'Kidzo Baby Adjustable Swaddle Box Baby Pink – Soft & Breathable Newborn Swaddle',
 		meta_description:
 			'Shop the Kidzo Baby Adjustable Swaddle in Box Baby Pink. Soft, breathable cotton with cute box pattern and adjustable fit for newborn comfort.',
 		base_price: '545',
@@ -185,7 +185,7 @@ const bulkProductData = [
 				title: 'Baby adjustable swaddle box baby pink | Kidzo',
 				slug: 'baby-adjustable-swaddle-box-baby-pink-kidzo',
 				excerpt:
-					'Soft, breathable, and adjustable baby pink swaddle by Kidzo\n with a cute box pattern, designed to keep your newborn cozy, safe, and comfortably wrapped.',
+					'Soft, breathable, and adjustable baby pink swaddle by Kidzo with a cute box pattern, designed to keep your newborn cozy, safe, and comfortably wrapped.',
 				description:
 					'The Kidzo Baby Adjustable Swaddle in Box Baby Pink is made from soft, breathable cotton and features a charming box pattern for a sweet and stylish look. Its adjustable Velcro wings provide a secure and customized fit that helps reduce the startle reflex, allowing babies to enjoy longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your little one warm, snug, and safely wrapped throughout the night.',
 				language_id: 1,
@@ -200,16 +200,16 @@ const bulkProductData = [
 		meta_title:
 			'Kidzo Baby Adjustable Swaddle Box Orange – Soft & Breathable Newborn Swaddle',
 		meta_description:
-			'Buy the Kidzo Baby Adjustable Swaddle in Box Orange.\n Soft, breathable cotton with a cute box pattern and adjustable fit for newborn comfort.',
+			'Buy the Kidzo Baby Adjustable Swaddle in Box Orange. Soft, breathable cotton with a cute box pattern and adjustable fit for newborn comfort.',
 		base_price: '545',
 		base_discount_percentage: '20',
 		images: [],
 		translations: [
 			{
 				title: 'Baby adjustable swaddle box Orange | Kidzo',
-				slug: 'baby-adjustable-swaddle-box-\n orange-kidzo',
+				slug: 'baby-adjustable-swaddle-box-orange-kidzo',
 				excerpt:
-					'Soft, breathable, and adjustable orange swaddle by Kidzo featuring\n a cute box pattern to keep your baby cozy, secure, and comfortably wrapped.',
+					'Soft, breathable, and adjustable orange swaddle by Kidzo featuring a cute box pattern to keep your baby cozy, secure, and comfortably wrapped.',
 				description:
 					'The Kidzo Baby Adjustable Swaddle in Box Orange is made from soft, breathable cotton and designed with a charming box pattern for a stylish look. Its adjustable Velcro wings ensure a snug and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Perfect for everyday use, this swaddle keeps your newborn warm, snug, and safely wrapped throughout the night.',
 				language_id: 1,
@@ -222,20 +222,20 @@ const bulkProductData = [
 	{
 		sku: '100081',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle Box Blue\n – Soft & Breathable Newborn Swaddle',
+			'Kidzo Baby Adjustable Swaddle Box Blue – Soft & Breathable Newborn Swaddle',
 		meta_description:
-			'Shop the Kidzo Baby Adjustable Swaddle in Box Blue. Soft,\n breathable cotton with cute box pattern and adjustable fit for newborn comfort.',
+			'Shop the Kidzo Baby Adjustable Swaddle in Box Blue. Soft, breathable cotton with cute box pattern and adjustable fit for newborn comfort.',
 		base_price: '545',
 		base_discount_percentage: '20',
 		images: [],
 		translations: [
 			{
 				title: 'Baby adjustable swaddle box Blue | Kidzo',
-				slug: 'baby-adjustable-swaddle-box-\n blue-kidzo',
+				slug: 'baby-adjustable-swaddle-box-blue-kidzo',
 				excerpt:
-					'Soft, breathable, and adjustable blue swaddle by Kidzo with\n a cute box pattern, designed to keep your baby cozy, secure, and comfortably wrapped.',
+					'Soft, breathable, and adjustable blue swaddle by Kidzo with a cute box pattern, designed to keep your baby cozy, secure, and comfortably wrapped.',
 				description:
-					'The Kidzo Baby Adjustable Swaddle in Box Blue is crafted from soft, breathable cotton and features\n an adorable box pattern for a stylish and comforting look. Its adjustable Velcro wings provide a snug and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your newborn warm, snug, and safely wrapped throughout the night.',
+					'The Kidzo Baby Adjustable Swaddle in Box Blue is crafted from soft, breathable cotton and features an adorable box pattern for a stylish and comforting look. Its adjustable Velcro wings provide a snug and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your newborn warm, snug, and safely wrapped throughout the night.',
 				language_id: 1,
 			},
 		],
@@ -246,7 +246,7 @@ const bulkProductData = [
 	{
 		sku: '100082',
 		meta_title:
-			'Kidzo Baby Adjustable Swaddle Box Green\n – Soft & Breathable Newborn Swaddle',
+			'Kidzo Baby Adjustable Swaddle Box Green – Soft & Breathable Newborn Swaddle',
 		meta_description:
 			'Buy the Kidzo Baby Adjustable Swaddle in Box Green. Soft, breathable cotton with cute box pattern and adjustable fit for newborn comfort.',
 		base_price: '545',
@@ -257,9 +257,9 @@ const bulkProductData = [
 				title: 'Baby adjustable swaddle box Green| Kidzo',
 				slug: 'baby-adjustable-swaddle-box-green-kidzo',
 				excerpt:
-					'Soft, breathable, and adjustable green swaddle by Kidzo featuring\n a cute box pattern to keep your baby cozy, secure, and comfortably wrapped.',
+					'Soft, breathable, and adjustable green swaddle by Kidzo featuring a cute box pattern to keep your baby cozy, secure, and comfortably wrapped.',
 				description:
-					'The Kidzo Baby Adjustable Swaddle in Box Green is made from soft, breathable cotton and designed\n with an adorable box pattern for a stylish, comforting look. Its adjustable Velcro wings ensure a snug and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your newborn warm, snug, and safely wrapped throughout the night.',
+					'The Kidzo Baby Adjustable Swaddle in Box Green is made from soft, breathable cotton and designed with an adorable box pattern for a stylish, comforting look. Its adjustable Velcro wings ensure a snug and customized fit, helping reduce the startle reflex and supporting longer, peaceful sleep. Ideal for everyday use, this swaddle keeps your newborn warm, snug, and safely wrapped throughout the night.',
 				language_id: 1,
 			},
 		],
@@ -270,9 +270,9 @@ const bulkProductData = [
 	{
 		sku: '100085',
 		meta_title:
-			'Montaly Baby Wrapping Sheet Cow White\n – Soft & Comfortable Newborn Wrap',
+			'Montaly Baby Wrapping Sheet Cow White – Soft & Comfortable Newborn Wrap',
 		meta_description:
-			'Buy the Montaly Baby Wrapping Sheet in Cow White. Soft,\n breathable fabric with cute cow print, designed to keep newborns warm, secure, and comfortably wrapped.',
+			'Buy the Montaly Baby Wrapping Sheet in Cow White. Soft, breathable fabric with cute cow print, designed to keep newborns warm, secure, and comfortably wrapped.',
 		base_price: '995',
 		base_discount_percentage: '20',
 		images: [],
@@ -281,7 +281,7 @@ const bulkProductData = [
 				title: 'Baby Wrapping Sheet Cow White | Montaly',
 				slug: 'baby-wrapping-sheet-cow-white-montaly',
 				excerpt:
-					'Soft and cozy white baby wrapping sheet by Montaly featuring\n a cute cow print, designed to keep your newborn warm, secure, and comfortably wrapped.',
+					'Soft and cozy white baby wrapping sheet by Montaly featuring a cute cow print, designed to keep your newborn warm, secure, and comfortably wrapped.',
 				description:
 					'The Montaly Baby Wrapping Sheet in Cow White is made from soft, gentle, and breathable fabric to provide maximum comfort for newborns. With its adorable cow print and smooth texture, this wrapping sheet offers full coverage and a snug wrap. Perfect for swaddling, sleeping, and everyday use, it helps keep your baby warm, calm, and securely wrapped throughout the day and night.',
 				language_id: 1,
@@ -294,9 +294,9 @@ const bulkProductData = [
 	{
 		sku: '100086',
 		meta_title:
-			'Mountaly Baby Wrapping Sheet Bear Car White\n – Soft & Comfortable Newborn Wrap',
+			'Mountaly Baby Wrapping Sheet Bear Car White – Soft & Comfortable Newborn Wrap',
 		meta_description:
-			'Buy the Mountaly Baby Wrapping Sheet in Bear Car White.\n Soft, breathable fabric with cute bear and car print for warm, secure, and comfortable newborn wrapping.',
+			'Buy the Mountaly Baby Wrapping Sheet in Bear Car White. Soft, breathable fabric with cute bear and car print for warm, secure, and comfortable newborn wrapping.',
 		base_price: '995',
 		base_discount_percentage: '20',
 		images: [],
@@ -307,7 +307,7 @@ const bulkProductData = [
 				excerpt:
 					'Soft and cozy white baby wrapping sheet by Mountaly featuring a cute bear and car print, designed to keep your newborn warm, secure, and comfortably wrapped.',
 				description:
-					'The Mountaly Baby Wrapping Sheet in Bear Car White is made from soft, gentle, and breathable fabric\n to ensure maximum comfort for your newborn. Its adorable bear and car print adds a fun and charming look, while the spacious and smooth design provides full coverage and a snug wrap. Ideal for swaddling, sleeping, and everyday use, this wrapping sheet helps keep your baby warm, calm, and securely wrapped throughout the day and night.',
+					'The Mountaly Baby Wrapping Sheet in Bear Car White is made from soft, gentle, and breathable fabric to ensure maximum comfort for your newborn. Its adorable bear and car print adds a fun and charming look, while the spacious and smooth design provides full coverage and a snug wrap. Ideal for swaddling, sleeping, and everyday use, this wrapping sheet helps keep your baby warm, calm, and securely wrapped throughout the day and night.',
 				language_id: 1,
 			},
 		],
@@ -318,9 +318,9 @@ const bulkProductData = [
 	{
 		sku: '100087',
 		meta_title:
-			'Mountaly Baby Wrapping Sheet Hippo White\n – Soft & Comfortable Newborn Wrap',
+			'Mountaly Baby Wrapping Sheet Hippo White – Soft & Comfortable Newborn Wrap',
 		meta_description:
-			'Buy the Mountaly Baby Wrapping Sheet in Hippo White.\n Soft, breathable fabric with cute hippo print, perfect for keeping newborns warm, secure, and comfortably wrapped.',
+			'Buy the Mountaly Baby Wrapping Sheet in Hippo White. Soft, breathable fabric with cute hippo print, perfect for keeping newborns warm, secure, and comfortably wrapped.',
 		base_price: '995',
 		base_discount_percentage: '20',
 		images: [],
@@ -329,7 +329,7 @@ const bulkProductData = [
 				title: 'Baby Wrapping Sheet Hippo White | Montaly',
 				slug: 'baby-wrapping-sheet-hippo-white-mountaly',
 				excerpt:
-					'Soft and cozy white baby wrapping sheet by Mountaly featuring\n a cute hippo print, designed to keep your newborn warm, secure, and comfortably wrapped.',
+					'Soft and cozy white baby wrapping sheet by Mountaly featuring a cute hippo print, designed to keep your newborn warm, secure, and comfortably wrapped.',
 				description:
 					'The Mountaly Baby Wrapping Sheet in Hippo White is crafted from soft, breathable, and gentle fabric  to ensure maximum comfort for your newborn. Its adorable hippo print adds a sweet and playful touch, while the smooth and spacious design provides full coverage and a snug wrap. Perfect for swaddling, sleeping, and everyday use, this wrapping sheet helps keep your baby warm, calm, and securely wrapped day and night.',
 				language_id: 1,
@@ -342,9 +342,9 @@ const bulkProductData = [
 	{
 		sku: '100090',
 		meta_title:
-			'Wrapping Sheet Thailand Cotton Bear Blue\n– Mami Baby | Soft Newborn Swaddle',
+			'Wrapping Sheet Thailand Cotton Bear Blue – Mami Baby | Soft Newborn Swaddle',
 		meta_description:
-			'Buy Mami Baby Wrapping Sheet Thailand Cotton Bear Blue.\nSoft, breathable Thailand cotton with cute bear print for warm, secure, and comfortable newborn wrapping.',
+			'Buy Mami Baby Wrapping Sheet Thailand Cotton Bear Blue. Soft, breathable Thailand cotton with cute bear print for warm, secure, and comfortable newborn wrapping.',
 		base_price: '1220',
 		base_discount_percentage: '20',
 		images: [],
@@ -353,7 +353,7 @@ const bulkProductData = [
 				title: 'WRAPING SHEET THAILAND COTTON BEAR BLUE MAMI BABY',
 				slug: 'wrapping-sheet-thailand-cotton-bear-blue-mami-baby',
 				excerpt:
-					'Soft and breathable Thailand cotton wrapping sheet by Mami Baby featuring\na cute bear print in blue, designed for warm, cozy, and secure newborn wrapping.',
+					'Soft and breathable Thailand cotton wrapping sheet by Mami Baby featuring a cute bear print in blue, designed for warm, cozy, and secure newborn wrapping.',
 				description:
 					'The Mami Baby Thailand Cotton Wrapping Sheet in Bear Blue is crafted from premium, ultra‑soft Thailand cotton that is gentle and safe for newborn skin. With a cute blue bear design and smooth texture, it provides excellent warmth and comfort. The lightweight, breathable fabric ensures proper airflow while keeping your baby snug and relaxed. Ideal for swaddling, sleeping, or everyday wrapping, this sheet helps promote better sleep and a secure feeling for newborns.',
 				language_id: 1,
@@ -366,7 +366,7 @@ const bulkProductData = [
 	{
 		sku: '100091',
 		meta_title:
-			'Wrapping Sheet Thailand Cotton Bear Pink\n– Mami Baby | Soft Newborn Swaddle',
+			'Wrapping Sheet Thailand Cotton Bear Pink – Mami Baby | Soft Newborn Swaddle',
 		meta_description:
 			'Buy Mami Baby Wrapping Sheet Thailand Cotton Bear Pink. Soft, breathable Thailand cotton with cute pink bear print for warm, secure, and comfortable newborn wrapping.',
 		base_price: '1220',
@@ -401,7 +401,7 @@ const bulkProductData = [
 				title: 'WRAPING SHEET THAILAND COTTON CAT YELLOW MAMI BABY',
 				slug: 'wrapping-sheet-thailand-cotton-cat-yellow-mami-baby',
 				excerpt:
-					'Soft and breathable Thailand cotton wrapping sheet\nby Mami Baby featuring a cute yellow cat print, designed to keep newborns warm, cozy, and securely wrapped.',
+					'Soft and breathable Thailand cotton wrapping sheet by Mami Baby featuring a cute yellow cat print, designed to keep newborns warm, cozy, and securely wrapped.',
 				description:
 					'The Mami Baby Thailand Cotton Wrapping Sheet in Cat Yellow is made from premium, ultra‑soft Thailand cotton that feels gentle on delicate newborn skin. Its adorable yellow cat print adds a cheerful touch, while the lightweight and breathable fabric ensures proper ventilation. This smooth and comfy wrapping sheet keeps babies snug, warm, and secure, helping them sleep peacefully. Perfect for everyday swaddling, wrapping, and newborn sleep routines.',
 				language_id: 1,
@@ -494,7 +494,7 @@ const bulkProductData = [
 		images: [],
 		translations: [
 			{
-				title: 'BABY FEEDER COVER WELCOME TO\n THE WORLD SKIN LITTLE HOME',
+				title: 'BABY FEEDER COVER WELCOME TO THE WORLD SKIN LITTLE HOME',
 				slug: 'baby-feeder-cover-welcome-to-the-world-skin-little-home',
 				excerpt:
 					'Soft and gentle feeder cover by Little Home featuring a “Welcome to the World” theme in a calm skin‑tone color, designed to protect feeders from dust while adding a cute newborn-friendly look.',
@@ -518,7 +518,7 @@ const bulkProductData = [
 		images: [],
 		translations: [
 			{
-				title: 'BABY FEEDER COVER WELCOME TO \nTHE WORLD RED LITTLE HOME',
+				title: 'BABY FEEDER COVER WELCOME TO  THE WORLD RED LITTLE HOME',
 				slug: 'baby-feeder-cover-welcome-to-the-world-red-little-home',
 				excerpt:
 					'Soft and protective feeder cover by Little Home featuring a cute “Welcome to the World” red design, made to keep baby feeders clean, safe, and hygienic.',
@@ -542,7 +542,7 @@ const bulkProductData = [
 		images: [],
 		translations: [
 			{
-				title: 'BABY FEEDER COVER WELCOME TO \nTHE WORLD PINK LITTLE HOME',
+				title: 'BABY FEEDER COVER WELCOME TO  THE WORLD PINK LITTLE HOME',
 				slug: 'baby-feeder-cover-welcome-to-the-world-pink-little-home',
 				excerpt:
 					'Soft and cute pink feeder cover by Little Home with “Welcome to the World” design, made to keep baby feeders clean, protected, and dust‑free.',
@@ -566,7 +566,7 @@ const bulkProductData = [
 		images: [],
 		translations: [
 			{
-				title: 'BABY FEEDER COVER WELCOME TO\nTHE WORLD BROWN LITTLE HOME',
+				title: 'BABY FEEDER COVER WELCOME TO THE WORLD BROWN LITTLE HOME',
 				slug: 'baby-feeder-cover-welcome-to-the-world-brown-little-home',
 				excerpt:
 					'Soft and durable baby feeder cover featuring a “Welcome to the World” brown theme by Little Home, designed to protect feeders from dust while adding a cute look.',
@@ -590,7 +590,7 @@ const bulkProductData = [
 		images: [],
 		translations: [
 			{
-				title: 'BABY FEEDER COVER WELCOME TO THE\nWORLD BLUE LITTLE HOME',
+				title: 'BABY FEEDER COVER WELCOME TO THE WORLD BLUE LITTLE HOME',
 				slug: 'baby-feeder-cover-welcome-to-the-world-blue-little-home',
 				excerpt:
 					'Soft and protective baby feeder cover featuring a “Welcome to the World” blue theme by Little Home, designed to keep feeders clean, safe, and dust‑free.',
@@ -1994,7 +1994,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Wipes Natural Aloe Vera 64pcs — soft, thick, and soothing wipes enriched with natural aloe vera for gentle daily cleaning.',
 				description:
-					'Nexton Baby Wipes Natural Aloe Vera (64pcs) are specially made to provide gentle and refreshing cleansing for your baby’s sensitive skin. Each wipe is infused with natural aloe vera extract that helps soothe irritation, moisturize the skin, and maintain its natural softness. With a thick, durable texture, these wipes clean effectively without causing discomfort.\nFree from alcohol and harsh chemicals, these dermatologically tested wipes are safe for newborns and ideal for diaper changing, feeding cleanups, or quick on‑the‑go hygiene. The resealable pack keeps the wipes moist and fresh for everyday use.',
+					'Nexton Baby Wipes Natural Aloe Vera (64pcs) are specially made to provide gentle and refreshing cleansing for your baby’s sensitive skin. Each wipe is infused with natural aloe vera extract that helps soothe irritation, moisturize the skin, and maintain its natural softness. With a thick, durable texture, these wipes clean effectively without causing discomfort. Free from alcohol and harsh chemicals, these dermatologically tested wipes are safe for newborns and ideal for diaper changing, feeding cleanups, or quick on‑the‑go hygiene. The resealable pack keeps the wipes moist and fresh for everyday use.',
 				language_id: 1,
 			},
 		],
@@ -2018,7 +2018,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Wipes Fragrance Free 64pcs — gentle, soft, and chemical‑free wipes ideal for babies with sensitive or allergy‑prone skin.',
 				description:
-					'Nexton Baby Wipes Fragrance Free (64pcs) are specially designed for babies with delicate, sensitive, or fragrance‑reactive skin. Made with a soft and thick material, these wipes provide smooth and effective cleaning during diaper changes, feeding times, and daily hygiene.\nThe fragrance‑free, alcohol‑free, and paraben‑free formula ensures safe use on newborn skin without causing irritation. Each wipe is dermatologically tested and enriched with mild moisturizers to help maintain natural skin softness. The resealable pack keeps wipes moist, hygienic, and ready for everyday use at home or on‑the‑go.',
+					'Nexton Baby Wipes Fragrance Free (64pcs) are specially designed for babies with delicate, sensitive, or fragrance‑reactive skin. Made with a soft and thick material, these wipes provide smooth and effective cleaning during diaper changes, feeding times, and daily hygiene. The fragrance‑free, alcohol‑free, and paraben‑free formula ensures safe use on newborn skin without causing irritation. Each wipe is dermatologically tested and enriched with mild moisturizers to help maintain natural skin softness. The resealable pack keeps wipes moist, hygienic, and ready for everyday use at home or on‑the‑go.',
 				language_id: 1,
 			},
 		],
@@ -2042,7 +2042,7 @@ const bulkProductData = [
 				excerpt:
 					'Johnson’s Baby Wipes 84pcs — soft, mild, and gentle wipes designed to cleanse and protect your baby’s delicate skin with every use.',
 				description:
-					'Johnson’s Baby Wipes 84pcs provide gentle cleansing specially formulated for newborn and sensitive baby skin. Made with Johnson’s signature No More Tears formula, these wipes are mild, dermatologist‑tested, and free from harsh chemicals.\nThe ultra‑soft fabric ensures comfortable cleaning during diaper changes, feeding messes, and daily hygiene. Enriched with mild moisturizers, the wipes help maintain natural skin softness while preventing dryness and irritation.\nConveniently packed with a resealable lid to keep wipes fresh, moist, and hygienic for everyday use at home or while traveling.',
+					'Johnson’s Baby Wipes 84pcs provide gentle cleansing specially formulated for newborn and sensitive baby skin. Made with Johnson’s signature No More Tears formula, these wipes are mild, dermatologist‑tested, and free from harsh chemicals. The ultra‑soft fabric ensures comfortable cleaning during diaper changes, feeding messes, and daily hygiene. Enriched with mild moisturizers, the wipes help maintain natural skin softness while preventing dryness and irritation. Conveniently packed with a resealable lid to keep wipes fresh, moist, and hygienic for everyday use at home or while traveling.',
 				language_id: 1,
 			},
 		],
@@ -2066,7 +2066,7 @@ const bulkProductData = [
 				excerpt:
 					'Johnson’s Baby Wipes 60pcs — mild, soft, and gentle cleansing wipes designed to protect and care for your baby’s delicate skin.',
 				description:
-					'Johnson’s Baby Wipes 60pcs are formulated with the trusted No More Tears mildness, making them safe and gentle for newborn and sensitive skin. The ultra‑soft wipes provide smooth and comfortable cleaning during diaper changes and everyday hygiene without causing irritation.\nThese wipes are enriched with mild moisturizers to prevent dryness and maintain natural skin softness. Dermatologist‑tested and free from alcohol and harsh chemicals, they ensure gentle, everyday care. The compact resealable pack keeps the wipes fresh, moist, and perfect for travel or quick use anytime.',
+					'Johnson’s Baby Wipes 60pcs are formulated with the trusted No More Tears mildness, making them safe and gentle for newborn and sensitive skin. The ultra‑soft wipes provide smooth and comfortable cleaning during diaper changes and everyday hygiene without causing irritation. These wipes are enriched with mild moisturizers to prevent dryness and maintain natural skin softness. Dermatologist‑tested and free from alcohol and harsh chemicals, they ensure gentle, everyday care. The compact resealable pack keeps the wipes fresh, moist, and perfect for travel or quick use anytime.',
 				language_id: 1,
 			},
 		],
@@ -2087,7 +2087,7 @@ const bulkProductData = [
 		translations: [
 			{
 				title: 'JOHNSON BABY WIPES 72pcs',
-				slug: 'Johnson Baby Wipes 72pcs — ultra‑gentle, dermatologist‑tested wipes designed for everyday baby skin care.',
+				slug: 'johnson-baby-wipes-72pcs',
 				excerpt:
 					'Johnson Baby Wipes 72pcs — ultra‑gentle, dermatologist‑tested wipes designed for everyday baby skin care.',
 				description:
@@ -2115,7 +2115,7 @@ const bulkProductData = [
 				excerpt:
 					'Pigeon Baby Shampoo 200ml — a gentle, tear‑free shampoo specially formulated to cleanse and protect your baby’s delicate hair and scalp.',
 				description:
-					'Pigeon Baby Shampoo 200ml is crafted with a mild, tear‑free formula that gently cleanses your baby’s hair without irritating the eyes or skin. Enriched with natural conditioning ingredients, it helps keep the hair soft, smooth, and tangle‑free.\nThe hypoallergenic and pH‑balanced formula is suitable for newborns and sensitive scalps. It cleans effectively while maintaining natural moisture, preventing dryness or irritation. Its light fragrance leaves the hair fresh and pleasant throughout the day.\nPerfect for daily use and dermatologist‑tested for safe baby care.',
+					'Pigeon Baby Shampoo 200ml is crafted with a mild, tear‑free formula that gently cleanses your baby’s hair without irritating the eyes or skin. Enriched with natural conditioning ingredients, it helps keep the hair soft, smooth, and tangle‑free. The hypoallergenic and pH‑balanced formula is suitable for newborns and sensitive scalps. It cleans effectively while maintaining natural moisture, preventing dryness or irritation. Its light fragrance leaves the hair fresh and pleasant throughout the day. Perfect for daily use and dermatologist‑tested for safe baby care.',
 				language_id: 1,
 			},
 		],
@@ -2139,7 +2139,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Aloe Vera Shampoo 250ml — a mild, nourishing shampoo enriched with aloe vera to gently cleanse and protect your baby’s delicate hair and scalp.',
 				description:
-					'Nexton Baby Aloe Vera Shampoo 250ml is specially formulated with the natural soothing power of aloe vera to gently clean your baby’s hair while keeping the scalp soft and comfortable. Its mild, tear‑free formula ensures a stress‑free bath time, protecting your baby’s eyes and sensitive skin.\nThe shampoo helps maintain natural moisture, leaving hair soft, smooth, and easy to manage. Dermatologically tested and free from harsh chemicals, it is suitable for newborns and babies with sensitive skin. Perfect for everyday use, offering a refreshing and calming bath experience.',
+					'Nexton Baby Aloe Vera Shampoo 250ml is specially formulated with the natural soothing power of aloe vera to gently clean your baby’s hair while keeping the scalp soft and comfortable. Its mild, tear‑free formula ensures a stress‑free bath time, protecting your baby’s eyes and sensitive skin. The shampoo helps maintain natural moisture, leaving hair soft, smooth, and easy to manage. Dermatologically tested and free from harsh chemicals, it is suitable for newborns and babies with sensitive skin. Perfect for everyday use, offering a refreshing and calming bath experience.',
 				language_id: 1,
 			},
 		],
@@ -2163,7 +2163,7 @@ const bulkProductData = [
 				excerpt:
 					'Dr.Rashel Shampoo & Bath Bubble 2 in 1 — a gentle dual‑action formula that cleanses hair and body while leaving the baby’s skin soft, refreshed, and nourished.',
 				description:
-					'Dr.Rashel Shampoo & Bath Bubble 2 in 1 is designed to give babies a soothing and enjoyable bath experience. This dual‑purpose formula works as both a mild shampoo and a gentle bath wash, making it perfect for quick, convenient, and effective cleansing.\nEnriched with skin‑friendly ingredients, it cleans without stripping natural moisture and helps maintain softness and hydration. The tear‑free formula ensures a comfortable bath time without eye irritation, while its subtle fragrance leaves your baby feeling fresh.\nSuitable for daily use on newborns and babies with sensitive skin.',
+					'Dr.Rashel Shampoo & Bath Bubble 2 in 1 is designed to give babies a soothing and enjoyable bath experience. This dual‑purpose formula works as both a mild shampoo and a gentle bath wash, making it perfect for quick, convenient, and effective cleansing. Enriched with skin‑friendly ingredients, it cleans without stripping natural moisture and helps maintain softness and hydration. The tear‑free formula ensures a comfortable bath time without eye irritation, while its subtle fragrance leaves your baby feeling fresh. Suitable for daily use on newborns and babies with sensitive skin.',
 				language_id: 1,
 			},
 		],
@@ -2187,7 +2187,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Diaper Care Cream 75ml — a protective, soothing cream formulated to prevent diaper rash and keep your baby’s skin soft, calm, and healthy.',
 				description:
-					'Nexton Baby Diaper Care Cream 75ml is specially designed to protect your baby’s delicate skin from irritation caused by wetness and friction. Enriched with gentle moisturizing ingredients, it forms a protective barrier that helps prevent diaper rash while soothing existing redness.\nThe lightweight, non‑sticky texture absorbs easily, providing lasting comfort without clogging pores. Dermatologically tested and free from harsh chemicals, it is safe for newborns and suitable for daily diaper‑change routines.',
+					'Nexton Baby Diaper Care Cream 75ml is specially designed to protect your baby’s delicate skin from irritation caused by wetness and friction. Enriched with gentle moisturizing ingredients, it forms a protective barrier that helps prevent diaper rash while soothing existing redness. The lightweight, non‑sticky texture absorbs easily, providing lasting comfort without clogging pores. Dermatologically tested and free from harsh chemicals, it is safe for newborns and suitable for daily diaper‑change routines.',
 				language_id: 1,
 			},
 		],
@@ -2211,7 +2211,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Diaper Care Cream 150ml — a gentle, protective cream formulated to prevent diaper rash and keep your baby’s skin soft, soothed, and healthy.',
 				description:
-					'Nexton Baby Diaper Care Cream 150ml is designed to protect delicate baby skin from irritation caused by moisture, friction, and long diaper use. Its soothing formula creates a protective barrier that helps prevent diaper rash, redness, and discomfort.\nThe cream absorbs quickly without leaving a greasy layer, keeping the baby’s skin dry, fresh, and nourished. Enriched with skin‑calming ingredients, it is suitable for newborns and babies with sensitive skin.\nDermatologically tested and free from harsh chemicals, making it ideal for daily diaper‑change routines.',
+					'Nexton Baby Diaper Care Cream 150ml is designed to protect delicate baby skin from irritation caused by moisture, friction, and long diaper use. Its soothing formula creates a protective barrier that helps prevent diaper rash, redness, and discomfort. The cream absorbs quickly without leaving a greasy layer, keeping the baby’s skin dry, fresh, and nourished. Enriched with skin‑calming ingredients, it is suitable for newborns and babies with sensitive skin. Dermatologically tested and free from harsh chemicals, making it ideal for daily diaper‑change routines.',
 				language_id: 1,
 			},
 		],
@@ -2235,7 +2235,7 @@ const bulkProductData = [
 				excerpt:
 					'Dr.Rashel Moisturizing Cream Yellow — a nourishing, lightweight cream designed to hydrate, soften, and protect the skin with long‑lasting moisture.',
 				description:
-					'Dr.Rashel Moisturizing Cream Yellow is formulated to deeply hydrate and nourish the skin, keeping it soft, smooth, and naturally glowing. Its lightweight, non‑greasy texture absorbs easily, providing instant moisture without clogging pores.\nEnriched with skin‑friendly ingredients, this cream helps maintain the skin’s natural balance while preventing dryness and roughness. Ideal for everyday use on face and body, it leaves the skin feeling fresh, moisturized, and comfortable throughout the day.\nDermatologically safe and suitable for all skin types.',
+					'Dr.Rashel Moisturizing Cream Yellow is formulated to deeply hydrate and nourish the skin, keeping it soft, smooth, and naturally glowing. Its lightweight, non‑greasy texture absorbs easily, providing instant moisture without clogging pores. Enriched with skin‑friendly ingredients, this cream helps maintain the skin’s natural balance while preventing dryness and roughness. Ideal for everyday use on face and body, it leaves the skin feeling fresh, moisturized, and comfortable throughout the day. Dermatologically safe and suitable for all skin types.',
 				language_id: 1,
 			},
 		],
@@ -2259,7 +2259,7 @@ const bulkProductData = [
 				excerpt:
 					'Dr.Rashel Moisturizing Cream Pink — a soft, hydrating cream that nourishes the skin, leaving it smooth, fresh, and naturally radiant.',
 				description:
-					'Dr.Rashel Moisturizing Cream Pink is formulated to deliver deep hydration while maintaining a lightweight, comfortable feel on the skin. It absorbs quickly, leaving no greasy residue, and helps restore the skin’s natural moisture barrier.\nEnriched with gentle skin‑loving ingredients, it keeps the skin soft, supple, and protected from dryness. Suitable for everyday use on all skin types, this cream provides long‑lasting freshness and smoothness.\nPerfect for face and body care, and ideal for daily moisturizing routines.',
+					'Dr.Rashel Moisturizing Cream Pink is formulated to deliver deep hydration while maintaining a lightweight, comfortable feel on the skin. It absorbs quickly, leaving no greasy residue, and helps restore the skin’s natural moisture barrier. Enriched with gentle skin‑loving ingredients, it keeps the skin soft, supple, and protected from dryness. Suitable for everyday use on all skin types, this cream provides long‑lasting freshness and smoothness. Perfect for face and body care, and ideal for daily moisturizing routines.',
 				language_id: 1,
 			},
 		],
@@ -2283,7 +2283,7 @@ const bulkProductData = [
 				excerpt:
 					'Dr.Rashel Moisturizing Cream Blue — a refreshing, hydrating cream designed to soothe, moisturize, and protect the skin with long‑lasting softness.',
 				description:
-					'Dr.Rashel Moisturizing Cream Blue is formulated to deliver deep moisture while giving the skin a fresh, cooling feel. Its lightweight, non‑sticky texture absorbs quickly, making it perfect for everyday use on both face and body.\nEnriched with gentle nourishing ingredients, it helps restore the skin’s natural moisture barrier, prevents dryness, and leaves the skin soft, smooth, and refreshed.\nSuitable for all skin types and safe for daily use, this cream maintains hydration and comfort throughout the day without clogging pores.\n\n✅ Slug',
+					'Dr.Rashel Moisturizing Cream Blue is formulated to deliver deep moisture while giving the skin a fresh, cooling feel. Its lightweight, non‑sticky texture absorbs quickly, making it perfect for everyday use on both face and body. Enriched with gentle nourishing ingredients, it helps restore the skin’s natural moisture barrier, prevents dryness, and leaves the skin soft, smooth, and refreshed. Suitable for all skin types and safe for daily use, this cream maintains hydration and comfort throughout the day without clogging pores.  ✅ Slug',
 				language_id: 1,
 			},
 		],
@@ -2307,7 +2307,7 @@ const bulkProductData = [
 				excerpt:
 					'Dr.Rashel Baby Diaper Rash Cream — a soothing, protective cream that helps prevent and relieve diaper rash while keeping baby’s skin soft and healthy.',
 				description:
-					'Dr.Rashel Baby Diaper Rash Cream is specially formulated to protect delicate baby skin from irritation caused by wetness, friction, and long diaper wear. Its gentle, skin‑calming formula forms a protective barrier that shields the skin while helping soothe redness, inflammation, and discomfort.\nEnriched with moisturizing and healing ingredients, it keeps the skin soft, nourished, and dry. The cream absorbs easily, is non‑sticky, and safe for everyday diaper‑change routines.\nDermatologically tested and suitable for newborns and sensitive baby skin.',
+					'Dr.Rashel Baby Diaper Rash Cream is specially formulated to protect delicate baby skin from irritation caused by wetness, friction, and long diaper wear. Its gentle, skin‑calming formula forms a protective barrier that shields the skin while helping soothe redness, inflammation, and discomfort. Enriched with moisturizing and healing ingredients, it keeps the skin soft, nourished, and dry. The cream absorbs easily, is non‑sticky, and safe for everyday diaper‑change routines. Dermatologically tested and suitable for newborns and sensitive baby skin.',
 				language_id: 1,
 			},
 		],
@@ -2331,7 +2331,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Cologne Secret Love 80ml — a soft, refreshing fragrance specially made for babies, keeping them fresh, clean, and pleasantly scented all day.',
 				description:
-					'Nexton Baby Cologne Secret Love 80ml is a gentle and refreshing fragrance crafted to keep your baby smelling clean and sweet throughout the day. Its mild formula is skin‑friendly, making it suitable for babies’ delicate and sensitive skin.\nThe soft, long‑lasting scent adds freshness after a bath, before going out, or anytime you want your baby to feel extra fresh.\nThis cologne is alcohol‑safe, dermatologically tested, and perfect for daily use.',
+					'Nexton Baby Cologne Secret Love 80ml is a gentle and refreshing fragrance crafted to keep your baby smelling clean and sweet throughout the day. Its mild formula is skin‑friendly, making it suitable for babies’ delicate and sensitive skin. The soft, long‑lasting scent adds freshness after a bath, before going out, or anytime you want your baby to feel extra fresh. This cologne is alcohol‑safe, dermatologically tested, and perfect for daily use.',
 				language_id: 1,
 			},
 		],
@@ -2355,7 +2355,7 @@ const bulkProductData = [
 				excerpt:
 					'Nexton Baby Cologne Pure Love 80ml — a soft, comforting baby fragrance designed to keep your little one fresh, clean, and pleasantly scented all day.',
 				description:
-					'Nexton Baby Cologne Pure Love 80ml offers a gentle, refreshing scent specially formulated for delicate baby skin. Its mild and soothing fragrance provides long‑lasting freshness without causing irritation.\nPerfect for daily use, this cologne adds a soft, pleasant aroma after bath time, before outings, or anytime your baby needs an extra touch of freshness.\nThe formula is alcohol‑safe, dermatologically tested, and suitable for even the most sensitive skin types.',
+					'Nexton Baby Cologne Pure Love 80ml offers a gentle, refreshing scent specially formulated for delicate baby skin. Its mild and soothing fragrance provides long‑lasting freshness without causing irritation. Perfect for daily use, this cologne adds a soft, pleasant aroma after bath time, before outings, or anytime your baby needs an extra touch of freshness. The formula is alcohol‑safe, dermatologically tested, and suitable for even the most sensitive skin types.',
 				language_id: 1,
 			},
 		],
@@ -2379,7 +2379,7 @@ const bulkProductData = [
 				excerpt:
 					'Farlin Baby Feeding Bottle Wash 700ml — a powerful yet gentle cleanser designed to safely remove milk residue, grease, and odors from baby bottles and feeding accessories.',
 				description:
-					'Farlin Baby Feeding Bottle Wash 700ml is specially formulated to ensure thorough and safe cleaning of baby bottles, nipples, sippers, and other feeding items.\nIts mild, plant‑based formula effectively removes milk stains, grease, and harmful residues without leaving any fragrance or chemical traces behind.\nThis bottle wash creates a rich lather that cleans deeply while remaining gentle on the skin. It is free from harsh chemicals, making it completely safe for newborn feeding items.\nIdeal for daily use to maintain the highest hygiene standards for your baby’s feeding routine.',
+					'Farlin Baby Feeding Bottle Wash 700ml is specially formulated to ensure thorough and safe cleaning of baby bottles, nipples, sippers, and other feeding items. Its mild, plant‑based formula effectively removes milk stains, grease, and harmful residues without leaving any fragrance or chemical traces behind. This bottle wash creates a rich lather that cleans deeply while remaining gentle on the skin. It is free from harsh chemicals, making it completely safe for newborn feeding items. Ideal for daily use to maintain the highest hygiene standards for your baby’s feeding routine.',
 				language_id: 1,
 			},
 		],
@@ -2403,7 +2403,7 @@ const bulkProductData = [
 				excerpt:
 					'Farlin Baby Feeding Bottle Wash 500ml — a gentle, plant‑based cleanser designed to effectively remove milk residue, grease, and odors from baby bottles and feeding accessories.',
 				description:
-					'Farlin Baby Feeding Bottle Wash 500ml is specially formulated for safe and thorough cleaning of baby bottles, nipples, sippers, pacifiers, and feeding utensils.\nIts mild, biodegradable formula removes tough milk stains and grease without leaving any harmful chemical traces.\nThe wash produces a rich, foamy lather that cleans deeply while remaining gentle on hands.\nFree from artificial colors, strong fragrances, and harsh chemicals, making it safe for newborn feeding essentials.\nIdeal for everyday use to maintain hygiene and protect your baby’s health.',
+					'Farlin Baby Feeding Bottle Wash 500ml is specially formulated for safe and thorough cleaning of baby bottles, nipples, sippers, pacifiers, and feeding utensils. Its mild, biodegradable formula removes tough milk stains and grease without leaving any harmful chemical traces. The wash produces a rich, foamy lather that cleans deeply while remaining gentle on hands. Free from artificial colors, strong fragrances, and harsh chemicals, making it safe for newborn feeding essentials. Ideal for everyday use to maintain hygiene and protect your baby’s health.',
 				language_id: 1,
 			},
 		],
@@ -2426,7 +2426,7 @@ const bulkProductData = [
 				excerpt:
 					'U Teether Car Yellow — a soft, baby‑safe teether designed to soothe sore gums with a fun, easy‑to‑hold car shape.',
 				description:
-					'The U Teether Car Yellow is a gentle and effective teething toy crafted to provide comfort during your baby’s teething stage.\nMade from high‑quality, BPA‑free material, it is completely safe for daily chewing. The cute car design fits perfectly in small hands, helping babies grasp and hold it easily.\nIts textured surface offers soothing gum relief while supporting sensory development.\nThe bright yellow color keeps babies engaged and visually stimulated. Simple to wash and ideal for everyday use.',
+					'The U Teether Car Yellow is a gentle and effective teething toy crafted to provide comfort during your baby’s teething stage. Made from high‑quality, BPA‑free material, it is completely safe for daily chewing. The cute car design fits perfectly in small hands, helping babies grasp and hold it easily. Its textured surface offers soothing gum relief while supporting sensory development. The bright yellow color keeps babies engaged and visually stimulated. Simple to wash and ideal for everyday use.',
 				language_id: 1,
 			},
 		],
@@ -2449,7 +2449,7 @@ const bulkProductData = [
 				excerpt:
 					'U Teether Car Blue — a soft, safe baby teether designed to soothe sore gums with an easy‑to‑hold car‑shaped design.',
 				description:
-					'The U Teether Car Blue is a gentle, baby‑friendly teething toy made to comfort infants during the teething stage.\nCrafted from BPA‑free, non‑toxic material, it is completely safe for babies to chew on daily.\nThe playful car shape helps little hands grip it easily, improving hand‑eye coordination.\nIts textured surface massages the gums, providing soothing relief while supporting sensory development.\nThe bright blue color makes it visually appealing and engaging for babies. Easy to wash and durable for everyday use.',
+					'The U Teether Car Blue is a gentle, baby‑friendly teething toy made to comfort infants during the teething stage. Crafted from BPA‑free, non‑toxic material, it is completely safe for babies to chew on daily. The playful car shape helps little hands grip it easily, improving hand‑eye coordination. Its textured surface massages the gums, providing soothing relief while supporting sensory development. The bright blue color makes it visually appealing and engaging for babies. Easy to wash and durable for everyday use.',
 				language_id: 1,
 			},
 		],
@@ -2472,7 +2472,7 @@ const bulkProductData = [
 				slug: 'teether-strawberry-red-hercules-bear',
 				excerpt: 'TEETHER STRAWBERRY RED HERCULES BEAR',
 				description:
-					'The Teether Strawberry Red by Hercules Bear is a gentle, baby‑safe teething toy crafted to comfort babies during the teething phase.\nMade from high‑quality, BPA‑free material, it is completely safe for daily chewing and helps relieve gum discomfort.\nIts cute strawberry shape and lightweight design make it easy for small hands to hold, improving grip and hand‑eye coordination.\nThe textured surface provides soothing massage to gums while stimulating sensory development.\nBright red color makes it visually appealing and engaging for babies. Easy to wash and suitable for everyday use.',
+					'The Teether Strawberry Red by Hercules Bear is a gentle, baby‑safe teething toy crafted to comfort babies during the teething phase. Made from high‑quality, BPA‑free material, it is completely safe for daily chewing and helps relieve gum discomfort. Its cute strawberry shape and lightweight design make it easy for small hands to hold, improving grip and hand‑eye coordination. The textured surface provides soothing massage to gums while stimulating sensory development. Bright red color makes it visually appealing and engaging for babies. Easy to wash and suitable for everyday use.',
 				language_id: 1,
 			},
 		],
@@ -2496,7 +2496,7 @@ const bulkProductData = [
 				excerpt:
 					'Hercules Bear Strawberry Pink Teether — a soft, baby‑safe strawberry‑shaped teether designed to gently soothe sore gums and support sensory growth.',
 				description:
-					'The Teether Strawberry Pink by Hercules Bear is a gentle, BPA‑free teething toy made to comfort babies during the teething stage.\nIts soft, chew‑friendly material helps relieve gum discomfort while staying completely safe for daily use.\nThe adorable strawberry shape is lightweight and easy for small hands to hold, supporting grip and early motor development.\nA textured surface provides soothing gum massage and encourages sensory stimulation.\nThe bright pink color keeps babies visually engaged. Easy to wash, durable, and perfect for everyday use.',
+					'The Teether Strawberry Pink by Hercules Bear is a gentle, BPA‑free teething toy made to comfort babies during the teething stage. Its soft, chew‑friendly material helps relieve gum discomfort while staying completely safe for daily use. The adorable strawberry shape is lightweight and easy for small hands to hold, supporting grip and early motor development. A textured surface provides soothing gum massage and encourages sensory stimulation. The bright pink color keeps babies visually engaged. Easy to wash, durable, and perfect for everyday use.',
 				language_id: 1,
 			},
 		],
@@ -2519,7 +2519,7 @@ const bulkProductData = [
 				excerpt:
 					'Owl Pink Flower Baby Teether — a soft, baby‑safe owl‑shaped teether with a cute flower design, made to soothe sore gums gently.',
 				description:
-					'The Teether Owl Pink Flower Baby is a soft, BPA‑free teething toy designed to comfort babies during the teething stage.\nIts adorable owl shape with a flower detail makes it fun and easy for little hands to hold.\nThe chew‑friendly, safe material helps relieve gum discomfort, while the textured surface supports sensory development.\nLightweight, durable, and easy to clean — perfect for daily teething relief.\nThe bright pink color keeps babies visually engaged and happy while chewing.',
+					'The Teether Owl Pink Flower Baby is a soft, BPA‑free teething toy designed to comfort babies during the teething stage. Its adorable owl shape with a flower detail makes it fun and easy for little hands to hold. The chew‑friendly, safe material helps relieve gum discomfort, while the textured surface supports sensory development. Lightweight, durable, and easy to clean — perfect for daily teething relief. The bright pink color keeps babies visually engaged and happy while chewing.',
 				language_id: 1,
 			},
 		],
@@ -2543,7 +2543,7 @@ const bulkProductData = [
 				excerpt:
 					'Koala Blue Flower Baby Teether — a soft, baby‑safe koala‑shaped teether with a cute flower design, made to gently soothe sore gums.',
 				description:
-					'The Teether Koala Blue Flower Baby is a gentle, BPA‑free teething toy designed to comfort infants during the teething stage.\nIts adorable koala shape with a small flower detail makes it fun, attractive, and extremely easy for little hands to grip.\nMade from soft, chew‑friendly material, it helps soothe sore gums while the textured areas provide added sensory stimulation.\nLightweight, durable, and simple to wash, this teether is perfect for daily use.\nThe bright blue color keeps babies engaged and visually stimulated.',
+					'The Teether Koala Blue Flower Baby is a gentle, BPA‑free teething toy designed to comfort infants during the teething stage. Its adorable koala shape with a small flower detail makes it fun, attractive, and extremely easy for little hands to grip. Made from soft, chew‑friendly material, it helps soothe sore gums while the textured areas provide added sensory stimulation. Lightweight, durable, and simple to wash, this teether is perfect for daily use. The bright blue color keeps babies engaged and visually stimulated.',
 				language_id: 1,
 			},
 		],
@@ -2567,7 +2567,7 @@ const bulkProductData = [
 				excerpt:
 					'Elephant Baby Pink Flower Teether — a soft, baby‑safe elephant‑shaped teether with a cute flower design made to gently soothe sore gums.',
 				description:
-					'The Teether Elephant Baby Pink Flower is a BPA‑free, gentle teething toy designed to comfort babies during the teething phase.\nIts adorable elephant shape with a small flower detail makes it fun, attractive, and easy for little hands to hold securely.\nCrafted from soft, chew‑friendly material, it helps relieve gum discomfort while the textured surface encourages sensory development.\nLightweight, durable, and easy to clean — ideal for everyday use.\nThe bright pink color keeps babies visually engaged and happy while chewing.',
+					'The Teether Elephant Baby Pink Flower is a BPA‑free, gentle teething toy designed to comfort babies during the teething phase. Its adorable elephant shape with a small flower detail makes it fun, attractive, and easy for little hands to hold securely. Crafted from soft, chew‑friendly material, it helps relieve gum discomfort while the textured surface encourages sensory development. Lightweight, durable, and easy to clean — ideal for everyday use. The bright pink color keeps babies visually engaged and happy while chewing.',
 				language_id: 1,
 			},
 		],
@@ -2591,7 +2591,7 @@ const bulkProductData = [
 				excerpt:
 					'Hercules Bear Duck Cyan Teether — a soft, baby‑safe duck‑shaped teether designed to gently soothe sore gums and support early sensory development.',
 				description:
-					'The Teether Duck Cyan by Hercules Bear is a BPA‑free, gentle teething toy created to comfort babies during the teething stage.\nIts adorable duck shape makes it fun, attractive, and very easy for small hands to hold.\nMade from soft, chew‑friendly material, it helps relieve gum discomfort while the textured areas provide soothing massage and sensory stimulation.\nThe bright cyan color keeps babies visually engaged and excited.\nLightweight, durable, and simple to clean — perfect for everyday teething relief.',
+					'The Teether Duck Cyan by Hercules Bear is a BPA‑free, gentle teething toy created to comfort babies during the teething stage. Its adorable duck shape makes it fun, attractive, and very easy for small hands to hold. Made from soft, chew‑friendly material, it helps relieve gum discomfort while the textured areas provide soothing massage and sensory stimulation. The bright cyan color keeps babies visually engaged and excited. Lightweight, durable, and simple to clean — perfect for everyday teething relief.',
 				language_id: 1,
 			},
 		],
@@ -2615,7 +2615,7 @@ const bulkProductData = [
 				excerpt:
 					'Dino Yellow Flower Baby Teether — a soft, baby‑safe dinosaur‑shaped teether with a cute flower design, made to gently soothe sore gums.',
 				description:
-					'The Teether Dino Yellow Flower Baby is a BPA‑free, gentle teething toy designed to comfort babies during the teething stage.\nIts adorable dinosaur shape with a flower detail makes it fun, eye‑catching, and easy for small hands to hold securely.\nCrafted from soft, chew‑friendly, non‑toxic material, it helps relieve gum soreness while the textured areas stimulate sensory development.\nThe bright yellow color keeps babies visually engaged, making teething time more enjoyable.\nLightweight, durable, and easy to clean — perfect for everyday teething relief.',
+					'The Teether Dino Yellow Flower Baby is a BPA‑free, gentle teething toy designed to comfort babies during the teething stage. Its adorable dinosaur shape with a flower detail makes it fun, eye‑catching, and easy for small hands to hold securely. Crafted from soft, chew‑friendly, non‑toxic material, it helps relieve gum soreness while the textured areas stimulate sensory development. The bright yellow color keeps babies visually engaged, making teething time more enjoyable. Lightweight, durable, and easy to clean — perfect for everyday teething relief.',
 				language_id: 1,
 			},
 		],
@@ -2639,7 +2639,7 @@ const bulkProductData = [
 				excerpt:
 					'Dino Purple Flower Baby Teether — a soft, baby‑safe dinosaur‑shaped teether with a cute flower design, specially made to soothe sore gums gently.',
 				description:
-					'The Teether Dino Purple Flower Baby is a BPA‑free, gentle teething toy designed to comfort babies during the teething stage.\nIts adorable purple dinosaur shape with a small flower detail makes it fun, attractive, and easy for infants to hold securely.\nMade from soft, chew‑friendly material, it helps relieve gum discomfort, while textured areas stimulate sensory development.\nThe bright purple color keeps babies visually engaged and entertained.\nLightweight, durable, and easy to clean — perfect for everyday teething relief.',
+					'The Teether Dino Purple Flower Baby is a BPA‑free, gentle teething toy designed to comfort babies during the teething stage. Its adorable purple dinosaur shape with a small flower detail makes it fun, attractive, and easy for infants to hold securely. Made from soft, chew‑friendly material, it helps relieve gum discomfort, while textured areas stimulate sensory development. The bright purple color keeps babies visually engaged and entertained. Lightweight, durable, and easy to clean — perfect for everyday teething relief.',
 				language_id: 1,
 			},
 		],
@@ -2663,7 +2663,7 @@ const bulkProductData = [
 				excerpt:
 					'Mittens Silicone Orange Teether — a soft, baby‑safe silicone teether shaped like mittens, designed to gently soothe sore gums.',
 				description:
-					'The Mittens Teether Silicone Orange by Only Baby is a BPA‑free, gentle teething toy made from premium soft silicone.\nIts cute mitten shape is easy for little hands to grip and chew safely.\nThe flexible, chew‑friendly material helps relieve gum discomfort, while the textured surface supports sensory and oral development.\nThe bright orange color stimulates visual interest, keeping babies engaged.\nLightweight, durable, and easy to clean — perfect for everyday teething relief.',
+					'The Mittens Teether Silicone Orange by Only Baby is a BPA‑free, gentle teething toy made from premium soft silicone. Its cute mitten shape is easy for little hands to grip and chew safely. The flexible, chew‑friendly material helps relieve gum discomfort, while the textured surface supports sensory and oral development. The bright orange color stimulates visual interest, keeping babies engaged. Lightweight, durable, and easy to clean — perfect for everyday teething relief.',
 				language_id: 1,
 			},
 		],
@@ -2687,7 +2687,7 @@ const bulkProductData = [
 				excerpt:
 					'Mittens Silicone Light Green Teether — a soft, baby‑safe silicone mitten‑shaped teether designed to gently soothe sore gums.',
 				description:
-					'The Mittens Teether Silicone Light Green by Only Baby is a BPA‑free, flexible silicone teething toy made to comfort babies during teething.\nIts adorable mitten shape is easy for small hands to hold, grip, and chew safely.\nThe soft, chew‑friendly material helps reduce gum discomfort, while the textured surfaces support sensory development and oral stimulation.\nIts light green color is calming and visually appealing for babies.\nLightweight, durable, and easy to clean — ideal for everyday teething comfort.',
+					'The Mittens Teether Silicone Light Green by Only Baby is a BPA‑free, flexible silicone teething toy made to comfort babies during teething. Its adorable mitten shape is easy for small hands to hold, grip, and chew safely. The soft, chew‑friendly material helps reduce gum discomfort, while the textured surfaces support sensory development and oral stimulation. Its light green color is calming and visually appealing for babies. Lightweight, durable, and easy to clean — ideal for everyday teething comfort.',
 				language_id: 1,
 			},
 		],
@@ -2711,7 +2711,7 @@ const bulkProductData = [
 				excerpt:
 					'Mittens Silicone Green Teether — a soft, baby‑safe silicone mitten‑shaped teether designed to gently soothe sore gums.',
 				description:
-					'The Mittens Teether Silicone Green by Only Baby is a BPA‑free, flexible silicone teething toy specially designed to comfort babies during their teething phase.\nIts cute mitten‑shaped design is easy for infants to grip and chew safely.\nMade from soft, chew‑friendly silicone, it helps soothe irritated gums while the textured surface supports sensory and oral development.\nThe bright green color keeps babies visually engaged and interested.\nLightweight, durable, and simple to wash — perfect for daily teething relief.',
+					'The Mittens Teether Silicone Green by Only Baby is a BPA‑free, flexible silicone teething toy specially designed to comfort babies during their teething phase. Its cute mitten‑shaped design is easy for infants to grip and chew safely. Made from soft, chew‑friendly silicone, it helps soothe irritated gums while the textured surface supports sensory and oral development. The bright green color keeps babies visually engaged and interested. Lightweight, durable, and simple to wash — perfect for daily teething relief.',
 				language_id: 1,
 			},
 		],
@@ -2735,7 +2735,7 @@ const bulkProductData = [
 				excerpt:
 					'Mittens Silicone Baby Pink Teether — a soft, baby‑safe silicone mitten‑shaped teether designed to gently soothe sore gums.',
 				description:
-					'The Mittens Teether Silicone Baby Pink by Only Baby is a BPA‑free, flexible silicone teething toy created to comfort babies during the teething stage.\nIts adorable mitten shape is easy for infants to grip and chew safely.\nMade from soft, chew‑friendly silicone, it helps relieve gum irritation while the textured surface supports sensory and oral development.\nThe gentle baby‑pink color is calming and visually appealing for little ones.\nLightweight, durable, and easy to wash — perfect for everyday teething relief.',
+					'The Mittens Teether Silicone Baby Pink by Only Baby is a BPA‑free, flexible silicone teething toy created to comfort babies during the teething stage. Its adorable mitten shape is easy for infants to grip and chew safely. Made from soft, chew‑friendly silicone, it helps relieve gum irritation while the textured surface supports sensory and oral development. The gentle baby‑pink color is calming and visually appealing for little ones. Lightweight, durable, and easy to wash — perfect for everyday teething relief.',
 				language_id: 1,
 			},
 		],
@@ -2758,7 +2758,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Bell Teether Ring — a soft, baby‑safe teether with a gentle bell sound designed to soothe gums and engage infants.',
 				description:
-					'The Baby Bell Teether Ring is a BPA‑free teething toy created to comfort babies during the teething stage.\nIts circular ring shape is easy for small hands to grip, while the soft material is perfect for safe chewing.\nA gentle built‑in bell adds sensory stimulation, helping babies stay engaged and entertained.\nThe textured surfaces provide soothing relief to sore gums and encourage oral development.\nLightweight, durable, and easy to clean — ideal for everyday teething comfort and playful interaction.',
+					'The Baby Bell Teether Ring is a BPA‑free teething toy created to comfort babies during the teething stage. Its circular ring shape is easy for small hands to grip, while the soft material is perfect for safe chewing. A gentle built‑in bell adds sensory stimulation, helping babies stay engaged and entertained. The textured surfaces provide soothing relief to sore gums and encourage oral development. Lightweight, durable, and easy to clean — ideal for everyday teething comfort and playful interaction.',
 				language_id: 1,
 			},
 		],
@@ -2782,7 +2782,7 @@ const bulkProductData = [
 				excerpt:
 					'Silicone Feeder Brush Yellow — a flexible, baby‑safe silicone brush designed for gentle and effective bottle cleaning.',
 				description:
-					'The Feeder Brush Silicone Yellow is a high‑quality, BPA‑free bottle‑cleaning brush made from soft and flexible silicone.\nIt is designed to clean baby feeders, nipples, and wide‑neck bottles without scratching or damaging surfaces.\nThe durable silicone bristles remove milk residue easily while resisting bacteria buildup.\nIts bright yellow color makes it easy to spot, and the non‑slip handle ensures a steady, comfortable grip during cleaning.\nEasy to wash, long‑lasting, and safe — the perfect tool for maintaining baby feeder hygiene.',
+					'The Feeder Brush Silicone Yellow is a high‑quality, BPA‑free bottle‑cleaning brush made from soft and flexible silicone. It is designed to clean baby feeders, nipples, and wide‑neck bottles without scratching or damaging surfaces. The durable silicone bristles remove milk residue easily while resisting bacteria buildup. Its bright yellow color makes it easy to spot, and the non‑slip handle ensures a steady, comfortable grip during cleaning. Easy to wash, long‑lasting, and safe — the perfect tool for maintaining baby feeder hygiene.',
 				language_id: 1,
 			},
 		],
@@ -2806,7 +2806,7 @@ const bulkProductData = [
 				excerpt:
 					'Silicone Feeder Brush Skin — a soft, flexible silicone bottle‑cleaning brush designed for scratch‑free and hygienic cleaning.',
 				description:
-					'The Feeder Brush Silicone Skin is a BPA‑free, high‑quality cleaning brush made with durable and flexible silicone bristles.\nPerfect for cleaning baby feeders, nipples, and wide‑neck bottles, it removes residue effectively without scratching delicate surfaces.\nThe soft silicone material resists bacterial buildup and is easy to wash and sanitize.\nIts neutral skin‑tone color gives it a clean, minimal look, while the ergonomic handle ensures a comfortable non‑slip grip.\nLong‑lasting, hygienic, and gentle — a must‑have tool for maintaining bottle cleanliness.',
+					'The Feeder Brush Silicone Skin is a BPA‑free, high‑quality cleaning brush made with durable and flexible silicone bristles. Perfect for cleaning baby feeders, nipples, and wide‑neck bottles, it removes residue effectively without scratching delicate surfaces. The soft silicone material resists bacterial buildup and is easy to wash and sanitize. Its neutral skin‑tone color gives it a clean, minimal look, while the ergonomic handle ensures a comfortable non‑slip grip. Long‑lasting, hygienic, and gentle — a must‑have tool for maintaining bottle cleanliness.',
 				language_id: 1,
 			},
 		],
@@ -2830,7 +2830,7 @@ const bulkProductData = [
 				excerpt:
 					'Silicone Feeder Brush Purple — a flexible, soft silicone cleaning brush designed for safe and scratch‑free bottle cleaning.',
 				description:
-					'The Feeder Brush Silicone Purple is a BPA‑free, durable bottle‑cleaning brush made with flexible silicone bristles for gentle yet effective cleaning.\nIt easily reaches inside feeders, nipples, and wide‑neck bottles to remove milk residue without scratching the surfaces.\nThe silicone material resists bacterial buildup, ensuring hygienic cleaning every time.\nIts vibrant purple color adds a fun touch, while the ergonomic non‑slip handle offers a steady and comfortable grip.\nEasy to wash, long‑lasting, and safe — perfect for keeping baby feeding accessories spotless.',
+					'The Feeder Brush Silicone Purple is a BPA‑free, durable bottle‑cleaning brush made with flexible silicone bristles for gentle yet effective cleaning. It easily reaches inside feeders, nipples, and wide‑neck bottles to remove milk residue without scratching the surfaces. The silicone material resists bacterial buildup, ensuring hygienic cleaning every time. Its vibrant purple color adds a fun touch, while the ergonomic non‑slip handle offers a steady and comfortable grip. Easy to wash, long‑lasting, and safe — perfect for keeping baby feeding accessories spotless.',
 				language_id: 1,
 			},
 		],
@@ -2854,7 +2854,7 @@ const bulkProductData = [
 				excerpt:
 					'Silicone Feeder Brush Green — a flexible, soft silicone bottle‑cleaning brush designed for hygienic and scratch‑free cleaning.',
 				description:
-					'The Feeder Brush Silicone Green is a BPA‑free, high‑quality cleaning brush made with durable and flexible silicone bristles.\nIt is ideal for cleaning baby feeders, nipples, and wide‑neck bottles without causing scratches or damage.\nThe silicone bristles remove milk residue effectively while resisting bacteria buildup, ensuring hygienic cleaning.\nIts bright green color makes it easy to spot in your kitchen, and the ergonomic non‑slip handle provides a comfortable grip.\nEasy to wash, long‑lasting, and safe — perfect for maintaining proper bottle hygiene.',
+					'The Feeder Brush Silicone Green is a BPA‑free, high‑quality cleaning brush made with durable and flexible silicone bristles. It is ideal for cleaning baby feeders, nipples, and wide‑neck bottles without causing scratches or damage. The silicone bristles remove milk residue effectively while resisting bacteria buildup, ensuring hygienic cleaning. Its bright green color makes it easy to spot in your kitchen, and the ergonomic non‑slip handle provides a comfortable grip. Easy to wash, long‑lasting, and safe — perfect for maintaining proper bottle hygiene.',
 				language_id: 1,
 			},
 		],
@@ -2878,7 +2878,7 @@ const bulkProductData = [
 				excerpt:
 					'Smart Baby Silicone Bottle Brush Orange — a flexible, soft silicone brush designed for safe, scratch‑free and hygienic bottle cleaning.',
 				description:
-					'The Baby Silicone Bottle Brush Orange by Smart Baby is a BPA‑free, premium bottle‑cleaning brush made from soft and flexible silicone bristles.\nIt easily reaches inside feeders, nipples, and wide‑neck bottles, removing milk residue without scratching surfaces.\nThe silicone material is hygienic, resists bacterial buildup, and dries quickly, making it safer than traditional sponge brushes.\nIts bright orange color gives it a clean, vibrant look, and the ergonomic non‑slip handle offers a firm, comfortable grip.\nDurable, long‑lasting, and easy to wash — the perfect tool for maintaining baby bottle hygiene.',
+					'The Baby Silicone Bottle Brush Orange by Smart Baby is a BPA‑free, premium bottle‑cleaning brush made from soft and flexible silicone bristles. It easily reaches inside feeders, nipples, and wide‑neck bottles, removing milk residue without scratching surfaces. The silicone material is hygienic, resists bacterial buildup, and dries quickly, making it safer than traditional sponge brushes. Its bright orange color gives it a clean, vibrant look, and the ergonomic non‑slip handle offers a firm, comfortable grip. Durable, long‑lasting, and easy to wash — the perfect tool for maintaining baby bottle hygiene.',
 				language_id: 1,
 			},
 		],
@@ -2902,7 +2902,7 @@ const bulkProductData = [
 				excerpt:
 					'Smart Baby Silicone Bottle Brush Green — a soft, flexible silicone brush designed for safe, hygienic, and scratch‑free bottle cleaning.',
 				description:
-					'The Baby Silicone Bottle Brush Green by Smart Baby is made from BPA‑free, high‑quality silicone bristles that provide gentle yet effective cleaning.\nIt reaches deep inside feeders, nipples, and wide‑neck bottles, removing milk residue without scratching delicate surfaces.\nSilicone dries quickly, resists bacteria, and lasts longer than sponge brushes — making it a more hygienic choice for everyday use.\nThe bright green color is easy to spot, and the ergonomic non‑slip handle ensures a secure, comfortable grip while cleaning.\nDurable, safe, and easy to wash — ideal for keeping baby bottles perfectly clean.',
+					'The Baby Silicone Bottle Brush Green by Smart Baby is made from BPA‑free, high‑quality silicone bristles that provide gentle yet effective cleaning. It reaches deep inside feeders, nipples, and wide‑neck bottles, removing milk residue without scratching delicate surfaces. Silicone dries quickly, resists bacteria, and lasts longer than sponge brushes — making it a more hygienic choice for everyday use. The bright green color is easy to spot, and the ergonomic non‑slip handle ensures a secure, comfortable grip while cleaning. Durable, safe, and easy to wash — ideal for keeping baby bottles perfectly clean.',
 				language_id: 1,
 			},
 		],
@@ -2926,7 +2926,7 @@ const bulkProductData = [
 				excerpt:
 					'Minitree Baby Brush Set 5pcs Yellow — a complete grooming kit designed for gentle, safe, and everyday baby care.',
 				description:
-					'The Baby Brush Set 5pcs Yellow by Minitree is a soft and safe grooming kit designed especially for newborns and infants.\nThis 5‑piece set includes essential baby‑care tools such as a soft‑bristle brush, baby comb, nail clipper, nail file, and a mini scissor (or equivalent set depending on model).\nEach item is designed with rounded, baby‑friendly edges and a gentle finish to ensure safe grooming.\nThe bright yellow color gives the set a cheerful look, and all tools are lightweight and easy to handle.\nPerfect for daily baby care routines — safe, durable, and convenient for both home use and travel.',
+					'The Baby Brush Set 5pcs Yellow by Minitree is a soft and safe grooming kit designed especially for newborns and infants. This 5‑piece set includes essential baby‑care tools such as a soft‑bristle brush, baby comb, nail clipper, nail file, and a mini scissor (or equivalent set depending on model). Each item is designed with rounded, baby‑friendly edges and a gentle finish to ensure safe grooming. The bright yellow color gives the set a cheerful look, and all tools are lightweight and easy to handle. Perfect for daily baby care routines — safe, durable, and convenient for both home use and travel.',
 				language_id: 1,
 			},
 		],
@@ -2950,7 +2950,7 @@ const bulkProductData = [
 				excerpt:
 					'Minitree Baby Brush Set 5pcs Pink — a gentle and complete grooming kit designed for newborn and infant daily care.',
 				description:
-					'The Baby Brush Set 5pcs Pink by Minitree is a soft, baby‑friendly grooming kit made for safe everyday use.\nThis 5‑piece set typically includes a soft‑bristle baby brush, a smooth‑tooth comb, nail clipper, nail file, and baby safety scissors (or equivalent items depending on model).\nAll pieces are made with rounded, gentle edges to protect delicate skin.\nThe cute pink color gives the set a sweet look, and each tool is lightweight, durable, and easy to handle.\nPerfect for newborn grooming, travel use, or gifting — safe, practical, and reliable.',
+					'The Baby Brush Set 5pcs Pink by Minitree is a soft, baby‑friendly grooming kit made for safe everyday use. This 5‑piece set typically includes a soft‑bristle baby brush, a smooth‑tooth comb, nail clipper, nail file, and baby safety scissors (or equivalent items depending on model). All pieces are made with rounded, gentle edges to protect delicate skin. The cute pink color gives the set a sweet look, and each tool is lightweight, durable, and easy to handle. Perfect for newborn grooming, travel use, or gifting — safe, practical, and reliable.',
 				language_id: 1,
 			},
 		],
@@ -2974,7 +2974,7 @@ const bulkProductData = [
 				excerpt:
 					'Minitree Baby Brush Set 5pcs Blue — a complete, gentle grooming kit designed for safe newborn and infant care.',
 				description:
-					'The Baby Brush Set 5pcs Blue by Minitree is a soft, baby‑friendly grooming kit created for daily newborn care.\nThe set typically includes five essential tools: a soft‑bristle baby brush, smooth‑tooth comb, nail clipper, nail file, and baby‑safe scissors (or equivalent set).\nEach item is made with rounded, gentle edges to protect delicate baby skin and ensure safe grooming.\nThe calm blue color gives the set a fresh, clean look, and all tools are lightweight, durable, and easy to hold.\nPerfect for at‑home care, travel, or gifting — safe, practical, and reliable for parents.',
+					'The Baby Brush Set 5pcs Blue by Minitree is a soft, baby‑friendly grooming kit created for daily newborn care. The set typically includes five essential tools: a soft‑bristle baby brush, smooth‑tooth comb, nail clipper, nail file, and baby‑safe scissors (or equivalent set). Each item is made with rounded, gentle edges to protect delicate baby skin and ensure safe grooming. The calm blue color gives the set a fresh, clean look, and all tools are lightweight, durable, and easy to hold. Perfect for at‑home care, travel, or gifting — safe, practical, and reliable for parents.',
 				language_id: 1,
 			},
 		],
@@ -2998,7 +2998,7 @@ const bulkProductData = [
 				excerpt:
 					'MAQ Soft Silicon Nipple Small (Pack of 2) — gentle, flexible and BPA‑free nipples designed for smooth baby feeding.',
 				description:
-					'The Pack of 2 Soft Silicon Nipple Small by MAQ is designed for comfortable and natural‑flow feeding.\nMade from BPA‑free, food‑grade silicone, these nipples are soft, flexible, and gentle on a baby’s gums.\nThe small‑size flow is ideal for newborns and young babies, ensuring controlled milk intake and reducing choking or overfeeding.\nEach nipple fits most standard‑size baby bottles and is heat‑resistant, durable, and easy to clean.\nPerfect for parents looking for a safe, hygienic, and long‑lasting nipple option.',
+					'The Pack of 2 Soft Silicon Nipple Small by MAQ is designed for comfortable and natural‑flow feeding. Made from BPA‑free, food‑grade silicone, these nipples are soft, flexible, and gentle on a baby’s gums. The small‑size flow is ideal for newborns and young babies, ensuring controlled milk intake and reducing choking or overfeeding. Each nipple fits most standard‑size baby bottles and is heat‑resistant, durable, and easy to clean. Perfect for parents looking for a safe, hygienic, and long‑lasting nipple option.',
 				language_id: 1,
 			},
 		],
@@ -3022,7 +3022,7 @@ const bulkProductData = [
 				excerpt:
 					'MAQ Soft Silicon Nipple Large (Pack of 2) — durable, flexible, BPA‑free silicone nipples designed for faster milk flow.',
 				description:
-					'The Pack of 2 Soft Silicon Nipple Large by MAQ is made from BPA‑free, food‑grade silicone designed to provide a smooth and natural feeding experience.\nThe large‑flow size is suitable for older babies who can comfortably handle a faster milk flow.\nThese nipples are soft, flexible, and gentle on gums, offering a natural latch‑like feel.\nThey fit most standard baby bottles, are heat‑resistant, and remain durable even after repeated sterilization.\nA safe, hygienic, and long‑lasting choice for efficient feeding.',
+					'The Pack of 2 Soft Silicon Nipple Large by MAQ is made from BPA‑free, food‑grade silicone designed to provide a smooth and natural feeding experience. The large‑flow size is suitable for older babies who can comfortably handle a faster milk flow. These nipples are soft, flexible, and gentle on gums, offering a natural latch‑like feel. They fit most standard baby bottles, are heat‑resistant, and remain durable even after repeated sterilization. A safe, hygienic, and long‑lasting choice for efficient feeding.',
 				language_id: 1,
 			},
 		],
@@ -3046,7 +3046,7 @@ const bulkProductData = [
 				excerpt:
 					'Smart Baby Silicone Nipple Shield — soft, flexible, BPA‑free shield designed to protect sensitive nipples and support smooth breastfeeding.',
 				description:
-					'The Baby Nipple Shield Silicon by Smart Baby is made from high‑quality, BPA‑free silicone designed to help mothers breastfeed comfortably.\nIts soft, flexible material creates a gentle barrier that protects sore, cracked, or sensitive nipples while still allowing natural milk flow.\nThe ergonomic shape ensures a secure fit and encourages proper latch, making feeding easier for both mother and baby.\nTransparent, lightweight, and easy to clean — this nipple shield is ideal for breastfeeding support and comfort.\nPerfect for moms who need temporary protection without interrupting natural feeding routines.',
+					'The Baby Nipple Shield Silicon by Smart Baby is made from high‑quality, BPA‑free silicone designed to help mothers breastfeed comfortably. Its soft, flexible material creates a gentle barrier that protects sore, cracked, or sensitive nipples while still allowing natural milk flow. The ergonomic shape ensures a secure fit and encourages proper latch, making feeding easier for both mother and baby. Transparent, lightweight, and easy to clean — this nipple shield is ideal for breastfeeding support and comfort. Perfect for moms who need temporary protection without interrupting natural feeding routines.',
 				language_id: 1,
 			},
 		],
@@ -3117,7 +3117,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Medicine Feeding Syringe Pink — an easy, safe, and mess‑free tool to help feed liquid medicine to infants with accurate dosage.',
 				description:
-					'The Baby Medicine Feeding Syringe Pink is designed to help parents give liquid medicines to babies safely and without spills. Made with soft, baby‑friendly materials, the syringe ensures gentle feeding while preventing choking or gagging.\nIt features clear measurement markings for accurate dosing and a smooth plunger that makes feeding effortless. The pink silicone‑covered pacifier‑style tip helps deliver medicine comfortably and reduces mess during feeding time. Perfect for newborns and infants who struggle with taking medicine traditionally.',
+					'The Baby Medicine Feeding Syringe Pink is designed to help parents give liquid medicines to babies safely and without spills. Made with soft, baby‑friendly materials, the syringe ensures gentle feeding while preventing choking or gagging. It features clear measurement markings for accurate dosing and a smooth plunger that makes feeding effortless. The pink silicone‑covered pacifier‑style tip helps deliver medicine comfortably and reduces mess during feeding time. Perfect for newborns and infants who struggle with taking medicine traditionally.',
 				language_id: 1,
 			},
 		],
@@ -3141,7 +3141,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Medicine Feeding Syringe Blue — a safe, soft‑tip syringe designed for easy, accurate, and mess‑free liquid medicine feeding for infants.',
 				description:
-					'The Baby Medicine Feeding Syringe Blue provides a simple and safe solution for giving liquid medication to infants. Designed with a soft, silicone‑covered pacifier‑style tip, it ensures a gentle and comfortable feeding experience while reducing the risk of spills or choking.\nClear measurement markings allow accurate dosing, and the smooth‑glide plunger ensures controlled flow for easier feeding. Ideal for newborns and young infants who have difficulty taking medicine through spoons or cups. Easy to wash and durable for repeated use.',
+					'The Baby Medicine Feeding Syringe Blue provides a simple and safe solution for giving liquid medication to infants. Designed with a soft, silicone‑covered pacifier‑style tip, it ensures a gentle and comfortable feeding experience while reducing the risk of spills or choking. Clear measurement markings allow accurate dosing, and the smooth‑glide plunger ensures controlled flow for easier feeding. Ideal for newborns and young infants who have difficulty taking medicine through spoons or cups. Easy to wash and durable for repeated use.',
 				language_id: 1,
 			},
 		],
@@ -3165,7 +3165,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow China Hippo Cat Pink — a soft, cute, and supportive infant pillow designed for comfortable head positioning.',
 				description:
-					'The Baby Pillow China Hippo Cat Pink is a soft and comfortable infant pillow featuring an adorable hippo‑cat themed design.\nMade with gentle, baby‑safe fabric, it provides light support to help maintain comfortable head positioning during sleep or rest time.\nThe pillow is lightweight, breathable, and easy to carry — perfect for newborns and infants.\nIts bright pink color and cute cartoon design make it appealing for babies and ideal for gifting.\nDurable stitching and washable material ensure long‑lasting use and easy maintenance for parents.',
+					'The Baby Pillow China Hippo Cat Pink is a soft and comfortable infant pillow featuring an adorable hippo‑cat themed design. Made with gentle, baby‑safe fabric, it provides light support to help maintain comfortable head positioning during sleep or rest time. The pillow is lightweight, breathable, and easy to carry — perfect for newborns and infants. Its bright pink color and cute cartoon design make it appealing for babies and ideal for gifting. Durable stitching and washable material ensure long‑lasting use and easy maintenance for parents.',
 				language_id: 1,
 			},
 		],
@@ -3188,7 +3188,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow China Hippo Pink — a soft, lightweight, and cute infant pillow designed for gentle head suppo',
 				description:
-					'The Baby Pillow China Hippo Pink is a soft and comfortable infant pillow made with baby‑safe, breathable fabric.\nIt features a cute hippo‑themed pink design that adds charm to your baby’s sleeping space.\nThe pillow provides light head support, helping keep your baby comfortable during sleep or rest.\nIt is lightweight, durable, and easy to wash — making it practical for everyday use.\nPerfect for newborns and infants, whether at home or while traveling.',
+					'The Baby Pillow China Hippo Pink is a soft and comfortable infant pillow made with baby‑safe, breathable fabric. It features a cute hippo‑themed pink design that adds charm to your baby’s sleeping space. The pillow provides light head support, helping keep your baby comfortable during sleep or rest. It is lightweight, durable, and easy to wash — making it practical for everyday use. Perfect for newborns and infants, whether at home or while traveling.',
 				language_id: 1,
 			},
 		],
@@ -3211,7 +3211,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow Bug Blue — a soft, adorable, and breathable infant pillow designed for gentle head comfort.',
 				description:
-					'The Baby Pillow Bug Blue is a cute and comfortable infant pillow made with soft, baby‑safe fabric.\nFeaturing a fun blue bug‑themed design, it brings color and charm to your baby’s resting space.\nThe pillow provides light head support to help keep your little one comfortable during naps or tummy‑time.\nIt is lightweight, breathable, and easy to carry, making it ideal for use at home or during travel.\nDurable stitching and washable material ensure long‑lasting use and hassle‑free cleaning.',
+					'The Baby Pillow Bug Blue is a cute and comfortable infant pillow made with soft, baby‑safe fabric. Featuring a fun blue bug‑themed design, it brings color and charm to your baby’s resting space. The pillow provides light head support to help keep your little one comfortable during naps or tummy‑time. It is lightweight, breathable, and easy to carry, making it ideal for use at home or during travel. Durable stitching and washable material ensure long‑lasting use and hassle‑free cleaning.',
 				language_id: 1,
 			},
 		],
@@ -3235,7 +3235,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow China Bear Blue — a soft, breathable, and cute infant pillow with an adorable bear design.',
 				description:
-					'The Baby Pillow China Bear Blue is a lightweight and comfortable infant pillow made from soft, baby‑safe fabric.\nIts adorable blue bear design makes it appealing for babies and adds a sweet touch to any crib or bedding setup.\nThe pillow offers gentle head support, helping keep your baby comfortable during sleep, tummy‑time, or rest.\nIt is breathable, easy to carry, and made with durable, washable materials — perfect for daily use at home or while traveling.\nA practical and charming choice for newborns and infants.',
+					'The Baby Pillow China Bear Blue is a lightweight and comfortable infant pillow made from soft, baby‑safe fabric. Its adorable blue bear design makes it appealing for babies and adds a sweet touch to any crib or bedding setup. The pillow offers gentle head support, helping keep your baby comfortable during sleep, tummy‑time, or rest. It is breathable, easy to carry, and made with durable, washable materials — perfect for daily use at home or while traveling. A practical and charming choice for newborns and infants.',
 				language_id: 1,
 			},
 		],
@@ -3257,7 +3257,7 @@ const bulkProductData = [
 				slug: 'baby-pillow-rabbit-blue',
 				excerpt: 'BABY PILLOW rabbit BLUE',
 				description:
-					'The Baby Pillow Elephant Blue is crafted from soft, breathable, baby‑safe fabric that ensures gentle comfort for newborns and infants.\nIts charming blue elephant design adds a playful and soothing touch to your baby’s sleeping area.\nThe pillow offers light head support, helping maintain comfort during naps, rest, or tummy‑time.\nLightweight, washable, and easy to carry, it is perfect for everyday use at home or while traveling.\nDurable stitching ensures long-lasting use for growing babies.',
+					'The Baby Pillow Elephant Blue is crafted from soft, breathable, baby‑safe fabric that ensures gentle comfort for newborns and infants. Its charming blue elephant design adds a playful and soothing touch to your baby’s sleeping area. The pillow offers light head support, helping maintain comfort during naps, rest, or tummy‑time. Lightweight, washable, and easy to carry, it is perfect for everyday use at home or while traveling. Durable stitching ensures long-lasting use for growing babies.',
 				language_id: 1,
 			},
 		],
@@ -3280,7 +3280,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow hen Pink — a soft, cute, and comfortable infant pillow featuring an adorable pink elephant design.',
 				description:
-					'The Baby Pillow Elephant Pink is made from soft, baby‑friendly, breathable fabric designed to keep newborns and infants comfortable.\nIts charming pink elephant design adds a sweet and playful touch to your baby’s nursery or bedding setup.\nThe pillow provides gentle head support, making it ideal for naps, tummy‑time, or resting.\nIt is lightweight, durable, and easy to wash — perfect for everyday use at home or while traveling.\nA cozy and stylish pillow that ensures comfort while adding a touch of cuteness.',
+					'The Baby Pillow Elephant Pink is made from soft, baby‑friendly, breathable fabric designed to keep newborns and infants comfortable. Its charming pink elephant design adds a sweet and playful touch to your baby’s nursery or bedding setup. The pillow provides gentle head support, making it ideal for naps, tummy‑time, or resting. It is lightweight, durable, and easy to wash — perfect for everyday use at home or while traveling. A cozy and stylish pillow that ensures comfort while adding a touch of cuteness.',
 				language_id: 1,
 			},
 		],
@@ -3304,7 +3304,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow Elephant Yellow — a soft, bright, and adorable infant pillow with a cute yellow elephant design.',
 				description:
-					'The Baby Pillow Elephant Yellow is crafted from soft, breathable, and baby‑safe fabric to keep infants comfortable during rest or sleep.\nIts cheerful yellow elephant design adds a fun and lively touch to any baby nursery or bedding setup.\nThe pillow provides gentle head support, making it ideal for naps, tummy‑time, or everyday comfort.\nLightweight, durable, and washable — this pillow is designed for convenient daily use at home or during travel.\nA perfect blend of cuteness, comfort, and practicality for newborns and infants.',
+					'The Baby Pillow Elephant Yellow is crafted from soft, breathable, and baby‑safe fabric to keep infants comfortable during rest or sleep. Its cheerful yellow elephant design adds a fun and lively touch to any baby nursery or bedding setup. The pillow provides gentle head support, making it ideal for naps, tummy‑time, or everyday comfort. Lightweight, durable, and washable — this pillow is designed for convenient daily use at home or during travel. A perfect blend of cuteness, comfort, and practicality for newborns and infants.',
 				language_id: 1,
 			},
 		],
@@ -3327,7 +3327,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Pillow Smile Brown — a soft, cozy, and cute infant pillow featuring a friendly smiley‑face design',
 				description:
-					'The Baby Pillow Smile Brown is made from soft, breathable, and baby‑safe fabric that ensures gentle comfort for newborns and infants.\nIts warm brown color and adorable smiling face design make it a charming addition to your baby’s bedding setup.\nThe pillow provides light, supportive cushioning for the baby’s head during naps, rest, or tummy‑time.\nIt is lightweight, easy to wash, and designed for daily use at home or while traveling.\nDurable stitching ensures long‑lasting quality, while the soft texture keeps your baby comfortable and relaxed.',
+					'The Baby Pillow Smile Brown is made from soft, breathable, and baby‑safe fabric that ensures gentle comfort for newborns and infants. Its warm brown color and adorable smiling face design make it a charming addition to your baby’s bedding setup. The pillow provides light, supportive cushioning for the baby’s head during naps, rest, or tummy‑time. It is lightweight, easy to wash, and designed for daily use at home or while traveling. Durable stitching ensures long‑lasting quality, while the soft texture keeps your baby comfortable and relaxed.',
 				language_id: 1,
 			},
 		],
@@ -3351,7 +3351,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby U‑Shape Neck Pillow Elephant Grey — a soft, supportive travel neck pillow with a cute grey elephant design for infants.',
 				description:
-					'The Baby U‑Shape Neck Pillow Elephant Grey is designed to provide gentle neck and head support for infants during travel or rest.\nMade from ultra‑soft, breathable, and baby‑safe fabric, it keeps your little one comfortable whether in a stroller, car seat, or during naps.\nThe adorable grey elephant design adds charm while the U‑shape helps keep the baby’s head in a comfortable position.\nLightweight, portable, and washable — this pillow is perfect for everyday use and travel convenience.\nDurable stitching ensures long‑lasting comfort and reliability.',
+					'The Baby U‑Shape Neck Pillow Elephant Grey is designed to provide gentle neck and head support for infants during travel or rest. Made from ultra‑soft, breathable, and baby‑safe fabric, it keeps your little one comfortable whether in a stroller, car seat, or during naps. The adorable grey elephant design adds charm while the U‑shape helps keep the baby’s head in a comfortable position. Lightweight, portable, and washable — this pillow is perfect for everyday use and travel convenience. Durable stitching ensures long‑lasting comfort and reliability.',
 				language_id: 1,
 			},
 		],
@@ -3375,7 +3375,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby U‑Shape Neck Pillow Fox Orange — a soft, supportive infant travel pillow featuring a cute orange fox design.',
 				description:
-					'The Baby U‑Shape Neck Pillow Fox Orange is designed to offer gentle neck and head support for infants during travel or rest.\nMade with ultra‑soft, breathable, and baby‑safe fabric, it keeps your little one comfortable in strollers, car seats, or during naps.\nThe bright orange fox design adds a fun and friendly look while the U‑shape helps maintain a comfortable and stable head position.\nLightweight and easy to carry, this pillow is perfect for everyday outings and long trips.\nIts washable and durable build ensures long‑lasting use and easy cleaning for parents.',
+					'The Baby U‑Shape Neck Pillow Fox Orange is designed to offer gentle neck and head support for infants during travel or rest. Made with ultra‑soft, breathable, and baby‑safe fabric, it keeps your little one comfortable in strollers, car seats, or during naps. The bright orange fox design adds a fun and friendly look while the U‑shape helps maintain a comfortable and stable head position. Lightweight and easy to carry, this pillow is perfect for everyday outings and long trips. Its washable and durable build ensures long‑lasting use and easy cleaning for parents.',
 				language_id: 1,
 			},
 		],
@@ -3399,7 +3399,7 @@ const bulkProductData = [
 				excerpt:
 					'Baby Play Gym Aeroplane Blue — a colorful, soft, and engaging baby play gym with an aeroplane theme.',
 				description:
-					'The Baby Play Gym Aeroplane Blue is designed to keep infants entertained, active, and stimulated.\nIt features a soft padded mat printed with a fun aeroplane theme, along with hanging toys to encourage reaching, grasping, kicking, and visual development.\nThe overhead arch includes rattles, plush toys, and interactive elements that help improve motor skills and sensory growth.\nMade with soft, baby‑safe materials, it provides a cozy and safe play area for tummy‑time, sitting, and early play activities.\nLightweight and easy to assemble, it’s perfect for use at home or for taking along when traveling.',
+					'The Baby Play Gym Aeroplane Blue is designed to keep infants entertained, active, and stimulated. It features a soft padded mat printed with a fun aeroplane theme, along with hanging toys to encourage reaching, grasping, kicking, and visual development. The overhead arch includes rattles, plush toys, and interactive elements that help improve motor skills and sensory growth. Made with soft, baby‑safe materials, it provides a cozy and safe play area for tummy‑time, sitting, and early play activities. Lightweight and easy to assemble, it’s perfect for use at home or for taking along when traveling.',
 				language_id: 1,
 			},
 		],
