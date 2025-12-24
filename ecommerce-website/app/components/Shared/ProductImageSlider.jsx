@@ -29,18 +29,20 @@ export default function BaseSliderWithThumbnails({ images }) {
 				thumbs={{ swiper: thumbsSwiper }}
 				modules={[FreeMode, Navigation, Thumbs]}
 				className="mySwiper2 mb-2">
-				{images?.map((v, idx) => (
-					<SwiperSlide key={`product-images-${idx}`}>
-						<div className="w-full border">
-							<BaseImage
-								src={ENV_VARIABLES.IMAGE_BASE_URL + v}
-								width={500}
-								height={500}
-								className="mx-auto/ w-full max-h-80/ object-cover"
-							/>
-						</div>
-					</SwiperSlide>
-				))}
+				{images?.map((v, idx) => {
+					return (
+						<SwiperSlide key={`product-images-${idx}`}>
+							<div className="w-full border">
+								<BaseImage
+									src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
+									width={500}
+									height={500}
+									className="mx-auto/ w-full max-h-80/ object-cover"
+								/>
+							</div>
+						</SwiperSlide>
+					);
+				})}
 			</Swiper>
 			<Swiper
 				onSwiper={setThumbsSwiper}
@@ -53,7 +55,7 @@ export default function BaseSliderWithThumbnails({ images }) {
 				{images?.map((v, idx) => (
 					<SwiperSlide key={`product-images-${idx}`}>
 						<BaseImage
-							src={ENV_VARIABLES.IMAGE_BASE_URL + v}
+							src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
 							width={500}
 							height={500}
 							className="w-full h-auto max-h-30 object-cover cursor-pointer active:border border-dark"

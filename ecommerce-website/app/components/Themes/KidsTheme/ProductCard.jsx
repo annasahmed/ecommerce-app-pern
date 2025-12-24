@@ -56,12 +56,13 @@ const ProductCard = ({ product }) => {
 				shadow-sm hover:shadow-md transition-all duration-300
 				flex flex-col
 				
-			"
-			onClick={() => {
-				router.push(`/product/${product.slug || product.id}`);
-			}}>
+			">
 			{/* Product Image */}
-			<div className="group relative w-full aspect-square overflow-hidden cursor-pointer">
+			<div
+				className="group relative w-full aspect-square overflow-hidden cursor-pointer"
+				onClick={() => {
+					router.push(`/product/${product.slug || product.id}`);
+				}}>
 				{/* Default image */}
 				{/* Default image */}
 				<BaseImage
@@ -171,8 +172,7 @@ const ProductCard = ({ product }) => {
 
 				<div className="flex flex-col gap-0.5">
 					<PrimaryButton
-						onClick={(e) => {
-							e.stopPropagation();
+						onClick={() => {
 							handleAddToCart();
 						}}
 						className="w-full mt-1.5 flex items-center justify-center gap-1">

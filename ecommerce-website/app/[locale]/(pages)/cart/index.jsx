@@ -46,9 +46,11 @@ export default function CartPage() {
 			<h1 className="h4 font-semibold mb-6">Shopping Cart</h1>
 
 			{cart.length === 0 ? (
-				<div className="text-center py-20 text-muted">
-					<p>Your cart is empty.</p>
-					<PrimaryButton className="mt-4 bg-primary text-light flex items-center gap-2">
+				<div className="text-center py-5 text-muted/">
+					<h3 className="h3">Your cart is empty.</h3>
+					<PrimaryButton
+						className="mt-6 mx-auto bg-primary text-light flex items-center gap-2"
+						link={"/"}>
 						<ArrowLeft size={18} />
 						Continue Shopping
 					</PrimaryButton>
@@ -60,6 +62,8 @@ export default function CartPage() {
 						{cart.map((item) => {
 							const price = item.base_price ?? item.price ?? 0;
 							const subtotal = price * item.quantity;
+							console.log(item.thumbnail, "assajdn");
+
 							return (
 								<div
 									key={item.id}
@@ -67,7 +71,9 @@ export default function CartPage() {
 									<BaseImage
 										src={
 											item.thumbnail
-												? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+												? item.thumbnail.startsWith("/")
+													? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+													: ENV_VARIABLES.IMAGE_BASE_URL + "/" + item.thumbnail
 												: item.images?.length > 0
 												? typeof item.images[0] === "string"
 													? ENV_VARIABLES.IMAGE_BASE_URL + item.images[0]

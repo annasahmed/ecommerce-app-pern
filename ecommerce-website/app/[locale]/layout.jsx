@@ -14,6 +14,94 @@ import { ToastContainer } from "react-toastify";
 import ReactQueryProvider from "@/app/providers/ReactQueryProvider";
 import { AuthProvider } from "@/app/providers/AuthProvider";
 
+import localFont from "next/font/local";
+
+const champagne = localFont({
+	//changing font family its not champagne itlaic
+	src: [
+		{
+			path: "../fonts/Champagne-and-Limousines/Champagne-and-Limousines-Bold-Italic.ttf",
+			weight: "700",
+			style: "italic",
+		},
+		{
+			path: "../fonts/Champagne-and-Limousines/Champagne-and-Limousines-Bold.ttf",
+			weight: "700",
+			style: "normal",
+		},
+		{
+			path: "../fonts/Champagne-and-Limousines/Champagne-and-Limousines-Bold-Italic.ttf",
+			weight: "400",
+			style: "italic",
+		},
+		{
+			path: "../fonts/Champagne-and-Limousines/Champagne-and-Limousines-Bold.ttf",
+			weight: "400",
+			style: "normal",
+		},
+	],
+	variable: "--font-champagne", // CSS Variable
+	display: "swap",
+});
+
+const konnect = localFont({
+	//changing font family its not konnect itlaic
+	src: [
+		{
+			path: "../fonts/Konnect/KonnectRegular.otf",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "../fonts/Konnect/KonnectItalic.otf",
+			weight: "400",
+			style: "italic",
+		},
+		{
+			path: "../fonts/Konnect/KonnectMedium.otf",
+			weight: "500",
+			style: "normal",
+		},
+		{
+			path: "../fonts/Konnect/KonnectMediumItalic.otf",
+			weight: "500",
+			style: "italic",
+		},
+		{
+			path: "../fonts/Konnect/KonnectLight.otf",
+			weight: "300",
+			style: "normal",
+		},
+		{
+			path: "../fonts/Konnect/KonnectLightItalic.otf",
+			weight: "300",
+			style: "italic",
+		},
+		{
+			path: "../fonts/Konnect/KonnectSemiBold.otf",
+			weight: "600",
+			style: "normal",
+		},
+		{
+			path: "../fonts/Konnect/KonnectSemiBoldItalic.otf",
+			weight: "600",
+			style: "italic",
+		},
+		{
+			path: "../fonts/Konnect/KonnectBold.otf",
+			weight: "700",
+			style: "normal",
+		},
+		{
+			path: "../fonts/Konnect/KonnectBoldItalic.otf",
+			weight: "700",
+			style: "italic",
+		},
+	],
+	variable: "--font-konnect", // CSS Variable
+	display: "swap",
+});
+
 const geist = Geist({
 	subsets: ["latin"],
 	variable: "--font-geist",
@@ -70,9 +158,13 @@ export default async function RootLayout({ children }) {
 		geist: geist.variable,
 		roboto: roboto.variable,
 		inter: inter.variable,
+		champagne: champagne.variable,
+		konnect: konnect.variable,
 	};
 
-	const fontClass = fontMap[store?.fontFamily?.toLowerCase()] || fontMap.inter;
+	const fontClasses = [fontMap.champagne, fontMap.konnect].join(" ");
+	// const fontClasses =
+	// 	fontMap[store?.fontFamily?.toLowerCase()] || fontMap.inter;
 
 	const colors = store.theme || {
 		primary: "#1E40AF",
@@ -83,8 +175,9 @@ export default async function RootLayout({ children }) {
 
 	return (
 		<html lang="en">
+			{/* // className={`${champagne.variable} ${konnect.variable} antialiased`} */}
 			<body
-				className={`${fontClass} antialiased`}
+				className={`${fontClasses} antialiased`}
 				style={{
 					// need to define theme colors here and in app/globals.css in @theme <-- for new colors
 					["--color-header"]: colors.header,

@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 				setLoading(false);
 			}
 		};
-		fetchUser();
+		// fetchUser();
 	}, []);
 
 	// Login function

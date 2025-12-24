@@ -26,6 +26,9 @@ const Navbar = () => {
 				</BaseLink>
 			</header>
 
+			<div className="sticky top-0 z-40">
+
+
 			{/* Main Navbar */}
 			<div className="border-b border-border-color py-3 sm:py-5 bg-light relative">
 				<section className="flex container-layout items-center justify-between gap-3 sm:gap-10">
@@ -92,7 +95,7 @@ const Navbar = () => {
 			</div>
 
 			{/* Navigation Menu */}
-			<nav className="bg-light shadow-sm sticky top-0 z-40">
+			<nav className="bg-light shadow-sm ">
 				{/* Desktop Nav */}
 				<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 py-4 container-layout">
 					{store.content.navCategories.map((item, index) => (
@@ -121,6 +124,8 @@ const Navbar = () => {
 					</ul>
 				)}
 			</nav>
+			</div>
+
 		</>
 	);
 };

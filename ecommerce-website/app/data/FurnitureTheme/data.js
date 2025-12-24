@@ -15,7 +15,7 @@ export const parentCategories = {
 			// medium can be null
 			medium: {
 				id: 1,
-				url: "image/upload/v1757454591/sofa_boh7yn.png",
+				url: "/image/upload/v1757454591/sofa_boh7yn.png",
 				title: "sofa.png",
 				size: 1698,
 				user_id: 1,
@@ -47,7 +47,7 @@ export const parentCategories = {
 			// medium can be null
 			medium: {
 				id: 2,
-				url: "image/upload/v1757454602/drawers_apq8xt.png",
+				url: "/image/upload/v1757454602/drawers_apq8xt.png",
 				title: "drawer.png",
 				size: 1698,
 				user_id: 1,
@@ -79,7 +79,7 @@ export const parentCategories = {
 			// medium can be null
 			medium: {
 				id: 1,
-				url: "image/upload/v1757454603/blender_rx13af.png",
+				url: "/image/upload/v1757454603/blender_rx13af.png",
 				title: "blender.png",
 				size: 1698,
 				user_id: 1,
@@ -150,7 +150,7 @@ export const latestProducts = {
 						size: "2-Seater",
 					},
 					medium: {
-						url: "image/upload/v1757464609/sofa_nacpiz.png",
+						url: "/image/upload/v1757464609/sofa_nacpiz.png",
 						title: "sofa.jpg",
 						size: 45230,
 					},
@@ -180,7 +180,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464609/sofa_nacpiz.png",
+				url: "/image/upload/v1757464609/sofa_nacpiz.png",
 				title: "sofa.jpg",
 				size: 45230,
 			},
@@ -235,7 +235,7 @@ export const latestProducts = {
 						size: "Standard",
 					},
 					medium: {
-						url: "image/image/upload/v1757464608/lamp-light_fjxkj2.png",
+						url: "image//image/upload/v1757464608/lamp-light_fjxkj2.png",
 						title: "tablelamp.jpg",
 						size: 18200,
 					},
@@ -265,7 +265,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464608/lamp-light_fjxkj2.png",
+				url: "/image/upload/v1757464608/lamp-light_fjxkj2.png",
 				title: "tablelamp.jpg",
 				size: 18200,
 			},
@@ -319,7 +319,7 @@ export const latestProducts = {
 						size: "Medium",
 					},
 					medium: {
-						url: "image/upload/v1757464607/lamp_a6577b.png",
+						url: "/image/upload/v1757464607/lamp_a6577b.png",
 						title: "beigelamp.jpg",
 						size: 19000,
 					},
@@ -349,7 +349,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464607/lamp_a6577b.png",
+				url: "/image/upload/v1757464607/lamp_a6577b.png",
 				title: "beigelamp.jpg",
 				size: 19000,
 			},
@@ -403,7 +403,7 @@ export const latestProducts = {
 						size: "Medium",
 					},
 					medium: {
-						url: "image/upload/v1757464611/basket_oygmjj.png",
+						url: "/image/upload/v1757464611/basket_oygmjj.png",
 						title: "bamboo.jpg",
 						size: 16000,
 					},
@@ -433,7 +433,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464611/basket_oygmjj.png",
+				url: "/image/upload/v1757464611/basket_oygmjj.png",
 				title: "bamboo.jpg",
 				size: 16000,
 			},
@@ -487,7 +487,7 @@ export const latestProducts = {
 						size: "2-Slice",
 					},
 					medium: {
-						url: "image/upload/v1757454603/blender_rx13af.png",
+						url: "/image/upload/v1757454603/blender_rx13af.png",
 						title: "toaster.jpg",
 						size: 21000,
 					},
@@ -517,7 +517,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757454603/blender_rx13af.png",
+				url: "/image/upload/v1757454603/blender_rx13af.png",
 				title: "toaster.jpg",
 				size: 21000,
 			},
@@ -571,7 +571,7 @@ export const latestProducts = {
 						size: "2-Seater",
 					},
 					medium: {
-						url: "image/upload/v1757464609/sofa_nacpiz.png",
+						url: "/image/upload/v1757464609/sofa_nacpiz.png",
 						title: "sofa.jpg",
 						size: 45230,
 					},
@@ -601,7 +601,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464609/sofa_nacpiz.png",
+				url: "/image/upload/v1757464609/sofa_nacpiz.png",
 				title: "sofa.jpg",
 				size: 45230,
 			},
@@ -656,7 +656,7 @@ export const latestProducts = {
 						size: "Standard",
 					},
 					medium: {
-						url: "image/image/upload/v1757464608/lamp-light_fjxkj2.png",
+						url: "image//image/upload/v1757464608/lamp-light_fjxkj2.png",
 						title: "tablelamp.jpg",
 						size: 18200,
 					},
@@ -686,7 +686,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464608/lamp-light_fjxkj2.png",
+				url: "/image/upload/v1757464608/lamp-light_fjxkj2.png",
 				title: "tablelamp.jpg",
 				size: 18200,
 			},
@@ -740,7 +740,7 @@ export const latestProducts = {
 						size: "Medium",
 					},
 					medium: {
-						url: "image/upload/v1757464607/lamp_a6577b.png",
+						url: "/image/upload/v1757464607/lamp_a6577b.png",
 						title: "beigelamp.jpg",
 						size: 19000,
 					},
@@ -770,7 +770,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464607/lamp_a6577b.png",
+				url: "/image/upload/v1757464607/lamp_a6577b.png",
 				title: "beigelamp.jpg",
 				size: 19000,
 			},
@@ -824,7 +824,7 @@ export const latestProducts = {
 						size: "Medium",
 					},
 					medium: {
-						url: "image/upload/v1757464611/basket_oygmjj.png",
+						url: "/image/upload/v1757464611/basket_oygmjj.png",
 						title: "bamboo.jpg",
 						size: 16000,
 					},
@@ -854,7 +854,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757464611/basket_oygmjj.png",
+				url: "/image/upload/v1757464611/basket_oygmjj.png",
 				title: "bamboo.jpg",
 				size: 16000,
 			},
@@ -908,7 +908,7 @@ export const latestProducts = {
 						size: "2-Slice",
 					},
 					medium: {
-						url: "image/upload/v1757454603/blender_rx13af.png",
+						url: "/image/upload/v1757454603/blender_rx13af.png",
 						title: "toaster.jpg",
 						size: 21000,
 					},
@@ -938,7 +938,7 @@ export const latestProducts = {
 			],
 			images: [],
 			thumbnailImage: {
-				url: "image/upload/v1757454603/blender_rx13af.png",
+				url: "/image/upload/v1757454603/blender_rx13af.png",
 				title: "toaster.jpg",
 				size: 21000,
 			},
@@ -968,7 +968,7 @@ export const features = {
 			// medium can be null
 			medium: {
 				id: 1,
-				url: "image/upload/v1757454591/sofa_boh7yn.png",
+				url: "/image/upload/v1757454591/sofa_boh7yn.png",
 				title: "sofa.png",
 				size: 1698,
 				user_id: 1,
@@ -1000,7 +1000,7 @@ export const features = {
 			// medium can be null
 			medium: {
 				id: 2,
-				url: "image/upload/v1757454602/drawers_apq8xt.png",
+				url: "/image/upload/v1757454602/drawers_apq8xt.png",
 				title: "drawer.png",
 				size: 1698,
 				user_id: 1,
@@ -1032,7 +1032,7 @@ export const features = {
 			// medium can be null
 			medium: {
 				id: 1,
-				url: "image/upload/v1757454603/blender_rx13af.png",
+				url: "/image/upload/v1757454603/blender_rx13af.png",
 				title: "blender.png",
 				size: 1698,
 				user_id: 1,

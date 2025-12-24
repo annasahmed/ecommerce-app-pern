@@ -49,10 +49,10 @@ const ProductsPage = () => {
 			<div className="w-full h-px bg-border-color" />
 			<section className="container-layout section-layout">
 				<ProductsSlider
-					productsData={store.content.allProducts.slice(8, 12)}
+					productsData={store.content.allProducts.slice(7, 12)}
 					isSlider={false}
 					title="Recently View Products"
-					columns={4}
+					columns={5}
 				/>
 			</section>
 		</main>

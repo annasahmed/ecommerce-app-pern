@@ -19,6 +19,6 @@ export const useFetchReactQuery = (
 		refetchOnWindowFocus: false,
 		retry: false,
 		...options,
-		enabled: false,
+		// enabled: false,
 	});
 };

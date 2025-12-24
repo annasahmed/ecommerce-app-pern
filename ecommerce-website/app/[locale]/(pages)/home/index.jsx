@@ -8,6 +8,8 @@ import AboutUsSection from "@/app/components/Themes/KidsTheme/AboutUsSection";
 import CategoriesSection from "@/app/components/Themes/KidsTheme/CategoriesSection";
 import Newsletter from "@/app/components/Themes/KidsTheme/Newsletter";
 import ParentCategoriesGrid from "@/app/components/Themes/KidsTheme/ParentCategoriesGrid";
+import PopularCatTabs from "@/app/components/Themes/KidsTheme/PopularCatTabs";
+import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import ParentCategoryServices from "@/app/services/ParentCategoryServices";
@@ -18,9 +20,9 @@ const HomePage = () => {
 	const {
 		HeroSection,
 		// CategoriesSection,
-		PopularCatTabs,
+		// PopularCatTabs,
 		TrendingCategoriesSection,
-		ProductsSlider,
+		// ProductsSlider,
 		FeaturesSection,
 		// AboutUsSection,
 		// ParentCategoriesGrid,
@@ -37,12 +39,12 @@ const HomePage = () => {
 		useFetchReactQuery(
 			() => ProductServices.getLatestProducts(store.themeName),
 			["latestProducts", store.themeName],
-			// { enabled: !!store.themeName },
+			{ enabled: !!store.themeName },
 		);
 
 	if (parentCategoriesLoading || latestProdductsLoading) return <Loader />;
 
-	console.log(parentCategories, "chkking latest prod");
+	console.log(latestProducts, "latestProducts111");
 
 	return (
 		<main>
@@ -63,7 +65,11 @@ const HomePage = () => {
 					<ProductsSlider
 						title="best selling products"
 						slug=""
-						productsData={store.content.bestSellingProducts}
+						productsData={
+							latestProducts?.records?.length > 0
+								? latestProducts?.records.slice(60, 70)
+								: store.content.bestSellingProducts
+						}
 					/>
 				</section>
 
@@ -79,7 +85,12 @@ const HomePage = () => {
 					<ProductsSlider
 						title="sale"
 						slug=""
-						productsData={store.content.saleProducts}
+						// productsData={store.content.saleProducts}
+						productsData={
+							latestProducts?.records?.length > 0
+								? latestProducts?.records.slice(30, 40)
+								: store.content.saleProducts
+						}
 					/>
 				</section>
 

@@ -152,11 +152,11 @@ export const KIDSTHEME_DATA = {
 					base_price: 400,
 					base_discount_percentage: 25,
 					thumbnail:
-						"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+						"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
 					images: [
-						"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
-						"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
-						"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+						"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+						"/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+						"/image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
 					],
 				},
 				{
@@ -166,17 +166,17 @@ export const KIDSTHEME_DATA = {
 					base_price: 400,
 					base_discount_percentage: 25,
 					thumbnail:
-						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
 
 					price: 400,
 					discount: 25,
 					sku: "100077",
 
 					images: [
-						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
-						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
-						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
-						"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
 					],
 				},
 				{
@@ -186,15 +186,15 @@ export const KIDSTHEME_DATA = {
 					base_price: 400,
 					base_discount_percentage: 25,
 					thumbnail:
-						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
 
 					price: 400,
 					discount: 25,
 					sku: "100075",
 					images: [
-						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
-						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
-						"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
 					],
 				},
 				{
@@ -204,19 +204,19 @@ export const KIDSTHEME_DATA = {
 					base_price: 400,
 					base_discount_percentage: 25,
 					thumbnail:
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
 
 					price: 400,
 					discount: 25,
 					sku: "100078",
 					images: [
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
-						"image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
-						"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+						"/image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
 					],
 				},
 				{
@@ -227,13 +227,13 @@ export const KIDSTHEME_DATA = {
 					base_price: 400,
 					base_discount_percentage: 25,
 					thumbnail:
-						"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+						"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
 
 					price: 400,
 					discount: 25,
 					images: [
-						"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
-						"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
+						"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+						"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
 					],
 				},
 				{
@@ -442,11 +442,11 @@ export const KIDSTHEME_DATA = {
 			base_price: 400,
 			base_discount_percentage: 25,
 			thumbnail:
-				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+				"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
 			images: [
-				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
-				"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
-				"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+				"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+				"/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+				"/image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
 			],
 		},
 		{
@@ -456,17 +456,17 @@ export const KIDSTHEME_DATA = {
 			base_price: 400,
 			base_discount_percentage: 25,
 			thumbnail:
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
 
 			price: 400,
 			discount: 25,
 			sku: "100077",
 
 			images: [
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
 			],
 		},
 		{
@@ -476,15 +476,15 @@ export const KIDSTHEME_DATA = {
 			base_price: 400,
 			base_discount_percentage: 25,
 			thumbnail:
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
 
 			price: 400,
 			discount: 25,
 			sku: "100075",
 			images: [
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
 			],
 		},
 		{
@@ -494,19 +494,19 @@ export const KIDSTHEME_DATA = {
 			base_price: 400,
 			base_discount_percentage: 25,
 			thumbnail:
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
 
 			price: 400,
 			discount: 25,
 			sku: "100078",
 			images: [
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
-				"image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+				"/image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
 			],
 		},
 		{
@@ -517,13 +517,13 @@ export const KIDSTHEME_DATA = {
 			base_price: 400,
 			base_discount_percentage: 25,
 			thumbnail:
-				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+				"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
 
 			price: 400,
 			discount: 25,
 			images: [
-				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
-				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
+				"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+				"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
 			],
 		},
 		{
@@ -783,9 +783,9 @@ export const KIDSTHEME_DATA = {
 			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
 			// tags: ["modern", "black", "metal", "round table"],
 			images: [
-				"image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
-				"image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
-				"image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+				"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+				"/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+				"/image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
 			],
 			// additionalInfo: {
 			// 	material: "Metal Frame + MDF Top",
@@ -822,9 +822,9 @@ export const KIDSTHEME_DATA = {
 			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
 			// tags: ["modern", "black", "metal", "round table"],
 			images: [
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
-				"image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+				"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
 			],
 			// additionalInfo: {
 			// 	material: "Metal Frame + MDF Top",
@@ -861,10 +861,10 @@ export const KIDSTHEME_DATA = {
 			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
 			// tags: ["modern", "black", "metal", "round table"],
 			images: [
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
-				"image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+				"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
 			],
 			// additionalInfo: {
 			// 	material: "Metal Frame + MDF Top",
@@ -901,13 +901,13 @@ export const KIDSTHEME_DATA = {
 			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
 			// tags: ["modern", "black", "metal", "round table"],
 			images: [
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
-				"image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
-				"image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+				"/image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+				"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
 			],
 			// additionalInfo: {
 			// 	material: "Metal Frame + MDF Top",
@@ -944,8 +944,8 @@ export const KIDSTHEME_DATA = {
 			tags: ["Baby Care", "Baby Accessories", "Swaddles", "Kidzo"],
 			// tags: ["modern", "black", "metal", "round table"],
 			images: [
-				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
-				"image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
+				"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+				"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
 			],
 			// additionalInfo: {
 			// 	material: "Metal Frame + MDF Top",

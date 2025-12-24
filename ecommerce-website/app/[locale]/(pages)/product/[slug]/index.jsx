@@ -1,11 +1,14 @@
 "use client";
 import BasePrice from "@/app/components/BaseComponents/BasePrice";
+import Loader from "@/app/components/Shared/Loader";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import ProductImageSlider from "@/app/components/Shared/ProductImageSlider";
 import Ratings from "@/app/components/Shared/Ratings";
 import SocialShare from "@/app/components/Shared/SocialShare";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
+import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
+import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
 import { Check } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -20,14 +23,33 @@ export default function ProductDetailsPage() {
 	const [activeTab, setActiveTab] = useState("description");
 	const [selectedColor, setSelectedColor] = useState(null);
 	const [selectedSize, setSelectedSize] = useState(null);
-	const product =
-		store.content.productDetails.find((v) => v.id == slug || v.slug === slug) ||
-		store.content.productDetails[0];
+
+	const { data: latestProducts, isLoading: latestProdductsLoading } =
+		useFetchReactQuery(
+			() => ProductServices.getLatestProducts(store.themeName),
+			["latestProducts", store.themeName],
+			{ enabled: !!store.themeName },
+		);
+
+	const { data: product, isLoading } = useFetchReactQuery(
+		() => ProductServices.getProductBySlug(store.themeName, slug),
+		["latestProducts", store.themeName, slug],
+		{ enabled: !!store.themeName },
+	);
+
+	if (isLoading || latestProdductsLoading) return <Loader />;
+	if (!product)
+		return <h1 className="py-10 text-center h3">Product Not Found</h1>;
+
+	// const product =
+	// 	store.content.productDetails.find((v) => v.id == slug || v.slug === slug) ||
+	// 	store.content.productDetails[0];
 	const discountedPrice = (
 		(product.base_price || product.price) *
-		(1 - product.discount / 100)
+		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
 
+	console.log(product, discountedPrice, "asdksam");
 	const handleAddToCart = () => {
 		addToCart(product);
 		toast.success("Added to cart!");
@@ -47,7 +69,7 @@ export default function ProductDetailsPage() {
 			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-10">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
-					images={product.images}
+					images={[product.thumbnail, ...product.images]}
 					discount={product.discount}
 				/>
 
@@ -71,10 +93,10 @@ export default function ProductDetailsPage() {
 							className="h3 font-bold text-secondary text-xl md:text-2xl"
 							price={discountedPrice}></BasePrice>
 
-						{product.discount > 0 && (
+						{(product.discount || product.base_discount_percentage) > 0 && (
 							<BasePrice
 								className="text-muted h5 line-through text-sm md:text-base"
-								price={product.price}></BasePrice>
+								price={product.base_price || product.price}></BasePrice>
 						)}
 					</div>
 
@@ -157,9 +179,7 @@ export default function ProductDetailsPage() {
 							Add to Cart
 						</PrimaryButton>
 						{/* <PrimaryButton className="flex-1">Buy Now</PrimaryButton> */}
-						<PrimaryButton
-							className="flex-1"
-							onClick={handleFavourite}>
+						<PrimaryButton className="flex-1" onClick={handleFavourite}>
 							Add to Wishlist
 						</PrimaryButton>
 					</div>
@@ -169,10 +189,12 @@ export default function ProductDetailsPage() {
 						<p>
 							<span className="font-medium">SKU:</span> {product.sku}
 						</p>
-						<p>
-							<span className="font-medium">Categories:</span>{" "}
-							{product.categories.join(", ")}
-						</p>
+						{product.categories.lenght > 0 && (
+							<p>
+								<span className="font-medium">Categories:</span>{" "}
+								{product.categories.join(", ")}
+							</p>
+						)}
 						{/* <p>
 							<span className="font-medium">Usps:</span>{" "}
 							{product.tags.join(", ")}
@@ -241,7 +263,11 @@ export default function ProductDetailsPage() {
 			{/* Recently Viewed Products */}
 			<section className="container-layout section-layout-bottom">
 				<ProductsSlider
-					productsData={store.content.allProducts.slice(7, 12)}
+					productsData={
+						latestProducts?.records?.length > 0
+							? latestProducts?.records.slice(0, 5)
+							: store.content.allProducts.slice(7, 12)
+					}
 					isSlider={false}
 					title="Recently Viewed Products"
 					columns={5}

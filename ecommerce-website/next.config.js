@@ -14,6 +14,20 @@ const nextConfig = {
 				pathname: "/**",
 				search: "",
 			},
+			{
+				protocol: "http",
+				hostname: "72.61.149.213",
+				port: "4000",
+				pathname: "/**",
+				search: "",
+			},
+			{
+				protocol: "http",
+				hostname: "localhost",
+				port: "4000",
+				pathname: "/**",
+				search: "",
+			},
 		],
 	},
 };
