@@ -262,9 +262,10 @@ const ProductDrawer = ({ id, data }) => {
 			]); // validate product info fields
 			if (!reactHookFormValid) {
 				toast.error("Required feilds missing");
-			} else if (!selectedThumbnail) {
-				toast.error("Thumnail is required");
 			}
+			//  else if (!selectedThumbnail) {
+			// 	toast.error("Thumnail is required");
+			// }
 			isStepValid = reactHookFormValid && selectedThumbnail;
 		} else if (currentStep === 2) {
 			isStepValid = await trigger(["translations"]);

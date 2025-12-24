@@ -163,7 +163,7 @@ const ProductInfoForm = ({
 				<h3 className="font-semibold text-2xl h3 mb-4">Product Media</h3>
 				<div className="grid grid-cols-1 gap-x-16 gap-y-6 items-end">
 					<ImageSelectorField
-						required
+						required={false}
 						label={t("Thumbnail")}
 						selectedImage={selectedThumbnail}
 						setSelectedImage={setSelectedThumbnail}
@@ -172,7 +172,7 @@ const ProductInfoForm = ({
 						isVertical
 					/>
 					<ImageSelectorField
-						required
+						required={false}
 						label={t("Images")}
 						selectedImage={selectedImages}
 						setSelectedImage={setSelectedImages}
