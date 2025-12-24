@@ -20,6 +20,10 @@ router
 	);
 
 router
+	.route('/bulk-products')
+	.post(adminProductController.createBulkProducts);
+
+router
 	.route('/:productId')
 	.get(
 		checkPermission('view_product'),

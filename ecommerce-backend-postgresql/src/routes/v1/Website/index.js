@@ -5,12 +5,13 @@ const productRoute = require('./productRoute');
 const authRoute = require('./authRoute');
 const languageRoute = require('./languageRoute');
 
-const adminRouter = express.Router();
+const websiteRouter = express.Router();
 
-adminRouter.use('/parent-category', parentCategoryRoute);
-adminRouter.use('/category', categoryRoute);
-adminRouter.use('/product', productRoute);
-adminRouter.use('/auth', authRoute);
-adminRouter.use('/language', languageRoute);
+websiteRouter.use('/parent-category', parentCategoryRoute);
+websiteRouter.use('/category', categoryRoute);
+websiteRouter.use('/product', productRoute);
+websiteRouter.use('/products', productRoute);
+websiteRouter.use('/auth', authRoute);
+websiteRouter.use('/language', languageRoute);
 
-module.exports = adminRouter;
+module.exports = websiteRouter;

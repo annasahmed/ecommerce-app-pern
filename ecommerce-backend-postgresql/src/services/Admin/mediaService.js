@@ -1,7 +1,7 @@
 const db = require('../../db/models/index.js');
 const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
-const { cloudinaryService } = require('../index.js');
+const { imageService, cloudinaryService } = require('../index.js');
 const ApiError = require('../../utils/ApiError.js');
 const httpStatus = require('http-status');
 
@@ -16,18 +16,14 @@ const mediaService = createBaseService(db.media, {
 });
 
 // Using userId logic from request
-async function createMedia(req, folder) {
-	const image = await cloudinaryService.mediaUpload(
-		req.file.buffer,
-		req.file.originalname,
-		folder
-	);
+async function createMedia(req) {
+	const media = await imageService.mediaUpload(req.file);
 	const userId = commonUtils.getUserId(req);
 	return mediaService.create(
 		{
-			url: `${image.public_id}.${image.format}`,
-			title: req.file.originalname || null,
-			size: image.bytes || null,
+			url: media.url,
+			title: media.title,
+			size: media.size,
 		},
 		userId
 	);

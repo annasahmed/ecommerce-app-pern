@@ -24,8 +24,8 @@ const localizeAttributes = (fields, lang, alias = null) => {
 	]);
 };
 
-const getLang = (req) =>
-	req?.query?.lang || req?.headers?.['accept-language'] || 'en';
+const getLang = (req) => req?.query?.lang || 'en';
+// req?.query?.lang || req?.headers?.['accept-language'] || 'en';
 
 const appIncludes = (includes, req) => {
 	return includes.map((item) => {

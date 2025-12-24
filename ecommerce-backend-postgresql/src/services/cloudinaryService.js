@@ -75,6 +75,6 @@ async function deleteMedia(imageKey) {
 }
 
 module.exports = {
-	mediaUpload,
-	deleteMedia,
+	// mediaUpload,
+	// deleteMedia,
 };

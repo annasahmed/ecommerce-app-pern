@@ -5,6 +5,7 @@ const {
 	transformProduct,
 } = require('../../transformers/Api/productTransformer');
 const { getLang } = require('../../utils/commonUtils');
+const { adminProductService } = require('../../services/Admin');
 
 const getProducts = catchAsync(async (req, res) => {
 	const products = await apiProductService.getProducts(req);

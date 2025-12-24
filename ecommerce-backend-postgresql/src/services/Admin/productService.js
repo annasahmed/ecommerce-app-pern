@@ -115,8 +115,6 @@ async function createProduct(req) {
 		}
 
 		// Product associations
-		console.log(images, 'chkking images');
-
 		if (images.length > 0) {
 			const createdImages = await newProduct.setImages(images, {
 				transaction,

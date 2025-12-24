@@ -40,7 +40,7 @@ function createBaseService(model, options = {}) {
 											'created_at',
 											'updated_at',
 											translationForeignKey,
-											'id'
+											'id',
 										],
 									},
 									// where: lang
@@ -208,7 +208,8 @@ function createBaseService(model, options = {}) {
 				config.pagination;
 			const {
 				page = defaultPage,
-				limit = defaultLimit,
+				limit = 1000,
+				// limit = defaultLimit,
 				sortBy,
 				sortOrder = 'DESC',
 			} = req.query;

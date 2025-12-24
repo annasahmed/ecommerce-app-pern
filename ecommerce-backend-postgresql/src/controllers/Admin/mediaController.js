@@ -11,7 +11,7 @@ const createMedia = catchAsync(async (req, res) => {
 	if (!req.file) {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'Image not found');
 	}
-	const medias = await adminMediaService.createMedia(req, 'uploads');
+	const medias = await adminMediaService.createMedia(req);
 	res.send(medias);
 });
 

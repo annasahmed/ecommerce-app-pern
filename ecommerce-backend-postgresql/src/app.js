@@ -16,6 +16,7 @@ const ApiError = require('./utils/ApiError');
 const responseFormatter = require('./middlewares/responseFormatter');
 const executeCronJobs = require('./utils/cron');
 const setUserMiddleware = require('./middlewares/setUserMiddleware');
+const path = require('path');
 
 const app = express();
 
@@ -24,6 +25,8 @@ if (config.env !== 'test') {
 	app.use(morgan.errorHandler);
 }
 
+// use this middlware to show images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // set security HTTP headers
 app.use(helmet());
 
@@ -45,17 +48,18 @@ app.use(xss());
 // gzip compression
 app.use(compression());
 
-// enable cors
+// // enable cors
 // app.use(cors());
 // app.options('*', cors());
 
 const allowedOrigins = [
-	'http://localhost:4100', // local_website
+	'http://localhost:4100', // local_cms
 	'http://localhost:3000', // local_website
 	'http://72.61.149.213:3000', // website
 	'http://72.61.149.213:5000', // cms
 	// add any other frontend URLs here
 ];
+
 app.use(
 	cors({
 		origin: function (origin, callback) {

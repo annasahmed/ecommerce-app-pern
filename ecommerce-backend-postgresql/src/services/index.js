@@ -4,3 +4,4 @@ module.exports.emailService = require('./email.service');
 module.exports.tokenService = require('./token.service');
 module.exports.roleService = require('./role.service');
 module.exports.cloudinaryService = require('./cloudinaryService');
+module.exports.imageService = require('./imageService');
