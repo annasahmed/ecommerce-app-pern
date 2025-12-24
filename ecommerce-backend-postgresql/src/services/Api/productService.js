@@ -9,8 +9,6 @@ const productService = createAppBaseService(db.product, {
 
 module.exports = {
 	getProductBySlug: (req) => {
-		console.log(req.params.slug, 'chkking slug');
-
 		return productService.getBySlug(
 			req.params.slug,
 			getProductsIncludes(req, true),
