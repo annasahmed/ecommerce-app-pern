@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 
 import ReactQueryProvider from "@/app/providers/ReactQueryProvider";
 import { AuthProvider } from "@/app/providers/AuthProvider";
+import backgroundPattern from "@/app/assets/themes/kidsTheme/background-pattern.png";
 
 import localFont from "next/font/local";
 
@@ -188,6 +189,9 @@ export default async function RootLayout({ children }) {
 					["--color-secondary"]: colors.secondary,
 					["--color-background"]: colors.background,
 					["--color-text"]: colors.text,
+					backgroundImage: `url(${backgroundPattern.src})`,
+					backgroundRepeat: "repeat",
+					backgroundSize: "contain",
 				}}
 				cz-shortcut-listen="true">
 				<ToastContainer />
