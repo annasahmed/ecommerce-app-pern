@@ -1,11 +1,12 @@
 "use client";
-import homeSmallBanner from "@/app/assets/themes/kidsTheme/home-small-banner.png";
+import homeSmallBanner from "@/app/assets/themes/kidsTheme/home-small-banner.jpg";
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import Loader from "@/app/components/Shared/Loader";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
 import AboutUsSection from "@/app/components/Themes/KidsTheme/AboutUsSection";
 import CategoriesSection from "@/app/components/Themes/KidsTheme/CategoriesSection";
+import HeroSection from "@/app/components/Themes/KidsTheme/HeroSection";
 import Newsletter from "@/app/components/Themes/KidsTheme/Newsletter";
 import ParentCategoriesGrid from "@/app/components/Themes/KidsTheme/ParentCategoriesGrid";
 import PopularCatTabs from "@/app/components/Themes/KidsTheme/PopularCatTabs";
@@ -18,7 +19,7 @@ import ProductServices from "@/app/services/ProductServices";
 const HomePage = () => {
 	const store = useStore();
 	const {
-		HeroSection,
+		// HeroSection,
 		// CategoriesSection,
 		// PopularCatTabs,
 		TrendingCategoriesSection,

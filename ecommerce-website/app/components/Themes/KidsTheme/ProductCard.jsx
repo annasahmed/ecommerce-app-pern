@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Heart, Plus, Repeat } from "lucide-react";
+import { Eye, Heart, Plus, Repeat, ShoppingCartIcon } from "lucide-react";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
 import Overlay from "../../Shared/Overlay";
@@ -175,8 +175,11 @@ const ProductCard = ({ product }) => {
 						onClick={() => {
 							handleAddToCart();
 						}}
-						className="w-full mt-1.5 flex items-center justify-center gap-1">
-						Add To Cart
+						className="w-full mt-1.5 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border">
+						Add To Cart{" "}
+						<ShoppingCartIcon className="cursor-pointer hover:text-primary transition" style={{
+							width:"20px"
+						}} />
 					</PrimaryButton>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-import heroSliderSlide from "@/app/assets/themes/kidsTheme/hero-slider-slide.png";
+import heroSliderSlide from "@/app/assets/themes/kidsTheme/hero-slider-slide.jpg";
 import babaCat from "@/app/assets/themes/kidsTheme/categories/baba.png";
 import babyCat from "@/app/assets/themes/kidsTheme/categories/baby.png";
 import bathCat from "@/app/assets/themes/kidsTheme/categories/bath.png";
@@ -43,6 +43,74 @@ export const KIDSTHEME_DATA = {
 		{
 			slug: "fashion",
 			title: "Fashion",
+			categories: [
+				{
+					title: "Baby Accessories",
+					subCategories: [
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+					],
+				},
+				{
+					title: "Baby Accessories",
+					subCategories: [
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+						{
+							title: "Swaddles",
+							slug: "swaddles",
+						},
+					],
+				},
+			],
 		},
 		{
 			slug: "gear",
