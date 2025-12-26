@@ -12,6 +12,8 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import BaseImage from "../BaseComponents/BaseImage";
 import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import ImageZoom from "./ImageZoom";
+import SideZoomImage from "./ImageZoom";
 
 export default function BaseSliderWithThumbnails({ images }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -30,15 +32,12 @@ export default function BaseSliderWithThumbnails({ images }) {
 				modules={[FreeMode, Navigation, Thumbs]}
 				className="mySwiper2 mb-2">
 				{images?.map((v, idx) => {
+					console.log(v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null, "chkki11");
+
 					return (
 						<SwiperSlide key={`product-images-${idx}`}>
-							<div className="w-full border">
-								<BaseImage
-									src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
-									width={500}
-									height={500}
-									className="mx-auto/ w-full max-h-80/ object-cover"
-								/>
+							<div className="h-[500px] w-full bg-white">
+								<SideZoomImage src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null} />
 							</div>
 						</SwiperSlide>
 					);

@@ -8,13 +8,13 @@ const NavigationMenu = ({ isMenuOpen }) => {
 	return (
 		<nav className="bg-light shadow-sm ">
 			{/* Desktop Nav */}
-			<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 py-4 container-layout">
+			<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 pt-4 container-layout">
 				{store.content.navCategories.map((item, index) => (
 					<li
 						key={index}
-						className="text-sm sm:text-base font-medium relative"
+						className="text-sm sm:text-base font-medium relative pb-4"
 						onMouseEnter={() => setActiveMenu(index)}
-						onMouseLeave={() => setActiveMenu(false)}>
+						onMouseLeave={() => setActiveMenu(null)}>
 						<BaseLink
 							href={`${item.to || `/products?category=${item.slug}`}`}
 							className="uppercase hover:bg-primary hover:text-light px-4 py-1 rounded-full transition">
