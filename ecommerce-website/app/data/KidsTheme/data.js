@@ -47,74 +47,67 @@ export const KIDSTHEME_DATA = {
 				{
 					title: "Baby Accessories",
 					subCategories: [
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
+						"Swaddles",
+						"Blankets",
+						"Wrapping Sheets",
+						"Towels",
+						"Bibs, Caps & Hats",
+						"Mittens & Gloves",
+						"Socks & Booties",
+						"Gift Sets",
 					],
 				},
 				{
-					title: "Baby Accessories",
+					title: "Baby",
 					subCategories: [
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
-						{
-							title: "Swaddles",
-							slug: "swaddles",
-						},
+						"Bodysuits & Rompers",
+						"Sleepwear",
+						"Tops",
+						"Bottoms",
+						"Dresses",
+						"Innerwear",
+						"Outerwear",
+						"Costumes",
+						"Accessories",
 					],
+				},
+				{
+					title: "Footwear",
+					subCategories: ["Socks", "Booties", "Casual Wear", "Sandals"],
 				},
 			],
 		},
 		{
 			slug: "gear",
 			title: "Gear",
+			categories: [
+				{
+					title: "Shop By Category",
+					subCategories: [
+						"Strollers & Prams",
+						"Walkers & Push Along",
+						"Car Seats Carrycots & Carriers",
+						"Bouncers Rockers & Swings",
+						"Highchair & Booster Seats",
+						"Playmats & Playgyms",
+						"Tricycles & Bicycles",
+						"Rideons & Scooters",
+						"Travel Bags",
+					],
+				},
+				{
+					title: "Popular Brands",
+					subCategories: [
+						"Sunshine",
+						"Ingenuity",
+						"Junior",
+						"Tinnies",
+						"Mastela",
+						"Infantes",
+						"Little Sparks",
+					],
+				},
+			],
 		},
 		{
 			slug: "feeding",
