@@ -1,4 +1,6 @@
-import heroSliderSlide from "@/app/assets/themes/kidsTheme/hero-slider-slide.jpg";
+import heroSliderSlide1 from "@/app/assets/themes/kidsTheme/hero-slider-slide1.jpg";
+import heroSliderSlide2 from "@/app/assets/themes/kidsTheme/hero-slider-slide2.jpg";
+import heroSliderSlide3 from "@/app/assets/themes/kidsTheme/hero-slider-slide3.jpg";
 import babaCat from "@/app/assets/themes/kidsTheme/categories/baba.png";
 import babyCat from "@/app/assets/themes/kidsTheme/categories/baby.png";
 import bathCat from "@/app/assets/themes/kidsTheme/categories/bath.png";
@@ -145,17 +147,17 @@ export const KIDSTHEME_DATA = {
 
 	heroSlider: [
 		{
-			img: heroSliderSlide,
+			img: heroSliderSlide1,
 		},
 		{
-			img: heroSliderSlide,
+			img: heroSliderSlide2,
 		},
 		{
-			img: heroSliderSlide,
+			img: heroSliderSlide3,
 		},
-		{
-			img: heroSliderSlide,
-		},
+		// {
+		// 	img: heroSliderSlide,
+		// },
 	],
 
 	features: [
