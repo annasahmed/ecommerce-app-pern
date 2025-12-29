@@ -11,7 +11,7 @@
 	--color-cardsBg: #000000;
 	--color-light: #fefefe;
 	--color-dark: #000000;
-
+	--color-title-color: #222222;
 	--color-border-color: #dbe2e5;
 }
 
@@ -26,6 +26,7 @@
 	--color-light: #fefefe;
 	--color-dark: #000000;
 	--color-border-color: #dbe2e5;
+	--color-title-color: #222222;
 
 	--color-muted: #99a1af;
 }
@@ -88,4 +89,11 @@ a {
 	* {
 		border-color: #dbe2e5;
 	}
+}
+
+img {
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	outline: none;
 }

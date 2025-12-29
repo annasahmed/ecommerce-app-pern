@@ -21,10 +21,8 @@ const Navbar = () => {
 	return (
 		<>
 			{/* Top Header */}
-			<header className="text-headerText bg-header w-full py-2 text-center text-sm sm:text-base">
-				<BaseLink href={store.content.header.link} className="container-layout">
-					{store.content.header.text}
-				</BaseLink>
+			<header className="text-headerText bg-header w-full py-2 text-center p4">
+				<p className="container-layout">{store.content.header.text}</p>
 			</header>
 
 			<div className="sticky top-0 z-40">
@@ -39,16 +37,20 @@ const Navbar = () => {
 								onClick={() => setIsMenuOpen((prev) => !prev)}>
 								{isMenuOpen ? <X size={22} /> : <Menu size={22} />}
 							</button>
-							{/* Desktop Search */}
-							<div className="hidden md:block flex-1 md:w-3/4">
-								<SearchInput className="w-full" />
-							</div>
-						</div>
-						{/* Logo */}
-						<div className="flex-1">
 							<Logo
 								src={store.content.logo}
-								className="w-40 max-md:w-28 h-auto object-contain mx-auto"
+								className="w-40 max-md:w-28 h-auto object-contain mx-auto max-md:hidden"
+							/>
+						</div>
+						{/* Logo */}
+						<div className="flex-1 md:flex-2">
+							{/* Desktop Search */}
+							<div className="hidden md:block flex-1 md:w-3/4/">
+								<SearchInput className="w-full" />
+							</div>
+							<Logo
+								src={store.content.logo}
+								className="w-40 max-md:w-28 h-auto object-contain mx-auto md:hidden"
 							/>
 						</div>
 						{/* Right Section (Icons) */}

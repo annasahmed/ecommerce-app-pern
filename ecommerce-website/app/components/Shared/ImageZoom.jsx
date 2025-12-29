@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import BaseImage from "../BaseComponents/BaseImage";
 
 const SideZoomImage = ({ src }) => {
 	const [zoomState, setZoomState] = useState({
@@ -10,7 +11,8 @@ const SideZoomImage = ({ src }) => {
 		floatingLeft: 0,
 		width: 0,
 		height: 0,
-		zoom: 2.5, // Change this number to increase/decrease zoom level
+		zoom: 1.5, // Change this number to increase/decrease zoom level
+		// zoom: 2.5, // Change this number to increase/decrease zoom level
 	});
 
 	const handleMouseMove = (e) => {
@@ -42,7 +44,13 @@ const SideZoomImage = ({ src }) => {
 			onMouseMove={handleMouseMove}
 			onMouseLeave={() => setZoomState({ ...zoomState, show: false })}>
 			{/* 1. Main Base Image */}
-			<img src={src} className="w-full h-full object-cover" alt="Product" />
+			<BaseImage
+				src={src}
+				className="w-full h-full object-contain aspect-square"
+				alt="Product"
+				width={600}
+				height={600}
+			/>
 
 			{/* 2. The Lens (Floating Square over image) */}
 			{zoomState.show && (
@@ -78,7 +86,7 @@ const SideZoomImage = ({ src }) => {
 							pointerEvents: "none",
 							zIndex: 9999,
 						}}>
-						<img
+						<BaseImage
 							src={src}
 							style={{
 								position: "absolute",
@@ -94,6 +102,8 @@ const SideZoomImage = ({ src }) => {
 								maxWidth: "none",
 							}}
 							alt="Zoomed view"
+							width={600}
+							height={600}
 						/>
 					</div>,
 					document.body,

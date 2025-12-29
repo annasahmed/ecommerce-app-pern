@@ -49,7 +49,6 @@ export default function ProductDetailsPage() {
 		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
 
-	console.log(product, discountedPrice, "asdksam");
 	const handleAddToCart = () => {
 		addToCart(product);
 		toast.success("Added to cart!");
@@ -75,28 +74,36 @@ export default function ProductDetailsPage() {
 
 				{/* Right Section - Product Info */}
 				<div className="flex flex-col">
-					<h1 className="h3 text-primary font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-						{product.title}
+					<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+						{product.title.toLowerCase()}
 					</h1>
 
 					{/* Rating */}
 					<div className="flex items-center gap-2 mb-4">
 						<Ratings />
 						<span className="p5 text-muted text-sm sm:text-base">
-							({product.reviewsCount} reviews)
+							({product.reviewsCount || 100} reviews)
 						</span>
 					</div>
 
 					{/* Price */}
 					<div className="flex items-center gap-3 mb-5 flex-wrap">
-						<BasePrice
-							className="h3 font-bold text-secondary text-xl md:text-2xl"
-							price={discountedPrice}></BasePrice>
-
 						{(product.discount || product.base_discount_percentage) > 0 && (
 							<BasePrice
 								className="text-muted h5 line-through text-sm md:text-base"
-								price={product.base_price || product.price}></BasePrice>
+								price={product.base_price || product.price}
+							/>
+						)}
+						<BasePrice
+							className="h3 font-bold text-secondary text-xl md:text-2xl"
+							price={discountedPrice}
+						/>
+
+						{/* discount badge */}
+						{(product.discount || product.base_discount_percentage) > 0 && (
+							<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
+								SAVE {product.discount || product.base_discount_percentage}%
+							</p>
 						)}
 					</div>
 
@@ -189,7 +196,7 @@ export default function ProductDetailsPage() {
 						<p>
 							<span className="font-medium">SKU:</span> {product.sku}
 						</p>
-						{product.categories.lenght > 0 && (
+						{product.categories.length > 0 && (
 							<p>
 								<span className="font-medium">Categories:</span>{" "}
 								{product.categories.join(", ")}
@@ -237,13 +244,17 @@ export default function ProductDetailsPage() {
 							<h3 className="font-semibold mb-3 text-base md:text-lg">
 								Customer Reviews
 							</h3>
-							{product.reviews.map((r, i) => (
-								<div key={i} className="border-b py-3">
-									<p className="font-medium">{r.user}</p>
-									<Ratings rating={r.rating} />
-									<p className="text-dark/60 text-sm mt-1">{r.comment}</p>
-								</div>
-							))}
+							{product.reviews?.length > 0 ? (
+								product.reviews.map((r, i) => (
+									<div key={i} className="border-b py-3">
+										<p className="font-medium">{r.user}</p>
+										<Ratings rating={r.rating} />
+										<p className="text-dark/60 text-sm mt-1">{r.comment}</p>
+									</div>
+								))
+							) : (
+								<p>No Reviews Yet</p>
+							)}
 						</div>
 					)}
 

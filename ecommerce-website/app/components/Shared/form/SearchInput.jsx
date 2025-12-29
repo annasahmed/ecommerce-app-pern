@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const SearchInput = ({
 	name = "search",
-	placeholder = "Search...",
+	placeholder = "Search for products",
 	register,
 	onChange,
 	onKeyDown,
@@ -28,7 +28,7 @@ const SearchInput = ({
 				onChange={onChange}
 				onKeyDown={onKeyDown}
 				placeholder={placeholder}
-				className={`py-2 pl-3 pr-10 w-full border text-sm text-gray-800 rounded-md placeholder-gray-400 min-h-12 transition duration-200 
+				className={`py-2 pl-3 pr-10 w-full border text-sm text-gray-800 rounded-full placeholder-gray-400 min-h-12 transition duration-200 
           		focus:ring-0 focus:outline-none focus:border-emerald-500
 				${
 					readOnly

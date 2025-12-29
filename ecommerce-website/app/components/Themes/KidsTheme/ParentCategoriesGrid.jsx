@@ -1,9 +1,7 @@
 "use client";
 import { useStore } from "@/app/providers/StoreProvider";
-import BaseTab from "../../BaseComponents/BaseTabs";
-import ProductCard from "./ProductCard";
-import BaseLink from "../../BaseComponents/BaseLink";
 import BaseImage from "../../BaseComponents/BaseImage";
+import BaseLink from "../../BaseComponents/BaseLink";
 
 const ParentCategoriesGrid = () => {
 	const store = useStore();

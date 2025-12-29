@@ -32,11 +32,9 @@ export default function BaseSliderWithThumbnails({ images }) {
 				modules={[FreeMode, Navigation, Thumbs]}
 				className="mySwiper2 mb-2">
 				{images?.map((v, idx) => {
-					console.log(v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null, "chkki11");
-
 					return (
 						<SwiperSlide key={`product-images-${idx}`}>
-							<div className="h-[500px] w-full bg-white">
+							<div className="h-full w-full bg-light/">
 								<SideZoomImage src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null} />
 							</div>
 						</SwiperSlide>

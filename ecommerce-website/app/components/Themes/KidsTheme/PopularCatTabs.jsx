@@ -16,7 +16,6 @@ const PopularCatTabs = () => {
 			["popularCatProducts", store.themeName],
 			{ enabled: !!store.themeName },
 		);
-	console.log(catProducts, "chkking catProducts");
 
 	if (catProductsLoading) return <Loader />;
 	return (

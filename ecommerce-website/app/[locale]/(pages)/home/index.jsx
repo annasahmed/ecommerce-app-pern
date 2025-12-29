@@ -45,8 +45,6 @@ const HomePage = () => {
 
 	if (parentCategoriesLoading || latestProdductsLoading) return <Loader />;
 
-	console.log(latestProducts, "latestProducts111");
-
 	return (
 		<main>
 			<HeroSection />

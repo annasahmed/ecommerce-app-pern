@@ -1,36 +1,30 @@
 "use client";
 
-import { Eye, Heart, Plus, Repeat, ShoppingCartIcon } from "lucide-react";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import useWindowSize from "@/app/hooks/useWindowSize";
+import { useCartStore } from "@/app/store/cartStore";
+import { Heart, Repeat, ShoppingCartIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
 import Overlay from "../../Shared/Overlay";
-import { ENV_VARIABLES } from "@/app/constants/env_variables";
-import { useCartStore } from "@/app/store/cartStore";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import PrimaryButton from "../../Shared/PrimaryButton";
 import Ratings from "../../Shared/Ratings";
 
+const LONG_PRESS_DURATION = 250; // ms
+
 const ProductCard = ({ product }) => {
-	// base_discount_percentage
+	const [isLongPressed, setIsLongPressed] = useState(false);
+	const pressTimer = useRef(null);
+	const longPressTriggered = useRef(false);
+	const windowSize = useWindowSize();
+	const isMobile = windowSize?.width < 768;
 	const router = useRouter();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
 
-	if (!product) return null;
-
 	const isFavourite = favourites?.some((f) => f.id === product.id);
-
-	const handleAddToCart = () => {
-		addToCart(product);
-		toast.success("Added to cart!");
-	};
-
-	const handleFavourite = () => {
-		toggleFavourite(product);
-		toast.success(
-			isFavourite ? "Removed from favourites!" : "Added to favourites!",
-		);
-	};
 
 	const discountedPrice = (
 		(product.base_price || product.price) *
@@ -48,6 +42,48 @@ const ProductCard = ({ product }) => {
 			? ENV_VARIABLES.IMAGE_BASE_URL + product.thumbnail
 			: product.image || null;
 
+	const startPress = () => {
+		if (!isMobile) return;
+
+		longPressTriggered.current = false;
+
+		pressTimer.current = setTimeout(() => {
+			setIsLongPressed(true);
+			longPressTriggered.current = true;
+		}, LONG_PRESS_DURATION);
+	};
+
+	const endPress = () => {
+		if (!isMobile) return;
+
+		clearTimeout(pressTimer.current);
+
+		// hide after release
+		setTimeout(() => {
+			setIsLongPressed(false);
+		}, 150);
+	};
+
+	const handleClick = () => {
+		if (isMobile && longPressTriggered.current) return;
+
+		router.push(`/product/${product.slug || product.id}`);
+	};
+
+	const handleAddToCart = () => {
+		addToCart(product);
+		toast.success("Added to cart!");
+	};
+
+	const handleFavourite = () => {
+		toggleFavourite(product);
+		toast.success(
+			isFavourite ? "Removed from favourites!" : "Added to favourites!",
+		);
+	};
+
+	if (!product) return null;
+
 	return (
 		<div
 			className="
@@ -59,50 +95,53 @@ const ProductCard = ({ product }) => {
 			">
 			{/* Product Image */}
 			<div
-				className="group relative w-full aspect-square overflow-hidden cursor-pointer"
-				onClick={() => {
-					router.push(`/product/${product.slug || product.id}`);
-				}}>
-				{/* Default image */}
+				className="
+					group relative w-full aspect-square overflow-hidden cursor-pointer
+					select-none [-webkit-tap-highlight-color:transparent]
+				"
+				onClick={handleClick}
+				onTouchStart={startPress}
+				onTouchEnd={endPress}
+				onTouchCancel={endPress}>
 				{/* Default image */}
 				<BaseImage
 					src={thumbnailImage}
 					alt={product.title}
-					className="
+					width={600}
+					height={600}
+					className={`
 						absolute inset-0 w-full h-full object-cover rounded-t-md
-						opacity-100 group-hover:opacity-0
 						transition-opacity duration-1000 ease-in-out
-					"
-					width={0}
-					height={0}
-					sizes={100}
+						${isLongPressed ? "opacity-0" : "opacity-100"}
+						md:group-hover:opacity-0
+					`}
 				/>
 
 				{/* Hover image (fade + zoom) */}
 				<BaseImage
 					src={hoverImage}
 					alt={product.title}
-					className="
+					width={600}
+					height={600}
+					className={`
 						absolute inset-0 w-full h-full object-cover rounded-t-md
-						opacity-0 group-hover:opacity-100
-						transform scale-100 group-hover:scale-110
-						transition-all duration-1000 ease-in-out
-						max-md:hidden
-					"
-					width={0}
-					height={0}
-					sizes={100}
+						transition-all duration-1000 ease-in-out transform
+						${isLongPressed ? "opacity-100 scale-110" : "opacity-0 scale-100"}
+						md:group-hover:opacity-100 md:group-hover:scale-110
+					`}
 				/>
 
 				{/* Overlay (desktop only, does not block hover) */}
 				<div
-					className="
-						absolute inset-0
-						opacity-0 group-hover:opacity-100
-						pointer-events-none group-hover:pointer-events-auto
-						transition-opacity duration-300
-						max-md:hidden
-					">
+					className={`
+						absolute inset-0 transition-opacity duration-300
+						${
+							isLongPressed
+								? "opacity-100 pointer-events-auto"
+								: "opacity-0 pointer-events-none"
+						}
+						md:group-hover:opacity-100 md:group-hover:pointer-events-auto
+					`}>
 					<Overlay />
 				</div>
 
@@ -133,17 +172,20 @@ const ProductCard = ({ product }) => {
 				{product.base_discount_percentage > 0 && (
 					<div
 						className="
-			absolute top-2 left-2 md:top-3 md:left-3
-			z-20
-			rounded-full
-			bg-secondary
-			px-2.5 py-1 md:px-3 md:py-1
-			p6
-			font-normal konnect-font text-white
-			shadow-md
-			select-none
-		">
-						{product.base_discount_percentage}% OFF
+						absolute top-2 left-2 md:top-3 md:left-3
+						z-20
+						rounded-full
+						bg-secondary
+						py-2 px-3 max-md:pt-2.5 max-md:pb-1.5 max-md:px-2
+						p6 font-normal konnect-font text-white
+						shadow-md
+						select-none
+						text-center
+						flex flex-col justify-center items-center
+						max-md:leading-none!
+					">
+						<p>{product.base_discount_percentage}%</p>
+						<p className="max-md:leading-2.5!">OFF</p>
 					</div>
 				)}
 			</div>
@@ -154,8 +196,8 @@ const ProductCard = ({ product }) => {
 					onClick={() => {
 						router.push(`/product/${product.slug || product.id}`);
 					}}
-					className="flex-1 h7 font-normal line-clamp-2 text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
-					{product.title}
+					className="flex-1 h7 font-normal line-clamp-1 capitalize text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
+					{product.title.toLowerCase()}
 				</h5>
 
 				<h6 className="flex font-normal gap-1 h7">
@@ -177,9 +219,12 @@ const ProductCard = ({ product }) => {
 						}}
 						className="w-full mt-1.5 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border">
 						Add To Cart{" "}
-						<ShoppingCartIcon className="cursor-pointer hover:text-primary transition" style={{
-							width:"20px"
-						}} />
+						<ShoppingCartIcon
+							className="cursor-pointer hover:text-primary transition"
+							style={{
+								width: "20px",
+							}}
+						/>
 					</PrimaryButton>
 				</div>
 			</div>

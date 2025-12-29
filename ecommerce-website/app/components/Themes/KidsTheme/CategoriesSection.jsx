@@ -4,19 +4,8 @@ import BaseImage from "../../BaseComponents/BaseImage";
 import BaseSlider from "../../BaseComponents/BaseSlider";
 import BaseLink from "../../BaseComponents/BaseLink";
 
-// console.log(
-// 		{
-// 			records: data?.records,
-// 			storeContent: store.content.categories,
-// 			slidesData,
-// 		},
-// 		"chkking store",
-// 	);
-
 const CategoriesSection = ({ data, isSlider = true }) => {
 	const store = useStore();
-	console.log(data, "chkking daa");
-
 	const slidesData = store.content.categories;
 	// const slidesData =
 	// 	data && data.records.length > 0 ? data.records : store.content.categories;
