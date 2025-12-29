@@ -13,7 +13,8 @@ import Overlay from "../../Shared/Overlay";
 import PrimaryButton from "../../Shared/PrimaryButton";
 import Ratings from "../../Shared/Ratings";
 
-const LONG_PRESS_DURATION = 250; // ms
+const MOBILE_NAV_DELAY = 500; // ms
+const LONG_PRESS_DURATION = 1; // ms
 
 const ProductCard = ({ product }) => {
 	const [isLongPressed, setIsLongPressed] = useState(false);
@@ -21,6 +22,8 @@ const ProductCard = ({ product }) => {
 	const longPressTriggered = useRef(false);
 	const windowSize = useWindowSize();
 	const isMobile = windowSize?.width < 768;
+	const [isHoverActive, setIsHoverActive] = useState(false);
+	const navTimer = useRef(null);
 	const router = useRouter();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
 
@@ -61,13 +64,27 @@ const ProductCard = ({ product }) => {
 		// hide after release
 		setTimeout(() => {
 			setIsLongPressed(false);
-		}, 150);
+		}, 1500);
 	};
 
-	const handleClick = () => {
-		if (isMobile && longPressTriggered.current) return;
+	// const handleClick = () => {
+	// 	if (isMobile && longPressTriggered.current) return;
 
-		router.push(`/product/${product.slug || product.id}`);
+	// 	router.push(`/product/${product.slug || product.id}`);
+	// };
+	const handleClick = () => {
+		if (isMobile) {
+			// Show hover effect immediately
+			setIsHoverActive(true);
+
+			// Delay navigation
+			navTimer.current = setTimeout(() => {
+				router.push(`/product/${product.slug || product.id}`);
+			}, 400);
+		} else {
+			// Desktop: navigate immediately
+			router.push(`/product/${product.slug || product.id}`);
+		}
 	};
 
 	const handleAddToCart = () => {
@@ -90,14 +107,14 @@ const ProductCard = ({ product }) => {
 				relative w-full h-full overflow-hidden
 				rounded-md border border-gray-200 bg-light
 				shadow-sm hover:shadow-md transition-all duration-300
-				flex flex-col
+				flex flex-col active:border-2 active:border-secondary
 				
 			">
 			{/* Product Image */}
 			<div
 				className="
 					group relative w-full aspect-square overflow-hidden cursor-pointer
-					select-none [-webkit-tap-highlight-color:transparent]
+					select-none [-webkit-tap-highlight-color:transparent] 
 				"
 				onClick={handleClick}
 				onTouchStart={startPress}
