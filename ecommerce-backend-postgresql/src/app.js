@@ -56,8 +56,8 @@ const allowedOrigins = [
 	'http://localhost:4100', // local_cms
 	'http://localhost:3000', // local_website
 	'http://72.61.149.213:3000', // website
-	'http://babiesnbaba.com:3000', // website
 	'https://babiesnbaba.com', // website
+	'http://babiesnbaba.com:3000', // website
 	'http://72.61.149.213:5000', // cms
 	// add any other frontend URLs here
 ];
