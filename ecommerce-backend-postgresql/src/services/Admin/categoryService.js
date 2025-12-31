@@ -5,11 +5,11 @@ const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError.js');
 
 const validations = async (data) => {
-	if (data.parentCategoryId) {
-		const exist = await db.parent_category
+	if (data.parentId) {
+		const exist = await db.category
 			.scope(['onlyId', 'activeEntity'])
 			.findOne({
-				where: { id: data.parentCategoryId },
+				where: { id: data.parentId },
 			});
 		if (!exist)
 			throw new ApiError(
@@ -25,14 +25,14 @@ const categoryService = createBaseService(db.category, {
 	formatCreateData: (data) => ({
 		icon: data.icon,
 		status: data.status,
-		parent_category_id: data.parentCategoryId,
+		parent_id: data.parentId,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
-		if (data.parentCategoryId)
-			toUpdate.parent_category_id = data.parentCategoryId;
+		if (data.parentId)
+			toUpdate.parent_id = data.parentId;
 		return toUpdate;
 	},
 	validations,

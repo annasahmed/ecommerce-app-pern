@@ -17,17 +17,25 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			icon: { ...mediaField, field: 'icon' },
-			parent_category_id: {
+			// 🔹 Self-referencing parent
+			parent_id: {
 				type: DataTypes.INTEGER,
-				allowNull: false,
+				allowNull: true,
 				references: {
-					model: 'parent_category',
+					model: 'category',
 					key: 'id',
 				},
-				onDelete: 'CASCADE',
+				onDelete: 'RESTRICT',
 				onUpdate: 'CASCADE',
 			},
+
+			// 🔹 Optional but VERY useful
+			level: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 1,
+			},
+			icon: { ...mediaField, field: 'icon' },
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -48,16 +56,22 @@ module.exports = (sequelize, DataTypes) => {
 	);
 
 	category.associate = (models) => {
-		category.belongsTo(models.parent_category, {
-			foreignKey: 'parent_category_id',
-			onDelete: 'CASCADE',
-			onUpdate: 'CASCADE',
-		});
 		category.belongsTo(models.user, {
 			foreignKey: 'user_id',
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});
+		// 🔹 Self hierarchy
+		category.belongsTo(models.category, {
+			as: 'parent',
+			foreignKey: 'parent_id',
+		});
+
+		category.hasMany(models.category, {
+			as: 'children',
+			foreignKey: 'parent_id',
+		});
+		// Product linking (leaf category only)
 		category.belongsToMany(models.product, {
 			through: 'product_to_category',
 			foreignKey: 'category_id',
