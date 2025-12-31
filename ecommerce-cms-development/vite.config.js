@@ -101,6 +101,10 @@ export default defineConfig({
 	],
 
 	server: {
+		host: true,
+		allowedHosts: [
+			"cms.babiesnbaba.com"
+		],
 		proxy: {
 			"/api/": {
 				target: "http://localhost:5065",
