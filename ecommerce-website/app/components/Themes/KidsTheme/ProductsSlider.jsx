@@ -15,7 +15,7 @@ const ProductsSlider = ({
 	return (
 		<>
 			{showTitle && (
-				<div className="flex gap-8 items-center mb-4">
+				<div className="flex gap-8 items-center max-md:justify-between mb-4">
 					<h3 className="h3 font-bold text-primary uppercase">{title}</h3>
 					<BaseLink
 						href={`/${slug}`}

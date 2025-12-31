@@ -107,7 +107,7 @@ const ProductCard = ({ product }) => {
 				relative w-full h-full overflow-hidden
 				rounded-md border border-gray-200 bg-light
 				shadow-sm hover:shadow-md transition-all duration-300
-				flex flex-col active:border-2 active:border-secondary
+				flex flex-col hover:border-2 hover:border-secondary active:border-2 active:border-secondary
 				
 			">
 			{/* Product Image */}

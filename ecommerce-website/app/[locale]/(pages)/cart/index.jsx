@@ -33,7 +33,10 @@ export default function CartPage() {
 
 	const getSubtotal = () =>
 		cart.reduce((acc, item) => {
-			const price = item.base_price ?? item.price ?? 0;
+			const discountedPrice =
+				(item.base_price || item.price) *
+				(1 - (item.base_discount_percentage || 0) / 100);
+			const price = discountedPrice ?? 0;
 			return acc + price * item.quantity;
 		}, 0);
 
@@ -60,7 +63,10 @@ export default function CartPage() {
 					{/* Cart Items */}
 					<div className="lg:col-span-2 space-y-6">
 						{cart.map((item) => {
-							const price = item.base_price ?? item.price ?? 0;
+							const discountedPrice =
+								(item.base_price || item.price) *
+								(1 - (item.base_discount_percentage || 0) / 100);
+							const price = discountedPrice ?? 0;
 							const subtotal = price * item.quantity;
 							return (
 								<div
@@ -85,13 +91,21 @@ export default function CartPage() {
 									/>
 
 									<div className="flex-1 text-center sm:text-left">
-										<h3 className="font-medium h5 line-clamp-2">
+										<h5 className="flex-1 h7 font-normal line-clamp-1 capitalize text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
 											{item.title}
-										</h3>
-										<BasePrice
-											price={price}
-											className="text-primary font-semibold mt-1"
-										/>
+										</h5>
+										<h6 className="flex font-normal gap-1 h7">
+											{item.base_discount_percentage > 0 && (
+												<BasePrice
+													className="text-muted line-through"
+													price={item.base_price}
+												/>
+											)}
+											<BasePrice
+												className="text-secondary"
+												price={discountedPrice}
+											/>
+										</h6>
 									</div>
 
 									{/* Quantity Controls */}

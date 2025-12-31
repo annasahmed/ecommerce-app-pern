@@ -11,6 +11,18 @@ import shoesCat from "@/app/assets/themes/kidsTheme/categories/shoes.png";
 import socksCat from "@/app/assets/themes/kidsTheme/categories/socks.jpeg";
 import bootiesCat from "@/app/assets/themes/kidsTheme/categories/booties.webp";
 import sandalsCat from "@/app/assets/themes/kidsTheme/categories/sandals.png";
+import accessoriesCat from "@/app/assets/themes/kidsTheme/categories/Accessories.webp";
+import blanketsCat from "@/app/assets/themes/kidsTheme/categories/blankets.webp";
+import bodysuits___rompersCat from "@/app/assets/themes/kidsTheme/categories/bodysuits___rompers.webp";
+import carry_nestsCat from "@/app/assets/themes/kidsTheme/categories/carry_nests.webp";
+import diaper_bagsCat from "@/app/assets/themes/kidsTheme/categories/diaper_bags.webp";
+import gift_setsCat from "@/app/assets/themes/kidsTheme/categories/gift_sets.webp";
+import Lunch_boxes___bottlesCat from "@/app/assets/themes/kidsTheme/categories/Lunch_boxes___bottles.webp";
+import sleepsuitsCat from "@/app/assets/themes/kidsTheme/categories/sleepsuits.png";
+import swaddlesCat from "@/app/assets/themes/kidsTheme/categories/swaddles.webp";
+import Sweaters___mock_necksCat from "@/app/assets/themes/kidsTheme/categories/Sweaters___mock_necks.webp";
+import towelsCat from "@/app/assets/themes/kidsTheme/categories/towels.webp";
+import Wrapping_sheetsCat from "@/app/assets/themes/kidsTheme/categories/Wrapping_sheets.webp";
 import p1 from "@/app/assets/themes/kidsTheme/products/p1.png";
 import p2 from "@/app/assets/themes/kidsTheme/products/p2.png";
 import p3 from "@/app/assets/themes/kidsTheme/products/p3.png";
@@ -198,7 +210,21 @@ export const KIDSTHEME_DATA = {
 		{ title: "shoes", icon: shoesCat, slug: "shoes" },
 		{ title: "socks", icon: socksCat, slug: "socks" },
 		{ title: "sandals", icon: sandalsCat, slug: "sandals" },
-		{ title: "shoes", icon: shoesCat, slug: "shoes" },
+	],
+
+	bestSellingCategories: [
+		{ title: "booties", icon: accessoriesCat, slug: "booties" },
+		{ title: "shoes", icon: blanketsCat, slug: "shoes" },
+		{ title: "socks", icon: bodysuits___rompersCat, slug: "socks" },
+		{ title: "sandals", icon: carry_nestsCat, slug: "sandals" },
+		{ title: "booties", icon: diaper_bagsCat, slug: "booties" },
+		{ title: "shoes", icon: gift_setsCat, slug: "shoes" },
+		{ title: "socks", icon: Lunch_boxes___bottlesCat, slug: "socks" },
+		{ title: "sandals", icon: sleepsuitsCat, slug: "sandals" },
+		{ title: "booties", icon: swaddlesCat, slug: "booties" },
+		{ title: "shoes", icon: Sweaters___mock_necksCat, slug: "shoes" },
+		{ title: "socks", icon: towelsCat, slug: "socks" },
+		{ title: "sandals", icon: Wrapping_sheetsCat, slug: "sandals" },
 	],
 
 	popularTabs: [

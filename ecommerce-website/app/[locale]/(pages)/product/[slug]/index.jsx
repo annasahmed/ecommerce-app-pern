@@ -31,11 +31,13 @@ export default function ProductDetailsPage() {
 			{ enabled: !!store.themeName },
 		);
 
-	const { data: product, isLoading } = useFetchReactQuery(
+	let { data: product, isLoading } = useFetchReactQuery(
 		() => ProductServices.getProductBySlug(store.themeName, slug),
 		["latestProducts", store.themeName, slug],
 		{ enabled: !!store.themeName },
 	);
+
+	// product = store.content.productDetails[1];
 
 	if (isLoading || latestProdductsLoading) return <Loader />;
 	if (!product)
@@ -108,8 +110,9 @@ export default function ProductDetailsPage() {
 					</div>
 
 					{/* Description */}
-					<p className="leading-relaxed mb-6 pb-6 border-b p4 text-sm md:text-base">
-						{product.description}
+					<p className="leading-relaxed mb-6 pb-6 border-b p4 text-sm md:text-base text-[#999999]">
+						{product.excerpt || product.description}
+						{/* {product.description} */}
 					</p>
 
 					{/* Color Guide */}
@@ -234,7 +237,7 @@ export default function ProductDetailsPage() {
 
 					{/* Tab Content */}
 					{activeTab === "description" && (
-						<p className="leading-relaxed text-sm md:text-base">
+						<p className="leading-relaxed text-sm md:text-base text-[#999999]">
 							{product.description}
 						</p>
 					)}

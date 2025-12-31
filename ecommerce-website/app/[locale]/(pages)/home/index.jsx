@@ -59,6 +59,13 @@ const HomePage = () => {
 					/>
 				</BaseLink>
 
+				<ParentCategoriesGrid
+					// title="FOOTWEAR"
+					data={store.content.bestSellingCategories}
+					bgColor="bg-primary/80"
+					showTitle={false}
+				/>
+
 				{/* <TrendingCategoriesSection /> */}
 				<section className="container-layout">
 					<ProductsSlider
@@ -72,7 +79,10 @@ const HomePage = () => {
 					/>
 				</section>
 
-				<ParentCategoriesGrid />
+				<ParentCategoriesGrid
+					title="FOOTWEAR"
+					data={store.content.parentCatgores}
+				/>
 
 				<section>
 					<h3 className="mb-4 container-layout h3 font-bold text-center text-primary uppercase">
