@@ -149,7 +149,7 @@ const ProductCard = ({ product }) => {
 				/>
 
 				{/* Overlay (desktop only, does not block hover) */}
-				<div
+				{/* <div
 					className={`
 						absolute inset-0 transition-opacity duration-300
 						${
@@ -160,7 +160,7 @@ const ProductCard = ({ product }) => {
 						md:group-hover:opacity-100 md:group-hover:pointer-events-auto
 					`}>
 					<Overlay />
-				</div>
+				</div> */}
 
 				{/* Action buttons */}
 				<div className="flex flex-col gap-1 md:gap-2 absolute top-2 right-2 md:top-3 md:right-3">

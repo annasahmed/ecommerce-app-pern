@@ -15,6 +15,13 @@ const nextConfig = {
 				search: "",
 			},
 			{
+				protocol: "https",
+				hostname: "api.babiesnbaba.com",
+				port: "",
+				pathname: "/**",
+				search: "",
+			},
+			{
 				protocol: "http",
 				hostname: "72.61.149.213",
 				port: "4000",

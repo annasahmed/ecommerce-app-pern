@@ -11,7 +11,19 @@ const BaseImage = ({
 	...props
 }) => {
 	const validSrc = src ? src : noImage;
-	return (
+	const isNetworkImage =
+		typeof validSrc === "string" ? validSrc.startsWith("http") : false;
+	return isNetworkImage ? (
+		<img
+			src={validSrc}
+			width={width}
+			height={height}
+			sizes={sizes}
+			className={className}
+			alt={alt}
+			{...props}
+		/>
+	) : (
 		<Image
 			src={validSrc}
 			width={width}
