@@ -126,24 +126,34 @@ async function getCachedTheme() {
 	return cachedTheme;
 }
 
+const defaultMetaTags = {
+	title: "BabiesNBaba - Online Baby Store for Clothes, Toys & Essentials",
+	description:
+		"Discover a wide range of baby products at BabiesNBaba. From cute clothes to toys and essentials, shop quality items for your little one with ease.",
+};
+
 export async function generateMetadata() {
 	const store = await getCachedTheme();
 
 	const meta = store?.metaTags || {};
 
 	return {
-		title: meta.title || "Default Title",
-		description: meta.description || "Default description",
+		title: meta.title || defaultMetaTags.title,
+		description: meta.description || defaultMetaTags.description,
 		keywords: meta.keywords || "shop, ecommerce, default",
 		openGraph: {
-			title: meta.ogTitle || meta.title,
-			description: meta.ogDescription || meta.description,
+			title: meta.ogTitle || meta.title || defaultMetaTags.title,
+			description:
+				meta.ogDescription || meta.description || defaultMetaTags.description,
 			images: meta.ogImage ? [meta.ogImage] : [],
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: meta.twitterTitle || meta.title,
-			description: meta.twitterDescription || meta.description,
+			title: meta.twitterTitle || meta.title || defaultMetaTags.title,
+			description:
+				meta.twitterDescription ||
+				meta.description ||
+				defaultMetaTags.description,
 			images: meta.twitterImage ? [meta.twitterImage] : [],
 		},
 		icons: {

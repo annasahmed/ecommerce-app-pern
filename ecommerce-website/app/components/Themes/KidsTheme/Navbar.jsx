@@ -7,6 +7,7 @@ import { useCartStore } from "@/app/store/cartStore";
 import { Heart, ShoppingCartIcon, User, Menu, X, Search } from "lucide-react";
 import SearchInput from "../../Shared/form/SearchInput";
 import NavigationMenu from "./NavigationMenu";
+import { useAuth } from "@/app/providers/AuthProvider";
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,8 @@ const Navbar = () => {
 
 	const store = useStore();
 	const { cart, favourites } = useCartStore();
+
+	const { isAuthenticated, user } = useAuth();
 
 	const cartCount = cart?.length || 0;
 	const favCount = favourites?.length || 0;
@@ -83,7 +86,10 @@ const Navbar = () => {
 							</BaseLink>
 
 							{/* User */}
-							<User className="cursor-pointer hover:text-primary transition hidden sm:block" />
+
+							<BaseLink href={!isAuthenticated ? "/login" : "/profile"}>
+								<User className="cursor-pointer hover:text-primary transition hidden sm:block" />
+							</BaseLink>
 						</div>
 					</section>
 
