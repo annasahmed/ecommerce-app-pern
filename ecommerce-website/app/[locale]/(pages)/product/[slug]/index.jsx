@@ -10,7 +10,7 @@ import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
-import { Check } from "lucide-react";
+import { Heart, ShoppingCartIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -67,7 +67,7 @@ export default function ProductDetailsPage() {
 	return (
 		<main>
 			{/* Product Section */}
-			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-10">
+			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-6 gap-10 md:gap-10">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
 					images={[product.thumbnail, ...product.images]}
@@ -75,7 +75,7 @@ export default function ProductDetailsPage() {
 				/>
 
 				{/* Right Section - Product Info */}
-				<div className="flex flex-col">
+				<div className="flex flex-col md:col-span-3">
 					<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
 						{product.title.toLowerCase()}
 					</h1>
@@ -164,38 +164,58 @@ export default function ProductDetailsPage() {
 						</div>
 					</div> */}
 					{/* Quantity Selector */}
-					<div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
-						<span className="font-medium">Quantity:</span>
-						<div className="flex items-center border rounded-md">
-							<button
-								onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-								className="px-3 py-1 border-r text-lg">
-								-
-							</button>
-							<span className="px-4">{quantity}</span>
-							<button
-								onClick={() => setQuantity((q) => q + 1)}
-								className="px-3 py-1 border-l text-lg">
-								+
-							</button>
-						</div>
-					</div>
 
 					{/* Buttons */}
 					<div className="flex md:items-center gap-3 max-md:gap-1 mb-6 pb-6 border-b">
+						<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
+							<span className="font-medium">Quantity:</span>
+							<div className="flex items-center border rounded-md">
+								<button
+									onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+									className="px-3 py-1 border-r text-lg">
+									-
+								</button>
+								<span className="px-4">{quantity}</span>
+								<button
+									onClick={() => setQuantity((q) => q + 1)}
+									className="px-3 py-1 border-l text-lg">
+									+
+								</button>
+							</div>
+						</div>
 						<PrimaryButton
-							className="flex-1 bg-transparent border border-primary text-primary"
-							onClick={handleAddToCart}>
+							className=" min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
+							onClick={handleAddToCart}
+							isSmall>
+							<ShoppingCartIcon
+								className="cursor-pointer hover:text-primary transition"
+								style={{
+									width: "20px",
+								}}
+							/>{" "}
 							Add to Cart
 						</PrimaryButton>
+						<button
+							title="Add to Favorites"
+							onClick={(e) => {
+								e.stopPropagation();
+								handleFavourite();
+							}}
+							className="border border-[#999999] text-[#999999]  rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
+							<Heart
+								className={`size-3.5 md:size-4 ${
+									isFavourite ? "fill-red-500 text-red-500" : ""
+								}`}
+							/>
+						</button>
 						{/* <PrimaryButton className="flex-1">Buy Now</PrimaryButton> */}
-						<PrimaryButton className="flex-1" onClick={handleFavourite}>
+						{/* <PrimaryButton className="flex-1" onClick={handleFavourite}>
 							Add to Wishlist
-						</PrimaryButton>
+						</PrimaryButton> */}
 					</div>
 
 					{/* SKU and Categories */}
-					<div className="mb-4 p4 text-gray-600 space-y-1 text-sm md:text-base">
+					<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
 						<p>
 							<span className="font-medium">SKU:</span> {product.sku}
 						</p>
@@ -218,7 +238,7 @@ export default function ProductDetailsPage() {
 				</div>
 
 				{/* Tabs Section */}
-				<div className="col-span-1 md:col-span-2 mt-12/ border-t pt-4">
+				<div className="col-span-1 md:col-span-4 mt-12/ border-t pt-4">
 					{/* Tabs */}
 					<div className="flex flex-wrap gap-6 md:gap-8 mb-4 border-b pb-4 md:pb-6 md:justify-start">
 						{["description", "reviews"].map((tab) => (
@@ -282,7 +302,7 @@ export default function ProductDetailsPage() {
 							? latestProducts?.records.slice(0, 5)
 							: store.content.allProducts.slice(7, 12)
 					}
-					isSlider={false}
+					isSlider={"onlyMobile"}
 					title="Recently Viewed Products"
 					columns={5}
 				/>

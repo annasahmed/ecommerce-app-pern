@@ -1,29 +1,20 @@
-import { ArrowRight } from "lucide-react";
-import BaseLink from "../../BaseComponents/BaseLink";
-import BaseSlider from "../../BaseComponents/BaseSlider";
-import ProductCard from "./ProductCard";
 import clsx from "clsx";
+import BaseSlider from "../../BaseComponents/BaseSlider";
+import SectionTitle from "../../Shared/SectionTitle";
+import ProductCard from "./ProductCard";
 
 const ProductsSlider = ({
 	title = "",
 	slug = "",
 	columns = 3,
 	productsData = [],
-	isSlider = true,
+	isSlider = "both", //onlyMobile 
 	showTitle = true,
+	isMobileSlider
 }) => {
 	return (
 		<>
-			{showTitle && (
-				<div className="flex gap-8 items-center max-md:justify-between mb-4">
-					<h3 className="h3 font-bold text-primary uppercase">{title}</h3>
-					<BaseLink
-						href={`/${slug}`}
-						className="flex gap-2 whitespace-nowrap hover:gap-4 font-medium p5 items-center transition-all">
-						View All <ArrowRight className="size-6 max-md:size-4 mt-0.5 max-md:mt-0" />
-					</BaseLink>
-				</div>
-			)}
+			{showTitle && <SectionTitle title={title} href={`/${slug}`} />}
 			{isSlider ? (
 				<BaseSlider
 					slides={productsData}

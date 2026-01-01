@@ -8,9 +8,13 @@ import { Heart, ShoppingCartIcon, User, Menu, X, Search } from "lucide-react";
 import SearchInput from "../../Shared/form/SearchInput";
 import NavigationMenu from "./NavigationMenu";
 import { useAuth } from "@/app/providers/AuthProvider";
+import CartDrawer from "@/app/[locale]/(pages)/cart/cartDrawer";
+import AuthDrawer from "../../Shared/AuthDrawer";
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+	const [authDrawerOpen, setAuthDrawerOpen] = useState(false);
 	const [showMobileSearch, setShowMobileSearch] = useState(false);
 
 	const store = useStore();
@@ -76,20 +80,30 @@ const Navbar = () => {
 							</BaseLink>
 
 							{/* Cart */}
-							<BaseLink href="/cart" className="relative">
+							<button
+								// href="/cart"
+								onClick={() => {
+									setIsCartDrawerOpen(true);
+								}}
+								className="relative">
 								<ShoppingCartIcon className="cursor-pointer hover:text-primary transition" />
 								{cartCount > 0 && (
 									<span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
 										{cartCount}
 									</span>
 								)}
-							</BaseLink>
+							</button>
 
 							{/* User */}
 
-							<BaseLink href={!isAuthenticated ? "/login" : "/profile"}>
+							<button
+								onClick={() => {
+									setAuthDrawerOpen(true);
+								}}
+								// href={!isAuthenticated ? "/login" : "/profile"}
+							>
 								<User className="cursor-pointer hover:text-primary transition hidden sm:block" />
-							</BaseLink>
+							</button>
 						</div>
 					</section>
 
@@ -103,6 +117,10 @@ const Navbar = () => {
 						</div>
 					)}
 				</div>
+
+				<AuthDrawer open={authDrawerOpen} setOpen={setAuthDrawerOpen} />
+
+				<CartDrawer open={isCartDrawerOpen} setOpen={setIsCartDrawerOpen} />
 
 				{/* Navigation Menu */}
 				<NavigationMenu isMenuOpen={isMenuOpen} />

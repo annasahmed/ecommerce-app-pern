@@ -1,7 +1,7 @@
 "use client";
-import { ArrowRight } from "lucide-react";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BaseLink from "../../BaseComponents/BaseLink";
+import SectionTitle from "../../Shared/SectionTitle";
 
 const ParentCategoriesGrid = ({
 	title,
@@ -12,15 +12,7 @@ const ParentCategoriesGrid = ({
 	return (
 		<section className="container-layout">
 			{title && (
-				<div className="flex gap-8 items-center max-md:justify-between mb-4">
-					<h3 className="h3 font-bold text-primary uppercase">{title}</h3>
-					<BaseLink
-						href={`/products?category=${title}`}
-						className="flex gap-2 whitespace-nowrap hover:gap-4 font-medium p5 items-center transition-all">
-						View All
-						<ArrowRight className="size-6 max-md:size-4 mt-0.5 max-md:mt-0" />
-					</BaseLink>
-				</div>
+				<SectionTitle title={title} href={`/products?category=${title}`} />
 			)}
 			<section className="grid grid-cols-2 md:grid-cols-4 justify-between gap-6 max-md:gap-3 items-stretch">
 				{data?.map((pCat, idx) => (

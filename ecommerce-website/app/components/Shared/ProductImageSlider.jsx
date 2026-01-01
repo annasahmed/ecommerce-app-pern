@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -9,17 +9,16 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 // import required modules
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import BaseImage from "../BaseComponents/BaseImage";
-import { ENV_VARIABLES } from "@/app/constants/env_variables";
-import ImageZoom from "./ImageZoom";
 import SideZoomImage from "./ImageZoom";
 
 export default function BaseSliderWithThumbnails({ images }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
 	return (
-		<section>
+		<section className="md:flex flex-row-reverse gap-4 md:col-span-3">
 			<Swiper
 				style={{
 					"--swiper-navigation-color": "#525252",
@@ -27,15 +26,18 @@ export default function BaseSliderWithThumbnails({ images }) {
 				}}
 				spaceBetween={10}
 				navigation={true}
+				effect={"fade"}
 				loop
 				thumbs={{ swiper: thumbsSwiper }}
 				modules={[FreeMode, Navigation, Thumbs]}
-				className="mySwiper2 mb-2">
+				className="mySwiper2 mb-2 flex-1 md:h-[568px]">
 				{images?.map((v, idx) => {
 					return (
 						<SwiperSlide key={`product-images-${idx}`}>
 							<div className="h-full w-full bg-light/">
-								<SideZoomImage src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null} />
+								<SideZoomImage
+									src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
+								/>
 							</div>
 						</SwiperSlide>
 					);
@@ -43,12 +45,18 @@ export default function BaseSliderWithThumbnails({ images }) {
 			</Swiper>
 			<Swiper
 				onSwiper={setThumbsSwiper}
+				direction="horizontal"
 				spaceBetween={10}
 				slidesPerView={3}
 				freeMode={true}
 				watchSlidesProgress={true}
+				breakpoints={{
+					768: {
+						direction: "vertical",
+					},
+				}}
 				modules={[FreeMode, Navigation, Thumbs]}
-				className="mySwiper">
+				className="mySwiper md:w-24 md:max-h-95">
 				{images?.map((v, idx) => (
 					<SwiperSlide key={`product-images-${idx}`}>
 						<BaseImage
