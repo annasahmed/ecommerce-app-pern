@@ -10,26 +10,26 @@ const productService = createBaseService(db.product, {
 	includes: [
 		{ model: db.media, required: false, as: 'thumbnailImage' },
 		{ model: db.media, required: false, as: 'images' },
-		{
-			model: db.category,
-			required: false,
-			include: [
-				{
-					model: db.category_translation,
-					as: 'translations',
-					required: false,
-					attributes: {
-						exclude: [
-							'created_at',
-							'updated_at',
-							'category_id',
-							'language_id',
-							'id',
-						],
-					},
-				},
-			],
-		},
+		// {
+		// 	model: db.category,
+		// 	required: false,
+		// 	include: [
+		// 		{
+		// 			model: db.category_translation,
+		// 			as: 'translations',
+		// 			required: false,
+		// 			attributes: {
+		// 				exclude: [
+		// 					'created_at',
+		// 					'updated_at',
+		// 					'category_id',
+		// 					'language_id',
+		// 					'id',
+		// 				],
+		// 			},
+		// 		},
+		// 	],
+		// },
 		{ model: db.product_translation, required: false },
 		{
 			model: db.usp,
@@ -302,6 +302,44 @@ async function softDeleteProductById(req) {
 	return productService.softDelete(req.params.productId, userId);
 }
 
+// for import only
+
+async function updateProductBySlug(req) {
+	const { sku, description } = req.body;
+
+	// if (!sku || !description) {
+	// 	throw new Error('sku and description are required');
+	// }
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const product = await db.product.findOne({
+			where: { sku },
+			transaction,
+		});
+
+		if (!product) {
+			await transaction.rollback();
+			return null;
+		}
+
+		const updated = await db.product_translation.update(
+			{ description },
+			{
+				where: { product_id: product.id },
+				transaction,
+			}
+		);
+
+		await transaction.commit();
+		return updated;
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
+}
+
 module.exports = {
 	getProductById: productService.getById,
 	createProduct,
@@ -310,4 +348,5 @@ module.exports = {
 		productService.list(req, [], [], [['created_at', 'ASC']]),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
+	updateProductBySlug,
 };

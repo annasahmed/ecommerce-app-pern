@@ -19,9 +19,10 @@ router
 		adminProductController.createProduct
 	);
 
+router.route('/bulk-products').post(adminProductController.createBulkProducts);
 router
-	.route('/bulk-products')
-	.post(adminProductController.createBulkProducts);
+	.route('/update-bulk-products')
+	.patch(adminProductController.updateProductBySlug);
 
 router
 	.route('/:productId')
