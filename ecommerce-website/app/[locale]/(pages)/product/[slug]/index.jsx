@@ -15,6 +15,9 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
+const desc =
+	"<p>The Kidzo Baby Adjustable Swaddle in Blue is made with ultra-soft, breathable cotton to provide your newborn with maximum comfort and security. Its adjustable Velcro wings ensure a perfect fit, helping prevent startle reflex and promoting longer, more peaceful sleep. Ideal for newborns and infants, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.</p>\n<p><strong>Key Features</strong></p>\n<ul>\n  <li>Soft and breathable cotton fabric</li>\n  <li>Adjustable Velcro wings for perfect fit</li>\n  <li>Supports longer, peaceful sleep</li>\n  <li>Safe and comfortable newborn wrapping</li>\n  <li>Premium Kidzo quality</li>\n</ul>";
+
 export default function ProductDetailsPage() {
 	const { slug } = useParams();
 	const store = useStore();
@@ -238,7 +241,7 @@ export default function ProductDetailsPage() {
 				</div>
 
 				{/* Tabs Section */}
-				<div className="col-span-1 md:col-span-4 mt-12/ border-t pt-4">
+				<div className="col-span-1 md:col-span-6 mt-12/ border-t pt-4">
 					{/* Tabs */}
 					<div className="flex flex-wrap gap-6 md:gap-8 mb-4 border-b pb-4 md:pb-6 md:justify-start">
 						{["description", "reviews"].map((tab) => (
@@ -256,10 +259,15 @@ export default function ProductDetailsPage() {
 					</div>
 
 					{/* Tab Content */}
-					{activeTab === "description" && (
-						<p className="leading-relaxed text-sm md:text-base text-[#999999]">
-							{product.description}
-						</p>
+					{activeTab === "description" && product.description && (
+						<div
+							className="leading-relaxed text-sm md:text-base text-[#999999] product-description prose max-w-none"
+							dangerouslySetInnerHTML={{ __html: product.description }}
+						/>
+						// <p className="leading-relaxed text-sm md:text-base text-[#999999]">
+						// 	{desc}
+						// </p>
+						// {/* {product.description} */}
 					)}
 
 					{activeTab === "reviews" && (
