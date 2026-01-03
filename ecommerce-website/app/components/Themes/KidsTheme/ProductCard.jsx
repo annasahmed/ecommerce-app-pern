@@ -208,7 +208,7 @@ const ProductCard = ({ product }) => {
 			</div>
 
 			{/* Product Info */}
-			<div className="flex-1 flex flex-col gap-2 max-md:gap-1 px-4 py-3 border-t border-gray-100 max-md:px-2 max-md:py-2">
+			<div className="flex-1 flex flex-col gap-3 max-md:gap-1 px-4 py-3 border-t border-gray-100 max-md:px-2 max-md:py-2">
 				<h5
 					onClick={() => {
 						router.push(`/product/${product.slug || product.id}`);
@@ -234,7 +234,7 @@ const ProductCard = ({ product }) => {
 						onClick={() => {
 							handleAddToCart();
 						}}
-						className="w-full mt-1.5 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border"
+						className="w-full mt-4 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border"
 						justifyContent="justify-between"
 						>
 						Add To Cart{" "}
