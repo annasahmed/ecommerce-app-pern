@@ -16,6 +16,7 @@ import { KIDSTHEME_DATA } from "./KidsTheme/data";
 export const storeSettingsKidsTheme = {
 	themeName: "KidsTheme",
 	name: "Babiesnbaba",
+	companyName: "B. Babies n Baba",
 	currency: "Rs.",
 	theme: {
 		header: "#5DABEA",
@@ -94,24 +95,24 @@ export const storeSettingsKidsTheme = {
 			text: "More than just a game. It's a lifestyle.",
 			background: footerBg,
 			sections: [
-				{
-					title: "Contact",
-					links: [
-						{
-							text: "Monday to Friday 8 a.m - 5 p.m",
-						},
-						{
-							text: "+01 456 789",
-						},
-						{
-							text: "+01 456 789",
-						},
-						{
-							text: "contact@kidify.com",
-							link: "mailto:contact@kidify.com",
-						},
-					],
-				},
+				// {
+				// 	title: "Contact",
+				// 	links: [
+				// 		{
+				// 			text: "Monday to Friday 8 a.m - 5 p.m",
+				// 		},
+				// 		{
+				// 			text: "+01 456 789",
+				// 		},
+				// 		{
+				// 			text: "+01 456 789",
+				// 		},
+				// 		{
+				// 			text: "contact@kidify.com",
+				// 			link: "mailto:contact@kidify.com",
+				// 		},
+				// 	],
+				// },
 				{
 					title: "Company",
 					links: [

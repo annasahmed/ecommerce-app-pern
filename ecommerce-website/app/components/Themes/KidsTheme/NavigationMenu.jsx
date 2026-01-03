@@ -21,27 +21,47 @@ const NavigationMenu = ({ isMenuOpen }) => {
 							{item.title}
 						</BaseLink>
 
-						{activeMenu === index && item.categories?.length > 0 && (
-							<div className="absolute top-10 left-0 w-full/ w-100/ min-w-160 bg-primary py-5 px-2">
-								<ul className="flex">
-									{item.categories.map((cat, i) => (
-										<li key={i} className="px-4 flex-1">
-											<h3 className="font-normal h7 uppercase text-light border-b border-border-color whitespace-nowrap pb-1 mb-4">
-												{cat.title}
-											</h3>
+						{item.categories?.length > 0 && (
+							<div
+								className={`
+								absolute
+								top-10
+								left-0
+								min-w-160
+								bg-primary
+								py-5
+								px-2
+								transition-all
+								duration-300
+								ease-out
+								transform
+								${
+									activeMenu === index
+										? "opacity-100 translate-y-0/ translate-y-0 scale-100 pointer-events-auto"
+										: "opacity-0 translate-y-4/ translate-y-2 scale-95 pointer-events-none"
+								}
+							`}>
+								{item.categories?.length > 0 && (
+									<ul className="flex">
+										{item.categories.map((cat, i) => (
+											<li key={i} className="px-4 flex-1">
+												<h3 className="font-normal h7 uppercase text-light border-b border-border-color whitespace-nowrap pb-1 mb-4">
+													{cat.title}
+												</h3>
 
-											<ul className="space-y-1">
-												{cat.subCategories?.map((subCat, idx) => (
-													<li
-														key={idx}
-														className="text-light hover:text-secondary cursor-pointer">
-														{subCat}
-													</li>
-												))}
-											</ul>
-										</li>
-									))}
-								</ul>
+												<ul className="space-y-1">
+													{cat.subCategories?.map((subCat, idx) => (
+														<li
+															key={idx}
+															className="text-light hover:text-secondary cursor-pointer transition-colors">
+															{subCat}
+														</li>
+													))}
+												</ul>
+											</li>
+										))}
+									</ul>
+								)}
 							</div>
 						)}
 					</li>

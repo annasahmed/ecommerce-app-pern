@@ -6,11 +6,11 @@ import ProductCard from "./ProductCard";
 const ProductsSlider = ({
 	title = "",
 	slug = "",
-	columns = 3,
+	columns = "grid-cols-4",
 	productsData = [],
-	isSlider = "both", //onlyMobile 
+	isSlider = "both", //onlyMobile
 	showTitle = true,
-	isMobileSlider
+	isMobileSlider,
 }) => {
 	return (
 		<>
@@ -37,7 +37,7 @@ const ProductsSlider = ({
 			) : (
 				<section
 					className={clsx(
-						`grid grid-cols-${columns} gap-4 max-md:gap-3 max-md:grid-cols-2 items-stretch`,
+						`grid ${columns} gap-4 max-md:gap-3 max-md:grid-cols-2 items-stretch`,
 					)}>
 					{productsData?.map((product) => (
 						<ProductCard product={product} key={product.id} />

@@ -312,7 +312,7 @@ export default function ProductDetailsPage() {
 					}
 					isSlider={"onlyMobile"}
 					title="Recently Viewed Products"
-					columns={5}
+					columns="grid-cols-5"
 				/>
 			</section>
 		</main>
