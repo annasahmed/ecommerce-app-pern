@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -7,24 +8,69 @@ const PrimaryButton = ({
 	isSmall = false,
 	onClick = () => {},
 	link,
+
+	// 🎨 Styling props
+	bgColor = "bg-primary",
+	hoverBgColor = "bg-primary",
+	textColor = "text-light",
+	hoverTextColor = "text-light",
+	borderColor = "border-primary",
+	rounded = "rounded-full",
+	justifyContent='justify-center'
 }) => {
 	const router = useRouter();
+
 	return (
 		<button
-			onClick={() => {
-				if (link) {
-					router.push(link);
-				} else {
-					onClick();
-				}
-			}}
 			type="submit"
-			className={`bg-primary text-light  text-sm font-medium rounded-sm ${
-				isSmall
-					? "px-3 py-1 p5 max-md:px-1 max-md:py-0.5 max-md:rounded-none"
-					: "p4 px-5 py-2 max-md:px-1 max-md:py-1"
-			} transition-all duration-300 hover:brightness-110 hover:shadow-md hover:scale-105 ${className}`}>
-			{children}
+			onClick={() => {
+				if (link) router.push(link);
+				else onClick();
+			}}
+			className={`
+				group
+				relative
+				overflow-hidden
+				border
+				${borderColor}
+				${rounded}
+				font-medium
+				transition-all
+				duration-300
+				${textColor}
+				${isSmall ? "px-3 py-1 text-xs" : "px-5 py-2 text-sm"}
+				${className}
+			`}>
+			{/* 🔥 Hover sliding background */}
+			<span
+				className={`
+					absolute
+					inset-0
+					-translate-x-full
+					${hoverBgColor}
+					transition-transform
+					duration-300
+					ease-out
+					group-hover:translate-x-0
+				`}
+			/>
+
+			{/* Content */}
+			<span
+				className={`
+					relative
+					z-10
+					flex
+					items-center/
+					justify-center/
+					transition-all
+					duration-300
+					group-hover:text-light
+					/group-hover:${hoverTextColor}
+					flex ${justifyContent} items-center gap-2 w-full
+				`}>
+				{children}
+			</span>
 		</button>
 	);
 };

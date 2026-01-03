@@ -14,8 +14,8 @@ const SearchInput = ({
 	return (
 		<div className={`relative w-full/ ${className}`}>
 			{/* Search Icon */}
-			<div className="absolute inset-y-0 right-3 pl-3 flex items-center pointer-events-none">
-				<MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
+			<div className="absolute inset-y-0 right-0 px-4 py-2 flex items-center pointer-events-none bg-primary text-light rounded-r-full rounde">
+				<MagnifyingGlassIcon className="h-5 w-auto text-light" />
 			</div>
 
 			{/* Input Field */}
@@ -29,7 +29,7 @@ const SearchInput = ({
 				onKeyDown={onKeyDown}
 				placeholder={placeholder}
 				className={`py-2 pl-3 pr-10 w-full border text-sm text-gray-800 rounded-full placeholder-gray-400 min-h-12 transition duration-200 
-          		focus:ring-0 focus:outline-none focus:border-emerald-500
+          		focus:ring-0 focus:outline-none focus:border-primary
 				${
 					readOnly
 						? "bg-gray-100 cursor-not-allowed text-gray-500"

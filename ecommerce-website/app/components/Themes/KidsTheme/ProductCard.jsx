@@ -234,10 +234,11 @@ const ProductCard = ({ product }) => {
 						onClick={() => {
 							handleAddToCart();
 						}}
-						className="w-full mt-1.5 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border">
+						className="w-full mt-1.5 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border"
+						justifyContent="justify-between"
+						>
 						Add To Cart{" "}
 						<ShoppingCartIcon
-							className="cursor-pointer hover:text-primary transition"
 							style={{
 								width: "20px",
 							}}
