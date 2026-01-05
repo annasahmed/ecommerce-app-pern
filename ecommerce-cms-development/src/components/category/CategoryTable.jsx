@@ -54,7 +54,7 @@ const CategoryTable = ({
 									className="hidden mr-3 md:block bg-customGray-50 p-1"
 									src={
 										import.meta.env.VITE_APP_CLOUDINARY_URL +
-										category?.medium.url
+										category?.cat_icon?.url
 									}
 									alt={showSelectedLanguageTranslation(category?.title)}
 								/>
@@ -70,10 +70,11 @@ const CategoryTable = ({
 							{showSelectedLanguageTranslation(category?.translations, "title")}
 						</TableCell>
 						<TableCell className="text-sm">
-							{showSelectedLanguageTranslation(
-								category?.translations,
-								"description",
-							)}
+							{showSelectedLanguageTranslation(category?.translations, "slug")}
+						</TableCell>
+						<TableCell className="text-sm">{category?.level}</TableCell>
+						<TableCell className="text-sm">
+							{category?.is_leaf.toString()}
 						</TableCell>
 
 						<TableCell className="text-center">

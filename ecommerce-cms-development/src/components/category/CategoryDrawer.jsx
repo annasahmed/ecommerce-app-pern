@@ -20,6 +20,7 @@ import DrawerHeader from "../newComponents/DrawerHeader";
 import { IfMultilingual } from "../IfMultilingual";
 import TranslationFields from "../newComponents/TranslationFields";
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
+import { replaceEmptyWithNull } from "@/utils/globals";
 
 const CategoryDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
@@ -33,7 +34,7 @@ const CategoryDrawer = ({ id, data }) => {
 	const { selectedLanguage } = useGlobalSettings();
 
 	const defaultValues = {
-		parentCategoryId: null,
+		parentId: null,
 		icon: null,
 		translations: [
 			{
@@ -59,20 +60,22 @@ const CategoryDrawer = ({ id, data }) => {
 	const { showSelectedLanguageTranslation } = useUtilsFunction();
 
 	useEffect(() => {
-		ParentCategoryServices.getAllParentCategories().then((data) => {
-			setParentCategories(data?.records);
+		CategoryServices.getAllCategoriesForOptions(id).then((data) => {
+			setParentCategories(data);
 		});
 	}, []);
+
+	console.log(parentCategories, "chkkin111");
 
 	const onSubmit = async (data) => {
 		try {
 			setIsSubmitting(true);
 
-			const categoryData = {
+			const categoryData = replaceEmptyWithNull({
 				...data,
 				icon: selectedImage,
 				status,
-			};
+			});
 
 			if (id) {
 				const res = await CategoryServices.updateCategory(id, categoryData);
@@ -124,16 +127,14 @@ const CategoryDrawer = ({ id, data }) => {
 						setResData(res);
 						// setValue("title", res.title["en"]);
 						setValue("translations", res.translations);
-						setValue("parentCategoryId", res.parent_category_id);
+						setValue("parentId", res.parent_id);
 						setValue("slug", res.slug);
 						setSelectedImage(res.icon);
 						setSelectedImageUrl(
-							res.medium.url
-								? import.meta.env.VITE_APP_CLOUDINARY_URL + res.medium.url
+							res.cat_icon.url
+								? import.meta.env.VITE_APP_CLOUDINARY_URL + res.cat_icon.url
 								: null,
 						);
-						console.log(status, res.status, "asdsakdmk");
-
 						setStatus(res.status || false);
 					}
 				} catch (err) {
@@ -170,7 +171,7 @@ const CategoryDrawer = ({ id, data }) => {
 							label={t("SelectParentCategory")}
 							register={register}
 							inputLabel={t("parentCategory")}
-							inputName="parentCategoryId"
+							inputName="parentId"
 							inputPlaceholder={t("SelectParentCategory")}
 							options={parentCategories?.map((pCat, index) => {
 								return (
@@ -182,7 +183,7 @@ const CategoryDrawer = ({ id, data }) => {
 									</option>
 								);
 							})}
-							errorName={errors.parentCategoryId}
+							errorName={errors.parentId}
 						/>
 						<ImageSelectorField
 							label={t("CategoryIcon")}

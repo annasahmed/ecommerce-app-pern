@@ -68,7 +68,7 @@ const translationFields = [
 	},
 	{
 		name: "description",
-		fieldType: "textArea",
+		fieldType: "richText",
 		params: { className: "col-span-2", isVertical: true },
 	},
 ];
@@ -102,9 +102,12 @@ const ProductDrawer = ({ id, data }) => {
 	const [defaultValues, setDefaultValues] = useState({
 		costPrice: null,
 		salePrice: null,
-		stock: null,
-		lowStock: null,
-		reorderQty: null,
+		stock: 100, //setting these default values for now
+		lowStock: 100, //setting these default values for now
+		reorderQty: 100, //setting these default values for now
+		// stock: null,
+		// lowStock: null,
+		// reorderQty: null,
 		discount: null,
 		imageId: null,
 		imageUrl: null,
@@ -173,9 +176,20 @@ const ProductDrawer = ({ id, data }) => {
 		clearErrors,
 		reset,
 		trigger, // 🔥 Added for step validation
+		watch,
 		formState: { errors },
 	} = methods;
 
+	// const basePrice = watch("base_price");
+	// const baseDiscount = watch("base_discount_percentage");
+
+	// useEffect(() => {
+	// 	setDefaultValues((prev) => ({
+	// 		...prev,
+	// 		costPrice: basePrice ?? null,
+	// 		discount: baseDiscount ?? null,
+	// 	}));
+	// }, [basePrice, baseDiscount]);
 	// const {
 	// 	fields: translationFields,
 	// 	append: appendTranslation,
@@ -194,11 +208,7 @@ const ProductDrawer = ({ id, data }) => {
 		name: "variants",
 	});
 
-	console.log(variantsToSend, "chkking variantsToSend");
-
 	const onSubmit = async (data) => {
-		console.log(data, "chkking data");
-
 		try {
 			setIsSubmitting(true);
 			const cleanedData = Object.fromEntries(
@@ -437,8 +447,6 @@ const ProductDrawer = ({ id, data }) => {
 		});
 	}, []);
 
-	console.log(selectedCategories, "chkkingasksam");
-
 	return (
 		<>
 			<DrawerHeader
@@ -493,39 +501,66 @@ const ProductDrawer = ({ id, data }) => {
 								errors={errors}
 							/>
 						) : currentStep === 1 ? (
-							<ProductInfoForm
-								control={control}
-								variantFields={variantFields}
-								appendVariant={appendVariant}
-								removeVariant={removeVariant}
-								errors={errors}
-								register={register}
-								usps={usps}
-								categories={categories}
-								vendors={vendors}
-								branches={branches}
-								setValue={setValue}
-								selectedUsps={selectedUsps}
-								selectedCategories={selectedCategories}
-								selectedVendors={selectedVendors}
-								selectedThumbnail={selectedThumbnail}
-								setSelectedThumbnail={setSelectedThumbnail}
-								selectedThumbnailUrl={selectedThumbnailUrl}
-								setSelectedThumbnailUrl={setSelectedThumbnailUrl}
-								selectedImages={selectedImages}
-								setSelectedImages={setSelectedImages}
-								selectedImagesUrl={selectedImagesUrl}
-								setSelectedImagesUrl={setSelectedImagesUrl}
-								isFeatured={isFeatured}
-								setIsFeatured={setIsFeatured}
-								status={status}
-								setStatus={setStatus}
-								translationFields={translationFields}
-								variantImages={variantImages}
-								variantImageUrls={variantImageUrls}
-								hasVariants={hasVariants}
-								setHasVariants={setHasVariants}
-							/>
+							<>
+								<ProductInfoForm
+									control={control}
+									variantFields={variantFields}
+									appendVariant={appendVariant}
+									removeVariant={removeVariant}
+									errors={errors}
+									register={register}
+									usps={usps}
+									categories={categories}
+									vendors={vendors}
+									branches={branches}
+									setValue={setValue}
+									selectedUsps={selectedUsps}
+									selectedCategories={selectedCategories}
+									selectedVendors={selectedVendors}
+									selectedThumbnail={selectedThumbnail}
+									setSelectedThumbnail={setSelectedThumbnail}
+									selectedThumbnailUrl={selectedThumbnailUrl}
+									setSelectedThumbnailUrl={setSelectedThumbnailUrl}
+									selectedImages={selectedImages}
+									setSelectedImages={setSelectedImages}
+									selectedImagesUrl={selectedImagesUrl}
+									setSelectedImagesUrl={setSelectedImagesUrl}
+									isFeatured={isFeatured}
+									setIsFeatured={setIsFeatured}
+									status={status}
+									setStatus={setStatus}
+									translationFields={translationFields}
+									variantImages={variantImages}
+									variantImageUrls={variantImageUrls}
+									hasVariants={hasVariants}
+									setHasVariants={setHasVariants}
+									defaultValues={defaultValues}
+									setDefaultValues={setDefaultValues}
+								/>
+								<ProductVariantForm
+									variantFields={variantFields}
+									appendVariant={appendVariant}
+									removeVariant={removeVariant}
+									errors={errors}
+									control={control}
+									register={register}
+									usps={usps}
+									categories={categories}
+									vendors={vendors}
+									branches={branches}
+									setValue={setValue}
+									variantImages={variantImages}
+									variantImageUrls={variantImageUrls}
+									hasVariants={true}
+									productVariants={productVariants}
+									setProductVariants={setProductVariants}
+									setVariantsToSend={setVariantsToSend}
+									defaultValues={defaultValues}
+									setDefaultValues={setDefaultValues}
+									finalVariants={finalVariants}
+									setFinalVariants={setFinalVariants}
+								/>
+							</>
 						) : null}
 
 						<div className="flex justify-end pt-4 ">

@@ -8,6 +8,7 @@ import InputSelectField from "../form/fields/InputSelectField";
 import TextAreaField from "../form/fields/TextAreaField";
 import { IfMultilingual } from "../IfMultilingual";
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
+import RichTextField from "../form/fields/RichTextField";
 
 const TranslationFields = ({
 	control,
@@ -16,6 +17,7 @@ const TranslationFields = ({
 	translationFields,
 	getTranslationCode = false,
 	formName = "translations",
+	setValue = () => {},
 }) => {
 	const { t } = useTranslation();
 	const { settings, languages, isMultiLingual, selectedLanguage } =
@@ -80,7 +82,11 @@ const TranslationFields = ({
 							const Field =
 								input.fieldType === "inputArea"
 									? InputAreaField
-									: TextAreaField;
+									: input.fieldType === "textArea"
+									? TextAreaField
+									: input.fieldType === "richText"
+									? RichTextField
+									: null;
 							return (
 								<Field
 									key={idx}
@@ -92,6 +98,7 @@ const TranslationFields = ({
 									inputType="text"
 									inputPlaceholder={t(input.name)}
 									errorName={errors?.[formName]?.[index]?.[input.name]}
+									setValue={setValue}
 									{...(input.params || {})}
 								/>
 							);

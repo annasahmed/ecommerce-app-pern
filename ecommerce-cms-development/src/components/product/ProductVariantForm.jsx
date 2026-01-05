@@ -11,11 +11,61 @@ import { IfMultiBranch } from "../IfMultiBranch";
 import VariantTable from "./VariantTable";
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 
+const tempShowingTranslateValue = (data) => {
+	if (!data) return "";
+	return data["en"] ?? "";
+	return (data) => {
+		if (!data || typeof data !== "object") return ""; // Handle undefined or non-object cases
+	};
+};
+
 function transformProductForEdit(product, settings) {
 	// if (!product) return {};
 	let defaultValues = {};
+	let attributes = [];
 	const variantDetails = product?.map((v, i) => {
 		const branchData = v.branches?.[0].pvb;
+		const attributeValue = v.attributes?.map((attr) => {
+			const foundIndex = attributes.findIndex(
+				(variant) => variant.id === attr.id,
+			);
+			if (foundIndex !== -1) {
+				const updated = [...attributes];
+				const exist = updated[foundIndex].values.some(
+					(item) => item.en === attr.pva?.value?.en,
+				);
+				if (!exist) {
+					updated[foundIndex].values.push(attr.pva?.value);
+				}
+				// updated[foundIndex] = {
+				// 	...updated[foundIndex],
+				// 	values: updated[foundIndex].values.some(
+				// 		(item) => item.en === attr.pva?.value?.en,
+				// 	)
+				// 		? updated[foundIndex].values
+				// 		: updated[foundIndex].values.push(attr.pva?.value),
+				// };
+				attributes = updated;
+				return updated;
+			} else {
+				const newAdded = [
+					...attributes,
+					{
+						id: attr.id,
+						name: tempShowingTranslateValue(attr.name),
+						values: [attr.pva?.value],
+					},
+				];
+				attributes = newAdded;
+				return newAdded;
+			}
+			return {
+				id: attr.id,
+				name: showingTranslateValue(attr.name),
+				values: attr.pva?.value,
+			};
+		});
+
 		if (i === 0) {
 			defaultValues = {
 				costPrice: branchData.cost_price,
@@ -25,15 +75,18 @@ function transformProductForEdit(product, settings) {
 				reorderQty: branchData.reorder_quantity,
 				discount: branchData.discount_percentage,
 				imageId: v.image,
-				imageUrl: import.meta.env.VITE_APP_CLOUDINARY_URL + v.medium?.url,
+				imageUrl: v.medium?.url
+					? import.meta.env.VITE_APP_CLOUDINARY_URL + v.medium?.url
+					: null,
 			};
 		}
 
-		console.log(branchData, "chkkingvvv");
 		return {
 			sku: v.sku,
 			imageId: v.image,
-			imageUrl: import.meta.env.VITE_APP_CLOUDINARY_URL + v.medium?.url,
+			imageUrl: v.medium?.url
+				? import.meta.env.VITE_APP_CLOUDINARY_URL + v.medium?.url
+				: null,
 			costPrice: branchData.cost_price,
 			stock: branchData.stock,
 			lowStock: branchData.low_stock,
@@ -53,15 +106,12 @@ function transformProductForEdit(product, settings) {
 				.join(", "),
 		};
 	});
-	return { variantDetails, defaultValues };
+	return { variantDetails, defaultValues, attributes };
 	// generatedVariants
-	console.log(product?.product_variants, "product.brancheschkking product");
 	const pvArr = product.product_variants || [];
 	// 🧩 Transform variants from API → finalVariants
 	const finalVariants = pvArr.map((v) => {
 		const branch = v.branches?.[0]?.pvb || {};
-		console.log(v, branch, "chkking product");
-
 		return {
 			id: v.id,
 			sku: v.sku,
@@ -83,7 +133,6 @@ function transformProductForEdit(product, settings) {
 
 	// 🧩 Prepare base values for the "Inventory Information" section
 	const baseBranch = product?.product_variants?.[0]?.branches?.[0]?.pvb || {};
-	console.log(pvArr, "chkkbaseBranch");
 
 	// const defaultValues = {
 	// 	costPrice: baseBranch.cost_price ?? "",
@@ -177,8 +226,6 @@ const ProductVariantForm = ({
 		setFinalVariants(variants);
 	};
 
-	console.log(generatedVariants, defaultValues, "chkkins");
-
 	useEffect(() => {
 		const tempArr = finalVariants?.map((v) => {
 			return {
@@ -188,9 +235,12 @@ const ProductVariantForm = ({
 					{
 						branch_id: settings.defaultBranchId,
 						cost_price: v.costPrice ? parseFloat(v.costPrice) : null,
-						stock: v.stock ? parseInt(v.stock) : null,
-						low_stock: v.lowStock ? parseInt(v.lowStock) : null,
-						reorder_quantity: v.reorderQty ? parseInt(v.reorderQty) : null,
+						stock: 100,
+						low_stock: 100,
+						reorder_quantity: 100,
+						// stock: v.stock ? parseInt(v.stock) : null,
+						// low_stock: v.lowStock ? parseInt(v.lowStock) : null,
+						// reorder_quantity: v.reorderQty ? parseInt(v.reorderQty) : null,
 						sale_price: v.salePrice ? parseFloat(v.salePrice) : null,
 						discount_percentage: v.discount ? parseFloat(v.discount) : null,
 					},
@@ -206,21 +256,31 @@ const ProductVariantForm = ({
 		setVariantsToSend(tempArr);
 	}, [finalVariants]);
 
+	// only for setting defaultValue to attributesInput feild
+	const [defaultVariants, setDefaultVariants] = useState([]);
+
 	useEffect(() => {
-		const { variantDetails, defaultValues } =
+		const { variantDetails, defaultValues, attributes } =
 			transformProductForEdit(productVariants);
+
+		setDefaultVariants(attributes);
 		setGeneratedVariants(variantDetails);
 		setDefaultValues({
 			...defaultValues,
 		});
 		setSelectedImage(defaultValues.imageId);
 		setSelectedImageUrl(defaultValues.imageUrl);
-	}, []);
+	}, [productVariants]);
 
+	useEffect(() => {
+		if (selectedVariants.length > 0) {
+			setGeneratedVariants(generateVariants(selectedVariants));
+		}
+	}, [selectedVariants]);
 	return (
 		<section className="flex flex-col gap-8">
 			{/* Inventory Information */}
-			<section className="w-full relative p-6 rounded-lg border">
+			{/* <section className="w-full relative p-6 rounded-lg border">
 				<h3 className="font-semibold text-2xl h3 mb-4">
 					Inventory Information
 				</h3>
@@ -327,7 +387,7 @@ const ProductVariantForm = ({
 						/>
 					)}
 				</div>
-			</section>
+			</section> */}
 
 			{/* Variants Section */}
 			{hasVariants && (
@@ -351,16 +411,37 @@ const ProductVariantForm = ({
 					</div>
 
 					<div className="grid grid-cols-2 gap-x-16 gap-y-6 items-end mt-8">
-						{selectedAttriutes?.map((v, i) => {
+						{/* {selectedAttriutes?.map((v, i) => { */}
+						{attributes?.map((v, i) => {
+							// remove showingTranslateValue with all v.name later
 							return (
 								<InputMultipleSelectField
 									key={v.id}
-									label={`Select available ${v.name}:`}
-									inputPlaceholder={`Select available ${v.name}`}
+									label={`Select available ${showingTranslateValue(v.name)}:`}
+									inputPlaceholder={`Select available ${showingTranslateValue(
+										v.name,
+									)}`}
 									options={v.values?.map((pCat) => ({
 										id: pCat,
 										name: showingTranslateValue(pCat),
 									}))}
+									defaultSelected={v.values
+										?.map((pCat) => ({
+											id: pCat,
+											name: showingTranslateValue(pCat),
+										}))
+										.filter((opt) => {
+											return defaultVariants
+												.find((dv) => dv.id === v.id)
+												?.values?.map((val) => val.en)
+												.includes(opt.name);
+										})}
+									// defaultSelected={{
+									// 	id: {
+									// 		en: "L",
+									// 	},
+									// 	name: "L",
+									// }}
 									onChange={(selectedList) => {
 										setSelectedVariants((prev) => {
 											const foundIndex = prev.findIndex(
@@ -378,7 +459,7 @@ const ProductVariantForm = ({
 													...prev,
 													{
 														id: v.id,
-														name: v.name,
+														name: showingTranslateValue(v.name),
 														values: selectedList.map((v) => v.id),
 													},
 												];
@@ -429,7 +510,7 @@ const ProductVariantForm = ({
 export default ProductVariantForm;
 
 // Helper to generate variant combos with short meaningful SKUs
-function generateVariants(
+export function generateVariants(
 	selectedVariants,
 	baseSKU = "SKU",
 	selectedLanguage = "en",
@@ -443,8 +524,6 @@ function generateVariants(
 			value: v,
 		})),
 	);
-	console.log(attributes, "chkkkingi");
-
 	// Cartesian product helper
 	const cartesian = (arr) =>
 		arr.reduce((a, b) => a.flatMap((d) => b.map((e) => [...d, e])), [[]]);

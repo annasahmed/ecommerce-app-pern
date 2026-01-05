@@ -15,7 +15,6 @@ export default function VariantTable({
 	generatedVariants,
 }) {
 	const [variants, setVariants] = useState([]);
-	console.log(generatedVariants, "chkkninsin");
 
 	// Sync with generatedVariants
 	useEffect(() => {
@@ -24,12 +23,12 @@ export default function VariantTable({
 				...variant,
 				costPrice: variant.costPrice || defaultValues.costPrice,
 				salePrice: variant.salePrice || defaultValues.salePrice,
-				stock: variant.stock || defaultValues.stock,
-				lowStock: variant.lowStock || defaultValues.lowStock,
-				reorderQty: variant.reorderQty || defaultValues.reorderQty,
+				stock: variant.stock || defaultValues.stock, // keep it null for now
+				lowStock: variant.lowStock || defaultValues.lowStock, // keep it null for now
+				reorderQty: variant.reorderQty || defaultValues.reorderQty, // keep it null for now
 				discount: variant.discount || defaultValues.discount,
-				imageId: variant.imageId || defaultValues.imageId,
-				imageUrl: variant.imageUrl || defaultValues.imageUrl,
+				imageId: variant.imageId || defaultValues.imageId, // keep it null for now
+				imageUrl: variant.imageUrl || defaultValues.imageUrl, // keep it null for now
 			})),
 		);
 	}, [generatedVariants, defaultValues]);

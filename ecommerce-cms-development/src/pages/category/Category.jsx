@@ -67,7 +67,9 @@ const Category = () => {
 							<TableCell>{t("catIdTbl")}</TableCell>
 							<TableCell>{t("catIconTbl")}</TableCell>
 							<TableCell>{t("CatTbName")}</TableCell>
-							<TableCell>{t("CatTbDescription")}</TableCell>
+							<TableCell>{t("CatTbSlug")}</TableCell>
+							<TableCell>{t("CatTbLevel")}</TableCell>
+							<TableCell>{t("CatTbLeafCat")}</TableCell>
 							<TableCell className="text-center">
 								{t("catPublishedTbl")}
 							</TableCell>

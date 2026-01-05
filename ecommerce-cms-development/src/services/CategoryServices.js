@@ -5,6 +5,11 @@ const CategoryServices = {
 		return requests.get("/category");
 	},
 
+	getAllCategoriesForOptions: async (excludeId) => {
+		return requests.get(
+			`/category/options${excludeId ? `?excludeId=${excludeId}` : ""}`,
+		);
+	},
 	getAllCategories: async () => {
 		return requests.get("/category");
 	},
