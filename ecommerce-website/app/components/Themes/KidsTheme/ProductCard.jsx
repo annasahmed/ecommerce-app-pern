@@ -234,9 +234,10 @@ const ProductCard = ({ product }) => {
 						onClick={() => {
 							handleAddToCart();
 						}}
-						className="w-full mt-4 flex items-center justify-between gap-2 bg-transparent border-primary text-primary border"
+						className="w-full mt-4 flex items-center justify-between gap-2 bg-transparent border-primary hover:border-secondary text-primary border"
 						justifyContent="justify-between"
-						>
+						hoverBgColor="bg-secondary"
+						borderColor="bg-secondary">
 						Add To Cart{" "}
 						<ShoppingCartIcon
 							style={{

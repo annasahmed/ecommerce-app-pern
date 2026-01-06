@@ -27,7 +27,7 @@ const ProductsSlider = ({
 							slidesPerView: 5,
 							showNavigation: true,
 							showPagination: true,
-							spaceBetween: 16,
+							spaceBetween: 24,
 						},
 					}}
 					renderSlide={(product) => (
@@ -37,7 +37,7 @@ const ProductsSlider = ({
 			) : (
 				<section
 					className={clsx(
-						`grid ${columns} gap-4 max-md:gap-3 max-md:grid-cols-2 items-stretch`,
+						`grid ${columns} gap-6 max-md:gap-3 max-md:grid-cols-2 items-stretch`,
 					)}>
 					{productsData?.map((product) => (
 						<ProductCard product={product} key={product.id} />

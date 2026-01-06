@@ -115,3 +115,26 @@ img {
 	list-style: disc;
 	margin-left: 1.25rem;
 }
+
+.flat-coverflow-slider.swiper {
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 70px;
+}
+
+.flat-coverflow-slider .swiper-slide {
+	width: 400px !important;
+}
+
+.swiper-pagination {
+	bottom: 0px !important; /* space above dots */
+}
+
+@media (max-width: 768px) {
+	.flat-coverflow-slider.swiper {
+		padding-bottom: 50px;
+	}
+	.flat-coverflow-slider .swiper-slide {
+		width: 185px !important;
+	}
+}

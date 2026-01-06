@@ -40,7 +40,7 @@ const CategoriesSection = ({ data, isSlider = true }) => {
 								<BaseImage
 									src={category.icon}
 									key={idx}
-									className="w-full rounded-full h-auto border-5 border-solid border-secondary"
+									className="w-full rounded-full h-auto "
 								/>
 								<p className="text-center capitalize mt-2 font-medium">
 									{category.title}
@@ -57,7 +57,7 @@ const CategoriesSection = ({ data, isSlider = true }) => {
 								<BaseImage
 									src={category.icon}
 									key={idx}
-									className="w-full rounded-full h-auto border-5 border-solid border-secondary"
+									className="w-full rounded-full h-auto "
 								/>
 								<p className="text-center capitalize mt-2 font-medium">
 									{category.title}

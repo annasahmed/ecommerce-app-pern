@@ -30,7 +30,7 @@ const PopularCatTabs = () => {
 					return {
 						label: tab.label,
 						content: () => (
-							<div className="grid grid-cols-5 max-md:grid-cols-2 gap-4 max-md:gap-3">
+							<div className="grid grid-cols-5 max-md:grid-cols-2 gap-6 max-md:gap-3">
 								{(catProducts?.records?.length > 0
 									? catProducts?.records.slice(start, end)
 									: tab.products

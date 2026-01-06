@@ -12,6 +12,7 @@ const HeroSection = () => {
 			spaceBetween={0}
 			showNavigation={false}
 			showPagination={false}
+			autoPlay
 			arrowsPosition="inside"
 			breakpoints={{
 				768: {

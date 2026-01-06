@@ -60,11 +60,11 @@ export default function Newsletter() {
 				</div>
 
 				<form onSubmit={handleSubmit} className="flex-1 pr-10 pt-2">
-					<div className="flex">
+					<div className="flex relative">
 						<input
 							type="email"
 							placeholder="Your email address"
-							className="flex-1 w-full px-4 py-3 bg-light focus:outline-none"
+							className="flex-1 w-full px-4 py-3 bg-light focus:outline-none rounded-full"
 							value={email}
 							onChange={(e) => {
 								setMessage("");
@@ -75,12 +75,12 @@ export default function Newsletter() {
 						<button
 							type="submit"
 							disabled={loading}
-							className="px-6 py-3 bg-primary/90 text-light hover:brightness-95 disabled:opacity-50">
+							className="absolute right-1 top-1 px-6 py-2 bg-primary/90 text-light hover:brightness-95 disabled:opacity-50 rounded-full">
 							{loading ? "Submitting..." : "Subscribe"}
 						</button>
 					</div>
 
-					<label className="flex items-center gap-2 mt-2 text-light p5 max-w-fit">
+					<label className="flex items-center gap-2 mt-2 pl-4 text-light p5 max-w-fit">
 						<input
 							type="checkbox"
 							checked={agree}

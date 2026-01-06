@@ -2,6 +2,7 @@
 import homeSmallBanner from "@/app/assets/themes/kidsTheme/home-small-banner.jpg";
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
+import CategorySlider from "@/app/components/CategorySlider";
 import Loader from "@/app/components/Shared/Loader";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
 import AboutUsSection from "@/app/components/Themes/KidsTheme/AboutUsSection";
@@ -50,6 +51,7 @@ const HomePage = () => {
 			<HeroSection />
 			<section className="flex flex-col gap-18 section-layout-top max-md:gap-10">
 				<CategoriesSection data={parentCategories} />
+				
 				<PopularCatTabs />
 				<BaseLink href="/products">
 					<BaseImage
@@ -88,7 +90,8 @@ const HomePage = () => {
 					<h3 className="mb-4 container-layout h3 font-bold text-center text-primary uppercase">
 						More To Explore
 					</h3>
-					<CategoriesSection data={parentCategories || []} isSlider={false} />
+					<CategorySlider data={parentCategories} />
+					{/* <CategoriesSection data={parentCategories || []} isSlider={false} /> */}
 				</section>
 				<section className="container-layout">
 					<ProductsSlider

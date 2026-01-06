@@ -6,7 +6,7 @@ const NavigationMenu = ({ isMenuOpen }) => {
 	const store = useStore();
 	const [activeMenu, setActiveMenu] = useState(false);
 	return (
-		<nav className="bg-light shadow-sm ">
+		<nav className="bg-primary text-light shadow-sm ">
 			{/* Desktop Nav */}
 			<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 pt-4 container-layout">
 				{store.content.navCategories.map((item, index) => (
@@ -17,7 +17,7 @@ const NavigationMenu = ({ isMenuOpen }) => {
 						onMouseLeave={() => setActiveMenu(null)}>
 						<BaseLink
 							href={`${item.to || `/products?category=${item.slug}`}`}
-							className="uppercase hover:bg-primary hover:text-light px-4 py-1 rounded-full transition">
+							className="uppercase hover:underline px-4 py-1 rounded-full transition">
 							{item.title}
 						</BaseLink>
 
