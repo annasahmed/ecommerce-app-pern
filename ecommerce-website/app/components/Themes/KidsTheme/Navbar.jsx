@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import Logo from "@/app/components/Shared/Logo";
 import { useStore } from "@/app/providers/StoreProvider";
@@ -25,13 +25,24 @@ const Navbar = () => {
 	const cartCount = cart?.length || 0;
 	const favCount = favourites?.length || 0;
 
+	useEffect(() => {
+		if (isMenuOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "auto";
+		}
+
+		return () => {
+			document.body.style.overflow = "auto";
+		};
+	}, [isMenuOpen]);
+
 	return (
 		<>
 			{/* Top Header */}
 			<header className="text-headerText bg-header w-full py-2 text-center p4">
 				<p className="container-layout">{store.content.header.text}</p>
 			</header>
-
 			<div className="sticky top-0 z-40">
 				{/* Main Navbar */}
 				<div className="border-b border-border-color py-3 sm:py-5 bg-light relative">
@@ -119,11 +130,9 @@ const Navbar = () => {
 				</div>
 
 				<AuthDrawer open={authDrawerOpen} setOpen={setAuthDrawerOpen} />
-
 				<CartDrawer open={isCartDrawerOpen} setOpen={setIsCartDrawerOpen} />
-
 				{/* Navigation Menu */}
-				<NavigationMenu isMenuOpen={isMenuOpen} />
+				<NavigationMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 			</div>
 		</>
 	);

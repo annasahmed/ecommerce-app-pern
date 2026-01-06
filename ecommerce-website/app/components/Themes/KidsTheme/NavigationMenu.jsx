@@ -1,12 +1,14 @@
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import { useStore } from "@/app/providers/StoreProvider";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-const NavigationMenu = ({ isMenuOpen }) => {
+const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 	const store = useStore();
 	const [activeMenu, setActiveMenu] = useState(false);
+	const [openIndex, setOpenIndex] = useState(null);
 	return (
-		<nav className="bg-primary text-light shadow-sm ">
+		<nav className="bg-primary text-light shadow-sm overflow-auto">
 			{/* Desktop Nav */}
 			<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 pt-4 container-layout">
 				{store.content.navCategories.map((item, index) => (
@@ -68,20 +70,74 @@ const NavigationMenu = ({ isMenuOpen }) => {
 				))}
 			</ul>
 
+			{/* dark overlay */}
+			{/* {isMenuOpen && (
+				<div
+					className="fixed inset-0 bg-black/40 z-40 sm:hidden"
+					onClick={() => setIsMenuOpen(false)}
+				/>
+			)} */}
+
 			{/* Mobile Nav */}
-			{isMenuOpen && (
-				<ul className="flex flex-col items-center gap-3 py-4 sm:hidden bg-light border-t border-border-color">
+			<div
+				className={`sm:hidden fixed top-0 left-0 w-full bg-primary z-50
+				transition-transform duration-300
+				${isMenuOpen ? "translate-y-25" : "-translate-y-full"}
+				h-full max-h-[calc(100vh-100px)] overflow-y-auto`}>
+				<ul className="p-4/ space-y-2/">
 					{store.content.navCategories.map((item, index) => (
-						<li key={index} className="w-full text-center">
-							<BaseLink
-								href={`${item.to || `/products?category=${item.slug}`}`}
-								className="block w-full py-2 uppercase font-medium hover:bg-primary hover:text-light transition">
-								{item.title}
-							</BaseLink>
+						<li key={index}>
+							<div
+								onClick={() => setOpenIndex(openIndex === index ? null : index)}
+								className={`flex items-center justify-between py-4 px-4
+								transition-colors cursor-pointer
+								${openIndex === index ? "bg-secondary/5" : "bg-transparent"}
+								border-b border-border-color/70`}>
+								<BaseLink
+									href={item.to || `/products?category=${item.slug}`}
+									onClick={() => setIsMenuOpen(false)}
+									className="uppercase text-sm font-semibold tracking-wide">
+									{item.title}
+								</BaseLink>
+
+								{item.categories?.length > 0 && (
+									<ChevronDown
+										size={18}
+										className={`transition-transform duration-300
+										${openIndex === index ? "rotate-180 text-secondary" : "text-light/70"}`}
+									/>
+								)}
+							</div>
+
+							{item.categories?.length > 0 && (
+								<div
+									className={`overflow-hidden transition-all duration-300
+									${openIndex === index ? "max-h-[800px] mt-2" : "max-h-0"}`}>
+									{item.categories.map((cat, i) => (
+										<div
+											key={i}
+											className="ml-3/ pl-3/ py-3 border-b border-border-color/25">
+											<h4 className="text-sm font-medium uppercase mb-3 tracking-wider border-b border-border-color/25 pl-6 pb-2 text-light/80">
+												{cat.title}
+											</h4>
+
+											<ul className="space-y-2 pl-8">
+												{cat.subCategories?.map((subCat, idx) => (
+													<li
+														key={idx}
+														className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
+														{subCat}
+													</li>
+												))}
+											</ul>
+										</div>
+									))}
+								</div>
+							)}
 						</li>
 					))}
 				</ul>
-			)}
+			</div>
 		</nav>
 	);
 };
