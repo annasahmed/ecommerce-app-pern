@@ -9,7 +9,6 @@ const AttributeOption = ({ id, attributes, values, setValues, resetRef }) => {
 	const { showingTranslateValue } = useUtilsFunction();
 
 	const handleSelectValue = (v, el) => {
-		// console.log("handleValue", v, el);
 		if (el?.name === "All") {
 			const result = attributes?.variants.filter((att) => att.id !== "1");
 
@@ -39,7 +38,6 @@ const AttributeOption = ({ id, attributes, values, setValues, resetRef }) => {
 	};
 
 	const handleRemoveValue = (v, el, id) => {
-		// console.log("handleRemoveValue", v, el);
 		if (el.id === "1") {
 			setSelectionLimit("1");
 			let dd = attributes?.variants?.map((val) => {
@@ -48,8 +46,6 @@ const AttributeOption = ({ id, attributes, values, setValues, resetRef }) => {
 					name: showingTranslateValue(val?.name),
 				};
 			});
-
-			// console.log("dd", dd);
 
 			setAttributeOptions([]);
 			setAttributeOptions(dd);

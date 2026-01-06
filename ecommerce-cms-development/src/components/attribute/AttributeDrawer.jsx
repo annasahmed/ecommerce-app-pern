@@ -64,9 +64,6 @@ const AttributeDrawer = ({ id }) => {
 		try {
 			setIsSubmitting(true);
 			const attributeData = transformForBackend(data);
-
-			console.log(data, attributeData, "chkking data");
-
 			let res;
 			if (id) {
 				res = await AttributeServices.updateAttribute(id, {

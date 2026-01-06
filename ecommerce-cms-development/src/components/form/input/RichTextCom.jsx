@@ -12,7 +12,8 @@ const RichTextCom = ({
 	return (
 		<Editor
 			apiKey="5y7voddyq0zwpxv0s32ecw56ewi4wz3mtrzgqxil4qw52p14"
-			value={value}
+			value={value ? value.replace(/&lt;/g, "<") : "<p></p>"}
+			// value={value}
 			init={{
 				height: 300,
 				menubar: false,
@@ -45,7 +46,7 @@ const RichTextCom = ({
 			onEditorChange={(content) => {
 				setValue(name, content, {
 					shouldValidate: true,
-					shouldDirty: true,
+					shouldDirty: false,
 				});
 			}}
 		/>

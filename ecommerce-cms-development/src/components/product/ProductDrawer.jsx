@@ -48,7 +48,7 @@ const transformFromApi = (variants, settings) => {
 	});
 };
 
-const translationFields = [
+const translationFieldsArr = [
 	{
 		name: "title",
 		required: true,
@@ -76,7 +76,7 @@ const translationFields = [
 const ProductDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
 	const { settings, selectedLanguage, isMultiLingual } = useGlobalSettings();
-
+	const [resetKey, setResetKey] = useState(0); // state to reset all the states after submit or onClose
 	const [usps, setUsps] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [vendors, setVendors] = useState([]);
@@ -124,7 +124,7 @@ const ProductDrawer = ({ id, data }) => {
 		{
 			id: 3,
 			title: hasVariants ? "Variants & Inventory" : "Product Inventory",
-			show: true,
+			show: false, //change this to true later, for actual variants
 		},
 	].filter((step) => step.show);
 
@@ -180,24 +180,17 @@ const ProductDrawer = ({ id, data }) => {
 		formState: { errors },
 	} = methods;
 
-	// const basePrice = watch("base_price");
-	// const baseDiscount = watch("base_discount_percentage");
+	const basePrice = watch("base_price");
+	const baseDiscount = watch("base_discount_percentage");
 
-	// useEffect(() => {
-	// 	setDefaultValues((prev) => ({
-	// 		...prev,
-	// 		costPrice: basePrice ?? null,
-	// 		discount: baseDiscount ?? null,
-	// 	}));
-	// }, [basePrice, baseDiscount]);
-	// const {
-	// 	fields: translationFields,
-	// 	append: appendTranslation,
-	// 	remove: removeTranslation,
-	// } = useFieldArray({
-	// 	control,
-	// 	name: "translations",
-	// });
+	useEffect(() => {
+		setDefaultValues((prev) => ({
+			...prev,
+			costPrice: basePrice ?? null,
+			salePrice: basePrice ?? null,
+			discount: baseDiscount ?? null,
+		}));
+	}, [basePrice, baseDiscount]);
 
 	const {
 		fields: variantFields,
@@ -207,6 +200,21 @@ const ProductDrawer = ({ id, data }) => {
 		control,
 		name: "variants",
 	});
+
+	const resetStates = () => {
+		setSelectedCategories([]);
+		setSelectedUsps([]);
+		setSelectedVendors([]);
+		setSelectedThumbnail(null);
+		setSelectedThumbnailUrl(null);
+		setSelectedImages([]);
+		setSelectedImagesUrl([]);
+		setVariantImages(null);
+		setVariantImageUrls(null);
+
+		// 🔥 trigger child reset
+		setResetKey((prev) => prev + 1);
+	};
 
 	const onSubmit = async (data) => {
 		try {
@@ -239,15 +247,7 @@ const ProductDrawer = ({ id, data }) => {
 				closeDrawer();
 				reset();
 			}
-			setSelectedCategories([]);
-			setSelectedUsps([]);
-			setSelectedVendors([]);
-			setSelectedThumbnail(null);
-			setSelectedThumbnailUrl(null);
-			setSelectedImages([]);
-			setSelectedImagesUrl([]);
-			setVariantImages(null);
-			setVariantImageUrls(null);
+			resetStates();
 		} catch (err) {
 			setIsSubmitting(false);
 			notifyError(err ? err?.response?.data?.message : err?.message);
@@ -303,10 +303,8 @@ const ProductDrawer = ({ id, data }) => {
 			(async () => {
 				try {
 					const res = await ProductServices.getProductById(id);
-
 					if (res) {
 						setResData(res);
-
 						// ✅ Thumbnail
 						setSelectedThumbnail(res.thumbnail || null);
 						// If API returns thumbnail via medium, adjust accordingly
@@ -419,13 +417,7 @@ const ProductDrawer = ({ id, data }) => {
 			})();
 		} else {
 			reset({ ...formDefaultValues }); // New product mode
-			setSelectedCategories([]);
-			setSelectedUsps([]);
-			setSelectedVendors([]);
-			setSelectedThumbnail(null);
-			setSelectedThumbnailUrl(null);
-			setSelectedImages([]);
-			setSelectedImagesUrl([]);
+			resetStates();
 		}
 	}, [id, setValue, clearErrors, data]);
 
@@ -497,7 +489,7 @@ const ProductDrawer = ({ id, data }) => {
 							<ProductTranslationForm
 								control={control}
 								register={register}
-								translationFields={translationFields}
+								translationFields={translationFieldsArr}
 								errors={errors}
 							/>
 						) : currentStep === 1 ? (
@@ -529,7 +521,7 @@ const ProductDrawer = ({ id, data }) => {
 									setIsFeatured={setIsFeatured}
 									status={status}
 									setStatus={setStatus}
-									translationFields={translationFields}
+									translationFields={translationFieldsArr}
 									variantImages={variantImages}
 									variantImageUrls={variantImageUrls}
 									hasVariants={hasVariants}
@@ -538,27 +530,13 @@ const ProductDrawer = ({ id, data }) => {
 									setDefaultValues={setDefaultValues}
 								/>
 								<ProductVariantForm
-									variantFields={variantFields}
-									appendVariant={appendVariant}
-									removeVariant={removeVariant}
-									errors={errors}
-									control={control}
-									register={register}
-									usps={usps}
-									categories={categories}
-									vendors={vendors}
-									branches={branches}
-									setValue={setValue}
-									variantImages={variantImages}
-									variantImageUrls={variantImageUrls}
-									hasVariants={true}
 									productVariants={productVariants}
-									setProductVariants={setProductVariants}
 									setVariantsToSend={setVariantsToSend}
 									defaultValues={defaultValues}
 									setDefaultValues={setDefaultValues}
 									finalVariants={finalVariants}
 									setFinalVariants={setFinalVariants}
+									resetKey={resetKey}
 								/>
 							</>
 						) : null}

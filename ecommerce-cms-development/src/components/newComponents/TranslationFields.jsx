@@ -47,8 +47,6 @@ const TranslationFields = ({
 			</p>
 		);
 
-	if (!translationFields || translationFields?.length === 0) return null;
-
 	const fieldNames = useMemo(() => {
 		const obj = {};
 		for (const f of translationFields) {
@@ -60,6 +58,8 @@ const TranslationFields = ({
 		}
 		return obj;
 	}, [translationFields]);
+
+	if (!translationFields || translationFields?.length === 0) return null;
 
 	return (
 		<div className="mb-6">
@@ -87,20 +87,23 @@ const TranslationFields = ({
 									: input.fieldType === "richText"
 									? RichTextField
 									: null;
+
 							return (
-								<Field
-									key={idx}
-									label={t(input.name)}
-									required={input.required}
-									register={register}
-									inputLabel="title"
-									inputName={`${formName}.${index}.${input.name}`}
-									inputType="text"
-									inputPlaceholder={t(input.name)}
-									errorName={errors?.[formName]?.[index]?.[input.name]}
-									setValue={setValue}
-									{...(input.params || {})}
-								/>
+								Field && (
+									<Field
+										key={idx}
+										label={t(input.name)}
+										required={input.required}
+										register={register}
+										inputLabel="title"
+										inputName={`${formName}.${index}.${input.name}`}
+										inputType="text"
+										inputPlaceholder={t(input.name)}
+										errorName={errors?.[formName]?.[index]?.[input.name]}
+										setValue={setValue}
+										{...(input.params || {})}
+									/>
+								)
 							);
 						})}
 

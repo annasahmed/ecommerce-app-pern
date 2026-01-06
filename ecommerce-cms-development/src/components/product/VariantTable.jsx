@@ -52,7 +52,7 @@ export default function VariantTable({
 		setVariants((prev) => prev.filter((_, i) => i !== idx));
 		if (onDelete) onDelete(idx);
 	};
-
+	return null;
 	return (
 		<Table className="w-full overflow-x-auto">
 			<TableHeader>
