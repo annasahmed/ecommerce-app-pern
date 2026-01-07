@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: 1,
 			},
-			icon: { ...mediaField, field: 'icon' },
+			icon: { ...mediaField, field: 'icon', as: 'cat_icon' },
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -83,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE',
 		});
 		baseAssociation(category, models);
-		mediaAssociation(category, models, 'icon');
+		mediaAssociation(category, models, 'icon', 'cat_icon');
 	};
 
 	return category;

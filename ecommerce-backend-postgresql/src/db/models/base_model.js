@@ -34,11 +34,13 @@ const mediaField = {
 	onUpdate: 'CASCADE',
 };
 
-const mediaAssociation = (modelName, models, foreignKey) => {
+// foreignKey and as should never be same
+const mediaAssociation = (modelName, models, foreignKey, as) => {
 	modelName.belongsTo(models.media, {
 		foreignKey,
 		onDelete: 'SET NULL',
 		onUpdate: 'CASCADE',
+		...(as ? { as } : {}),
 	});
 };
 

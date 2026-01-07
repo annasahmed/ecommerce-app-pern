@@ -20,6 +20,14 @@ router
 	);
 
 router
+	.route('/options')
+	.get(
+		checkPermission('view_category_options'),
+		validate(adminCategoryValidation.getCategoriesOptions),
+		adminCategoryController.getCategoriesForOptions
+	);
+
+router
 	.route('/:categoryId')
 	.get(
 		checkPermission('view_category'),
@@ -37,11 +45,14 @@ router
 		adminCategoryController.softDeleteCategory
 	);
 router
-	.route('/permanent/:category')
+	.route('/permanent/:categoryId')
 	.delete(
 		checkPermission('delete_category'),
 		validate(adminCategoryValidation.deleteCategory),
 		adminCategoryController.permanentDeleteCategory
 	);
+
+// routes only for import
+router.route('/import').post(adminCategoryController.importCategories);
 
 module.exports = router;

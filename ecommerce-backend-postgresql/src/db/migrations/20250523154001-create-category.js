@@ -10,6 +10,24 @@ module.exports = {
 				allowNull: false,
 				autoIncrement: true,
 			},
+			// 🔹 Self-referencing parent
+			parent_id: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'category',
+					key: 'id',
+				},
+				onDelete: 'RESTRICT',
+				onUpdate: 'CASCADE',
+			},
+
+			// 🔹 Optional but VERY useful
+			level: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				defaultValue: 1,
+			},
 			icon: {
 				type: Sequelize.INTEGER,
 				allowNull: true,
@@ -18,16 +36,6 @@ module.exports = {
 					key: 'id',
 				},
 				onDelete: 'SET NULL',
-				onUpdate: 'CASCADE',
-			},
-			parent_category_id: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'parent_category',
-					key: 'id',
-				},
-				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 			},
 			user_id: {

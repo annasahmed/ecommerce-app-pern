@@ -16,6 +16,11 @@ const createCategory = catchAsync(async (req, res) => {
 	res.send(categories);
 });
 
+const importCategories = catchAsync(async (req, res) => {
+	adminCategoryService.importCategories(req);
+	res.send({ message: 'successfull' });
+});
+
 const softDeleteCategory = catchAsync(async (req, res) => {
 	await adminCategoryService.softDeleteCategoryById(req);
 	res.send({ success: true });
@@ -33,6 +38,11 @@ const updateCategory = catchAsync(async (req, res) => {
 	res.send(category);
 });
 
+const getCategoriesForOptions = catchAsync(async (req, res) => {
+	const categories = await adminCategoryService.getCategoriesForOptions(req);
+	res.send(categories);
+});
+
 module.exports = {
 	getCategoryById,
 	getCategories,
@@ -40,4 +50,126 @@ module.exports = {
 	softDeleteCategory,
 	permanentDeleteCategory,
 	updateCategory,
+	getCategoriesForOptions,
+	importCategories,
 };
+
+const level1Categories = [
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Fashion',
+				description: null,
+				slug: 'fashion',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Gear',
+				description: null,
+				slug: 'gear',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Feeding',
+				description: null,
+				slug: 'feeding',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Bath & Shower',
+				description: null,
+				slug: 'bath-shower',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Safety',
+				description: null,
+				slug: 'safety',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Toys',
+				description: null,
+				slug: 'toys',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Diapering',
+				description: null,
+				slug: 'diapering',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Nursery',
+				description: null,
+				slug: 'nursery',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+	{
+		parentId: null,
+		icon: null,
+		translations: [
+			{
+				title: 'Moms',
+				description: null,
+				slug: 'moms',
+				language_id: 1,
+			},
+		],
+		status: true,
+	},
+];

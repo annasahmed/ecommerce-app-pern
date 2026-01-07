@@ -88,6 +88,7 @@ async function createProduct(req) {
 		translations = [],
 		variants = [],
 		images = [],
+		attribute_data = [],
 		...productData
 	} = req.body;
 
@@ -119,9 +120,9 @@ async function createProduct(req) {
 			const createdImages = await newProduct.setImages(images, {
 				transaction,
 			});
-			console.log(createdImages);
 		}
 
+		// attributes
 		if (categories.length > 0)
 			await newProduct.setCategories(categories, { transaction });
 		if (branches.length > 0)

@@ -110,6 +110,11 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'product_id',
 			otherKey: 'vendor_id',
 		});
+		product.belongsToMany(models.attribute, {
+			through: 'product_to_attribute',
+			foreignKey: 'product_id',
+			otherKey: 'attribute_id',
+		});
 		product.hasMany(models.product_variant);
 		product.hasMany(models.product_translation);
 		baseAssociation(product, models);

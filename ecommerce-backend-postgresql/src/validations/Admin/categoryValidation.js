@@ -3,7 +3,7 @@ const { validateSlug } = require('../customValidation');
 
 const createCategory = {
 	body: Joi.object().keys({
-		parentCategoryId: Joi.number().required(),
+		parentId: Joi.number().optional().allow(null),
 		icon: Joi.number().allow(null),
 		status: Joi.boolean(),
 		translations: Joi.array()
@@ -25,7 +25,7 @@ const updateCategory = {
 		categoryId: Joi.number().required(),
 	}),
 	body: Joi.object().keys({
-		parentCategoryId: Joi.number().optional(),
+		parentId: Joi.number().optional().allow(null),
 		icon: Joi.number().allow(null).optional(),
 		status: Joi.boolean(),
 		translations: Joi.array()
@@ -48,6 +48,11 @@ const getCategories = {
 		page: Joi.number().min(1),
 	}),
 };
+const getCategoriesOptions = {
+	query: Joi.object().keys({
+		excludeId: Joi.number().optional(),
+	}),
+};
 
 const getCategory = {
 	params: Joi.object().keys({
@@ -67,4 +72,5 @@ module.exports = {
 	getCategories,
 	getCategory,
 	deleteCategory,
+	getCategoriesOptions,
 };

@@ -97,7 +97,7 @@ function createBaseService(model, options = {}) {
 			}
 		},
 
-		async update(id, data, userId) {
+		async update(id, data, userId, incommingTransaction) {
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
 			await validations(data);
@@ -116,7 +116,9 @@ function createBaseService(model, options = {}) {
 					);
 			}
 
-			const transaction = await db.sequelize.transaction();
+			const transaction = incommingTransaction
+				? incommingTransaction
+				: await db.sequelize.transaction();
 			try {
 				const [_, updated] = await model.update(toUpdate, {
 					where: { id },
@@ -247,6 +249,7 @@ function createBaseService(model, options = {}) {
 						  ]
 						: []),
 				],
+				// attributes: attributes?.length > 0 ? ['id','created_at'] : {},
 				attributes: attributes?.length > 0 ? attributes : {},
 				// raw: true,
 				// logging: console.warn,
