@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			address: {
 				type: DataTypes.JSONB,
-				allowNull: false,
+				allowNull: true,
 				validate: {
 					isValidOption(value) {
 						modelValidators.stringWithTranslation(value, 'address');
@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			email: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 				validate: {
 					isEmail: true,
 				},

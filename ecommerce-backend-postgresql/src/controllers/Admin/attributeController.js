@@ -8,12 +8,17 @@ const getAttributeById = catchAsync(async (req, res) => {
 	res.send(attribute);
 });
 const getAttributes = catchAsync(async (req, res) => {
+	// const attributes = await adminAttributeService.verifyAttributeValues();
 	const attributes = await adminAttributeService.getAttributes(req);
 	res.send(attributes);
 });
 const createAttribute = catchAsync(async (req, res) => {
 	const attributes = await adminAttributeService.createAttribute(req);
 	res.send(attributes);
+});
+const importAttributes = catchAsync(async (req, res) => {
+	adminAttributeService.importAttributes(req);
+	res.send({ message: 'importing in progress' });
 });
 
 const softDeleteAttribute = catchAsync(async (req, res) => {
@@ -40,4 +45,5 @@ module.exports = {
 	softDeleteAttribute,
 	permanentDeleteAttribute,
 	updateAttribute,
+	importAttributes,
 };

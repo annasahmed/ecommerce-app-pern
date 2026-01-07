@@ -1,0 +1,381 @@
+[
+	{
+		"title": "Fashion",
+		"slug": "fashion",
+		"level": 1,
+		"children": [
+			{
+				"title": "Baby Accessories",
+				"slug": "baby-accessories",
+				"level": 2,
+				"children": [
+					{ "title": "Swaddles", "slug": "swaddles", "level": 3 },
+					{ "title": "Blankets", "slug": "blankets", "level": 3 },
+					{
+						"title": "Wrapping Sheets",
+						"slug": "wrapping-sheets",
+						"level": 3
+					},
+					{ "title": "Towels", "slug": "towels", "level": 3 },
+					{ "title": "Bibs", "slug": "bibs", "level": 3 },
+					{ "title": "Caps & Hats", "slug": "caps-hats", "level": 3 },
+					{
+						"title": "Mittens & Gloves",
+						"slug": "mittens-gloves",
+						"level": 3
+					},
+					{
+						"title": "Socks & Booties",
+						"slug": "socks-booties",
+						"level": 3
+					},
+					{ "title": "Gift Sets", "slug": "gift-sets", "level": 3 }
+				]
+			},
+			{
+				"title": "Baby",
+				"slug": "baby",
+				"level": 2,
+				"children": [
+					{
+						"title": "Bodysuits & Rompers",
+						"slug": "bodysuits-rompers",
+						"level": 3
+					},
+					{ "title": "Sleepwear", "slug": "sleepwear", "level": 3 },
+					{ "title": "Tops", "slug": "tops", "level": 3 },
+					{ "title": "Bottoms", "slug": "baby-bottoms", "level": 3 },
+					{ "title": "Dresses", "slug": "dresses", "level": 3 },
+					{
+						"title": "Innerwear",
+						"slug": "fashion-innerwear",
+						"level": 3
+					},
+					{ "title": "Outerwear", "slug": "outerwear", "level": 3 },
+					{ "title": "Costumes", "slug": "costumes", "level": 3 },
+					{
+						"title": "Accessories",
+						"slug": "accessories",
+						"level": 3
+					}
+				]
+			},
+			{
+				"title": "Footwear",
+				"slug": "footwear",
+				"level": 2,
+				"children": [
+					{ "title": "Socks", "slug": "socks", "level": 3 },
+					{ "title": "Booties", "slug": "booties", "level": 3 },
+					{
+						"title": "Casual Wear",
+						"slug": "casual-wear",
+						"level": 3
+					},
+					{ "title": "Sandals", "slug": "sandals", "level": 3 }
+				]
+			}
+		]
+	},
+	{
+		"title": "Gear",
+		"slug": "gear",
+		"level": 1,
+		"children": [
+			{
+				"title": "Strollers & Prams",
+				"slug": "strollers-prams",
+				"level": 2
+			},
+			{
+				"title": "Walkers & Push Along",
+				"slug": "walkers-push-along",
+				"level": 2
+			},
+			{
+				"title": "Car Seats Carrycots & Carriers",
+				"slug": "car-seats-carrycots-carriers",
+				"level": 2
+			},
+			{
+				"title": "Bouncers Rockers & Swings",
+				"slug": "bouncers-rockers-swings",
+				"level": 2
+			},
+			{
+				"title": "Highchair & Booster Seats",
+				"slug": "gear-highchair-booster-seats",
+				"level": 2
+			},
+			{
+				"title": "Playmats & Playgyms",
+				"slug": "gear-playmats-playgyms",
+				"level": 2
+			},
+			{
+				"title": "Tricycles & Bicycles",
+				"slug": "tricycles-bicycles",
+				"level": 2
+			},
+			{
+				"title": "Rideons & Scooters",
+				"slug": "rideons-scooters",
+				"level": 2
+			},
+			{ "title": "Travel Bags", "slug": "gear-travel-bags", "level": 2 }
+		]
+	},
+	{
+		"title": "Feeding",
+		"slug": "feeding",
+		"level": 1,
+		"children": [
+			{
+				"title": "Breast Feeding",
+				"slug": "feeding-breast-feeding",
+				"level": 2
+			},
+			{
+				"title": "Feeding Bottles & Teats",
+				"slug": "feeding-bottles-teats",
+				"level": 2
+			},
+			{ "title": "Sippers & Cups", "slug": "sippers-cups", "level": 2 },
+			{
+				"title": "Dishes & Utensils",
+				"slug": "dishes-utensils",
+				"level": 2
+			},
+			{
+				"title": "Teethers & Pacifiers",
+				"slug": "teethers-pacifiers",
+				"level": 2
+			},
+			{
+				"title": "Sterilizers & Warmers",
+				"slug": "sterilizers-warmers",
+				"level": 2
+			},
+			{
+				"title": "Feeding Accessories",
+				"slug": "feeding-accessories",
+				"level": 2
+			},
+			{
+				"title": "Food Processors & Containers",
+				"slug": "food-processors-containers",
+				"level": 2
+			},
+			{
+				"title": "Highchair & Booster Seats",
+				"slug": "feeding-highchair-booster-seats",
+				"level": 2
+			},
+			{
+				"title": "Baby Food & Infant Formula",
+				"slug": "baby-food-infant-formula",
+				"level": 2
+			},
+			{
+				"title": "Kids Food & Supplements",
+				"slug": "kids-food-supplements",
+				"level": 2
+			},
+			{ "title": "Bibs & Hankies", "slug": "bibs-hankies", "level": 2 }
+		]
+	},
+	{
+		"title": "Bath & Shower",
+		"slug": "bath-shower",
+		"level": 1,
+		"children": [
+			{
+				"title": "Lotions Oils & Powders",
+				"slug": "lotions-oils-powders",
+				"level": 2
+			},
+			{
+				"title": "Soaps Body Wash & Shampoos",
+				"slug": "soaps-body-wash-shampoos",
+				"level": 2
+			},
+			{
+				"title": "Baby Creams & Ointments",
+				"slug": "baby-creams-ointments",
+				"level": 2
+			},
+			{
+				"title": "Bath Tubs & Bathers",
+				"slug": "bath-tubs-bathers",
+				"level": 2
+			},
+			{
+				"title": "Bath Towels & Robes",
+				"slug": "bath-towels-robes",
+				"level": 2
+			},
+			{
+				"title": "Grooming Essentials",
+				"slug": "grooming-essentials",
+				"level": 2
+			},
+			{
+				"title": "Bath Toys",
+				"slug": "bath-shower-bath-toys",
+				"level": 2
+			},
+			{ "title": "Potty Training", "slug": "potty-training", "level": 2 },
+			{
+				"title": "Changing Tables & Mats",
+				"slug": "bath-changing-tables-mats",
+				"level": 2
+			},
+			{
+				"title": "Bathing Accessories",
+				"slug": "bathing-accessories",
+				"level": 2
+			}
+		]
+	},
+	{
+		"title": "Safety",
+		"slug": "safety",
+		"level": 1,
+		"children": [
+			{
+				"title": "Childproofing & Safety",
+				"slug": "childproofing-safety",
+				"level": 2
+			},
+			{ "title": "Medical Care", "slug": "medical-care", "level": 2 },
+			{ "title": "Oral Care", "slug": "oral-care", "level": 2 },
+			{
+				"title": "Cleansers & Detergents",
+				"slug": "cleansers-detergents",
+				"level": 2
+			}
+		]
+	},
+	{
+		"title": "Toys",
+		"slug": "toys",
+		"level": 1,
+		"children": [
+			{
+				"title": "Infant Toys",
+				"slug": "infant-toys",
+				"level": 2,
+				"children": [
+					{ "title": "Rattles", "slug": "rattles", "level": 3 },
+					{
+						"title": "Musical Toys",
+						"slug": "musical-toys",
+						"level": 3
+					},
+					{
+						"title": "Playmats & Playgyms",
+						"slug": "toys-playmats-playgyms",
+						"level": 3
+					},
+					{ "title": "Soft Toys", "slug": "soft-toys", "level": 3 },
+					{
+						"title": "Bath Toys",
+						"slug": "toys-bath-toys",
+						"level": 3
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "Diapering",
+		"slug": "diapering",
+		"level": 1,
+		"children": [
+			{
+				"title": "Diapers & Nappies",
+				"slug": "diapers-nappies",
+				"level": 2
+			},
+			{ "title": "Wipes", "slug": "wipes", "level": 2 },
+			{ "title": "Rash Creams", "slug": "rash-creams", "level": 2 },
+			{ "title": "Potty Seats", "slug": "potty-seats", "level": 2 },
+			{ "title": "Diaper Bags", "slug": "diaper-bags", "level": 2 },
+			{
+				"title": "Changing Tables & Mats",
+				"slug": "diapering-changing-tables-mats",
+				"level": 2
+			}
+		]
+	},
+	{
+		"title": "Nursery",
+		"slug": "nursery",
+		"level": 1,
+		"children": [
+			{
+				"title": "Cots Cradles & Playpen",
+				"slug": "cots-cradles-playpen",
+				"level": 2
+			},
+			{
+				"title": "Carry Nests & Carry Cribs",
+				"slug": "carry-nests-carry-cribs",
+				"level": 2
+			},
+			{
+				"title": "Bedding Sets & Pillows",
+				"slug": "bedding-sets-pillows",
+				"level": 2
+			},
+			{ "title": "Sleeping Bags", "slug": "sleeping-bags", "level": 2 },
+			{
+				"title": "Blankets & Quilts",
+				"slug": "blankets-quilts",
+				"level": 2
+			},
+			{
+				"title": "Wrapping Sheets & Swaddles",
+				"slug": "wrapping-sheets-swaddles",
+				"level": 2
+			},
+			{
+				"title": "Hooded Towels & Wraps",
+				"slug": "hooded-towels-wraps",
+				"level": 2
+			},
+			{
+				"title": "Wardrobes & Storage",
+				"slug": "wardrobes-storage",
+				"level": 2
+			},
+			{
+				"title": "Travel Bags",
+				"slug": "nursery-travel-bags",
+				"level": 2
+			},
+			{
+				"title": "Kids Room & Study",
+				"slug": "kids-room-study",
+				"level": 2
+			}
+		]
+	},
+	{
+		"title": "Moms",
+		"slug": "moms",
+		"level": 1,
+		"children": [
+			{
+				"title": "Breast Feeding",
+				"slug": "moms-breast-feeding",
+				"level": 2
+			},
+			{ "title": "Innerwear", "slug": "moms-innerwear", "level": 2 },
+			{ "title": "Personal Care", "slug": "personal-care", "level": 2 },
+			{ "title": "Nursing", "slug": "nursing", "level": 2 },
+			{ "title": "Bottoms", "slug": "moms-bottoms", "level": 2 },
+			{ "title": "Diaper Bags", "slug": "moms-diaper-bags", "level": 2 }
+		]
+	}
+]

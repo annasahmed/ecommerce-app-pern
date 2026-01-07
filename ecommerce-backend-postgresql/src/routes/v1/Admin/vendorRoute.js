@@ -44,4 +44,6 @@ router
 		adminVendorController.permanentDeleteVendor
 	);
 
+router.route('/import').post(adminVendorController.importVendors);
+
 module.exports = router;

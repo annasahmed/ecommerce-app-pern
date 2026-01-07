@@ -26,6 +26,15 @@ async function createAttribute(req) {
 	return attributeService.create(req.body, userId);
 }
 
+async function importAttributes(req) {
+	const attributesData = require('../../data/attributes.json');
+	for (const attr of attributesData) {
+		req.body = attr;
+		// console.log(attr);
+		await createAttribute(req);
+	}
+}
+
 async function updateAttribute(req) {
 	const userId = commonUtils.getUserId(req);
 	return attributeService.update(req.params.attributeId, req.body, userId);
@@ -36,6 +45,188 @@ async function softDeleteAttributeById(req) {
 	return attributeService.softDelete(req.params.attributeId, userId);
 }
 
+async function verifyAttributeValues({
+	attributeId = 9,
+	values = [
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Mommys',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+		'Unisex',
+	],
+	lang = 'en',
+} = {}) {
+	if (!attributeId) {
+		throw new Error('attributeId is required');
+	}
+
+	if (!Array.isArray(values) || values.length === 0) {
+		return { existing: [], missing: [] };
+	}
+
+	// normalize input (dedupe + lowercase)
+	const normalized = [...new Set(values.map((v) => v.trim().toLowerCase()))];
+
+	const attr = await db.attribute.findByPk(attributeId, {
+		attributes: ['id', 'values'],
+		raw: true,
+	});
+
+	if (!attr) {
+		return {
+			existing: [],
+			missing: normalized,
+		};
+	}
+
+	// Extract existing values from JSONB[]
+	const existingValues = (attr.values || [])
+		.map((v) => v?.[lang]?.toLowerCase())
+		.filter(Boolean);
+
+	const missing = normalized.filter((v) => !existingValues.includes(v));
+
+	return {
+		existing: existingValues,
+		missing,
+	};
+}
+
 module.exports = {
 	getAttributeById: attributeService.getById,
 	createAttribute,
@@ -44,4 +235,6 @@ module.exports = {
 		attributeService.list(req, [], [], [['created_at', 'ASC']]),
 	permanentDeleteAttributeById: attributeService.permanentDelete,
 	softDeleteAttributeById,
+	importAttributes,
+	verifyAttributeValues,
 };

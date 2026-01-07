@@ -4,10 +4,10 @@ const { validatePhoneNumber } = require('../customValidation');
 const createVendor = {
 	body: Joi.object().keys({
 		name: Joi.object().required(),
-		address: Joi.object().required(),
+		address: Joi.object().optional(),
 		country: Joi.object().optional(),
 		phone: Joi.string().optional().custom(validatePhoneNumber),
-		email: Joi.string().email().required(),
+		email: Joi.string().email().optional(),
 		status: Joi.boolean(),
 	}),
 };
@@ -21,7 +21,7 @@ const updateVendor = {
 		address: Joi.object().optional(),
 		country: Joi.object().allow(null).optional(),
 		phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
-		email: Joi.string().email().optional(),
+		email: Joi.string().email().optional().allow(null),
 		status: Joi.boolean().optional(),
 	}),
 };

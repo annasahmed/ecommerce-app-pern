@@ -44,4 +44,6 @@ router
 		adminAttributeController.permanentDeleteAttribute
 	);
 
+router.route('/import').post(adminAttributeController.importAttributes);
+
 module.exports = router;

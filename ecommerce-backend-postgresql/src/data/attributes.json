@@ -1,0 +1,84 @@
+[
+	{
+		"name": {
+			"en": "color"
+		},
+		"values": [
+			{ "en": "blue" },
+			{ "en": "white" },
+			{ "en": "pink" },
+			{ "en": "baby pink" },
+			{ "en": "orange" },
+			{ "en": "green" },
+			{ "en": "yellow" },
+			{ "en": "skin" },
+			{ "en": "red" },
+			{ "en": "brown" },
+			{ "en": "grey" },
+			{ "en": "cyan" },
+			{ "en": "black" },
+			{ "en": "light grey" },
+			{ "en": "mustard" },
+			{ "en": "purple" },
+			{ "en": "light green" },
+			{ "en": "pink" },
+			{ "en": "dark purple" },
+			{ "en": "skin brown" },
+			{ "en": "dark green" },
+			{ "en": "light purple" },
+			{ "en": "skin brown" },
+			{ "en": "mint" },
+			{ "en": "bear skin" }
+		],
+		"status": true
+	},
+	{
+		"name": {
+			"en": "size"
+		},
+		"values": [
+			{ "en": "0-1m" },
+			{ "en": "0-3m" },
+			{ "en": "1-3m" },
+			{ "en": "3+m" },
+			{ "en": "0-6m" },
+			{ "en": "6-12m" },
+			{ "en": "0-12m" },
+			{ "en": "12-18m" },
+			{ "en": "18-24m" },
+
+			{ "en": "60ml" },
+			{ "en": "65ml" },
+			{ "en": "70ml" },
+			{ "en": "75ml" },
+			{ "en": "80ml" },
+			{ "en": "90ml" },
+			{ "en": "100ml" },
+			{ "en": "120ml" },
+			{ "en": "125ml" },
+			{ "en": "150ml" },
+			{ "en": "200ml" },
+			{ "en": "240ml" },
+			{ "en": "250ml" },
+			{ "en": "260ml" },
+			{ "en": "280ml" },
+			{ "en": "300ml" },
+			{ "en": "330ml" },
+			{ "en": "350ml" },
+			{ "en": "500ml" },
+			{ "en": "700ml" },
+
+			{ "en": "50gm" },
+			{ "en": "100gm" },
+			{ "en": "200gm" }
+		],
+		"status": true
+	},
+
+	{
+		"name": {
+			"en": "size"
+		},
+		"values": [{ "en": "unisex" }, { "en": "mommys" }]
+	}
+]

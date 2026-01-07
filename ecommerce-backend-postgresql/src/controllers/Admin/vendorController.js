@@ -13,6 +13,10 @@ const createVendor = catchAsync(async (req, res) => {
 	const vendors = await adminVendorService.createVendor(req);
 	res.send(vendors);
 });
+const importVendors = catchAsync(async (req, res) => {
+	await adminVendorService.importVendors(req);
+	res.send({ message: 'importing vendor started' });
+});
 
 const softDeleteVendor = catchAsync(async (req, res) => {
 	await adminVendorService.softDeleteVendorById(req);
@@ -36,4 +40,5 @@ module.exports = {
 	softDeleteVendor,
 	permanentDeleteVendor,
 	updateVendor,
+	importVendors,
 };

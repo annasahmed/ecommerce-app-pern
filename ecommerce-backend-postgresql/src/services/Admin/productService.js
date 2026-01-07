@@ -305,8 +305,11 @@ async function softDeleteProductById(req) {
 
 // for import only
 
+const updated = [];
+const missing = [];
+
 async function updateProductBySlug(req) {
-	const { sku, description } = req.body;
+	const { sku, vendor, variants = [] } = req.body;
 
 	// if (!sku || !description) {
 	// 	throw new Error('sku and description are required');
@@ -321,20 +324,107 @@ async function updateProductBySlug(req) {
 		});
 
 		if (!product) {
+			missing.push(sku);
 			await transaction.rollback();
 			return null;
 		}
 
-		const updated = await db.product_translation.update(
-			{ description },
-			{
-				where: { product_id: product.id },
-				transaction,
+		console.log('updating sku', sku);
+
+		if (vendor && vendor.length > 0) {
+			const vendorName = await db.vendor.findOne({
+				attributes: ['id', 'name'],
+				where: db.Sequelize.where(
+					db.Sequelize.fn(
+						'LOWER',
+						db.Sequelize.literal(`name ->> '${'en'}'`)
+					),
+					vendor.toLowerCase() // <-- the value you are searching
+				),
+			});
+
+			if (vendorName) {
+				await product.setVendors([vendorName.id], { transaction });
 			}
-		);
+		}
+		const oldVariants = await db.product_variant.findAll({
+			where: { product_id: product.id },
+			transaction,
+		});
+		const oldVariantIds = oldVariants.map((v) => v.id);
+
+		if (oldVariantIds.length > 0) {
+			await db.product_variant_to_branch.destroy({
+				where: { product_variant_id: oldVariantIds },
+				transaction,
+			});
+			await db.product_variant_to_attribute.destroy({
+				where: { product_variant_id: oldVariantIds },
+				transaction,
+			});
+			await db.product_variant.destroy({
+				where: { id: oldVariantIds },
+				transaction,
+			});
+		}
+		for (const variant of variants) {
+			const {
+				branch_data = [],
+				attribute_data = [],
+				...variantData
+			} = variant;
+
+			const newVariant = await db.product_variant.create(
+				{
+					...variantData,
+					product_id: product.id,
+				},
+				{ transaction }
+			);
+
+			if (attribute_data.length > 0) {
+				const attributeEntries = attribute_data.map((entry) => ({
+					...entry,
+					product_variant_id: newVariant.id,
+				}));
+				await db.product_variant_to_attribute.bulkCreate(
+					attributeEntries,
+					{
+						transaction,
+					}
+				);
+			}
+			if (branch_data.length > 0) {
+				const branchEntries = branch_data.map((entry) => ({
+					...entry,
+					branch_id: 1,
+					cost_price: product.base_price,
+					stock: 100,
+					low_stock: 100,
+					reorder_quantity: 100,
+					sale_price: product.base_price,
+					discount_percentage: product.base_discount_percentage,
+					product_variant_id: newVariant.id,
+				}));
+				await db.product_variant_to_branch.bulkCreate(branchEntries, {
+					transaction,
+				});
+			}
+		}
+
+		console.log('updating complete sku', sku);
+		updated.push(sku);
 
 		await transaction.commit();
-		return updated;
+		console.log(
+			updated,
+			missing,
+			updated.length,
+			missing.length,
+			'final update'
+		);
+
+		// return updated;
 	} catch (error) {
 		await transaction.rollback();
 		throw error;

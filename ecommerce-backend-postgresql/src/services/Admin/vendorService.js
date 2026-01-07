@@ -1,6 +1,7 @@
 const db = require('../../db/models/index.js');
 const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
+const { Op, where, fn, col } = require('sequelize');
 
 const vendorService = createBaseService(db.vendor, {
 	name: 'Vendor',
@@ -34,6 +35,14 @@ async function createVendor(req) {
 	return vendorService.create(req.body, userId);
 }
 
+async function importVendors(req) {
+	const vendorsData = require('../../data/vendors.json');
+	for (const vendor of vendorsData) {
+		req.body = vendor;
+		await createVendor(req);
+	}
+}
+
 async function updateVendor(req) {
 	const userId = commonUtils.getUserId(req);
 	return vendorService.update(req.params.vendorId, req.body, userId);
@@ -44,6 +53,44 @@ async function softDeleteVendorById(req) {
 	return vendorService.softDelete(req.params.vendorId, userId);
 }
 
+async function verifyVendorsExist(vendorNames = vendorNameList, lang = 'en') {
+	if (!Array.isArray(vendorNames) || vendorNames.length === 0) {
+		return {
+			existing: [],
+			missing: [],
+		};
+	}
+
+	// Normalize input (trim + lowercase)
+	const normalizedNames = vendorNames.map((v) => v.trim().toLowerCase());
+
+	const vendors = await db.vendor.findAll({
+		attributes: ['id', 'name'],
+		where: {
+			[Op.or]: normalizedNames.map((name) =>
+				db.Sequelize.where(
+					db.Sequelize.fn(
+						'LOWER',
+						db.Sequelize.literal(`name ->> '${lang}'`)
+					),
+					name
+				)
+			),
+		},
+	});
+
+	const existingNames = vendors.map((v) => v.name?.[lang]?.toLowerCase());
+
+	const missing = normalizedNames.filter(
+		(name) => !existingNames.includes(name)
+	);
+
+	return {
+		existing: vendors,
+		missing,
+	};
+}
+
 module.exports = {
 	getVendorById: vendorService.getById,
 	createVendor,
@@ -52,4 +99,107 @@ module.exports = {
 		vendorService.list(req, [], [], [['created_at', 'ASC']]),
 	permanentDeleteVendorById: vendorService.permanentDelete,
 	softDeleteVendorById,
+	importVendors,
+	verifyVendorsExist,
 };
+
+const vendorNameList = [
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Montaly',
+	'Montaly',
+	'Montaly',
+	'Mami Baby',
+	'Mami Baby',
+	'Mami Baby',
+	'Mami Baby',
+	'Mami Baby',
+	'Winnie Care',
+	'Little Home',
+	'Little Home',
+	'Little Home',
+	'Little Home',
+	'Little Home',
+	'Winnie Care',
+	'Winnie Care',
+	'Winnie Care',
+	'Winnie Care',
+	'Little Home',
+	'Little Home',
+	'Little Home',
+	'Little Home',
+	'Mums World',
+	'Mums World',
+	'Mums World',
+	'Mums World',
+	'Mums World',
+	'Mums World',
+	'kidzo',
+	'Nannanqin',
+	'Nannanqin',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Kidzo',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Pampars',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Johnson',
+	'Johnson',
+	'Johnson',
+	'Pigeon',
+	'Nexton',
+	'Nexton',
+	'Nexton',
+	'Dr.Rasheel',
+	'Dr.Rasheel',
+	'Dr.Rasheel',
+	'Dr.Rasheel',
+	'Nexton',
+	'Nexton',
+	'Farlin',
+	'Farlin',
+	'Hercules Bear',
+	'Hercules Bear',
+	'Flower Baby',
+	'Flower Baby',
+	'Flower Baby',
+	'Hercules Bear',
+	'Flower Baby',
+	'Flower Baby',
+	'Only Baby',
+	'Only Baby',
+	'Only Baby',
+	'Only Baby',
+	'Smart Baby',
+	'Smart Baby',
+	'Minitree',
+	'Minitree',
+	'Minitree',
+	'Maq',
+	'Maq',
+	'Smart Baby',
+	'Maq',
+];

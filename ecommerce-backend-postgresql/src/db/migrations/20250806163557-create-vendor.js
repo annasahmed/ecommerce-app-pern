@@ -16,7 +16,7 @@ module.exports = {
 			},
 			address: {
 				type: Sequelize.JSONB,
-				allowNull: false,
+				allowNull: true,
 			},
 			country: {
 				type: Sequelize.JSONB,
@@ -32,7 +32,7 @@ module.exports = {
 			},
 			email: {
 				type: Sequelize.STRING,
-				allowNull: false,
+				allowNull: true,
 			},
 			user_id: {
 				type: Sequelize.INTEGER,
