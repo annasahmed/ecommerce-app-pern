@@ -7,8 +7,6 @@ const db = require('../../db/models/index.js');
 const roleService = require('../role.service.js');
 
 async function getUserByEmail(email, scope = 'defaultScope') {
-	console.log(email, scope, "chkninsadi");
-	
 	const user = await db.user.scope(scope).findOne({
 		where: { email },
 	});

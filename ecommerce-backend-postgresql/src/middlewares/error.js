@@ -27,10 +27,10 @@ const errorHandler = (err, req, res, next) => {
 	let { statusCode, message } = err;
 
 	// In production, we don't want to expose stack trace for non-operational errors
-	if (config.env === 'production' && !err.isOperational) {
-		statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-		message = httpStatus[statusCode];
-	}
+	// if (config.env === 'production' && !err.isOperational) {
+	// 	statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+	// 	message = httpStatus[statusCode];
+	// }
 
 	// Prepare the response body in the desired format
 	const response = {
@@ -38,13 +38,14 @@ const errorHandler = (err, req, res, next) => {
 		message,
 		error: statusCode >= 400 ? true : null, // Only include 'error' field if status code is 4xx or 5xx
 		data: statusCode >= 200 && statusCode < 300 ? err : null, // Only include 'data' field if status code is 2xx
-		...(config.env !== 'production' && { stack: err.stack }), // Include stack trace in non-production environments
+		...{ stack: err.stack }, // Include stack trace in non-production environments
+		// ...(config.env !== 'production' && { stack: err.stack }), // Include stack trace in non-production environments
 	};
 
 	// Log the error details
-	if (config.env !== 'production' || !err.isOperational) {
+	// if (config.env !== 'production' || !err.isOperational) {
 		logger.error(err); // Log full error stack for debugging purposes
-	}
+	// }
 
 	// Send the formatted response
 	res.status(statusCode).send(response);
