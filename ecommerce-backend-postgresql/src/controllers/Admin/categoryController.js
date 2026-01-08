@@ -8,7 +8,7 @@ const getCategoryById = catchAsync(async (req, res) => {
 	res.send(category);
 });
 const getCategories = catchAsync(async (req, res) => {
-	const categories = await adminCategoryService.verifyCategoriesExist();
+	const categories = await adminCategoryService.getCategories(req);
 	res.send(categories);
 });
 const createCategory = catchAsync(async (req, res) => {
