@@ -26,7 +26,7 @@ const createBulkProducts = catchAsync(async (req, res) => {
 });
 const updateProductBySlug = catchAsync(async (req, res) => {
 	const updatedProducts = [];
-	const updateProducts = require('../../data/update_product_variants_and_brands.json');
+	const updateProducts = require('../../data/update_product_translations.json');
 	for (const data of updateProducts) {
 		req.body = data;
 		const updatedProduct = await adminProductService.updateProductBySlug(req);
