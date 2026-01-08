@@ -204,12 +204,12 @@ async function updateProduct(req) {
 			{ transaction }
 		);
 
-		// Update translations: remove old, add new
-		await db.product_translation.destroy({
-			where: { product_id: product.id },
-			transaction,
-		});
 		if (translations.length > 0) {
+			// Update translations: remove old, add new
+			await db.product_translation.destroy({
+				where: { product_id: product.id },
+				transaction,
+			});
 			const translationsWithProductId = translations.map((t) => ({
 				...t,
 				product_id: product.id,
@@ -308,7 +308,8 @@ async function softDeleteProductById(req) {
 const updated = [];
 const missing = [];
 
-async function updateProductBySlug(req) {
+// vendors and variants
+async function updateProductBySlugVendorsAndVariants(req) {
 	const { sku, vendor, variants = [] } = req.body;
 
 	// if (!sku || !description) {
@@ -414,6 +415,70 @@ async function updateProductBySlug(req) {
 
 		console.log('updating complete sku', sku);
 		updated.push(sku);
+
+		await transaction.commit();
+		console.log(
+			updated,
+			missing,
+			updated.length,
+			missing.length,
+			'final update'
+		);
+
+		// return updated;
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
+}
+
+// only tranlsations
+async function updateProductBySlug(req) {
+	const { sku, title, slug, excerpt, description } = req.body;
+
+	// if (!sku || !description) {
+	// 	throw new Error('sku and description are required');
+	// }
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const product = await db.product.findOne({
+			where: { sku },
+			include: [
+				{
+					model: db.product_translation,
+					required: false,
+				},
+			],
+			transaction,
+		});
+
+		if (!product) {
+			missing.push(sku);
+			await transaction.rollback();
+			return null;
+		}
+		if (product.product_translations.length === 0) {
+			console.log('updating sku', sku);
+			const translationsWithProductId = [
+				{
+					title,
+					slug,
+					excerpt,
+					description,
+					language_id: 1,
+				},
+			].map((t) => ({
+				...t,
+				product_id: product.id,
+			}));
+			await db.product_translation.bulkCreate(translationsWithProductId, {
+				transaction,
+			});
+			console.log('updating complete sku', sku);
+			updated.push(sku);
+		}
 
 		await transaction.commit();
 		console.log(
