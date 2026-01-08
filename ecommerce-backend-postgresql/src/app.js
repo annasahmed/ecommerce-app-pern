@@ -59,6 +59,7 @@ const allowedOrigins = [
 	'https://babiesnbaba.com', // website
 	'http://babiesnbaba.com:3000', // website
 	'http://72.61.149.213:5000', // cms
+	'https://cms.babiesnbaba.com', // cms
 	// add any other frontend URLs here
 ];
 
