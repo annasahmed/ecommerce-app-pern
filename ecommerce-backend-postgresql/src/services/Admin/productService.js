@@ -1,6 +1,7 @@
 const db = require('../../db/models/index.js');
 const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
+const { Op, where, fn, col } = require('sequelize');
 
 const productService = createBaseService(db.product, {
 	name: 'Product',
@@ -10,26 +11,26 @@ const productService = createBaseService(db.product, {
 	includes: [
 		{ model: db.media, required: false, as: 'thumbnailImage' },
 		{ model: db.media, required: false, as: 'images' },
-		// {
-		// 	model: db.category,
-		// 	required: false,
-		// 	include: [
-		// 		{
-		// 			model: db.category_translation,
-		// 			as: 'translations',
-		// 			required: false,
-		// 			attributes: {
-		// 				exclude: [
-		// 					'created_at',
-		// 					'updated_at',
-		// 					'category_id',
-		// 					'language_id',
-		// 					'id',
-		// 				],
-		// 			},
-		// 		},
-		// 	],
-		// },
+		{
+			model: db.category,
+			required: false,
+			include: [
+				{
+					model: db.category_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'category_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
 		{ model: db.product_translation, required: false },
 		{
 			model: db.usp,
@@ -305,9 +306,6 @@ async function softDeleteProductById(req) {
 
 // for import only
 
-const updated = [];
-const missing = [];
-
 // vendors and variants
 async function updateProductBySlugVendorsAndVariants(req) {
 	const { sku, vendor, variants = [] } = req.body;
@@ -496,6 +494,65 @@ async function updateProductBySlug(req) {
 	}
 }
 
+async function updateProductCategoriesBySku(req) {
+	const updated = [];
+	const missing = [];
+
+	const { sku, categories = [] } = req.body;
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const product = await db.product.findOne({
+			where: { sku },
+			transaction,
+		});
+
+		if (!product) {
+			missing.push(sku);
+			await transaction.rollback();
+			return { updated, missing };
+		}
+		console.log('updating categories for sku', sku);
+		if (Array.isArray(categories) && categories.length > 0) {
+			// normalize + dedupe remove duplicates
+			const normalizedCategories = [
+				...new Set(categories.map((c) => c.trim().toLowerCase())),
+			];
+
+			const cats = await db.category_translation.findAll({
+				attributes: ['category_id'],
+				where: {
+					language_id: 1,
+					[Op.and]: [
+						where(fn('LOWER', col('title')), {
+							[Op.in]: normalizedCategories,
+						}),
+					],
+				},
+				raw: true,
+			});
+
+			const categoryIds = cats.map((c) => c.category_id);
+
+			// IMPORTANT: pass IDs, not translations
+			await product.setCategories(categoryIds, { transaction });
+			console.log('updated categories for sku', sku);
+		}
+
+		await transaction.commit();
+		updated.push(sku);
+
+		return {
+			updated,
+			missing,
+		};
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
+}
+
 module.exports = {
 	getProductById: productService.getById,
 	createProduct,
@@ -504,5 +561,5 @@ module.exports = {
 		productService.list(req, [], [], [['created_at', 'ASC']]),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
-	updateProductBySlug,
+	updateProductCategoriesBySku,
 };

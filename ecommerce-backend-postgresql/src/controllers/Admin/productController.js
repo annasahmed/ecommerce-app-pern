@@ -26,15 +26,16 @@ const createBulkProducts = catchAsync(async (req, res) => {
 });
 const updateProductBySlug = catchAsync(async (req, res) => {
 	const updatedProducts = [];
-	const updateProducts = require('../../data/update_product_translations.json');
+	const updateProducts = require('../../data/update_product_categories.json');
 	for (const data of updateProducts) {
 		req.body = data;
-		const updatedProduct = await adminProductService.updateProductBySlug(req);
+		const updatedProduct =
+			await adminProductService.updateProductCategoriesBySku(req);
 		if (updatedProduct) {
 			updatedProducts.push(updatedProduct);
 		}
 	}
-	res.send({ message: `updated these products` });
+	res.send({ message: `updated these products`, updatedProducts });
 });
 
 const softDeleteProduct = catchAsync(async (req, res) => {
