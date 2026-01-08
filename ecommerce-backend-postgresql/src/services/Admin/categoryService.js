@@ -246,10 +246,9 @@ const updated = [];
 
 // to create categouries with only titles from json
 async function importCategoriesTitles(req) {
-	console.log('importing categorie', title);
-
 	const userId = commonUtils.getUserId(req);
 	const { title, slug } = req.body;
+	console.log('importing categorie', title);
 	if (!title || !slug) {
 		return null;
 		// throw new ApiError(httpStatus.BAD_REQUEST, `Title is required`);
