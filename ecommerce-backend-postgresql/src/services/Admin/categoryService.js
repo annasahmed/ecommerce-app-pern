@@ -3,7 +3,7 @@ const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
 const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError.js');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const { level } = require('winston');
 
 // const validations = async (data) => {
@@ -230,7 +230,8 @@ async function createCategoryTree({ categoryData, parentId = null, userId }) {
 	}
 }
 
-async function importCategories(req) {
+// complete category tree import
+async function importCategoriesTree(req) {
 	const userId = commonUtils.getUserId(req);
 
 	for (const category of nestedCategoriesData) {
@@ -238,6 +239,53 @@ async function importCategories(req) {
 			categoryData: category,
 			userId,
 		});
+	}
+}
+
+const updated = [];
+
+// to create categouries with only titles from json
+async function importCategoriesTitles(req) {
+	const userId = commonUtils.getUserId(req);
+	const { title, slug } = req.body;
+	if (!title || !slug) {
+		return null;
+		// throw new ApiError(httpStatus.BAD_REQUEST, `Title is required`);
+	}
+	const existedCategory = await db.category_translation.findOne({
+		where: { title: title, language_id: 1 },
+	});
+	if (!existedCategory) {
+		const transaction = await db.sequelize.transaction();
+		try {
+			const createdCategory = await db.category.create(
+				{
+					parent_id: null,
+					level: 1,
+					user_id: userId,
+					status: true,
+				},
+				{ transaction }
+			);
+			await db.category_translation.create(
+				{
+					title,
+					slug,
+					language_id: 1,
+					category_id: createdCategory.id,
+				},
+				{ transaction }
+			);
+			updated.push(title);
+			console.log(updated, 'updatedCat');
+
+			transaction.commit();
+			return createdCategory;
+		} catch (error) {
+			transaction.rollback();
+			return null;
+			// throw error;
+		}
 	}
 }
 
@@ -270,7 +318,7 @@ module.exports = {
 	permanentDeleteCategoryById: categoryService.permanentDelete,
 	softDeleteCategoryById,
 	getCategoriesForOptions,
-	importCategories,
+	importCategoriesTitles,
 };
 
 async function isCategoryDescendant(

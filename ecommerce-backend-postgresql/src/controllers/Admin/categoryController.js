@@ -15,11 +15,20 @@ const createCategory = catchAsync(async (req, res) => {
 	const categories = await adminCategoryService.createCategory(req);
 	res.send(categories);
 });
-
 const importCategories = catchAsync(async (req, res) => {
-	adminCategoryService.importCategories(req);
-	res.send({ message: 'successfull' });
+	const categoriesData = require('../../data/update_categories.json');
+	for (const data of categoriesData) {
+		req.body = data;
+		await adminCategoryService.importCategoriesTitles(req);
+	}
+	// const categories = await adminCategoryService.createCategory(req);
+	res.send({ message: 'Categories imported successfully' });
 });
+
+// const importCategories = catchAsync(async (req, res) => {
+// 	adminCategoryService.importCategories(req);
+// 	res.send({ message: 'successfull' });
+// });
 
 const softDeleteCategory = catchAsync(async (req, res) => {
 	await adminCategoryService.softDeleteCategoryById(req);
