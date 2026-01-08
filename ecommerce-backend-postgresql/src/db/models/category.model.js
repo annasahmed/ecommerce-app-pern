@@ -5,7 +5,6 @@ const {
 	mediaField,
 	mediaAssociation,
 } = require('./base_model');
-const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
 	const category = sequelize.define(

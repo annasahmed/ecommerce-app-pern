@@ -3,7 +3,7 @@ const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
 const httpStatus = require('http-status');
 const ApiError = require('../../utils/ApiError.js');
-const { Op, where } = require('sequelize');
+const { Op, where, fn, col } = require('sequelize');
 const { level } = require('winston');
 
 // const validations = async (data) => {
@@ -242,10 +242,9 @@ async function importCategoriesTree(req) {
 	}
 }
 
-const updated = [];
-
 // to create categouries with only titles from json
 async function importCategoriesTitles(req) {
+	const updated = [];
 	const userId = commonUtils.getUserId(req);
 	const { title, slug } = req.body;
 	console.log('importing categorie', title);
@@ -290,6 +289,43 @@ async function importCategoriesTitles(req) {
 	}
 }
 
+async function verifyCategoriesExist(
+	categoryNames = categoryNameList,
+	languageId = 1
+) {
+	if (!Array.isArray(categoryNames) || categoryNames.length === 0) {
+		return { existing: [], missing: [] };
+	}
+
+	// normalize + dedupe
+	const normalizedNames = [
+		...new Set(categoryNames.map((v) => v.trim().toLowerCase())),
+	];
+
+	// fetch existing category titles
+	const rows = await db.category_translation.findAll({
+		attributes: ['category_id', 'title'],
+		where: {
+			language_id: languageId,
+			[Op.and]: [
+				where(fn('LOWER', col('title')), { [Op.in]: normalizedNames }),
+			],
+		},
+		raw: true,
+	});
+
+	const existingNames = rows.map((r) => r.title.toLowerCase());
+
+	const missing = normalizedNames.filter(
+		(name) => !existingNames.includes(name)
+	);
+
+	return {
+		existing: rows, // contains category_id + title
+		missing,
+	};
+}
+
 module.exports = {
 	getCategoryById: categoryService.getById,
 	createCategory,
@@ -320,6 +356,7 @@ module.exports = {
 	softDeleteCategoryById,
 	getCategoriesForOptions,
 	importCategoriesTitles,
+	verifyCategoriesExist,
 };
 
 async function isCategoryDescendant(
@@ -381,3 +418,150 @@ async function updateChildrenLevels(categoryId, levelDiff, transaction) {
 }
 
 const nestedCategoriesData = require('../../data/categories.json');
+
+const categoryNameList = [
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'swaddles',
+	'wrapping sheets',
+	'wrapping sheets',
+	'wrapping sheets',
+	'wrapping sheets',
+	'wrapping sheets',
+	'wrapping sheets',
+	'wrapping sheets',
+	'wrapping sheets',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeder covers',
+	'feeders',
+	'feeder covers',
+	'feeder covers',
+	'bath towels',
+	'bath towels',
+	'bath towels',
+	'bath towels',
+	'bath towels',
+	'bath towels',
+	'socks',
+	'socks',
+	'socks',
+	'swaddle blankets',
+	'rattles',
+	'rattles',
+	'rattles',
+	'rattles',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'bibs',
+	'casual shoes',
+	'casual shoes',
+	'casual shoes',
+	'casual shoes',
+	'casual shoes',
+	'casual shoes',
+	'casual shoes',
+	'lotions',
+	'lotions',
+	'lotions',
+	'lotions',
+	'oils',
+	'oils',
+	'oils',
+	'oils',
+	'powder',
+	'powder',
+	'powder',
+	'powder',
+	'soap',
+	'soap',
+	'wipes',
+	'wipes',
+	'wipes',
+	'wipes',
+	'wipes',
+	'wipes',
+	'wipes',
+	'shampoo',
+	'shampoo',
+	'diaper',
+	'diaper',
+	'moisturizers',
+	'moisturizers',
+	'moisturizers',
+	'diaper',
+	'cologne',
+	'cologne',
+	'bottle wash',
+	'bottle wash',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'teethers',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'feeder brush',
+	'bottle nipples',
+	'bottle nipples',
+	'bottle nipples',
+	'bottle nipples',
+	'feeding syringe',
+	'feeding syringe',
+	'feeding syringe',
+	'pillows',
+	'baby care',
+	'bedding',
+	'pillows',
+	'pillows',
+	'pillows',
+	'baby care',
+	'bedding',
+	'pillows',
+	'pillows',
+	'pillows',
+	'pillows',
+	'pillows',
+	'pillows',
+	'play gym',
+];
