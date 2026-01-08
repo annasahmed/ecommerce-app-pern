@@ -9,7 +9,6 @@ import CategoryServices from "@/services/CategoryServices";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 const SelectCategory = ({ setCategory }) => {
-	// console.log('data category',data)
 	const { t } = useTranslation();
 	const { data } = useAsync(CategoryServices.getAllCategories);
 	const { showingTranslateValue } = useUtilsFunction();

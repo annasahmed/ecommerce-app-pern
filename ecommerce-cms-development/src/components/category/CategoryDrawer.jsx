@@ -65,8 +65,6 @@ const CategoryDrawer = ({ id, data }) => {
 		});
 	}, []);
 
-	console.log(parentCategories, "chkkin111");
-
 	const onSubmit = async (data) => {
 		try {
 			setIsSubmitting(true);

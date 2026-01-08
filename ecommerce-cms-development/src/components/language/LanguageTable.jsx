@@ -13,10 +13,8 @@ import EditDeleteButton from "@/components/table/EditDeleteButton";
 
 const LanguageTable = ({ languages, isCheck, setIsCheck }) => {
 	const { serviceId, handleModalOpen, handleUpdate, title } = useToggleDrawer();
-	// console.log("language", languages);
 	const handleClick = (e) => {
 		const { id, checked } = e.target;
-		// console.log('click all id', id, checked);
 		setIsCheck([...isCheck, id]);
 		if (!checked) {
 			setIsCheck(isCheck.filter((item) => item !== id));

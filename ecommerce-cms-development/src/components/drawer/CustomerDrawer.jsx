@@ -13,8 +13,6 @@ import DrawerButton from "@/components/form/button/DrawerButton";
 const CustomerDrawer = ({ id }) => {
 	const { register, handleSubmit, onSubmit, errors, isSubmitting } =
 		useCustomerSubmit(id);
-
-	// console.log('##CustomerDrawer',)
 	return (
 		<>
 			<div className="w-full relative p-6 border-b border-customGray-100 bg-customGray-50 dark:border-customGray-700 dark:bg-customGray-800 dark:text-customGray-300">

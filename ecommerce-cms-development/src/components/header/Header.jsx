@@ -48,8 +48,6 @@ const Header = () => {
 	const [profileOpen, setProfileOpen] = useState(false);
 	const [notificationOpen, setNotificationOpen] = useState(false);
 
-	// console.log("currentLanguageCode", currentLanguageCode);
-
 	const handleLogOut = () => {
 		dispatch({ type: "USER_LOGOUT" });
 		Cookies.remove("adminInfo");
@@ -99,7 +97,6 @@ const Header = () => {
 	const handleGetAllNotifications = async () => {
 		try {
 			const res = await NotificationServices.getAllNotification();
-			// console.log("notifcation api called", res);
 			setData(res?.notifications);
 			setTotalUnreadDoc(res?.totalUnreadDoc);
 			setTotalDoc(res?.totalDoc);
@@ -132,7 +129,6 @@ const Header = () => {
 
 	// }
 
-	// console.log("notificaiotn", data);
 	return (
 		<>
 			<header className="z-30 py-4 bg-customWhite shadow-sm dark:bg-customGray-800">

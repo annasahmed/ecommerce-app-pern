@@ -10,8 +10,6 @@ const AttributeOptionTwo = ({
 }) => {
 	const [attributeOptions, setAttributeOptions] = useState([]);
 	const [selected, setSelected] = useState([]);
-	// console.log('attributes in attribute option',attributes)
-
 	const { showingTranslateValue } = useUtilsFunction();
 
 	const handleSelectValue = (items) => {

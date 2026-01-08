@@ -60,10 +60,8 @@ const PrintReceipt = ({ orderId }) => {
 			setOrderData(res);
 			handlePrint();
 		} catch (err) {
-			// console.log("order by user id error", err);
 			notifyError(err ? err?.response?.data?.message : err?.message);
 		}
-		// console.log('id', id);
 	};
 
 	return (

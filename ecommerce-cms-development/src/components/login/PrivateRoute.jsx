@@ -5,9 +5,6 @@ import { AdminContext } from "@/context/AdminContext";
 const PrivateRoute = ({ children, ...rest }) => {
 	const { state } = useContext(AdminContext);
 	const { adminInfo } = state;
-
-	console.log(adminInfo, "chkking adminInfo");
-
 	return (
 		<Route
 			{...rest}

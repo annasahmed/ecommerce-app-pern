@@ -11,9 +11,6 @@ const ViewAttribute = ({ attribute }) => {
 	const [openModal, setOpenModal] = useState(false);
 
 	const onCloseModal = () => setOpenModal(false);
-
-	// console.log('attribute', attribute);
-
 	return (
 		<>
 			<Modal

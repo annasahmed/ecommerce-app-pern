@@ -39,8 +39,6 @@ const UploadMany = ({
 		status: false,
 	});
 
-	// console.log(exportData);
-
 	const handleExportCSV = () => {
 		if (location.pathname === "/products") {
 			setLoadingExport({ name: "csv", status: true });
@@ -63,7 +61,6 @@ const UploadMany = ({
 				.catch((err) => {
 					setLoadingExport({ name: "", status: false });
 					setDropDown(false);
-					// console.log(err);
 				});
 		}
 		if (location.pathname === "/categories") {
@@ -119,7 +116,6 @@ const UploadMany = ({
 				.catch((err) => {
 					setDropDown(false);
 					setLoadingExport({ name: "json", status: true });
-					// console.log(err);
 				});
 		}
 		if (location.pathname === "/categories") {

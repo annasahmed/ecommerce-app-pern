@@ -11,8 +11,6 @@ const useCurrencySubmit = (id) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { isDrawerOpen, closeDrawer, setIsUpdate } = useContext(SidebarContext);
 
-  // console.log(variants);
-
   const {
     handleSubmit,
     register,

@@ -18,8 +18,6 @@ const ChildAttributeTable = ({
 	setIsCheck,
 	childAttributes,
 }) => {
-	// console.log(lang);
-	// console.log("att", childAttributes);
 
 	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 	const { showingTranslateValue } = useUtilsFunction();

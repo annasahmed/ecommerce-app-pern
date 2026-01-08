@@ -172,13 +172,14 @@ const ProductVariantForm = ({
 		setDefaultVariants([]);
 		setGeneratedVariants([]);
 	}, [resetKey]);
+
 	return (
 		<section className="flex flex-col gap-8">
 			{/* Variants Section */}
 			<section className="w-full relative p-6 rounded-lg border">
 				<h3 className="font-semibold text-2xl h3 mb-4">Product Attributes</h3>
 				<div className="grid grid-cols-2 gap-x-16 gap-y-6 items-end mt-8">
-					{attributes?.map((v, i) => {
+					{attributes?.slice(2)?.map((v, i) => {
 						// remove showingTranslateValue with all v.name later
 						return (
 							<InputMultipleSelectField
@@ -199,8 +200,8 @@ const ProductVariantForm = ({
 									.filter((opt) => {
 										return defaultVariants
 											.find((dv) => dv.id === v.id)
-											?.values?.map((val) => val.en)
-											.includes(opt.name);
+											?.values?.map((val) => val.en?.toLowerCase())
+											.includes(opt.name.toLowerCase());
 									})}
 								onChange={(selectedList) => {
 									setSelectedVariants((prev) => {

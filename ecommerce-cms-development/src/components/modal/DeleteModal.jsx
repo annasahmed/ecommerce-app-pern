@@ -83,11 +83,9 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 
 			if (location.pathname === "/categories" || category) {
 				if (ids) {
-					//  console.log('delete modal categorices',ids)
 					const res = await CategoryServices.deleteManyCategory({
 						ids: ids,
 					});
-					//  console.log('delete many category res',res)
 					setIsUpdate(true);
 					notifySuccess(res.message);
 					setIsCheck([]);
@@ -100,7 +98,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 						setIsSubmitting(false);
 						return closeModal();
 					}
-					// console.log('delete modal open',id)
 					const res = await CategoryServices.deleteCategory(id);
 					setIsUpdate(true);
 					notifySuccess(res.message);
@@ -112,7 +109,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 				location.pathname === `/categories/${useParamId}` ||
 				category
 			) {
-				// console.log('delete modal ')
 				if (id === undefined || !id) {
 					notifyError("Please select a category first!");
 					setIsSubmitting(false);
@@ -205,8 +201,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 					closeModal();
 					setIsSubmitting(false);
 				} else {
-					// console.log("att value delete", id, location.pathname.split("/")[2]);
-
 					const res = await AttributeServices.deleteChildAttribute({
 						id: id,
 						ids: location.pathname.split("/")[2],

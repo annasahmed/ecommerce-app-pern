@@ -13,11 +13,8 @@ import PrintReceipt from "@/components/form/others/PrintReceipt";
 import SelectStatus from "@/components/form/selectOption/SelectStatus";
 
 const OrderTable = ({ orders }) => {
-	// console.log('globalSetting',globalSetting)
 	const { t } = useTranslation();
 	const { showDateTimeFormat, currency, getNumberTwo } = useUtilsFunction();
-
-	// console.log('orders',orders)
 
 	return (
 		<>

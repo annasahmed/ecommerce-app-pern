@@ -189,7 +189,6 @@ const useFilter = (data) => {
 		}
 
 		if (attributeTitle) {
-			// console.log("asss");
 			services = services.filter(
 				(search) =>
 					search?.title[lang]
@@ -401,8 +400,6 @@ const useFilter = (data) => {
 		if (file && file.type === "application/json") {
 			setFileName(file?.name);
 			setIsDisable(true);
-			console.log("if");
-
 			fileReader.readAsText(file, "UTF-8");
 			fileReader.onload = (e) => {
 				let text = JSON.parse(e.target.result);

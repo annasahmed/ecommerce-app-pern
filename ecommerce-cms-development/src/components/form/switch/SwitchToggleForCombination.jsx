@@ -7,7 +7,6 @@ const SwitchToggleForCombination = ({
 	handleProcess,
 	processOption,
 }) => {
-	// console.log('processOption',processOption)
 	const { t } = useTranslation();
 	return (
 		<>

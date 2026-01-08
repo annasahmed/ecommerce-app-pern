@@ -27,8 +27,6 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
 		}
 	};
 
-	// console.log('attributes', attributes);
-
 	return (
 		<>
 			{isCheck.length < 1 && <DeleteModal id={serviceId} title={title} />}

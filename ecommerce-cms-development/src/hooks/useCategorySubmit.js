@@ -30,10 +30,6 @@ const useCategorySubmit = (id, data) => {
 		formState: { errors },
 	} = useForm();
 
-	// console.log("lang", lang, language);
-
-	// console.log("resData", resData);
-
 	const onSubmit = async ({ title, description }) => {
 		try {
 			setIsSubmitting(true);
@@ -42,7 +38,6 @@ const useCategorySubmit = (id, data) => {
 				language,
 				resData?.title,
 			);
-			// console.log("nameTranslates", nameTranslates);
 			// return;
 			const descriptionTranslates = await handlerTextTranslateHandler(
 				description,
@@ -66,10 +61,6 @@ const useCategorySubmit = (id, data) => {
 				status: published,
 				lang: language,
 			};
-
-			// console.log("category submit", categoryData);
-			// setIsSubmitting(false);
-			// return;
 
 			if (id) {
 				const res = await CategoryServices.updateCategory(id, categoryData);
@@ -127,7 +118,6 @@ const useCategorySubmit = (id, data) => {
 			(async () => {
 				try {
 					const res = await CategoryServices.getCategoryById(id);
-					// console.log("res category", res);
 
 					if (res) {
 						setResData(res);

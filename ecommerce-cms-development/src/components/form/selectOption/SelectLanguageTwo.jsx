@@ -8,8 +8,6 @@ const SelectLanguageTwo = ({ handleSelectLanguage, register }) => {
 	const { languages, langError, langLoading } = useUtilsFunction();
 	const { lang } = useContext(SidebarContext);
 
-	// console.log("lang", lang, "data", data);
-
 	return (
 		<>
 			<select

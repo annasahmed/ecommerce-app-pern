@@ -113,8 +113,6 @@ const HomePage = ({
 	const { mode } = useContext(WindmillContext);
 	const { t } = useTranslation();
 
-	// console.log("mode", mode);
-
 	return (
 		<>
 			<div className="sticky top-0 z-20 flex justify-end">

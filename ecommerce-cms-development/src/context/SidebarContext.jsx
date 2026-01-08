@@ -71,7 +71,6 @@ export const SidebarProvider = ({ children }) => {
 	const toggleModal = () => setIsModalOpen(!isModalOpen);
 
 	const handleLanguageChange = (value) => {
-		// console.log("handleChangeLang", value);
 
 		Cookies.set("i18next", value?.iso_code, {
 			sameSite: "None",
@@ -97,8 +96,6 @@ export const SidebarProvider = ({ children }) => {
 		setCategory(null);
 		setUsp(null);
 	};
-
-	// console.log("globalSetting", globalSetting, "languages", languages);
 
 	useEffect(() => {
 		const pathname = window?.location.pathname === "/login";

@@ -86,7 +86,6 @@ const CategoryDrawer = ({ id, data }) => {
 	};
 
 	const handleSelect = async (key) => {
-		// console.log('key', key, 'id', id);
 		if (key === undefined) return;
 		if (id) {
 			const parentCategoryId = await CategoryServices.getCategoryById(key);

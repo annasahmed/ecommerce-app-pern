@@ -72,14 +72,6 @@ export const GlobalSettingsProvider = ({ children }) => {
 		fetchLanguages();
 	}, []);
 
-	console.log(
-		{
-			branches,
-			branhcId: branches?.length > 0 ? branches[0].id : null,
-		},
-		"adnsakdmsa",
-	);
-
 	return (
 		<GlobalSettingsContext.Provider
 			value={{

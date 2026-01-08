@@ -84,8 +84,6 @@ const useAttributeSubmit = (id) => {
 				lang: language,
 			};
 
-			// console.log("attributeData", attributeData);
-
 			if (id) {
 				const res = await AttributeServices.updateAttributes(id, attributeData);
 				setIsUpdate(true);
@@ -159,7 +157,6 @@ const useAttributeSubmit = (id) => {
 		if (Object.keys(resData).length > 0) {
 			setValue("title", resData.title[lang ? lang : "en"]);
 			setValue("name", resData.name[lang ? lang : "en"]);
-			// console.log('change lang', lang);
 		}
 	};
 
@@ -214,7 +211,6 @@ const useAttributeSubmit = (id) => {
 						ids: id,
 					});
 					if (res) {
-						// console.log('res child', res);
 						setValue("name", res.name[language ? language : "en"]);
 						setPublished(res.status === "show" ? true : false);
 					}

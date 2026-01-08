@@ -13,8 +13,6 @@ import ShowHideButton from "@/components/table/ShowHideButton";
 
 const CurrencyTable = ({ currency, isCheck, setIsCheck }) => {
 	const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
-	// console.log('currency',currency)
-
 	const handleClick = (e) => {
 		const { id, checked } = e.target;
 

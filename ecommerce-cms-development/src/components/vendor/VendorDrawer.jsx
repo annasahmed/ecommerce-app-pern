@@ -43,16 +43,12 @@ const VendorDrawer = ({ id, data }) => {
 				"en",
 				resData?.name,
 			);
-			const addressTranslates = await handlerTextTranslateHandler(
-				address,
-				"en",
-				resData?.address,
-			);
-			const countryTranslates = await handlerTextTranslateHandler(
-				country,
-				"en",
-				resData?.country,
-			);
+			const addressTranslates = address
+				? await handlerTextTranslateHandler(address, "en", resData?.address)
+				: {};
+			const countryTranslates = country
+				? await handlerTextTranslateHandler(country, "en", resData?.country)
+				: {};
 
 			const cleanedData = Object.fromEntries(
 				Object.entries(data).filter(([_, value]) => value !== ""),
@@ -66,7 +62,7 @@ const VendorDrawer = ({ id, data }) => {
 				},
 				address: {
 					...addressTranslates,
-					["en"]: address,
+					...(address && { ["en"]: address }),
 				},
 				country: {
 					...countryTranslates,
@@ -104,7 +100,7 @@ const VendorDrawer = ({ id, data }) => {
 					if (res) {
 						setResData(res);
 						setValue("name", res.name["en"]);
-						setValue("address", res.address["en"]);
+						setValue("address", res.address && res.address["en"]);
 						setValue("country", res.country && res.country["en"]);
 						setValue("phone", res.phone);
 						setValue("email", res.email);
@@ -148,10 +144,10 @@ const VendorDrawer = ({ id, data }) => {
 							</div>
 						</div>
 						<div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-							<LabelArea label={t("Address")} required={true} />
+							<LabelArea label={t("Address")} required={false} />
 							<div className="col-span-8 sm:col-span-4">
 								<InputArea
-									required={true}
+									required={false}
 									register={register}
 									label="address"
 									name="address"
@@ -193,7 +189,7 @@ const VendorDrawer = ({ id, data }) => {
 							<LabelArea label={t("Email")} required={true} />
 							<div className="col-span-8 sm:col-span-4">
 								<InputArea
-									required={true}
+									required={false}
 									register={register}
 									label="email"
 									name="email"

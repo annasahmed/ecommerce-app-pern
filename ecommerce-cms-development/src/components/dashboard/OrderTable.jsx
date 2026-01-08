@@ -6,7 +6,6 @@ import Status from "@/components/table/Status";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 const OrderTable = ({ orders }) => {
-	// console.log("orders", orders);
 	const { currency, showDateTimeFormat, getNumberTwo } = useUtilsFunction();
 	return (
 		<>

@@ -77,8 +77,6 @@ const BranchDrawer = ({ id, data }) => {
 				status,
 			};
 
-			console.log(branchData, isMainBranch, "chkking111");
-
 			if (id) {
 				const res = await BranchServices.updateBranch(id, branchData);
 				setIsUpdate(true);
@@ -99,7 +97,6 @@ const BranchDrawer = ({ id, data }) => {
 			notifyError(err ? err?.response?.data?.message : err?.message);
 		}
 	};
-	console.log(isMainBranch, "asdasmkd");
 
 	useEffect(() => {
 		if (id) {

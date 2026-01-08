@@ -40,7 +40,6 @@ const StoreSetting = ({
 		} else {
 			setEnabledCOD(!enabledCOD);
 		}
-		// console.log("value", checked, "event", event.target.value, "id", id);
 	};
 
 	return (

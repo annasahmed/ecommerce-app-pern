@@ -27,8 +27,6 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 			} else {
 				newStatus = true;
 			}
-			console.log({ status, newStatus }, "chkking new");
-
 			if (location.pathname === "/parent-categories" || category) {
 				const res = await ParentCategoryServices.updateStatus(id, {
 					status: newStatus,
@@ -102,7 +100,6 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 			}
 
 			if (location.pathname === "/coupons") {
-				// console.log('coupns',id)
 				const res = await CouponServices.updateStatus(id, {
 					status: newStatus,
 				});
@@ -111,7 +108,6 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 			}
 
 			if (location.pathname === "/our-staff") {
-				// console.log('coupns',id)
 				const res = await CouponServices.updateStaffStatus(id, {
 					status: newStatus,
 				});

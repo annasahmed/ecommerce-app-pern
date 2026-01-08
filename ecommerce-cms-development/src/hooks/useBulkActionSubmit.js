@@ -29,13 +29,6 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 		useContext(SidebarContext);
 
 	const { handleDisableForDemo } = useDisableForDemo();
-	// console.log(
-	//   'defaultCategory',
-	//   defaultCategory,
-	//   'selectedCategory',
-	//   selectedCategory
-	// );
-
 	const {
 		register,
 		handleSubmit,
@@ -102,7 +95,6 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 			};
 
 			if (location.pathname === "/products") {
-				// console.log("productData", productData);
 				const res = await ProductServices.updateManyProducts(productData);
 				setIsUpdate(true);
 				notifySuccess(res.message);
@@ -121,7 +113,6 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 				setIsUpdate(true);
 				notifySuccess(res.message);
 				closeBulkDrawer();
-				// console.log("languages update Many");
 			}
 
 			if (location.pathname === "/currencies") {
@@ -129,7 +120,6 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 				setIsUpdate(true);
 				notifySuccess(res.message);
 				closeBulkDrawer();
-				// console.log("currencies update Many");
 			}
 
 			if (
@@ -160,7 +150,6 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 				closeBulkDrawer();
 			}
 		} catch (err) {
-			// console.log("err on bulk action", err);
 			notifyError(err?.response?.data?.message || err?.message);
 		}
 	};

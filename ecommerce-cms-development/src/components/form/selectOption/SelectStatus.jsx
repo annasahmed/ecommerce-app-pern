@@ -7,7 +7,6 @@ import { notifySuccess, notifyError } from "@/utils/toast";
 import { SidebarContext } from "@/context/SidebarContext";
 
 const SelectStatus = ({ id, order }) => {
-  // console.log('id',id ,'order',order)
   const { setIsUpdate } = useContext(SidebarContext);
   const handleChangeStatus = (id, status) => {
     // return notifyError("This option disabled for this option!");

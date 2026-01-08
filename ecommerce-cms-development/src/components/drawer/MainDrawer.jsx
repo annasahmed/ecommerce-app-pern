@@ -23,8 +23,6 @@ const MainDrawer = ({ children, product }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	// console.log('windowDimension ==========>', windowDimension <= 575);
-
 	return (
 		<Drawer
 			open={isDrawerOpen}
