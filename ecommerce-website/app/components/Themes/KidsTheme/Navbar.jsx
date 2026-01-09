@@ -10,6 +10,7 @@ import NavigationMenu from "./NavigationMenu";
 import { useAuth } from "@/app/providers/AuthProvider";
 import CartDrawer from "@/app/[locale]/(pages)/cart/cartDrawer";
 import AuthDrawer from "../../Shared/AuthDrawer";
+import { SOCIAL_CONFIG } from "./Footer";
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,8 +41,40 @@ const Navbar = () => {
 	return (
 		<>
 			{/* Top Header */}
-			<header className="text-headerText bg-header w-full py-2 text-center p4">
-				<p className="container-layout">{store.content.header.text}</p>
+
+			<header className="text-headerText bg-header w-full py-2 p4">
+				<section className="container-layout text-center p4 flex items-center justify-center">
+					<div className="max-md:hidden flex gap-2">
+						<BaseLink href="/about-us" className="hover:underline">
+							About Us
+						</BaseLink>
+						<BaseLink href="/about-us" className="hover:underline">
+							Contact Us
+						</BaseLink>
+					</div>
+					<p className="flex-1">{store.content.header.text}</p>
+					<ul className="max-md:hidden flex gap-3 text-lg flex-wrap justify-center items-center text-primary">
+						{SOCIAL_CONFIG.slice(0, 3).map(({ key, icon: Icon, label }) => {
+							const href = store.socialLinks?.[key];
+							if (!href) return null;
+
+							return (
+								<li key={key}>
+									<BaseLink
+										href={href}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={label}
+										className="
+										text-light hover:text-primary transition
+									">
+										<Icon />
+									</BaseLink>
+								</li>
+							);
+						})}
+					</ul>
+				</section>
 			</header>
 			<div className="sticky top-0 z-40">
 				{/* Main Navbar */}

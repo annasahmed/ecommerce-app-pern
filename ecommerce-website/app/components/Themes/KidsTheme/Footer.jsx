@@ -9,7 +9,7 @@ import { useStore } from "@/app/providers/StoreProvider";
 
 const currentYear = new Date().getFullYear();
 
-const SOCIAL_CONFIG = [
+export const SOCIAL_CONFIG = [
 	{
 		key: "facebook",
 		icon: FiFacebook,
