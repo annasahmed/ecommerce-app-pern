@@ -223,9 +223,9 @@ export default function ProductDetailsPage() {
 							<span className="font-medium">SKU:</span> {product.sku}
 						</p>
 						{product.categories.length > 0 && (
-							<p>
+							<p className="capitalize">
 								<span className="font-medium">Categories:</span>{" "}
-								{product.categories.join(", ")}
+								{product.categories?.map((v)=>v.title).join(", ")}
 							</p>
 						)}
 						{/* <p>

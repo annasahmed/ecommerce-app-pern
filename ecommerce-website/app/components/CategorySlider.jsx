@@ -9,7 +9,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 // import required modules
-import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import {
+	Autoplay,
+	EffectCoverflow,
+	Navigation,
+	Pagination,
+} from "swiper/modules";
 import BaseLink from "./BaseComponents/BaseLink";
 import BaseImage from "./BaseComponents/BaseImage";
 import { useStore } from "../providers/StoreProvider";
@@ -25,6 +30,10 @@ export default function CategorySlider({ data = [] }) {
 				grabCursor={true}
 				centeredSlides={true}
 				slidesPerView={"auto"}
+				autoplay={{
+					delay: 2500,
+					disableOnInteraction: false,
+				}}
 				coverflowEffect={{
 					rotate: 0,
 					stretch: 0,
@@ -36,7 +45,7 @@ export default function CategorySlider({ data = [] }) {
 					clickable: true,
 				}}
 				navigation={true}
-				modules={[EffectCoverflow, Pagination, Navigation]}
+				modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
 				className="flat-coverflow-slider">
 				{slidesData.map((category, idx) => (
 					<SwiperSlide key={idx}>
