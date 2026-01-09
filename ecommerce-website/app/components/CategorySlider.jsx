@@ -6,14 +6,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 // import required modules
-import { EffectCoverflow, Pagination } from "swiper/modules";
+import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import BaseLink from "./BaseComponents/BaseLink";
 import BaseImage from "./BaseComponents/BaseImage";
 import { useStore } from "../providers/StoreProvider";
 
-export default function App({ data = [] }) {
+export default function CategorySlider({ data = [] }) {
 	const store = useStore();
 	const slidesData = [...store.content.categories, ...store.content.categories];
 	return (
@@ -33,22 +34,9 @@ export default function App({ data = [] }) {
 				}}
 				pagination={{
 					clickable: true,
-
-					// renderBullet: function (index, className) {
-					// 	// calculate the max 7 dots
-					// 	const totalSlides = slidesData.length;
-					// 	const maxDots = 7;
-					// 	const step = Math.ceil(totalSlides / maxDots); // how many slides per dot
-
-					// 	// only create dots for multiples of step
-					// 	if (index % step === 0 || index === totalSlides - 1) {
-					// 		return `<span class="${className}"></span>`;
-					// 	} else {
-					// 		return "";
-					// 	}
-					// },
 				}}
-				modules={[EffectCoverflow, Pagination]}
+				navigation={true}
+				modules={[EffectCoverflow, Pagination, Navigation]}
 				className="flat-coverflow-slider">
 				{slidesData.map((category, idx) => (
 					<SwiperSlide key={idx}>
@@ -67,10 +55,23 @@ export default function App({ data = [] }) {
 								</h4>
 							</BaseLink>
 						</div>
-						{/* <img src={`https://swiperjs.com/demos/images/nature-${img}.jpg`} /> */}
 					</SwiperSlide>
 				))}
 			</Swiper>
 		</>
 	);
 }
+
+// renderBullet: function (index, className) {
+// 	// calculate the max 7 dots
+// 	const totalSlides = slidesData.length;
+// 	const maxDots = 7;
+// 	const step = Math.ceil(totalSlides / maxDots); // how many slides per dot
+
+// 	// only create dots for multiples of step
+// 	if (index % step === 0 || index === totalSlides - 1) {
+// 		return `<span class="${className}"></span>`;
+// 	} else {
+// 		return "";
+// 	}
+// },

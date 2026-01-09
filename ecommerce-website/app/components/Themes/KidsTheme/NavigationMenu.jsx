@@ -8,18 +8,33 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 	const [activeMenu, setActiveMenu] = useState(false);
 	const [openIndex, setOpenIndex] = useState(null);
 	return (
-		<nav className="bg-primary text-light shadow-sm overflow-auto">
+		<nav className="bg-primary text-light shadow-sm overflow-auto/">
 			{/* Desktop Nav */}
 			<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 pt-4 container-layout">
 				{store.content.navCategories.map((item, index) => (
 					<li
 						key={index}
-						className="text-sm sm:text-base font-medium relative pb-4"
+						// className="text-sm sm:text-base font-medium relative pb-4"
+						className={`
+		relative pb-4
+		text-sm sm:text-base font-medium
+		after:content-['']
+		after:absolute after:left-1/2 after:-translate-x-1/2
+		after:bottom-2.5
+		after:h-[2px] after:w-6 rounded-full
+		after:bg-light
+		after:scale-x-0
+		after:origin-center
+		after:transition-transform after:duration-300
+		hover:after:scale-x-100
+		hover:after:scale-x-100/
+		${activeMenu === index ? "after:scale-x-100" : ""}
+	`}
 						onMouseEnter={() => setActiveMenu(index)}
 						onMouseLeave={() => setActiveMenu(null)}>
 						<BaseLink
 							href={`${item.to || `/products?category=${item.slug}`}`}
-							className="uppercase hover:underline px-4 py-1 rounded-full transition">
+							className="uppercase px-4 py-1 rounded-full transition">
 							{item.title}
 						</BaseLink>
 

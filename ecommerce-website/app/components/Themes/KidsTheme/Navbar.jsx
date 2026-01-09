@@ -82,7 +82,7 @@ const Navbar = () => {
 
 							{/* Favourites */}
 							<BaseLink href="/favourites" className="relative hidden sm:block">
-								<Heart className="cursor-pointer hover:text-primary transition" />
+								<Heart className="cursor-pointer hover:text-primary transition stroke-1" />
 								{favCount > 0 && (
 									<span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
 										{favCount}
@@ -97,7 +97,7 @@ const Navbar = () => {
 									setIsCartDrawerOpen(true);
 								}}
 								className="relative">
-								<ShoppingCartIcon className="cursor-pointer hover:text-primary transition" />
+								<ShoppingCartIcon className="cursor-pointer hover:text-primary transition stroke-1" />
 								{cartCount > 0 && (
 									<span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
 										{cartCount}
@@ -113,7 +113,7 @@ const Navbar = () => {
 								}}
 								// href={!isAuthenticated ? "/login" : "/profile"}
 							>
-								<User className="cursor-pointer hover:text-primary transition hidden sm:block" />
+								<User className="cursor-pointer hover:text-primary transition hidden sm:block stroke-1" />
 							</button>
 						</div>
 					</section>

@@ -2,10 +2,55 @@
 import React from "react";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import Logo from "@/app/components/Shared/Logo";
-import { FiFacebook, FiInstagram, FiMail, FiYoutube } from "react-icons/fi";
+import { FiFacebook, FiInstagram, FiYoutube, FiGlobe } from "react-icons/fi";
+
+import { FaTiktok, FaPinterestP, FaWhatsapp, FaLink } from "react-icons/fa";
 import { useStore } from "@/app/providers/StoreProvider";
 
 const currentYear = new Date().getFullYear();
+
+const SOCIAL_CONFIG = [
+	{
+		key: "facebook",
+		icon: FiFacebook,
+		label: "Facebook",
+	},
+	{
+		key: "instagram",
+		icon: FiInstagram,
+		label: "Instagram",
+	},
+	{
+		key: "tiktok",
+		icon: FaTiktok,
+		label: "TikTok",
+	},
+	{
+		key: "pinterest",
+		icon: FaPinterestP,
+		label: "Pinterest",
+	},
+	{
+		key: "youtube",
+		icon: FiYoutube,
+		label: "YouTube",
+	},
+	{
+		key: "linktree",
+		icon: FaLink,
+		label: "Linktree",
+	},
+	{
+		key: "website",
+		icon: FiGlobe,
+		label: "Website",
+	},
+	{
+		key: "whatsapp",
+		icon: FaWhatsapp,
+		label: "WhatsApp",
+	},
+];
 
 const Footer = () => {
 	const store = useStore();
@@ -21,7 +66,7 @@ const Footer = () => {
 			}}>
 			<div className="container-layout">
 				{/* Top Section */}
-				<section className="section-layout flex flex-wrap justify-between gap-10 md:gap-16 lg:flex-nowrap">
+				<section className="section-layout-top flex flex-wrap justify-between gap-10 md:gap-16 lg:flex-nowrap">
 					<div className="flex flex-wrap justify-between gap-10 max-md:gap-x-6 max-md:gap-y-8 w-full">
 						<div className=" min-w-[150px] flex-1 md:flex-none lg:flex-2 md:pr-20">
 							<Logo
@@ -96,52 +141,45 @@ const Footer = () => {
 					</div>
 				</section>
 
+				<p className="pb-10 pt-12 max-md:pb-6 max-md:pt-8 p5 text-sm md:text-base flex justify-center items-center">
+					{/* <section className="min-w-[150px] flex-1 md:flex-none lg:flex-1"> */}
+					<ul className="flex flex-col/ gap-3 max-md:gap-2 text-2xl max-md:text-lg flex-wrap justify-center items-center text-primary">
+						{SOCIAL_CONFIG.map(({ key, icon: Icon, label }) => {
+							const href = store.socialLinks?.[key];
+							if (!href) return null;
+
+							return (
+								<li key={key}>
+									<BaseLink
+										href={href}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={label}
+										className="
+										flex items-center justify-center
+										bg-light p-2.5 max-md:p-1.5 rounded-full
+										transition-all duration-300
+										hover:-translate-y-1
+										hover:bg-secondary
+										hover:text-light
+									">
+										<Icon />
+									</BaseLink>
+								</li>
+							);
+						})}
+					</ul>
+					{/* </section> */}
+				</p>
+
 				{/* Divider */}
-				<div className="w-full h-[1px] rounded-full bg-light opacity-30 my-6 max-md:mt-0" />
+				<div className="w-full h-[1px] rounded-full bg-light opacity-30 max-md:mt-0" />
 
 				{/* Bottom Section */}
-				<section className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left py-4">
-					<p className="p5 text-sm md:text-base">
+				<section className="flex flex-col md:flex-row justify-center items-center gap-4 text-center md:text-left py-4">
+					<p className="p4 text-sm md:text-base">
 						Copyright &copy; {currentYear} {store.companyName || store.name}.
 						All rights reserved
-					</p>
-					<p className="p5 text-sm md:text-base flex">
-						{/* <section className="min-w-[150px] flex-1 md:flex-none lg:flex-1"> */}
-						<ul className="flex flex-col/ gap-3 p4">
-							{store.socialLinks.email && (
-								<BaseLink
-									href={store.socialLinks.email}
-									className="flex items-center gap-2 hover:opacity-70">
-									<FiMail />
-									{/* <span>Email</span> */}
-								</BaseLink>
-							)}
-							{store.socialLinks.instagram && (
-								<BaseLink
-									href={store.socialLinks.instagram}
-									className="flex items-center gap-2 hover:opacity-70">
-									<FiInstagram />
-									{/* <span>Instagram</span> */}
-								</BaseLink>
-							)}
-							{store.socialLinks.facebook && (
-								<BaseLink
-									href={store.socialLinks.facebook}
-									className="flex items-center gap-2 hover:opacity-70">
-									<FiFacebook />
-									{/* <span>Facebook</span> */}
-								</BaseLink>
-							)}
-							{store.socialLinks.youtube && (
-								<BaseLink
-									href={store.socialLinks.youtube}
-									className="flex items-center gap-2 hover:opacity-70">
-									<FiYoutube />
-									{/* <span>Youtube</span> */}
-								</BaseLink>
-							)}
-						</ul>
-						{/* </section> */}
 					</p>
 				</section>
 			</div>
