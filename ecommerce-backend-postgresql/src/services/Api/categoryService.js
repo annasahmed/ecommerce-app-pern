@@ -6,6 +6,28 @@ const categoryService = createAppBaseService(db.category, {
 	name: 'Category',
 });
 
+async function getAllDescendantCategoryIds(categoryId) {
+	const [rows] = await db.sequelize.query(
+		`
+		WITH RECURSIVE category_tree AS (
+			SELECT id
+			FROM category
+			WHERE id = :categoryId
+
+			UNION ALL
+
+			SELECT c.id
+			FROM category c
+			INNER JOIN category_tree ct ON ct.id = c.parent_id
+		)
+		SELECT id FROM category_tree;
+		`,
+		{ replacements: { categoryId } }
+	);
+
+	return rows.map((r) => r.id);
+}
+
 module.exports = {
 	getCategories: (req) =>
 		categoryService.list(
@@ -20,10 +42,13 @@ module.exports = {
 				},
 				{
 					model: db.media,
+					as: 'cat_icon',
 					required: false,
+					attributes: ['url', 'title'],
 				},
 			],
 			[],
 			[['created_at', 'ASC']]
 		),
+	getAllDescendantCategoryIds,
 };

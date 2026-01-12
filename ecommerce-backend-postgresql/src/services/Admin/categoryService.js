@@ -357,6 +357,7 @@ module.exports = {
 	getCategoriesForOptions,
 	importCategoriesTitles,
 	verifyCategoriesExist,
+	
 };
 
 async function isCategoryDescendant(
@@ -391,6 +392,8 @@ async function isCategoryDescendant(
 
 	return result.length > 0;
 }
+
+
 
 async function updateChildrenLevels(categoryId, levelDiff, transaction) {
 	const query = `
