@@ -229,19 +229,20 @@ export const KIDSTHEME_DATA = {
 
 	popularTabs: [
 		{
-			id: 3,
-			title: "Swaddles",
-			description: null,
-			slug: "swaddles",
-			icons: null,
-		},
-		{
 			id: 2,
 			title: "Baby Accessories",
 			description: null,
 			slug: "baby-accessories",
 			icons: null,
 		},
+		{
+			id: 3,
+			title: "Swaddles",
+			description: null,
+			slug: "swaddles",
+			icons: null,
+		},
+
 		{
 			id: 66,
 			title: "Toys",
