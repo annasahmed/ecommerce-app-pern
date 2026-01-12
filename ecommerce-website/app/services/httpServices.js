@@ -66,7 +66,10 @@ instance.interceptors.response.use(
 );
 
 const requests = {
-	get: (url, config) => instance.get(url, config),
+	get: (url, config) => {
+		console.log({ url, config }, "chkking requests");
+		return instance.get(url, config);
+	},
 	post: (url, body, config) => instance.post(url, body, config),
 	put: (url, body, config) => instance.put(url, body, config),
 	delete: (url, config) => instance.delete(url, config),

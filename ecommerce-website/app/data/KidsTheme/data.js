@@ -229,277 +229,302 @@ export const KIDSTHEME_DATA = {
 
 	popularTabs: [
 		{
-			label: "Kidzo",
-			products: [
-				{
-					id: 106,
-					sku: "100078",
-					title: "Baby adjustable swaddle doted blue | Kidzo",
-					excerpt:
-						"Soft, breathable, and adjustable blue swaddle by Kidzo—designed to keep your baby safe, cozy, and comfortably wrapped all night.",
-					slug: "baby-adjustable-swaddle-blue-kidzo",
-					base_price: 400,
-					base_discount_percentage: 25,
-					thumbnail:
-						"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
-					images: [
-						"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
-						"/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
-						"/image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
-					],
-				},
-				{
-					id: 107,
-					title: "Baby adjustable swaddle doted white | Kidzo",
-					slug: "baby-adjustable-swaddle-white-kidzo",
-					base_price: 400,
-					base_discount_percentage: 25,
-					thumbnail:
-						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
-
-					price: 400,
-					discount: 25,
-					sku: "100077",
-
-					images: [
-						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
-						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
-						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
-						"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
-					],
-				},
-				{
-					id: 108,
-					title: "Baby adjustable swaddle doted pink | Kidzo",
-					slug: "baby-adjustable-swaddle-pink-kidzo",
-					base_price: 400,
-					base_discount_percentage: 25,
-					thumbnail:
-						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
-
-					price: 400,
-					discount: 25,
-					sku: "100075",
-					images: [
-						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
-						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
-						"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
-					],
-				},
-				{
-					id: 109,
-					title: "Baby adjustable swaddle bear white | Kidzo",
-					slug: "baby-adjustable-swaddle-bear-white-kidzo",
-					base_price: 400,
-					base_discount_percentage: 25,
-					thumbnail:
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
-
-					price: 400,
-					discount: 25,
-					sku: "100078",
-					images: [
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
-						"/image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
-						"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
-					],
-				},
-				{
-					id: 110,
-					title: "Baby adjustable swaddle box baby pink | Kidzo",
-					slug: "baby-adjustable-swaddle-box-baby-pink-kidzo",
-					sku: "100083",
-					base_price: 400,
-					base_discount_percentage: 25,
-					thumbnail:
-						"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
-
-					price: 400,
-					discount: 25,
-					images: [
-						"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
-						"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
-					],
-				},
-				{
-					id: 1,
-					image: p1,
-					title: "Little Stars Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 2,
-					image: p2,
-					title: "Baby Bear Hoodie",
-					base_price: 16.0,
-				},
-				{
-					id: 3,
-					image: p3,
-					title: "Junior Jogger Pants",
-					base_price: 16.0,
-				},
-				{
-					id: 4,
-					image: p4,
-					title: "Mini Denim Jacket",
-					base_price: 16.0,
-				},
-				{
-					id: 5,
-					image: p5,
-					title: "Petite Plaid Skirt",
-					base_price: 16.0,
-				},
-				// // {
-				// // 	id: 6,
-				// // 	image: p6,
-				// // 	title: "Little Ladybug Overalls",
-				// // 	base_price: 16.0,
-				// // },
-				// {
-				// 	id: 7,
-				// 	image: p7,
-				// 	title: "Junior Jersey Dress",
-				// 	base_price: 16.0,
-				// },
-			],
+			id: 28,
+			title: "Swaddles",
+			description: null,
+			slug: "swaddles",
+			icons: null,
 		},
 		{
-			label: "Boys' Clothing",
-			products: [
-				{
-					id: 1,
-					image: p1,
-					title: "Little Stars Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 2,
-					image: p2,
-					title: "Baby Bear Hoodie",
-					base_price: 16.0,
-				},
-				{
-					id: 3,
-					image: p3,
-					title: "Junior Jogger Pants",
-					base_price: 16.0,
-				},
-				{
-					id: 4,
-					image: p4,
-					title: "Mini Denim Jacket",
-					base_price: 16.0,
-				},
-				{
-					id: 5,
-					image: p5,
-					title: "Petite Plaid Skirt",
-					base_price: 16.0,
-				},
-				{
-					id: 6,
-					image: p6,
-					title: "Little Ladybug Overalls",
-					base_price: 16.0,
-				},
-				{
-					id: 7,
-					image: p7,
-					title: "Junior Jersey Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 8,
-					image: p8,
-					title: "Toddler Tutu Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 4,
-					image: p4,
-					title: "Mini Denim Jacket",
-					base_price: 16.0,
-				},
-				{
-					id: 5,
-					image: p5,
-					title: "Petite Plaid Skirt",
-					base_price: 16.0,
-				},
-			],
+			id: 27,
+			title: "Baby Accessories",
+			description: null,
+			slug: "baby-accessories",
+			icons: null,
 		},
 		{
-			label: "Accessories",
-			products: [
-				{
-					id: 1,
-					image: p1,
-					title: "Little Stars Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 2,
-					image: p2,
-					title: "Baby Bear Hoodie",
-					base_price: 16.0,
-				},
-				{
-					id: 3,
-					image: p3,
-					title: "Junior Jogger Pants",
-					base_price: 16.0,
-				},
-				{
-					id: 4,
-					image: p4,
-					title: "Mini Denim Jacket",
-					base_price: 16.0,
-				},
-				{
-					id: 5,
-					image: p5,
-					title: "Petite Plaid Skirt",
-					base_price: 16.0,
-				},
-				{
-					id: 6,
-					image: p6,
-					title: "Little Ladybug Overalls",
-					base_price: 16.0,
-				},
-				{
-					id: 7,
-					image: p7,
-					title: "Junior Jersey Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 8,
-					image: p8,
-					title: "Toddler Tutu Dress",
-					base_price: 16.0,
-				},
-				{
-					id: 3,
-					image: p3,
-					title: "Junior Jogger Pants",
-					base_price: 16.0,
-				},
-				{
-					id: 4,
-					image: p4,
-					title: "Mini Denim Jacket",
-					base_price: 16.0,
-				},
-			],
+			id: 91,
+			title: "Toys",
+			description: null,
+			slug: "toys",
+			icons: null,
 		},
 	],
+	// popularTabs: [
+	// 	{
+	// 		label: "Kidzo",
+	// 		id: 164,
+	// 		title: "baby care",
+	// 		products: [
+	// 			{
+	// 				id: 106,
+	// 				sku: "100078",
+	// 				title: "Baby adjustable swaddle doted blue | Kidzo",
+	// 				excerpt:
+	// 					"Soft, breathable, and adjustable blue swaddle by Kidzo—designed to keep your baby safe, cozy, and comfortably wrapped all night.",
+	// 				slug: "baby-adjustable-swaddle-blue-kidzo",
+	// 				base_price: 400,
+	// 				base_discount_percentage: 25,
+	// 				thumbnail:
+	// 					"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+	// 				images: [
+	// 					"/image/upload/v1766382009/baby-adjustable-swaddle-blue-kidzo_1_vf8ndr.jpg",
+	// 					"/image/upload/v1766382010/baby-adjustable-swaddle-blue-kidzo_2_owhmul.jpg",
+	// 					"/image/upload/v1766382008/baby-adjustable-swaddle-blue-kidzo_3_pd298y.jpg",
+	// 				],
+	// 			},
+	// 			{
+	// 				id: 107,
+	// 				title: "Baby adjustable swaddle doted white | Kidzo",
+	// 				slug: "baby-adjustable-swaddle-white-kidzo",
+	// 				base_price: 400,
+	// 				base_discount_percentage: 25,
+	// 				thumbnail:
+	// 					"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+
+	// 				price: 400,
+	// 				discount: 25,
+	// 				sku: "100077",
+
+	// 				images: [
+	// 					"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_1_uo8qmz.jpg",
+	// 					"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_2_uvkzkq.jpg",
+	// 					"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_3_abjnfw.jpg",
+	// 					"/image/upload/v1766383549/baby-adjustable-swaddle-white-kidzo_4_y90i7c.jpg",
+	// 				],
+	// 			},
+	// 			{
+	// 				id: 108,
+	// 				title: "Baby adjustable swaddle doted pink | Kidzo",
+	// 				slug: "baby-adjustable-swaddle-pink-kidzo",
+	// 				base_price: 400,
+	// 				base_discount_percentage: 25,
+	// 				thumbnail:
+	// 					"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+
+	// 				price: 400,
+	// 				discount: 25,
+	// 				sku: "100075",
+	// 				images: [
+	// 					"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_3_vak8x3.jpg",
+	// 					"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_2_vdmy9b.jpg",
+	// 					"/image/upload/v1766384414/baby-adjustable-swaddle-pink-kidzo_1_t79laq.jpg",
+	// 				],
+	// 			},
+	// 			{
+	// 				id: 109,
+	// 				title: "Baby adjustable swaddle bear white | Kidzo",
+	// 				slug: "baby-adjustable-swaddle-bear-white-kidzo",
+	// 				base_price: 400,
+	// 				base_discount_percentage: 25,
+	// 				thumbnail:
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+
+	// 				price: 400,
+	// 				discount: 25,
+	// 				sku: "100078",
+	// 				images: [
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_1_qbopwg.jpg",
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_2_bg8g2c.jpg",
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_3_qzmzrb.jpg",
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_4_cfclk3.jpg",
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_5_wse9cv.jpg",
+	// 					"/image/upload/v1766384743/Baby-adjustable-swaddle-bear-white-Kidzo_6_p0rcp9.jpg",
+	// 					"/image/upload/v1766384742/Baby-adjustable-swaddle-bear-white-Kidzo_7_jg3vvj.jpg",
+	// 				],
+	// 			},
+	// 			{
+	// 				id: 110,
+	// 				title: "Baby adjustable swaddle box baby pink | Kidzo",
+	// 				slug: "baby-adjustable-swaddle-box-baby-pink-kidzo",
+	// 				sku: "100083",
+	// 				base_price: 400,
+	// 				base_discount_percentage: 25,
+	// 				thumbnail:
+	// 					"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+
+	// 				price: 400,
+	// 				discount: 25,
+	// 				images: [
+	// 					"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_1_xjoztl.jpg",
+	// 					"/image/upload/v1766384962/baby-adjustable-swaddle-box-baby-pink-kidzo_2_gm5jjl.jpg",
+	// 				],
+	// 			},
+	// 			{
+	// 				id: 1,
+	// 				image: p1,
+	// 				title: "Little Stars Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 2,
+	// 				image: p2,
+	// 				title: "Baby Bear Hoodie",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 3,
+	// 				image: p3,
+	// 				title: "Junior Jogger Pants",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 4,
+	// 				image: p4,
+	// 				title: "Mini Denim Jacket",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 5,
+	// 				image: p5,
+	// 				title: "Petite Plaid Skirt",
+	// 				base_price: 16.0,
+	// 			},
+	// 			// // {
+	// 			// // 	id: 6,
+	// 			// // 	image: p6,
+	// 			// // 	title: "Little Ladybug Overalls",
+	// 			// // 	base_price: 16.0,
+	// 			// // },
+	// 			// {
+	// 			// 	id: 7,
+	// 			// 	image: p7,
+	// 			// 	title: "Junior Jersey Dress",
+	// 			// 	base_price: 16.0,
+	// 			// },
+	// 		],
+	// 	},
+	// 	{
+	// 		label: "Boys' Clothing",
+	// 		products: [
+	// 			{
+	// 				id: 1,
+	// 				image: p1,
+	// 				title: "Little Stars Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 2,
+	// 				image: p2,
+	// 				title: "Baby Bear Hoodie",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 3,
+	// 				image: p3,
+	// 				title: "Junior Jogger Pants",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 4,
+	// 				image: p4,
+	// 				title: "Mini Denim Jacket",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 5,
+	// 				image: p5,
+	// 				title: "Petite Plaid Skirt",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 6,
+	// 				image: p6,
+	// 				title: "Little Ladybug Overalls",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 7,
+	// 				image: p7,
+	// 				title: "Junior Jersey Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 8,
+	// 				image: p8,
+	// 				title: "Toddler Tutu Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 4,
+	// 				image: p4,
+	// 				title: "Mini Denim Jacket",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 5,
+	// 				image: p5,
+	// 				title: "Petite Plaid Skirt",
+	// 				base_price: 16.0,
+	// 			},
+	// 		],
+	// 	},
+	// 	{
+	// 		label: "Accessories",
+	// 		products: [
+	// 			{
+	// 				id: 1,
+	// 				image: p1,
+	// 				title: "Little Stars Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 2,
+	// 				image: p2,
+	// 				title: "Baby Bear Hoodie",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 3,
+	// 				image: p3,
+	// 				title: "Junior Jogger Pants",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 4,
+	// 				image: p4,
+	// 				title: "Mini Denim Jacket",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 5,
+	// 				image: p5,
+	// 				title: "Petite Plaid Skirt",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 6,
+	// 				image: p6,
+	// 				title: "Little Ladybug Overalls",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 7,
+	// 				image: p7,
+	// 				title: "Junior Jersey Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 8,
+	// 				image: p8,
+	// 				title: "Toddler Tutu Dress",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 3,
+	// 				image: p3,
+	// 				title: "Junior Jogger Pants",
+	// 				base_price: 16.0,
+	// 			},
+	// 			{
+	// 				id: 4,
+	// 				image: p4,
+	// 				title: "Mini Denim Jacket",
+	// 				base_price: 16.0,
+	// 			},
+	// 		],
+	// 	},
+	// ],
 	trendingCategories: [
 		{
 			title: "Latest Trending",
