@@ -13,5 +13,6 @@ websiteRouter.use('/product', productRoute);
 websiteRouter.use('/products', productRoute);
 websiteRouter.use('/auth', authRoute);
 websiteRouter.use('/language', languageRoute);
+websiteRouter.use('/homepage-sections', require('./homepageSectionsRoute'));
 
 module.exports = websiteRouter;

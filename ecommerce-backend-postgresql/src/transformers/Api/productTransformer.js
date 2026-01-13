@@ -102,4 +102,6 @@ function transformProductsResponse(response, lang = 'en') {
 module.exports = {
 	transformProductsResponse,
 	transformProduct,
+	transformCategory,
+	extractLangField,
 };

@@ -47,8 +47,10 @@ const ImageSelector = ({
 					rounded-md cursor-pointer
 					${isSmall ? "min-h-20 p-2" : "min-h-52 p-4"}`}>
 				{images.length > 0 ? (
-					images.map((img, index) => (
-						<div key={index} className="relative border border-dotted p-1 border-black">
+					images?.map((img, index) => (
+						<div
+							key={index}
+							className="relative border border-dotted p-1 border-black">
 							<img
 								src={img}
 								alt="selected"

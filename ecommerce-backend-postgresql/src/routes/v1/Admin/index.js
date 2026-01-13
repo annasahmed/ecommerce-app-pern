@@ -12,6 +12,7 @@ const languageRoute = require('./languageRoute');
 const attributeRoute = require('./attributeRoute');
 const sizeChartRoute = require('./sizeChartRoute');
 const scriptRoute = require('./scriptRoute');
+const homepageSectionsRoute = require('./homepageSectionsRoute');
 
 const adminRouter = express.Router();
 
@@ -19,6 +20,7 @@ adminRouter.use('/auth', authRoute);
 adminRouter.use('/parent-category', parentCategoryRoute);
 adminRouter.use('/category', categoryRoute);
 adminRouter.use('/usp', uspRoute);
+adminRouter.use('/homepage-sections', homepageSectionsRoute);
 adminRouter.use('/branch', branchRoute);
 adminRouter.use('/vendor', vendorRoute);
 adminRouter.use('/product', productRoute);

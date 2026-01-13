@@ -16,11 +16,13 @@ export default function InputMultipleSelectField({
 	isHandleChange = true,
 }) {
 	const handleChange = (selectedList) => {
+		// console.log("cjnaskdmsam1");
 		if (isHandleChange) {
 			const ids = selectedList.map((item) => item.id);
 			// onChange(selectedList);
 			setValue(inputName, ids, { shouldValidate: true });
 		} else {
+			
 			onChange(selectedList);
 		}
 	};

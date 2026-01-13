@@ -58,17 +58,9 @@ const Media = ({
 		return (
 			<span className="text-center mx-auto text-customRed-500">{error}</span>
 		);
-	console.log(
-		{
-			isSelectImage,
-			selectedImage,
-			isMultipleSelect,
-		},
-		"chknisadnisa1",
-	);
 
 	return (
-		<>
+		<div className="max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300">
 			{serviceId && <DeleteModal id={serviceId} title={title} />}
 			{!isSelectImage && <PageTitle>{t("MediaLibrary")}</PageTitle>}
 			<div className="my-8">
@@ -150,7 +142,7 @@ const Media = ({
 									)}
 									{isSelectImage &&
 										isMultipleSelect &&
-										selectedImage.includes(image.id) && (
+										selectedImage?.includes(image.id) && (
 											<div className="absolute inset-0 bg-blue-200 bg-opacity-50 flex items-center justify-center space-x-2 transition-opacity duration-200">
 												<FiCheck className="h-12 w-12 text-blue-500" />
 											</div>
@@ -207,7 +199,7 @@ const Media = ({
 					</Button>
 				</ModalFooter>
 			</Modal>
-		</>
+		</div>
 	);
 };
 

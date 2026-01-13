@@ -11,3 +11,4 @@ module.exports.adminMediaController = require('./mediaController');
 module.exports.adminAttributeController = require('./attributeController');
 module.exports.adminSizeChartController = require('./sizeChartController');
 module.exports.adminScriptController = require('./scriptController');
+module.exports.adminHomepageSectionsController = require('./homepageSectionsController');

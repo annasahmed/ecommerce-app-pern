@@ -3,3 +3,4 @@ module.exports.apiParentCategoryController = require('./parentCategoryController
 module.exports.apiCategoryController = require('./categoryController');
 module.exports.apiProductController = require('./productController');
 module.exports.apiLanguageController = require('./languageController');
+module.exports.apiHomepageSectionsController = require('./homepageSectionsController');

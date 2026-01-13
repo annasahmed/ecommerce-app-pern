@@ -12,6 +12,7 @@ const Category = lazy(() => import("@/pages/category/Category"));
 const ParentCategory = lazy(() =>
 	import("@/pages/parentCategory/ParentCategory"),
 );
+const Homepage = lazy(() => import("@/pages/homepage/Homepage"));
 const Usp = lazy(() => import("@/pages/usp/Usp"));
 const SizeChart = lazy(() => import("@/pages/sizeChart/SizeChart"));
 const Branch = lazy(() => import("@/pages/branch/Branch"));
@@ -162,6 +163,10 @@ const routes = [
 	{
 		path: "/notifications",
 		component: Notifications,
+	},
+	{
+		path: "/homepage",
+		component: Homepage,
 	},
 ];
 
