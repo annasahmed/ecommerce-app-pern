@@ -1,0 +1,80 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable('vendor_translation', {
+			id: {
+				type: Sequelize.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+				allowNull: false,
+			},
+			vendor_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'vendor',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
+			},
+			language_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'language',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
+				onUpdate: 'CASCADE',
+			},
+			title: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			address: {
+				type: Sequelize.TEXT,
+				allowNull: true,
+			},
+			slug: {
+				type: Sequelize.STRING,
+				allowNull: false,
+			},
+			country: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			created_at: {
+				type: Sequelize.DATE,
+				allowNull: false,
+				defaultValue: Sequelize.literal('NOW()'),
+			},
+			updated_at: {
+				type: Sequelize.DATE,
+				allowNull: false,
+				defaultValue: Sequelize.literal('NOW()'),
+			},
+		});
+		await queryInterface.addIndex(
+			'vendor_translation',
+			['vendor_id', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_vendor_language_id',
+			}
+		);
+		await queryInterface.addIndex(
+			'vendor_translation',
+			['slug', 'language_id'],
+			{
+				unique: true,
+				name: 'uniq_vendor_slug_language',
+			}
+		);
+	},
+
+	async down(queryInterface, Sequelize) {
+		await queryInterface.dropTable('vendor_translation');
+	},
+};

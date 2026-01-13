@@ -27,6 +27,17 @@ const vendorService = createBaseService(db.vendor, {
 
 		return toUpdate;
 	},
+
+	includes: [
+		{
+			model: db.vendor_translation,
+			attribute: ['title'],
+			as: 'translations',
+			required: false,
+		},
+	],
+	translationModel: db.vendor_translation,
+	translationForeignKey: 'vendor_id',
 });
 
 // Using userId logic from request
