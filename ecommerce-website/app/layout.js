@@ -164,7 +164,7 @@ export default async function RootLayout({ children }) {
 			</head>
 			<body className={`${fontClasses} antialiased`}>
 				{/* Meta Pixel noscript */}
-				<noscript>
+				{/* <noscript>
 					<Image
 						height="1"
 						width="1"
@@ -172,7 +172,7 @@ export default async function RootLayout({ children }) {
 						alt="facebook-icon"
 						src="https://www.facebook.com/tr?id=1371248501158222&ev=PageView&noscript=1"
 					/>
-				</noscript>
+				</noscript> */}
 				<RouteTrackerProvider />
 
 				{children}

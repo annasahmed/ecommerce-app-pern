@@ -18,10 +18,14 @@ import {
 import BaseLink from "./BaseComponents/BaseLink";
 import BaseImage from "./BaseComponents/BaseImage";
 import { useStore } from "../providers/StoreProvider";
+import { ENV_VARIABLES } from "../constants/env_variables";
+import noImage from "../assets/no-image.png";
 
 export default function CategorySlider({ data = [] }) {
 	const store = useStore();
-	const slidesData = [...store.content.categories, ...store.content.categories];
+	const slidesData = data.length > 0 ? data : store.content.categories;
+
+	// const slidesData = [...store.content.categories, ...store.content.categories];
 	return (
 		<>
 			<Swiper
@@ -52,7 +56,13 @@ export default function CategorySlider({ data = [] }) {
 						<div key={idx} className="bg-white shadow-xl rounded-xl pb-3">
 							<BaseLink href={`/products?category=${category.slug}`}>
 								<BaseImage
-									src={category.icon}
+									src={
+										category.icon
+											? ENV_VARIABLES.IMAGE_BASE_URL + category.icon
+											: noImage
+									}
+									width={300}
+									height={300}
 									key={idx}
 									className="w-full h-auto object-cover rounded-t-xl"
 								/>

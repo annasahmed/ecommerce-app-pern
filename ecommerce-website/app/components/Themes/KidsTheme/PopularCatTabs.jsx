@@ -6,29 +6,28 @@ import BaseTab from "../../BaseComponents/BaseTabs";
 import Loader from "../../Shared/Loader";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
+import SectionTitle from "../../Shared/SectionTitle";
 
-const PopularCatTabs = () => {
+const PopularCatTabs = ({ title, tabs, productsPerTab }) => {
 	const store = useStore();
 	const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-	const popularTabs = store.content.popularTabs || [];
+	const popularTabs = tabs || store.content.popularTabs || [];
 	const activeTab = popularTabs[activeTabIndex];
 
 	const { data, isLoading } = useFetchReactQuery(
 		() =>
 			ProductServices.getProducts({
 				categoryId: activeTab?.id,
-				limit: 10,
+				limit: productsPerTab || 10,
 			}),
-		["popularCatProducts", activeTab?.id],
+		["popularCatProducts", activeTab?.id, productsPerTab],
 		{ enabled: !!activeTab?.id },
 	);
 
 	return (
 		<section className="container-layout">
-			<h4 className="text-center font-bold h4 text-primary mb-2">
-				NEW IN STORE
-			</h4>
+			{title && <SectionTitle title={title} className="justify-center" />}
 
 			<BaseTab
 				defaultIndex={0}

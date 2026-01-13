@@ -3,16 +3,18 @@ import { useStore } from "@/app/providers/StoreProvider";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BaseSlider from "../../BaseComponents/BaseSlider";
 
-const HeroSection = () => {
+const HeroSection = ({ images, autoplay = false }) => {
 	const store = useStore();
+	console.log(images, "chkking images");
+	
 	return (
 		<BaseSlider
-			slides={store.content.heroSlider}
+			slides={images}
 			slidesPerView={1}
 			spaceBetween={0}
 			showNavigation={false}
 			showPagination={false}
-			autoPlay
+			autoPlay={autoplay}
 			arrowsPosition="inside"
 			breakpoints={{
 				768: {
@@ -21,8 +23,11 @@ const HeroSection = () => {
 			}}
 			renderSlide={(slide, idx) => (
 				<BaseImage
-					src={slide.img}
+					src={slide}
 					key={idx}
+					width={1000}
+					height={1000}
+					sizes={100}
 					className="w-full h-auto max-md:min-h-[25vh] max-md:object-cover"
 				/>
 			)}

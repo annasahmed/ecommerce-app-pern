@@ -243,13 +243,13 @@ export const KIDSTHEME_DATA = {
 			icons: null,
 		},
 
-		{
-			id: 66,
-			title: "Toys",
-			description: null,
-			slug: "toys",
-			icons: null,
-		},
+		// {
+		// 	id: 66,
+		// 	title: "Toys",
+		// 	description: null,
+		// 	slug: "toys",
+		// 	icons: null,
+		// },
 	],
 	// popularTabs: [
 	// 	{

@@ -3,6 +3,7 @@ import homeSmallBanner from "@/app/assets/themes/kidsTheme/home-small-banner.jpg
 import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import CategorySlider from "@/app/components/CategorySlider";
+import HomepageSection from "@/app/components/home/HomepageSection";
 import Loader from "@/app/components/Shared/Loader";
 import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
 import AboutUsSection from "@/app/components/Themes/KidsTheme/AboutUsSection";
@@ -14,6 +15,7 @@ import PopularCatTabs from "@/app/components/Themes/KidsTheme/PopularCatTabs";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
+import HomepageService from "@/app/services/HomepageServices";
 import ParentCategoryServices from "@/app/services/ParentCategoryServices";
 import ProductServices from "@/app/services/ProductServices";
 
@@ -31,6 +33,11 @@ const HomePage = () => {
 		// Newsletter,
 	} = loadThemeComponents(store.themeName);
 
+	const { data: homepageSections, isLoading: homepageSectionsLoading } =
+		useFetchReactQuery(
+			() => HomepageService.getHomepageSections(),
+			["homepageSections"],
+		);
 	const { data: parentCategories, isLoading: parentCategoriesLoading } =
 		useFetchReactQuery(
 			() => ParentCategoryServices.getParentCategories(store.themeName),
@@ -44,14 +51,23 @@ const HomePage = () => {
 			{ enabled: !!store.themeName },
 		);
 
-	if (parentCategoriesLoading || latestProdductsLoading) return <Loader />;
+	if (
+		parentCategoriesLoading ||
+		latestProdductsLoading ||
+		homepageSectionsLoading
+	)
+		return <Loader />;
 
 	return (
 		<main>
 			<HeroSection />
-			<section className="flex flex-col gap-18 section-layout-top max-md:gap-10">
+			<section className="flex flex-col gap-18 section-layout-top/ max-md:gap-10">
+			{homepageSections?.map((section, idx) => {
+				return <HomepageSection section={section} key={idx} />;
+			})}
+			<hr />
 				<CategoriesSection data={parentCategories} />
-				
+
 				<PopularCatTabs />
 				<BaseLink href="/products">
 					<BaseImage
