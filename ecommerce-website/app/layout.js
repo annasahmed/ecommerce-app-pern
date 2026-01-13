@@ -1,15 +1,16 @@
 import "@/app/styles/headings.css";
 import "@/app/styles/layout.css";
 import "@/app/styles/paragraphs.css";
+import { Geist, Inter, Roboto } from "next/font/google";
+import Script from "next/script";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./globals.css";
-import Script from "next/script";
-import RouteTracker from "./components/RouteTracker";
-import { Geist, Inter, Roboto } from "next/font/google";
 
 import localFont from "next/font/local";
+import RouteTrackerProvider from "./providers/RouteTrackerProvider";
+import Image from "next/image";
 
 const champagne = localFont({
 	//changing font family its not champagne itlaic
@@ -164,14 +165,15 @@ export default async function RootLayout({ children }) {
 			<body className={`${fontClasses} antialiased`}>
 				{/* Meta Pixel noscript */}
 				<noscript>
-					<img
+					<Image
 						height="1"
 						width="1"
 						style={{ display: "none" }}
+						alt="facebook-icon"
 						src="https://www.facebook.com/tr?id=1371248501158222&ev=PageView&noscript=1"
 					/>
 				</noscript>
-				<RouteTracker />
+				<RouteTrackerProvider />
 
 				{children}
 			</body>
