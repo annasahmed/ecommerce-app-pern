@@ -206,8 +206,8 @@ export const storeSettingsKidsTheme = {
 		pinterest: "https://www.pinterest.com/babiesnbaba/",
 		youtube: "https://www.youtube.com/@Babiesnbaba",
 		linktree: "https://linktr.ee/babiesnbaba",
-		website: "http://babiesnbaba.com",
-		whatsapp: "https://wa.me/923340002625",
+		// website: "http://babiesnbaba.com",
+		// whatsapp: "https://wa.me/923340002625",
 	},
 	details: {
 		address: "43111 Hai Trieu street, District 1, HCMC Vietnam",

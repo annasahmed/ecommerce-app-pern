@@ -35,6 +35,16 @@ const champagne = localFont({
 			weight: "400",
 			style: "normal",
 		},
+		{
+			path: "./fonts/Champagne-and-Limousines/Champagne-and-Limousines-Italic.ttf",
+			weight: "300",
+			style: "italic",
+		},
+		{
+			path: "./fonts/Champagne-and-Limousines/Champagne-and-Limousines.ttf",
+			weight: "300",
+			style: "normal",
+		},
 	],
 	variable: "--font-champagne", // CSS Variable
 	display: "swap",

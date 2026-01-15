@@ -37,6 +37,7 @@ const HomePage = () => {
 		useFetchReactQuery(
 			() => HomepageService.getHomepageSections(),
 			["homepageSections"],
+			{ enabled: false },
 		);
 	const { data: parentCategories, isLoading: parentCategoriesLoading } =
 		useFetchReactQuery(
@@ -62,10 +63,10 @@ const HomePage = () => {
 		<main>
 			<HeroSection />
 			<section className="flex flex-col gap-18 section-layout-top/ max-md:gap-10">
-			{homepageSections?.map((section, idx) => {
-				return <HomepageSection section={section} key={idx} />;
-			})}
-			<hr />
+				{homepageSections?.map((section, idx) => {
+					return <HomepageSection section={section} key={idx} />;
+				})}
+				<hr />
 				<CategoriesSection data={parentCategories} />
 
 				<PopularCatTabs />
@@ -97,10 +98,10 @@ const HomePage = () => {
 					/>
 				</section>
 
-				<ParentCategoriesGrid
+				{/* <ParentCategoriesGrid
 					title="FOOTWEAR"
 					data={store.content.parentCatgores}
-				/>
+				/> */}
 
 				<section>
 					<h3 className="mb-4 container-layout h3 font-bold text-center text-primary uppercase">

@@ -1,45 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Check } from "lucide-react";
+import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
+import FiltersService from "@/app/services/FiltersService";
 
 // --- Filter Configuration ---
-const filterData = {
-	categories: [
-		{ label: "Girls", count: 138 },
-		{ label: "Boys’ Clothing", count: 126 },
-		{ label: "Baby Care", count: 312 },
-		{ label: "Safety Equipment", count: 325 },
-		{ label: "Activity & Gear", count: 458 },
-		{ label: "Baby Shoes", count: 63 },
-		{ label: "Children’s Shoes", count: 385 },
-		{ label: "Family Outfits", count: 56 },
-	],
-
-	price: {
-		range: { min: 36, max: 173 },
-		options: [
-			{ label: "Rs.100 - Rs.200", count: 12 },
-			{ label: "Rs.200 - Rs.400", count: 24 },
-			{ label: "Rs.400 - Rs.600", count: 54 },
-			{ label: "Rs.600 - Rs.800", count: 78 },
-			{ label: "Over Rs.1000", count: 125 },
-		],
-	},
-
-	sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-
-	colors: [
-		{ name: "Red", color: "bg-red-500" },
-		{ name: "Green", color: "bg-green-500" },
-		{ name: "Orange", color: "bg-orange-500" },
-		{ name: "Yellow", color: "bg-yellow-400" },
-		{ name: "Blue", color: "bg-blue-500" },
-		{ name: "Gray", color: "bg-gray-400" },
-		{ name: "Brown", color: "bg-amber-700" },
-		{ name: "Cyan", color: "bg-cyan-400" },
-		{ name: "Purple", color: "bg-purple-500" },
-	],
-};
 
 // --- Collapsible Section Component ---
 const Section = ({ title, children, defaultOpen = true }) => {
@@ -58,10 +23,52 @@ const Section = ({ title, children, defaultOpen = true }) => {
 };
 
 // --- Main Component ---
-export default function FilterSidebar() {
+export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 	const [selectedColor, setSelectedColor] = useState("Red");
 	const [selectedSize, setSelectedSize] = useState(null);
 	const [priceRange, setPriceRange] = useState(null);
+
+	const { data, isLoading } = useFetchReactQuery(
+		() => FiltersService.getFiltersData(),
+		["filtersData"],
+		{ enabled: true },
+	);
+
+	const filterData = useMemo(() => {
+		return {
+			categories: data?.categories ?? [],
+			brands: data?.brands ?? [],
+			price: {
+				range: data?.price?.range ?? { min: 0, max: 0 },
+				options: data?.price?.options ?? [],
+			},
+			sizes: data?.attributes.find((attr) => attr.name === "size") ?? [
+				"XS",
+				"S",
+				"M",
+				"L",
+				"XL",
+				"XXL",
+			],
+			colors: data?.attributes.find((attr) => attr.name === "color") ?? [
+				{ name: "Red", color: "bg-red-500" },
+				{ name: "Green", color: "bg-green-500" },
+				{ name: "Orange", color: "bg-orange-500" },
+				{ name: "Yellow", color: "bg-yellow-400" },
+				{ name: "Blue", color: "bg-blue-500" },
+				{ name: "Gray", color: "bg-gray-400" },
+				{ name: "Brown", color: "bg-amber-700" },
+				{ name: "Cyan", color: "bg-cyan-400" },
+				{ name: "Purple", color: "bg-purple-500" },
+			],
+		};
+	}, [data]);
+
+	if (isLoading) {
+		return <aside className="p-4 text-sm text-muted">Loading filters...</aside>;
+	}
+
+	console.log(data, "chkking data111");
 
 	return (
 		<aside className="overflow-y-scroll md:max-h-[115vh] hide-scrollbar max-md:hidden">
@@ -69,18 +76,33 @@ export default function FilterSidebar() {
 
 			{/* Categories */}
 			<Section title="Categories">
-				{filterData.categories.map(({ label, count }) => (
-					<label
-						key={label}
-						className="flex items-center justify-between text-sm">
+				{filterData.categories?.map(({ id, title, count }) => (
+					<label key={id} className="flex items-center justify-between text-sm">
 						<div>
 							<input type="checkbox" className="mr-2 accent-secondary" />
-							{label}
+							{title}
 						</div>
-						<span className="text-muted text-xs">{count}</span>
+						{/* <span className="text-muted text-xs">{count}</span> */}
 					</label>
 				))}
 			</Section>
+
+			{/* Brands */}
+			{filterData.brands && filterData.brands.length > 0 && (
+				<Section title="Brands">
+					{filterData.brands.map(({ id, title, count }) => (
+						<label
+							key={id}
+							className="flex items-center justify-between text-sm">
+							<div>
+								<input type="checkbox" className="mr-2 accent-secondary" />
+								{title}
+							</div>
+							{/* <span className="text-muted text-xs">{count}</span> */}
+						</label>
+					))}
+				</Section>
+			)}
 
 			{/* Price */}
 			<Section title="Price">
@@ -96,7 +118,7 @@ export default function FilterSidebar() {
 					onChange={(e) => setPriceRange(e.target.value)}
 					className="w-full accent-secondary mb-2"
 				/> */}
-				{filterData.price.options.map(({ label, count }) => (
+				{filterData.price?.options?.map(({ label, count }) => (
 					<label
 						key={label}
 						className="flex items-center justify-between text-sm">
@@ -112,7 +134,7 @@ export default function FilterSidebar() {
 			{/* Size */}
 			<Section title="Size">
 				<div className="flex gap-2 flex-wrap">
-					{filterData.sizes.map((size) => (
+					{filterData.sizes?.map((size) => (
 						<button
 							key={size}
 							className={`border text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl ${
@@ -128,7 +150,7 @@ export default function FilterSidebar() {
 			{/* Color */}
 			<Section title="Color">
 				<div className="flex flex-wrap gap-3">
-					{filterData.colors.map(({ name, color }) => (
+					{filterData.colors?.map(({ name, color }) => (
 						<div
 							key={name}
 							onClick={() => setSelectedColor(name)}

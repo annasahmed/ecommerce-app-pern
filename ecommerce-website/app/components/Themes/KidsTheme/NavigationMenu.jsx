@@ -45,13 +45,15 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 								top-10
 								left-0
 								min-w-160
-								bg-primary
+								text-primary
+								bg-light
 								py-5
 								px-2
 								transition-all
 								duration-300
 								ease-out
 								transform
+								shadow-md
 								${
 									activeMenu === index
 										? "opacity-100 translate-y-0/ translate-y-0 scale-100 pointer-events-auto"
@@ -62,7 +64,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 									<ul className="flex">
 										{item.categories.map((cat, i) => (
 											<li key={i} className="px-4 flex-1">
-												<h3 className="font-normal h7 uppercase text-light border-b border-border-color whitespace-nowrap pb-1 mb-4">
+												<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">
 													{cat.title}
 												</h3>
 
@@ -70,7 +72,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 													{cat.subCategories?.map((subCat, idx) => (
 														<li
 															key={idx}
-															className="text-light hover:text-secondary cursor-pointer transition-colors">
+															className="text-primary hover:text-secondary cursor-pointer transition-colors">
 															{subCat}
 														</li>
 													))}
