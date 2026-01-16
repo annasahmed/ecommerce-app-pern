@@ -24,9 +24,9 @@ const HeroSection = ({ images, autoplay = false }) => {
 				<BaseImage
 					src={slide}
 					key={idx}
-					width={1000}
-					height={1000}
-					sizes={100}
+					// width={1000}
+					// height={1000}
+					// sizes={100}
 					className="w-full h-auto max-md:min-h-[25vh] max-md:object-cover"
 				/>
 			)}
