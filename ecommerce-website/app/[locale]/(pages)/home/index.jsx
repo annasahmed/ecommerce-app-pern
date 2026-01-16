@@ -61,7 +61,7 @@ const HomePage = () => {
 
 	return (
 		<main>
-			<HeroSection />
+			<HeroSection images={store.content.heroSlider?.map((img) => img.img)} />
 			<section className="flex flex-col gap-18 section-layout-top/ max-md:gap-10">
 				{homepageSections?.map((section, idx) => {
 					return <HomepageSection section={section} key={idx} />;
@@ -107,7 +107,7 @@ const HomePage = () => {
 					<h3 className="mb-4 container-layout h3 font-bold text-center text-primary uppercase">
 						More To Explore
 					</h3>
-					<CategorySlider data={parentCategories} />
+					<CategorySlider data={parentCategories} isStoreData />
 					{/* <CategoriesSection data={parentCategories || []} isSlider={false} /> */}
 				</section>
 				<section className="container-layout">

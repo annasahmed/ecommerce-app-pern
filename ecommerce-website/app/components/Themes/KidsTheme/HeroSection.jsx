@@ -4,9 +4,8 @@ import BaseImage from "../../BaseComponents/BaseImage";
 import BaseSlider from "../../BaseComponents/BaseSlider";
 
 const HeroSection = ({ images, autoplay = false }) => {
-	const store = useStore();
-	console.log(images, "chkking images");
-	
+	console.log(images, "chkkking 111");
+
 	return (
 		<BaseSlider
 			slides={images}

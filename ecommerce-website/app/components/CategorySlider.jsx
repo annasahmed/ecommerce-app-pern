@@ -21,7 +21,7 @@ import { useStore } from "../providers/StoreProvider";
 import { ENV_VARIABLES } from "../constants/env_variables";
 import noImage from "../assets/no-image.png";
 
-export default function CategorySlider({ data = [] }) {
+export default function CategorySlider({ data = [], isStoreData }) {
 	const store = useStore();
 	const slidesData = data.length > 0 ? data : store.content.categories;
 
@@ -57,7 +57,9 @@ export default function CategorySlider({ data = [] }) {
 							<BaseLink href={`/products?category=${category.slug}`}>
 								<BaseImage
 									src={
-										category.icon
+										isStoreData
+											? category.icon
+											: category.icon
 											? ENV_VARIABLES.IMAGE_BASE_URL + category.icon
 											: noImage
 									}
