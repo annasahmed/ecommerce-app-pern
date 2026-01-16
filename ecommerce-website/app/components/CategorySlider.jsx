@@ -51,7 +51,7 @@ export default function CategorySlider({ data = [], isStoreData }) {
 				navigation={true}
 				modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
 				className="flat-coverflow-slider">
-				{slidesData.map((category, idx) => (
+				{[...slidesData, ...slidesData].map((category, idx) => (
 					<SwiperSlide key={idx}>
 						<div key={idx} className="bg-white shadow-xl rounded-xl pb-3">
 							<BaseLink href={`/products?category=${category.slug}`}>
