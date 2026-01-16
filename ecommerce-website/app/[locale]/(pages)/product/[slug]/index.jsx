@@ -86,9 +86,11 @@ export default function ProductDetailsPage() {
 					{/* Rating */}
 					<div className="flex items-center gap-2 mb-4">
 						<Ratings />
-						<span className="p5 text-muted text-sm sm:text-base">
-							({product.reviewsCount || 100} reviews)
-						</span>
+						{product.reviewsCount && (
+							<span className="p5 text-muted text-sm sm:text-base">
+								({product.reviewsCount} reviews)
+							</span>
+						)}
 					</div>
 
 					{/* Price */}
@@ -225,7 +227,7 @@ export default function ProductDetailsPage() {
 						{product.categories.length > 0 && (
 							<p className="capitalize">
 								<span className="font-medium">Categories:</span>{" "}
-								{product.categories?.map((v)=>v.title).join(", ")}
+								{product.categories?.map((v) => v.title).join(", ")}
 							</p>
 						)}
 						{/* <p>
