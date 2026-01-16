@@ -17,7 +17,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 	const store = useStore();
 	let { data: product, isLoading } = useFetchReactQuery(
 		() => ProductServices.getProductBySlug(store.themeName, slug),
-		["productDetails", store.themeName, product.slug],
+		["productDetails", store.themeName, slug],
 		{ enabled: !!store.themeName },
 	);
 	if (!product) return null;
