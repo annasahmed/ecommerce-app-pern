@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ChevronDown, ChevronUp, Check } from "lucide-react";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import FiltersService from "@/app/services/FiltersService";
+import { COLORMAP } from "@/app/data/colors";
 
 // --- Filter Configuration ---
 
@@ -27,6 +28,7 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 	const [selectedColor, setSelectedColor] = useState("Red");
 	const [selectedSize, setSelectedSize] = useState(null);
 	const [priceRange, setPriceRange] = useState(null);
+	const [selectedPrice, setSelectedPrice] = useState(null);
 
 	const { data, isLoading } = useFetchReactQuery(
 		() => FiltersService.getFiltersData(),
@@ -35,40 +37,78 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 	);
 
 	const filterData = useMemo(() => {
+		if (!data) {
+			return {
+				categories: [],
+				brands: [],
+				sizes: [],
+				colors: [],
+				price: { range: { min: 0, max: 0 }, options: [] },
+			};
+		}
+
+		const colorAttr =
+			data.attributes.find((a) => a.name === "color")?.values ?? [];
+		const sizeAttr =
+			data.attributes.find((a) => a.name === "size")?.values ?? [];
+
+		// Map colors to tailwind classes (you can extend more colors if needed)
+
+		const colors = colorAttr.map((name) => ({
+			name,
+			color: COLORMAP[name.toLowerCase()] || "bg-gray-300",
+		}));
+
 		return {
-			categories: data?.categories ?? [],
-			brands: data?.brands ?? [],
+			categories: data.categories ?? [],
+			brands: data.brands ?? [],
+			sizes: sizeAttr ?? [],
+			colors,
+			range: { min: 36, max: 173 }, // still hardcoded
 			price: {
-				range: data?.price?.range ?? { min: 0, max: 0 },
-				options: data?.price?.options ?? [],
+				options: [
+					{ label: "Rs.100 - Rs.200", min: 100, max: 200 },
+					{ label: "Rs.200 - Rs.400", min: 200, max: 400 },
+					{ label: "Rs.400 - Rs.600", min: 400, max: 600 },
+					{ label: "Rs.600 - Rs.800", min: 600, max: 800 },
+					{ label: "Over Rs.1000", min: 1000, max: null },
+				],
+				// options: [
+				// 	{ label: "Rs.100 - Rs.200", count: 12 },
+				// 	{ label: "Rs.200 - Rs.400", count: 24 },
+				// 	{ label: "Rs.400 - Rs.600", count: 54 },
+				// 	{ label: "Rs.600 - Rs.800", count: 78 },
+				// 	{ label: "Over Rs.1000", count: 125 },
+				// ],
 			},
-			sizes: data?.attributes.find((attr) => attr.name === "size") ?? [
-				"XS",
-				"S",
-				"M",
-				"L",
-				"XL",
-				"XXL",
-			],
-			colors: data?.attributes.find((attr) => attr.name === "color") ?? [
-				{ name: "Red", color: "bg-red-500" },
-				{ name: "Green", color: "bg-green-500" },
-				{ name: "Orange", color: "bg-orange-500" },
-				{ name: "Yellow", color: "bg-yellow-400" },
-				{ name: "Blue", color: "bg-blue-500" },
-				{ name: "Gray", color: "bg-gray-400" },
-				{ name: "Brown", color: "bg-amber-700" },
-				{ name: "Cyan", color: "bg-cyan-400" },
-				{ name: "Purple", color: "bg-purple-500" },
-			],
 		};
 	}, [data]);
+
+	const toggleArrayFilter = (key, value) => {
+		setSelectedFilters((prev) => {
+			const exists = prev[key]?.includes(value);
+
+			return {
+				...prev,
+				[key]: exists
+					? prev[key].filter((v) => v !== value)
+					: [...(prev[key] || []), value],
+			};
+		});
+	};
+
+	const setSingleFilter = (key, value) => {
+		setSelectedFilters((prev) => ({
+			...prev,
+			[key]: prev[key] === value ? null : value,
+		}));
+	};
 
 	if (isLoading) {
 		return <aside className="p-4 text-sm text-muted">Loading filters...</aside>;
 	}
 
-	console.log(data, "chkking data111");
+	console.log(selectedFilters, "chkking data111");
 
 	return (
 		<aside className="overflow-y-scroll md:max-h-[115vh] hide-scrollbar max-md:hidden">
@@ -79,7 +119,12 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 				{filterData.categories?.map(({ id, title, count }) => (
 					<label key={id} className="flex items-center justify-between text-sm">
 						<div>
-							<input type="checkbox" className="mr-2 accent-secondary" />
+							<input
+								type="checkbox"
+								className="mr-2 accent-secondary"
+								checked={selectedFilters.categories?.includes(id)}
+								onChange={() => toggleArrayFilter("categories", id)}
+							/>
 							{title}
 						</div>
 						{/* <span className="text-muted text-xs">{count}</span> */}
@@ -95,7 +140,12 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 							key={id}
 							className="flex items-center justify-between text-sm">
 							<div>
-								<input type="checkbox" className="mr-2 accent-secondary" />
+								<input
+									type="checkbox"
+									className="mr-2 accent-secondary"
+									checked={selectedFilters.brands?.includes(id)}
+									onChange={() => toggleArrayFilter("brands", id)}
+								/>
 								{title}
 							</div>
 							{/* <span className="text-muted text-xs">{count}</span> */}
@@ -104,29 +154,29 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 				</Section>
 			)}
 
-			{/* Price */}
 			<Section title="Price">
-				{/* <p className="text-xs text-muted mb-1">
-					Price Range: ${filterData.price.range.min} – $
-					{filterData.price.range.max}
-				</p> */}
-				{/* <input
-					type="range"
-					min="0"
-					max="100"
-					value={priceRange}
-					onChange={(e) => setPriceRange(e.target.value)}
-					className="w-full accent-secondary mb-2"
-				/> */}
-				{filterData.price?.options?.map(({ label, count }) => (
+				{filterData.price.options.map(({ label, min, max }) => (
 					<label
 						key={label}
 						className="flex items-center justify-between text-sm">
 						<div>
-							<input type="checkbox" className="mr-2 accent-secondary" />
+							<input
+								type="radio"
+								name="price"
+								className="mr-2 accent-secondary"
+								checked={
+									selectedFilters?.price?.min === min &&
+									selectedFilters?.price?.max === max
+								}
+								onChange={() =>
+									setSelectedFilters((prev) => ({
+										...prev,
+										price: { min, max },
+									}))
+								}
+							/>
 							{label}
 						</div>
-						<span className="text-muted text-xs">{count}</span>
 					</label>
 				))}
 			</Section>
@@ -137,10 +187,12 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 					{filterData.sizes?.map((size) => (
 						<button
 							key={size}
-							className={`border text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl ${
-								selectedSize === size ? "border-dark border-2 shadow-2xl" : ""
+							className={`text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl border ${
+								selectedFilters.size === size
+									? "border-dark shadow-2xl"
+									: " border-transparent/"
 							}`}
-							onClick={() => setSelectedSize(size)}>
+							onClick={() => setSingleFilter("size", size)}>
 							{size}
 						</button>
 					))}
@@ -153,11 +205,13 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 					{filterData.colors?.map(({ name, color }) => (
 						<div
 							key={name}
-							onClick={() => setSelectedColor(name)}
+							onClick={() => setSingleFilter("color", name)}
 							className={`relative w-6 h-6 rounded-full cursor-pointer border-2 ${
-								selectedColor === name ? "border-dark" : "border-transparent"
+								selectedFilters.color === name
+									? "border-dark"
+									: "border-transparent/"
 							} ${color}`}>
-							{selectedColor === name && (
+							{selectedFilters.color === name && (
 								<Check
 									className="absolute inset-0 m-auto text-light"
 									size={14}
