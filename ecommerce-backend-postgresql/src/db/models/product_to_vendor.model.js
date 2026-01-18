@@ -1,5 +1,3 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
-
 module.exports = (sequelize, DataTypes) => {
 	const product_to_vendor = sequelize.define(
 		'product_to_vendor',

@@ -14,5 +14,6 @@ websiteRouter.use('/products', productRoute);
 websiteRouter.use('/auth', authRoute);
 websiteRouter.use('/language', languageRoute);
 websiteRouter.use('/homepage-sections', require('./homepageSectionsRoute'));
+websiteRouter.use('/filters', require('./filterRoute'));
 
 module.exports = websiteRouter;

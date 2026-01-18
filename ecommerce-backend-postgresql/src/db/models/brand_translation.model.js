@@ -1,17 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
-	const vendor_translation = sequelize.define(
-		'vendor_translation',
+	const brand_translation = sequelize.define(
+		'brand_translation',
 		{
 			id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			vendor_id: {
+			brand_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'vendor',
+					model: 'brand',
 					key: 'id',
 				},
 				onDelete: 'CASCADE',
@@ -31,44 +31,40 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			description: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 			slug: {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			// address: {
-			// 	type: DataTypes.TEXT,
-			// 	allowNull: true,
-			// },
-			// country: {
-			// 	type: DataTypes.STRING,
-			// 	allowNull: true,
-			// },
 		},
 		{
-			tableName: 'vendor_translation',
+			tableName: 'brand_translation',
 			timestamps: true,
 			indexes: [
 				{
 					unique: true,
-					fields: ['vendor_id', 'language_id'],
-					name: 'uniq_vendor_language_id',
+					fields: ['brand_id', 'language_id'],
+					name: 'uniq_brand_language_id',
 				},
 				{
 					unique: true,
 					fields: ['slug', 'language_id'], // unique per lang
-					name: 'uniq_vendor_slug_language',
+					name: 'uniq_brand_slug_language',
 				},
 			],
 		}
 	);
 
-	vendor_translation.associate = (models) => {
-		vendor_translation.belongsTo(models.vendor, {
-			foreignKey: 'vendor_id',
-			as: 'parentvendor',
+	brand_translation.associate = (models) => {
+		brand_translation.belongsTo(models.brand, {
+			foreignKey: 'brand_id',
+			as: 'parentbrand',
 			onDelete: 'CASCADE',
 		});
-		vendor_translation.belongsTo(models.language, {
+		brand_translation.belongsTo(models.language, {
 			foreignKey: 'language_id',
 			as: 'language',
 			onDelete: 'CASCADE',
@@ -76,5 +72,5 @@ module.exports = (sequelize, DataTypes) => {
 		});
 	};
 
-	return vendor_translation;
+	return brand_translation;
 };

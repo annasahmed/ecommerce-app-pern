@@ -52,6 +52,16 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'SET NULL',
 				onUpdate: 'CASCADE',
 			},
+			brand_id: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'brand',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
+			},
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -79,6 +89,11 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		product.belongsTo(models.size_chart, {
 			foreignKey: 'size_chart_id',
+			onDelete: 'SET NULL',
+			onUpdate: 'CASCADE',
+		});
+		product.belongsTo(models.brand, {
+			foreignKey: 'brand_id',
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
 		});

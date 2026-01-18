@@ -52,6 +52,26 @@ const productService = createBaseService(db.product, {
 				},
 			],
 		},
+		{
+			model: db.brand,
+			required: false,
+			include: [
+				{
+					model: db.brand_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'brand_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
 		{ model: db.vendor, required: false },
 		{
 			model: db.product_variant,

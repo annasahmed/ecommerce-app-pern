@@ -11,33 +11,33 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			// name: {
-			// 	type: DataTypes.JSONB,
-			// 	allowNull: false,
-			// 	validate: {
-			// 		isValidOption(value) {
-			// 			modelValidators.stringWithTranslation(value, 'name');
-			// 		},
-			// 	},
-			// },
-			// address: {
-			// 	type: DataTypes.JSONB,
-			// 	allowNull: true,
-			// 	validate: {
-			// 		isValidOption(value) {
-			// 			modelValidators.stringWithTranslation(value, 'address');
-			// 		},
-			// 	},
-			// },
-			// country: {
-			// 	type: DataTypes.JSONB,
-			// 	allowNull: true,
-			// 	validate: {
-			// 		isValidOption(value) {
-			// 			modelValidators.stringWithTranslation(value, 'country');
-			// 		},
-			// 	},
-			// },
+			name: {
+				type: DataTypes.JSONB,
+				allowNull: false,
+				validate: {
+					isValidOption(value) {
+						modelValidators.stringWithTranslation(value, 'name');
+					},
+				},
+			},
+			address: {
+				type: DataTypes.JSONB,
+				allowNull: true,
+				validate: {
+					isValidOption(value) {
+						modelValidators.stringWithTranslation(value, 'address');
+					},
+				},
+			},
+			country: {
+				type: DataTypes.JSONB,
+				allowNull: true,
+				validate: {
+					isValidOption(value) {
+						modelValidators.stringWithTranslation(value, 'country');
+					},
+				},
+			},
 			phone: {
 				type: DataTypes.STRING,
 				allowNull: true,

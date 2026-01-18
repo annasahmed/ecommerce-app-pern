@@ -1,0 +1,58 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable('brand', {
+			id: {
+				type: Sequelize.INTEGER,
+				primaryKey: true,
+				allowNull: false,
+				autoIncrement: true,
+			},
+			user_id: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
+			},
+			status: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: true,
+			},
+			deleted_by: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'user',
+					key: 'id',
+				},
+				onDelete: 'SET NULL',
+				onUpdate: 'CASCADE',
+			},
+			deleted_at: {
+				type: Sequelize.DATE,
+				allowNull: true,
+			},
+			created_at: {
+				type: Sequelize.DATE,
+				allowNull: false,
+				defaultValue: Sequelize.literal('NOW()'),
+			},
+			updated_at: {
+				type: Sequelize.DATE,
+				allowNull: false,
+				defaultValue: Sequelize.literal('NOW()'),
+			},
+		});
+	},
+
+	async down(queryInterface, Sequelize) {
+		await queryInterface.dropTable('brand');
+	},
+};
