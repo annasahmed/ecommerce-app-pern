@@ -44,8 +44,8 @@ const ProductCard = ({ product }) => {
 		product.images?.length > 1
 			? ENV_VARIABLES.IMAGE_BASE_URL + product.images[1]
 			: product.thumbnail
-			? ENV_VARIABLES.IMAGE_BASE_URL + product.thumbnail
-			: product.image || null;
+				? ENV_VARIABLES.IMAGE_BASE_URL + product.thumbnail
+				: product.image || null;
 
 	const startPress = () => {
 		if (!isMobile) return;
@@ -239,7 +239,7 @@ const ProductCard = ({ product }) => {
 						<BasePrice className="text-secondary" price={discountedPrice} />
 					</h6>
 
-					<Ratings rating={4} />
+					<Ratings rating={product.rating} />
 
 					<div className="flex flex-col gap-0.5">
 						<PrimaryButton

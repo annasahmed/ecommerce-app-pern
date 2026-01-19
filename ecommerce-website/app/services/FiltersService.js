@@ -4,7 +4,7 @@ const FiltersService = {
 	getFiltersData: async () => {
 		// Simulate an API call to fetch filter data
 		try {
-			const data = await requests.get("/filters");
+			const data = await requests.get("/metadata/filters");
 			console.log(data, "chkisanid111");
 
 			return data;

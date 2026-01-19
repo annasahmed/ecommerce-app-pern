@@ -1,9 +1,9 @@
 "use client";
-import { useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, Check } from "lucide-react";
-import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
-import FiltersService from "@/app/services/FiltersService";
 import { COLORMAP } from "@/app/data/colors";
+import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
+import MetadataService from "@/app/services/MetadataService";
+import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { useMemo, useState } from "react";
 
 // --- Filter Configuration ---
 
@@ -31,7 +31,7 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 	const [selectedPrice, setSelectedPrice] = useState(null);
 
 	const { data, isLoading } = useFetchReactQuery(
-		() => FiltersService.getFiltersData(),
+		() => MetadataService.getFiltersData(),
 		["filtersData"],
 		{ enabled: true },
 	);

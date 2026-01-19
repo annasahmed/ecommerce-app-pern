@@ -55,106 +55,120 @@ export const KIDSTHEME_DATA = {
 			title: "Home",
 		},
 		{
+			id: 1,
 			slug: "fashion",
 			title: "Fashion",
-			categories: [
+			children: [
 				{
+					id: 2,
+					slug: "baby-accessories",
 					title: "Baby Accessories",
-					subCategories: [
-						"Swaddles",
-						"Blankets",
-						"Wrapping Sheets",
-						"Towels",
-						"Bibs, Caps & Hats",
-						"Mittens & Gloves",
-						"Socks & Booties",
-						"Gift Sets",
+					children: [
+						{ id: 3, slug: "swaddles", title: "Swaddles" },
+						{ id: 4, slug: "blankets", title: "Blankets" },
+						{ id: 5, slug: "wrapping-sheets", title: "Wrapping Sheets" },
+						{ id: 6, slug: "towels", title: "Towels" },
+						{ id: 7, slug: "bibs-caps-hats", title: "Bibs, Caps & Hats" },
+						{ id: 8, slug: "mittens-gloves", title: "Mittens & Gloves" },
+						{ id: 9, slug: "socks-booties", title: "Socks & Booties" },
+						{ id: 10, slug: "gift-sets", title: "Gift Sets" },
 					],
 				},
 				{
+					id: 11,
+					slug: "baby",
 					title: "Baby",
-					subCategories: [
-						"Bodysuits & Rompers",
-						"Sleepwear",
-						"Tops",
-						"Bottoms",
-						"Dresses",
-						"Innerwear",
-						"Outerwear",
-						"Costumes",
-						"Accessories",
+					children: [
+						{ id: 12, slug: "bodysuits-rompers", title: "Bodysuits & Rompers" },
+						{ id: 13, slug: "sleepwear", title: "Sleepwear" },
+						{ id: 14, slug: "tops", title: "Tops" },
+						{ id: 15, slug: "bottoms", title: "Bottoms" },
+						{ id: 16, slug: "dresses", title: "Dresses" },
+						{ id: 17, slug: "innerwear", title: "Innerwear" },
+						{ id: 18, slug: "outerwear", title: "Outerwear" },
+						{ id: 19, slug: "costumes", title: "Costumes" },
+						{ id: 20, slug: "accessories", title: "Accessories" },
 					],
 				},
 				{
+					id: 21,
+					slug: "footwear",
 					title: "Footwear",
-					subCategories: ["Socks", "Booties", "Casual Wear", "Sandals"],
+					children: [
+						{ id: 22, slug: "socks", title: "Socks" },
+						{ id: 23, slug: "booties", title: "Booties" },
+						{ id: 24, slug: "casual-wear", title: "Casual Wear" },
+						{ id: 25, slug: "sandals", title: "Sandals" },
+					],
 				},
 			],
 		},
+
 		{
+			id: 26,
 			slug: "gear",
 			title: "Gear",
-			categories: [
+			children: [
 				{
+					id: 27,
+					slug: "shop-by-category",
 					title: "Shop By Category",
-					subCategories: [
-						"Strollers & Prams",
-						"Walkers & Push Along",
-						"Car Seats Carrycots & Carriers",
-						"Bouncers Rockers & Swings",
-						"Highchair & Booster Seats",
-						"Playmats & Playgyms",
-						"Tricycles & Bicycles",
-						"Rideons & Scooters",
-						"Travel Bags",
+					children: [
+						{ id: 28, slug: "strollers-prams", title: "Strollers & Prams" },
+						{
+							id: 29,
+							slug: "walkers-push-along",
+							title: "Walkers & Push Along",
+						},
+						{
+							id: 30,
+							slug: "car-seats-carrycots-carriers",
+							title: "Car Seats Carrycots & Carriers",
+						},
+						{
+							id: 31,
+							slug: "bouncers-rockers-swings",
+							title: "Bouncers Rockers & Swings",
+						},
+						{
+							id: 32,
+							slug: "highchair-booster-seats",
+							title: "Highchair & Booster Seats",
+						},
+						{ id: 33, slug: "playmats-playgyms", title: "Playmats & Playgyms" },
+						{
+							id: 34,
+							slug: "tricycles-bicycles",
+							title: "Tricycles & Bicycles",
+						},
+						{ id: 35, slug: "rideons-scooters", title: "Rideons & Scooters" },
+						{ id: 36, slug: "travel-bags", title: "Travel Bags" },
 					],
 				},
 				{
+					id: 37,
+					slug: "popular-brands",
 					title: "Popular Brands",
-					subCategories: [
-						"Sunshine",
-						"Ingenuity",
-						"Junior",
-						"Tinnies",
-						"Mastela",
-						"Infantes",
-						"Little Sparks",
+					children: [
+						{ id: 38, slug: "sunshine", title: "Sunshine" },
+						{ id: 39, slug: "ingenuity", title: "Ingenuity" },
+						{ id: 40, slug: "junior", title: "Junior" },
+						{ id: 41, slug: "tinnies", title: "Tinnies" },
+						{ id: 42, slug: "mastela", title: "Mastela" },
+						{ id: 43, slug: "infantes", title: "Infantes" },
+						{ id: 44, slug: "little-sparks", title: "Little Sparks" },
 					],
 				},
 			],
 		},
-		{
-			slug: "feeding",
-			title: "feeding",
-		},
-		{
-			slug: "bath-and-shower",
-			title: "bath & shower",
-		},
-		{
-			slug: "safety-toys",
-			title: "safety toys",
-		},
-		{
-			slug: "diapering",
-			title: "diapering",
-		},
-		{
-			slug: "nursery",
-			title: "nursery",
-		},
-		{
-			slug: "moms",
-			title: "moms",
-		},
-		{
-			slug: "sale",
-			title: "sale",
-		},
-		// {
-		// 	slug: "/new-arrival",
-		// 	title: "new arrival",
-		// },
+
+		{ id: 45, slug: "feeding", title: "Feeding", children: [] },
+		{ id: 46, slug: "bath-and-shower", title: "Bath & Shower", children: [] },
+		{ id: 47, slug: "safety-toys", title: "Safety Toys", children: [] },
+		{ id: 48, slug: "diapering", title: "Diapering", children: [] },
+		{ id: 49, slug: "nursery", title: "Nursery", children: [] },
+		{ id: 50, slug: "moms", title: "Moms", children: [] },
+		{ id: 51, slug: "sale", title: "Sale", children: [] },
 	],
 
 	heroSlider: [

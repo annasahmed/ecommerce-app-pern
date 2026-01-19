@@ -117,7 +117,7 @@ export default function ProductDetailsPage() {
 
 					{/* Rating */}
 					<div className="flex items-center gap-2 mb-4">
-						<Ratings />
+						<Ratings rating={product.rating} />
 						{product.reviewsCount && (
 							<span className="p5 text-muted text-sm sm:text-base">
 								({product.reviewsCount} reviews)
