@@ -12,54 +12,87 @@ import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
 import { Heart, ShoppingCartIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-const desc =
-	"<p>The Kidzo Baby Adjustable Swaddle in Blue is made with ultra-soft, breathable cotton to provide your newborn with maximum comfort and security. Its adjustable Velcro wings ensure a perfect fit, helping prevent startle reflex and promoting longer, more peaceful sleep. Ideal for newborns and infants, this swaddle keeps your baby snug, warm, and safely wrapped throughout the night.</p>\n<p><strong>Key Features</strong></p>\n<ul>\n  <li>Soft and breathable cotton fabric</li>\n  <li>Adjustable Velcro wings for perfect fit</li>\n  <li>Supports longer, peaceful sleep</li>\n  <li>Safe and comfortable newborn wrapping</li>\n  <li>Premium Kidzo quality</li>\n</ul>";
 
 export default function ProductDetailsPage() {
 	const { slug } = useParams();
 	const store = useStore();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
-	const [quantity, setQuantity] = useState(1);
-	const [activeTab, setActiveTab] = useState("description");
-	const [selectedColor, setSelectedColor] = useState(null);
-	const [selectedSize, setSelectedSize] = useState(null);
 
-	const { data: latestProducts, isLoading: latestProdductsLoading } =
+	const [quantity, setQuantity] = useState(1);
+	const [selectedAttributes, setSelectedAttributes] = useState({});
+	const [attributeOptions, setAttributeOptions] = useState({});
+	const [activeTab, setActiveTab] = useState("description");
+
+	// Fetch product
+	const { data: product, isLoading } = useFetchReactQuery(
+		() => ProductServices.getProductBySlug(store.themeName, slug),
+		["productBySlug", store.themeName, slug],
+		{ enabled: !!store.themeName },
+	);
+
+	// Fetch latest products (optional)
+	const { data: latestProducts, isLoading: latestProductsLoading } =
 		useFetchReactQuery(
 			() => ProductServices.getLatestProducts(store.themeName),
 			["latestProducts", store.themeName],
 			{ enabled: !!store.themeName },
 		);
 
-	let { data: product, isLoading } = useFetchReactQuery(
-		() => ProductServices.getProductBySlug(store.themeName, slug),
-		["latestProducts", store.themeName, slug],
-		{ enabled: !!store.themeName },
-	);
+	// Build attribute options when product loads
+	useEffect(() => {
+		if (!product) return;
 
-	// product = store.content.productDetails[1];
+		const attributeMap = {};
+		product.variants?.forEach((variant) => {
+			variant.attributes?.forEach((attr) => {
+				const name = attr.name;
+				const value = attr.value;
+				if (!attributeMap[name]) attributeMap[name] = new Set();
+				attributeMap[name].add(value);
+			});
+		});
 
-	if (isLoading || latestProdductsLoading) return <Loader />;
+		const options = Object.fromEntries(
+			Object.entries(attributeMap).map(([name, values]) => [
+				name,
+				Array.from(values),
+			]),
+		);
+		setAttributeOptions(options);
+
+		// Initialize selected attributes (first value as default)
+		const defaults = {};
+		Object.entries(options).forEach(([name, values]) => {
+			defaults[name] = values[0];
+		});
+		setSelectedAttributes(defaults);
+	}, [product]);
+
+	if (isLoading || latestProductsLoading) return <Loader />;
 	if (!product)
-		return <h1 className="py-10 text-center h3">Product Not Found</h1>;
+		return (
+			<h1 className="py-10 text-center text-xl font-medium">
+				Product Not Found
+			</h1>
+		);
 
-	// const product =
-	// 	store.content.productDetails.find((v) => v.id == slug || v.slug === slug) ||
-	// 	store.content.productDetails[0];
+	const handleSelectAttribute = (name, value) => {
+		setSelectedAttributes((prev) => ({ ...prev, [name]: value }));
+	};
+
 	const discountedPrice = (
 		(product.base_price || product.price) *
 		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
 
 	const handleAddToCart = () => {
-		addToCart(product);
+		addToCart({ ...product, quantity, selectedAttributes });
 		toast.success("Added to cart!");
 	};
-	const isFavourite = favourites?.some((f) => f.id === product.id);
 
+	const isFavourite = favourites?.some((f) => f.id === product.id);
 	const handleFavourite = () => {
 		toggleFavourite(product);
 		toast.success(
@@ -69,7 +102,6 @@ export default function ProductDetailsPage() {
 
 	return (
 		<main>
-			{/* Product Section */}
 			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-6 gap-10 md:gap-10">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
@@ -80,7 +112,7 @@ export default function ProductDetailsPage() {
 				{/* Right Section - Product Info */}
 				<div className="flex flex-col md:col-span-3">
 					<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-						{product.title.toLowerCase()}
+						{product.title?.toLowerCase()}
 					</h1>
 
 					{/* Rating */}
@@ -105,8 +137,6 @@ export default function ProductDetailsPage() {
 							className="h3 font-bold text-secondary text-xl md:text-2xl"
 							price={discountedPrice}
 						/>
-
-						{/* discount badge */}
 						{(product.discount || product.base_discount_percentage) > 0 && (
 							<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
 								SAVE {product.discount || product.base_discount_percentage}%
@@ -117,60 +147,44 @@ export default function ProductDetailsPage() {
 					{/* Description */}
 					<p className="leading-relaxed mb-6 pb-6 border-b p4 text-sm md:text-base text-[#999999]">
 						{product.excerpt || product.description}
-						{/* {product.description} */}
 					</p>
 
-					{/* Color Guide */}
-					{/* <div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
-						<span className="font-medium">Color:</span>
-						<div className="flex flex-wrap gap-3">
-							{[
-								{ name: "Red", color: "bg-red-500" },
-								{ name: "Green", color: "bg-green-500" },
-								{ name: "Orange", color: "bg-orange-500" },
-								{ name: "Yellow", color: "bg-yellow-400" },
-								{ name: "Blue", color: "bg-blue-500" },
-								{ name: "Gray", color: "bg-gray-400" },
-							].map(({ name, color }) => (
-								<div
-									key={name}
-									onClick={() => setSelectedColor(name)}
-									className={`relative w-6 h-6 rounded-full cursor-pointer border-2 ${
-										selectedColor === name
-											? "border-dark"
-											: "border-transparent"
-									} ${color}`}>
-									{selectedColor === name && (
-										<Check
-											className="absolute inset-0 m-auto text-light"
-											size={14}
-										/>
-									)}
-								</div>
-							))}
+					{/* Attributes */}
+					{Object.entries(attributeOptions).filter(
+						([name, values]) => values.length > 1,
+					).length > 0 && (
+						<div className="space-y-4 pb-6">
+							{Object.entries(attributeOptions).map(
+								([name, values]) =>
+									values.length > 1 && (
+										<div
+											key={name}
+											className="flex items-center gap-2 flex-wrap">
+											<span className="font-medium capitalize">
+												Select {name}:
+											</span>
+											<div className="flex gap-2 flex-wrap">
+												{values.map((value) => (
+													<button
+														key={value}
+														onClick={() => handleSelectAttribute(name, value)}
+														className={`px-3 py-1 border rounded-md capitalize transition
+                          							${
+																					selectedAttributes[name] === value
+																						? "bg-light border-primary"
+																						: "bg-light text-gray-700 border-gray-300 hover:bg-gray-100"
+																				}`}>
+														{value}
+													</button>
+												))}
+											</div>
+										</div>
+									),
+							)}
 						</div>
-					</div> */}
-					{/* Size Guide */}
-					{/* <div className="flex flex-wrap items-center gap-3 mb-6 p4 text-sm md:text-base">
-						<span className="font-medium">Size:</span>
-						<div className="flex gap-1">
-							{["XS", "S", "M", "XL", "XXL"].map((size) => (
-								<button
-									key={size}
-									className={`border text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl ${
-										selectedSize === size
-											? "border-dark border-2 shadow-2xl"
-											: ""
-									}`}
-									onClick={() => setSelectedSize(size)}>
-									{size}
-								</button>
-							))}
-						</div>
-					</div> */}
-					{/* Quantity Selector */}
+					)}
 
-					{/* Buttons */}
+					{/* Quantity & Buttons */}
 					<div className="flex md:items-center gap-3 max-md:gap-1 mb-6 pb-6 border-b">
 						<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
 							<span className="font-medium">Quantity:</span>
@@ -188,52 +202,51 @@ export default function ProductDetailsPage() {
 								</button>
 							</div>
 						</div>
+
 						<PrimaryButton
-							className=" min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
+							className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
 							onClick={handleAddToCart}
 							isSmall>
-							<ShoppingCartIcon
-								className="cursor-pointer hover:text-primary transition"
-								style={{
-									width: "20px",
-								}}
-							/>{" "}
+							<ShoppingCartIcon style={{ width: "20px" }} />
 							Add to Cart
 						</PrimaryButton>
+
 						<button
 							title="Add to Favorites"
 							onClick={(e) => {
 								e.stopPropagation();
 								handleFavourite();
 							}}
-							className="border border-[#999999] text-[#999999]  rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
+							className="border border-[#999999] text-[#999999] rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
 							<Heart
 								className={`size-3.5 md:size-4 ${
 									isFavourite ? "fill-red-500 text-red-500" : ""
 								}`}
 							/>
 						</button>
-						{/* <PrimaryButton className="flex-1">Buy Now</PrimaryButton> */}
-						{/* <PrimaryButton className="flex-1" onClick={handleFavourite}>
-							Add to Wishlist
-						</PrimaryButton> */}
 					</div>
 
-					{/* SKU and Categories */}
+					{/* SKU & Categories */}
 					<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
 						<p>
 							<span className="font-medium">SKU:</span> {product.sku}
 						</p>
-						{product.categories.length > 0 && (
+						{product.categories?.length > 0 && (
 							<p className="capitalize">
 								<span className="font-medium">Categories:</span>{" "}
 								{product.categories?.map((v) => v.title).join(", ")}
 							</p>
 						)}
-						{/* <p>
-							<span className="font-medium">Usps:</span>{" "}
-							{product.tags.join(", ")}
-						</p> */}
+
+						{/* Attributes */}
+						{Object.entries(attributeOptions).map(([name, values]) => (
+							<div
+								key={name}
+								className="flex items-center gap-2 flex-wrap capitalize">
+								<span className="font-medium ">{name}:</span>
+								<span className="">{values?.join(", ")}</span>
+							</div>
+						))}
 					</div>
 
 					{/* Social Share */}
@@ -244,7 +257,6 @@ export default function ProductDetailsPage() {
 
 				{/* Tabs Section */}
 				<div className="col-span-1 md:col-span-6 mt-12/ border-t pt-4">
-					{/* Tabs */}
 					<div className="flex flex-wrap gap-6 md:gap-8 mb-4 border-b pb-4 md:pb-6 md:justify-start">
 						{["description", "reviews"].map((tab) => (
 							<button
@@ -266,10 +278,6 @@ export default function ProductDetailsPage() {
 							className="leading-relaxed text-sm md:text-base text-[#999999] product-description prose max-w-none"
 							dangerouslySetInnerHTML={{ __html: product.description }}
 						/>
-						// <p className="leading-relaxed text-sm md:text-base text-[#999999]">
-						// 	{desc}
-						// </p>
-						// {/* {product.description} */}
 					)}
 
 					{activeTab === "reviews" && (
@@ -290,17 +298,6 @@ export default function ProductDetailsPage() {
 							)}
 						</div>
 					)}
-
-					{activeTab === "additional" && product.additionalInfo && (
-						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm md:text-base">
-							{Object.entries(product.additionalInfo).map(([key, value]) => (
-								<p key={key}>
-									<span className="font-medium capitalize">{key}: </span>
-									{value}
-								</p>
-							))}
-						</div>
-					)}
 				</div>
 			</section>
 
@@ -309,7 +306,7 @@ export default function ProductDetailsPage() {
 				<ProductsSlider
 					productsData={
 						latestProducts?.records?.length > 0
-							? latestProducts?.records.slice(0, 5)
+							? latestProducts.records.slice(0, 5)
 							: store.content.allProducts.slice(7, 12)
 					}
 					isSlider={"onlyMobile"}

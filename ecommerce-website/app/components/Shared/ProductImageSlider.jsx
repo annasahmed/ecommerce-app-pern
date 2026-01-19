@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -13,36 +13,60 @@ import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import BaseImage from "../BaseComponents/BaseImage";
 import SideZoomImage from "./ImageZoom";
+import SliderArrows from "../BaseComponents/SliderArrows";
 
-export default function BaseSliderWithThumbnails({ images }) {
+export default function ProductImageSlider({ images }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
+	const prevRef = useRef(null);
+	const nextRef = useRef(null);
+	const swiperRef = useRef(null);
+
+	useEffect(() => {
+		if (swiperRef.current && prevRef.current && nextRef.current) {
+			const swiper = swiperRef.current;
+			swiper.params.navigation.prevEl = prevRef.current;
+			swiper.params.navigation.nextEl = nextRef.current;
+
+			swiper.navigation.destroy();
+			swiper.navigation.init();
+			swiper.navigation.update();
+		}
+	}, []);
 
 	return (
-		<section className="md:flex flex-row-reverse gap-4 md:col-span-3">
-			<Swiper
-				style={{
-					"--swiper-navigation-color": "#525252",
-					"--swiper-pagination-color": "#000000",
-				}}
-				spaceBetween={10}
-				navigation={true}
-				effect={"fade"}
-				loop
-				thumbs={{ swiper: thumbsSwiper }}
-				modules={[FreeMode, Navigation, Thumbs]}
-				className="mySwiper2 mb-2 flex-1 md:h-[568px]">
-				{images?.map((v, idx) => {
-					return (
-						<SwiperSlide key={`product-images-${idx}`}>
-							<div className="h-full w-full bg-light/">
-								<SideZoomImage
-									src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
-								/>
-							</div>
-						</SwiperSlide>
-					);
-				})}
-			</Swiper>
+		<section className="md:flex flex-row-reverse gap-4 md:col-span-3 relative">
+			<div className="md:flex/ flex-1 mb-2 flex-row-reverse gap-4 md:col-span-3 relative w-[calc(100%-112px)]">
+				<Swiper
+					style={{
+						"--swiper-navigation-color": "#525252",
+						"--swiper-pagination-color": "#000000",
+					}}
+					spaceBetween={10}
+					navigation={{
+						prevEl: prevRef.current,
+						nextEl: nextRef.current,
+					}}
+					onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance
+					effect={"fade"}
+					loop
+					thumbs={{ swiper: thumbsSwiper }}
+					modules={[FreeMode, Navigation, Thumbs]}
+					className="mySwiper2 flex-1 mb-2 md:h-[568px]/">
+					{images?.map((v, idx) => {
+						return (
+							<SwiperSlide key={`product-images-${idx}`}>
+								<div className="h-full w-full bg-light/">
+									<SideZoomImage
+										src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
+									/>
+								</div>
+							</SwiperSlide>
+						);
+					})}
+				</Swiper>
+				<SliderArrows prevRef={prevRef} nextRef={nextRef} position={"inside"} />
+			</div>
+
 			<Swiper
 				onSwiper={setThumbsSwiper}
 				direction="horizontal"
@@ -56,7 +80,7 @@ export default function BaseSliderWithThumbnails({ images }) {
 					},
 				}}
 				modules={[FreeMode, Navigation, Thumbs]}
-				className="mySwiper md:w-24 md:max-h-95">
+				className="mySwiper md:min-w-24 md:max-h-95">
 				{images?.map((v, idx) => (
 					<SwiperSlide key={`product-images-${idx}`}>
 						<BaseImage

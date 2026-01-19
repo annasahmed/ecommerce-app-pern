@@ -11,6 +11,8 @@ import "./globals.css";
 import localFont from "next/font/local";
 import RouteTrackerProvider from "./providers/RouteTrackerProvider";
 import Image from "next/image";
+import { getTheme } from "./lib/getTheme";
+import backgroundPattern from "@/app/assets/themes/kidsTheme/background-pattern.png";
 
 const champagne = localFont({
 	//changing font family its not champagne itlaic
@@ -123,7 +125,52 @@ const inter = Inter({
 	variable: "--font-inter",
 });
 
+let cachedTheme = null;
+
+// to avoid duplicate API calls
+async function getCachedTheme() {
+	if (!cachedTheme) cachedTheme = await getTheme();
+	return cachedTheme;
+}
+
+const defaultMetaTags = {
+	title: "BabiesNBaba - Online Baby Store for Clothes, Toys & Essentials",
+	description:
+		"Discover a wide range of baby products at BabiesNBaba. From cute clothes to toys and essentials, shop quality items for your little one with ease.",
+};
+
+export async function generateMetadata() {
+	const store = await getCachedTheme();
+
+	const meta = store?.metaTags || {};
+
+	return {
+		title: meta.title || defaultMetaTags.title,
+		description: meta.description || defaultMetaTags.description,
+		keywords: meta.keywords || "shop, ecommerce, default",
+		openGraph: {
+			title: meta.ogTitle || meta.title || defaultMetaTags.title,
+			description:
+				meta.ogDescription || meta.description || defaultMetaTags.description,
+			images: meta.ogImage ? [meta.ogImage] : [],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: meta.twitterTitle || meta.title || defaultMetaTags.title,
+			description:
+				meta.twitterDescription ||
+				meta.description ||
+				defaultMetaTags.description,
+			images: meta.twitterImage ? [meta.twitterImage] : [],
+		},
+		icons: {
+			icon: store.favicon || "/favicon.ico", // fallback
+		},
+	};
+}
+
 export default async function RootLayout({ children }) {
+	const store = await getCachedTheme();
 	const fontMap = {
 		geist: geist.variable,
 		roboto: roboto.variable,
@@ -133,6 +180,13 @@ export default async function RootLayout({ children }) {
 	};
 
 	const fontClasses = [fontMap.champagne, fontMap.konnect].join(" ");
+
+	const colors = store.theme || {
+		primary: "#1E40AF",
+		secondary: "#9333EA",
+		background: "#F9FAFB",
+		text: "#111827",
+	};
 	// const fontClasses =
 	// 	fontMap[store?.fontFamily?.toLowerCase()] || fontMap.inter;
 
@@ -172,7 +226,23 @@ export default async function RootLayout({ children }) {
           `}
 				</Script>
 			</head>
-			<body className={`${fontClasses} antialiased`}>
+			<body
+				className={`${fontClasses} antialiased`}
+				style={{
+					// need to define theme colors here and in app/globals.css in @theme <-- for new colors
+
+					["--color-header"]: colors.header,
+					["--color-headerText"]: colors.headerText,
+					["--color-primary"]: colors.primary,
+					["--color-footer"]: colors.footer,
+					["--color-cardsBg"]: colors.cardsBg,
+					["--color-secondary"]: colors.secondary,
+					["--color-background"]: colors.background,
+					["--color-text"]: colors.text,
+					backgroundImage: `url(${backgroundPattern.src})`,
+					backgroundRepeat: "repeat",
+					backgroundSize: "contain",
+				}}>
 				{/* Meta Pixel noscript */}
 				{/* <noscript>
 					<Image

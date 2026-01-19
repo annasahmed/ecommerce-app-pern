@@ -191,7 +191,7 @@ const ProductCard = ({ product }) => {
 							title="Quick View"
 							onClick={(e) => {
 								e.stopPropagation();
-								// setViewModalOpen(true);
+								setViewModalOpen(true);
 							}}
 							className="bg-light rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
 							<Eye className="size-3.5 md:size-4" />
