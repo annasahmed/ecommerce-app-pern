@@ -52,6 +52,65 @@ function transformFilterDataResponse(response, lang = 'en') {
 	};
 }
 
+/**
+ * Level 2 categories
+ */
+function transformLevel2(children = [], lang) {
+	return children.map((child) => {
+		const translation = extractTranslation(child.translations, lang);
+
+		return {
+			id: child.id,
+			title: translation.title,
+			slug: translation.slug,
+			children: transformLevel3(child.children, lang),
+		};
+	});
+}
+
+/**
+ * Level 3 (leaf nodes)
+ * Returns array of strings
+ */
+function transformLevel3(children = [], lang) {
+	return children
+		.map((child) => {
+			const translation = extractTranslation(child.translations, lang);
+			return {
+				id: child.id,
+				title: translation.title,
+				slug: translation.slug,
+			};
+		})
+		.filter(Boolean);
+}
+
+function transformNavCategoriesResponse(response, lang = 'en') {
+	return response.map((root) => {
+		const rootTranslation = extractTranslation(root.translations, lang);
+
+		return {
+			id: root.id,
+			title: rootTranslation.title,
+			slug: rootTranslation.slug,
+			children: transformLevel2(root.children, lang),
+		};
+	});
+}
+function transformBrandsResponse(response, lang = 'en') {
+	return response.map((brand) => {
+		const brandTranslation = extractTranslation(brand.translations, lang);
+
+		return {
+			id: brand.id,
+			title: brandTranslation.title,
+			slug: brandTranslation.slug,
+		};
+	});
+}
+
 module.exports = {
 	transformFilterDataResponse,
+	transformNavCategoriesResponse,
+	transformBrandsResponse,
 };
