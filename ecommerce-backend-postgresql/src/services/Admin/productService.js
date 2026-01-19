@@ -84,14 +84,15 @@ const productService = createBaseService(db.product, {
 					through: {
 						as: 'pva',
 					},
+					attributes: ['id', 'name'],
 				},
-				{
-					model: db.branch,
-					required: false,
-					through: {
-						as: 'pvb',
-					},
-				},
+				// {
+				// 	model: db.branch,
+				// 	required: false,
+				// 	through: {
+				// 		as: 'pvb',
+				// 	},
+				// },
 			],
 		},
 	],

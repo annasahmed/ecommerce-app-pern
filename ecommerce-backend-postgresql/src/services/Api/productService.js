@@ -260,45 +260,45 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 		attributes: ['id', 'name', 'address', 'country'],
 		required: false,
 	},
-	{
-		model: db.product_variant,
-		attributes: ['id', 'sku'],
-		required: false,
-		include: [
-			{
-				model: db.media,
-				required: false,
-				attributes: ['url', 'title', 'size'],
-			},
-			{
-				model: db.branch,
-				required: false,
-				through: {
-					as: 'pvb',
-					attributes: [
-						'cost_price',
-						'stock',
-						'low_stock',
-						'reorder_quantity',
-						'sale_price',
-						'discount_percentage',
-					],
-				}, // this will stay intact
-				attributes: [
-					'id',
-					'name',
-					'address',
-					'country',
-					'code',
-					'phone',
-					'email',
-					'latitude',
-					'longitude',
-					'is_main_branch',
-				],
-			},
-		],
-	},
+	// {
+	// 	model: db.product_variant,
+	// 	attributes: ['id', 'sku'],
+	// 	required: false,
+	// 	include: [
+	// 		{
+	// 			model: db.media,
+	// 			required: false,
+	// 			attributes: ['url', 'title', 'size'],
+	// 		},
+	// 		{
+	// 			model: db.branch,
+	// 			required: false,
+	// 			through: {
+	// 				as: 'pvb',
+	// 				attributes: [
+	// 					'cost_price',
+	// 					'stock',
+	// 					'low_stock',
+	// 					'reorder_quantity',
+	// 					'sale_price',
+	// 					'discount_percentage',
+	// 				],
+	// 			}, // this will stay intact
+	// 			attributes: [
+	// 				'id',
+	// 				'name',
+	// 				'address',
+	// 				'country',
+	// 				'code',
+	// 				'phone',
+	// 				'email',
+	// 				'latitude',
+	// 				'longitude',
+	// 				'is_main_branch',
+	// 			],
+	// 		},
+	// 	],
+	// },
 	{
 		model: db.media,
 		required: false,
@@ -327,6 +327,28 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 				where: { code: getLang(req) }, // "en" or "ur",
 				required: true,
 			},
+		],
+	},
+	{
+		model: db.product_variant,
+		required: false,
+		include: [
+			// { model: db.media, required: false },
+			{
+				model: db.attribute,
+				required: false,
+				through: {
+					as: 'pva',
+				},
+				attributes: ['id', 'name'],
+			},
+			// {
+			// 	model: db.branch,
+			// 	required: false,
+			// 	through: {
+			// 		as: 'pvb',
+			// 	},
+			// },
 		],
 	},
 ];

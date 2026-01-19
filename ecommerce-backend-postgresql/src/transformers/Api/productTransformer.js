@@ -35,19 +35,25 @@ function transformVendor(vendor, lang) {
 }
 
 function transformVariant(variant, lang) {
+	// return variant;
 	return {
 		id: variant.id,
 		sku: variant.sku,
 		image: variant.medium ? variant.medium.url : null,
-		branches: (variant.branches || []).map((b) => ({
-			name: extractLangField(b.name, lang),
-			address: extractLangField(b.address, lang),
-			country: extractLangField(b.country, lang),
-			cost_price: b.pvb?.cost_price,
-			sale_price: b.pvb?.sale_price,
-			stock: b.pvb?.stock,
-			low_stock: b.pvb?.low_stock,
-			discount_percentage: b.pvb?.discount_percentage,
+		// branches: (variant.branches || []).map((b) => ({
+		// 	name: extractLangField(b.name, lang),
+		// 	address: extractLangField(b.address, lang),
+		// 	country: extractLangField(b.country, lang),
+		// 	cost_price: b.pvb?.cost_price,
+		// 	sale_price: b.pvb?.sale_price,
+		// 	stock: b.pvb?.stock,
+		// 	low_stock: b.pvb?.low_stock,
+		// 	discount_percentage: b.pvb?.discount_percentage,
+		// })),
+		attributes: (variant.attributes || []).map((a) => ({
+			id: a.id,
+			name: extractLangField(a.name, lang),
+			value: extractLangField(a.pva.value, lang),
 		})),
 	};
 }
