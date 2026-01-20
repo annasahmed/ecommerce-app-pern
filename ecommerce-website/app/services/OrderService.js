@@ -1,10 +1,10 @@
 import requests from "./httpServices";
 
-const FiltersService = {
-	getFiltersData: async () => {
+const OrderService = {
+	confirmOrder: async (requestBody) => {
 		// Simulate an API call to fetch filter data
 		try {
-			const data = await requests.get("/metadata/filters");
+			const data = await requests.post("/order/confirm-order", requestBody);
 			return data;
 		} catch (err) {
 			console.error("API error:", err);
@@ -12,4 +12,4 @@ const FiltersService = {
 	},
 };
 
-export default FiltersService;
+export default OrderService;

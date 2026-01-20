@@ -20,8 +20,6 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 		{ enabled: true },
 	);
 
-	console.log(navCategories, "naveeae");
-
 	if (isLoading || isBrandsLoading) return null;
 
 	return (
@@ -60,8 +58,8 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 								className={`
 								absolute
 								top-10
-								${index > 5 ? "right-0" : "left-0"}
-								min-w-160
+								${index > 3 ? "right-0" : "left-0"}
+								min-w-140
 								text-primary
 								bg-light
 								py-5
@@ -84,7 +82,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 										{item.children.filter((cat) => cat.children?.length > 0)
 											?.length > 0 ? (
 											item.children.map((cat, i) => (
-												<li key={i} className="px-4 flex-1">
+												<li key={i} className="px-4 flex-1 min-w-40">
 													<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">
 														{cat.title}
 													</h3>

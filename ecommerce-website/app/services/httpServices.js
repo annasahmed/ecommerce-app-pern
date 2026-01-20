@@ -67,7 +67,6 @@ instance.interceptors.response.use(
 
 const requests = {
 	get: (url, config) => {
-		console.log({ url, config }, "chkking requests");
 		return instance.get(url, config);
 	},
 	post: (url, body, config) => instance.post(url, body, config),

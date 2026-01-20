@@ -58,8 +58,6 @@ const ProductServices = {
 			...buildFilterParams(filters),
 		};
 
-		console.log(params, "chkking params111");
-		
 		try {
 			const data = await requests.get("/product", { params });
 			if (data) return data;

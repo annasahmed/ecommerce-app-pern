@@ -31,7 +31,7 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 		}
 	}, []);
 	return (
-		<section className="relative flex md:w-1/2 shrink-0 !h-fit">
+		<section className="relative flex md:w-1/2 shrink-0 !h-fit rounded-l-2xl overflow-hidden">
 			<Swiper
 				spaceBetween={0}
 				onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance

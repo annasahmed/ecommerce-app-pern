@@ -10,6 +10,7 @@ export const useCartStore = create(
 
 			// --- CART ---
 			addToCart: (product, quantity = 1) => {
+				quantity = product.quantity || quantity;
 				const cart = get().cart;
 				const existing = cart.find((item) => item.id === product.id);
 

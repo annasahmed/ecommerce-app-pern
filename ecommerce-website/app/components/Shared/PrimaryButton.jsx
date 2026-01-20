@@ -12,7 +12,7 @@ const PrimaryButton = ({
 	// 🎨 Styling props
 	bgColor = "bg-primary",
 	hoverBgColor = "bg-primary",
-	textColor = "text-light",
+	textColor = "text-primary",
 	hoverTextColor = "text-light",
 	borderColor = "border-primary",
 	rounded = "rounded-full",

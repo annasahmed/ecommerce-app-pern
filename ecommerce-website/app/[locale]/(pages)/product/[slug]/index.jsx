@@ -87,8 +87,43 @@ export default function ProductDetailsPage() {
 		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
 
+	const findSelectedVariant = () => {
+		if (!product?.variants || !selectedAttributes) return null;
+
+		return product.variants.find((variant) =>
+			variant.attributes?.every(
+				(attr) => selectedAttributes[attr.name] === attr.value,
+			),
+		);
+	};
+
 	const handleAddToCart = () => {
-		addToCart({ ...product, quantity, selectedAttributes });
+		const selectedVariant = findSelectedVariant();
+
+		if (!selectedVariant) {
+			toast.error("Selected variant not available");
+			return;
+		}
+
+		// use this later for stock check
+		// if (selectedVariant.stock < quantity) {
+		// 	toast.error("Not enough stock available");
+		// 	return;
+		// }
+		// const variantPrice = selectedVariant.price ?? discountedPrice;
+
+		addToCart({
+			id: product.id,
+			title: product.title,
+			slug: product.slug,
+			thumbnail: product.thumbnail,
+			base_price: product.base_price || product.price,
+			base_discount_percentage:
+				product.discount || product.base_discount_percentage,
+			quantity,
+			selectedVariant,
+		});
+
 		toast.success("Added to cart!");
 	};
 

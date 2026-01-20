@@ -10,6 +10,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 
 export default function CartDrawer({ open, setOpen }) {
 	const { cart, addToCart, removeFromCart } = useCartStore();
+	console.log(cart, "chkking cart");
 
 	const updateQty = (item, type) => {
 		if (type === "inc") addToCart(item, 1);
@@ -115,7 +116,7 @@ export default function CartDrawer({ open, setOpen }) {
 
 					<PrimaryButton
 						link="/checkout"
-						className="w-full bg-primary text-light"
+						className="w-full bg-primary text-white"
 						onClick={onClose}>
 						Checkout
 					</PrimaryButton>

@@ -5,7 +5,7 @@ import useWindowSize from "@/app/hooks/useWindowSize";
 import { useCartStore } from "@/app/store/cartStore";
 import { Eye, Heart, Repeat, ShoppingCartIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
@@ -27,6 +27,8 @@ const ProductCard = ({ product }) => {
 	const [viewModalOpen, setViewModalOpen] = useState(false);
 	const navTimer = useRef(null);
 	const router = useRouter();
+	const [selectedAttributes, setSelectedAttributes] = useState({});
+	const [attributeOptions, setAttributeOptions] = useState({});
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
 
 	const isFavourite = favourites?.some((f) => f.id === product.id);
@@ -89,8 +91,43 @@ const ProductCard = ({ product }) => {
 		}
 	};
 
+	const findSelectedVariant = () => {
+		if (!product?.variants || !selectedAttributes) return null;
+
+		return product.variants.find((variant) =>
+			variant.attributes?.every(
+				(attr) => selectedAttributes[attr.name] === attr.value,
+			),
+		);
+	};
+
 	const handleAddToCart = () => {
-		addToCart(product);
+		const selectedVariant = findSelectedVariant();
+
+		if (!selectedVariant) {
+			toast.error("Selected variant not available");
+			return;
+		}
+
+		// use this later for stock check
+		// if (selectedVariant.stock < quantity) {
+		// 	toast.error("Not enough stock available");
+		// 	return;
+		// }
+		// const variantPrice = selectedVariant.price ?? discountedPrice;
+
+		addToCart({
+			id: product.id,
+			title: product.title,
+			slug: product.slug,
+			thumbnail: product.thumbnail,
+			base_price: product.base_price || product.price,
+			base_discount_percentage:
+				product.discount || product.base_discount_percentage,
+			quantity: 1,
+			selectedVariant,
+		});
+
 		toast.success("Added to cart!");
 	};
 
@@ -100,6 +137,35 @@ const ProductCard = ({ product }) => {
 			isFavourite ? "Removed from favourites!" : "Added to favourites!",
 		);
 	};
+
+	useEffect(() => {
+		if (!product) return;
+
+		const attributeMap = {};
+		product.variants?.forEach((variant) => {
+			variant.attributes?.forEach((attr) => {
+				const name = attr.name;
+				const value = attr.value;
+				if (!attributeMap[name]) attributeMap[name] = new Set();
+				attributeMap[name].add(value);
+			});
+		});
+
+		const options = Object.fromEntries(
+			Object.entries(attributeMap).map(([name, values]) => [
+				name,
+				Array.from(values),
+			]),
+		);
+		setAttributeOptions(options);
+
+		// Initialize selected attributes (first value as default)
+		const defaults = {};
+		Object.entries(options).forEach(([name, values]) => {
+			defaults[name] = values[0];
+		});
+		setSelectedAttributes(defaults);
+	}, [product]);
 
 	if (!product) return null;
 

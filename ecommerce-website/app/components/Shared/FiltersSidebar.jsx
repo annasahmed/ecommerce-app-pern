@@ -108,8 +108,6 @@ export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
 		return <aside className="p-4 text-sm text-muted">Loading filters...</aside>;
 	}
 
-	console.log(selectedFilters, "chkking data111");
-
 	return (
 		<aside className="overflow-y-scroll md:max-h-[115vh] hide-scrollbar max-md:hidden">
 			<h4 className="h4 font-bold border-b pb-1">Filter</h4>

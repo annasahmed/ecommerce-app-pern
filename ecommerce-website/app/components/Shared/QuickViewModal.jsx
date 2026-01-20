@@ -10,7 +10,7 @@ import {
 	Transition,
 	TransitionChild,
 } from "@headlessui/react";
-import { Heart, ShoppingCartIcon } from "lucide-react";
+import { Heart, ShoppingCartIcon, X } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import BasePrice from "../BaseComponents/BasePrice";
@@ -73,8 +73,43 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
 
+	const findSelectedVariant = () => {
+		if (!product?.variants || !selectedAttributes) return null;
+
+		return product.variants.find((variant) =>
+			variant.attributes?.every(
+				(attr) => selectedAttributes[attr.name] === attr.value,
+			),
+		);
+	};
+
 	const handleAddToCart = () => {
-		addToCart({ ...product, quantity, selectedAttributes });
+		const selectedVariant = findSelectedVariant();
+
+		if (!selectedVariant) {
+			toast.error("Selected variant not available");
+			return;
+		}
+
+		// use this later for stock check
+		// if (selectedVariant.stock < quantity) {
+		// 	toast.error("Not enough stock available");
+		// 	return;
+		// }
+		// const variantPrice = selectedVariant.price ?? discountedPrice;
+
+		addToCart({
+			id: product.id,
+			title: product.title,
+			slug: product.slug,
+			thumbnail: product.thumbnail,
+			base_price: product.base_price || product.price,
+			base_discount_percentage:
+				product.discount || product.base_discount_percentage,
+			quantity,
+			selectedVariant,
+		});
+
 		toast.success("Added to cart!");
 	};
 
@@ -115,167 +150,167 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 							leave="ease-in duration-200"
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95">
-							<DialogPanel className="w-full max-w-4xl rounded-2xl bg-white shadow-xl overflow-hidden inline-block">
-								<section className="flex flex-col md:flex-row w-full items-start relative">
-									{/* Left Section - Image Slider */}
-									<ProductImageSliderWithoutThumbnails
-										images={[product.thumbnail, ...product.images]}
-										discount={product.discount}
-									/>
+							<DialogPanel className="w-full max-w-4xl rounded-2xl overflow-hidden inline-block p-10">
+								<section className="w-full rounded-2xl bg-white shadow-xl">
+									<section className="flex flex-col md:flex-row w-full items-start relative rounded-2xl">
+										<button
+											onClick={onClose}
+											aria-label="Close modal"
+											className="absolute -right-3 -top-3 z-[9999] rounded-full p-1.5 bg-secondary text-light transition hover:brightness-90 shadow-lg">
+											<X className="h-4 w-4" />
+										</button>
+										{/* Left Section - Image Slider */}
+										<ProductImageSliderWithoutThumbnails
+											images={[product.thumbnail, ...product.images]}
+											discount={product.discount}
+										/>
 
-									{/* Right Section - Product Info */}
-									<div className="px-6 py-10 flex flex-col overflow-y-auto h-full md:w-1/2 absolute top-0 right-0">
-										<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-											{product.title?.toLowerCase()}
-										</h1>
+										{/* Right Section - Product Info */}
+										<div className="px-4 pt-2 flex flex-col overflow-y-auto h-[calc(100%-32px)] md:w-1/2 absolute top-5 right-0">
+											<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+												{product.title?.toLowerCase()}
+											</h1>
 
-										{/* Rating */}
-										<div className="flex items-center gap-2 mb-4">
-											<Ratings rating={product.rating} />
-											{product.reviewsCount && (
-												<span className="p5 text-muted text-sm sm:text-base">
-													({product.reviewsCount} reviews)
-												</span>
-											)}
-										</div>
+											{/* Rating */}
+											<div className="flex items-center gap-2 mb-4">
+												<Ratings rating={product.rating} />
+												{product.reviewsCount && (
+													<span className="p5 text-muted text-sm sm:text-base">
+														({product.reviewsCount} reviews)
+													</span>
+												)}
+											</div>
 
-										{/* Price */}
-										<div className="flex items-center gap-3 mb-5 flex-wrap">
-											{(product.discount || product.base_discount_percentage) >
-												0 && (
+											{/* Price */}
+											<div className="flex items-center gap-3 mb-3 flex-wrap">
+												{(product.discount ||
+													product.base_discount_percentage) > 0 && (
+													<BasePrice
+														className="text-muted h5 line-through text-sm md:text-base"
+														price={product.base_price || product.price}
+													/>
+												)}
 												<BasePrice
-													className="text-muted h5 line-through text-sm md:text-base"
-													price={product.base_price || product.price}
+													className="h3 font-bold text-secondary text-xl md:text-2xl"
+													price={discountedPrice}
 												/>
-											)}
-											<BasePrice
-												className="h3 font-bold text-secondary text-xl md:text-2xl"
-												price={discountedPrice}
-											/>
-											{(product.discount || product.base_discount_percentage) >
-												0 && (
-												<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
-													SAVE{" "}
-													{product.discount || product.base_discount_percentage}
-													%
-												</p>
-											)}
-										</div>
+												{(product.discount ||
+													product.base_discount_percentage) > 0 && (
+													<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
+														SAVE{" "}
+														{product.discount ||
+															product.base_discount_percentage}
+														%
+													</p>
+												)}
+											</div>
 
-										{/* Description */}
-										<p className="leading-relaxed mb-6 pb-6 border-b p4 text-sm md:text-base text-[#999999]">
-											{product.excerpt || product.description}
-										</p>
+											{/* Description */}
+											<p className="leading-relaxed mb-4 pb-4 border-b p4 text-sm md:text-base text-[#999999]">
+												{product.excerpt || product.description}
+											</p>
 
-										{/* Attributes */}
-										{Object.entries(attributeOptions).filter(
-											([name, values]) => values.length > 1,
-										).length > 0 && (
-											<div className="space-y-4 pb-6">
-												{Object.entries(attributeOptions).map(
-													([name, values]) =>
-														values.length > 1 && (
-															<div
-																key={name}
-																className="flex items-center gap-2 flex-wrap">
-																<span className="font-medium capitalize">
-																	Select {name}:
-																</span>
-																<div className="flex gap-2 flex-wrap">
-																	{values.map((value) => (
-																		<button
-																			key={value}
-																			onClick={() =>
-																				handleSelectAttribute(name, value)
-																			}
-																			className={`px-3 py-1 border rounded-md capitalize transition
+											{/* Attributes */}
+											{Object.entries(attributeOptions).filter(
+												([name, values]) => values.length > 1,
+											).length > 0 && (
+												<div className="space-y-4 pb-4">
+													{Object.entries(attributeOptions).map(
+														([name, values]) =>
+															values.length > 1 && (
+																<div
+																	key={name}
+																	className="flex items-center gap-2 flex-wrap">
+																	<span className="font-medium capitalize">
+																		Select {name}:
+																	</span>
+																	<div className="flex gap-2 flex-wrap">
+																		{values.map((value) => (
+																			<button
+																				key={value}
+																				onClick={() =>
+																					handleSelectAttribute(name, value)
+																				}
+																				className={`px-3 py-1 border rounded-md capitalize transition
                           							${
 																					selectedAttributes[name] === value
 																						? "bg-light border-primary"
 																						: "bg-light text-gray-700 border-gray-300 hover:bg-gray-100"
 																				}`}>
-																			{value}
-																		</button>
-																	))}
+																				{value}
+																			</button>
+																		))}
+																	</div>
 																</div>
-															</div>
-														),
+															),
+													)}
+												</div>
+											)}
+
+											{/* Quantity & Buttons */}
+											<div className="flex md:items-end gap-3 max-md:gap-1 mb-4 pb-4 border-b">
+												<div className="flex flex-wrap items-center gap-3 mb-4/ p4 text-sm md:text-base">
+													<span className="font-medium">Quantity:</span>
+													<div className="flex items-center border rounded-md">
+														<button
+															onClick={() =>
+																setQuantity((q) => Math.max(1, q - 1))
+															}
+															className="px-3 py-1 border-r text-lg">
+															-
+														</button>
+														<span className="px-4">{quantity}</span>
+														<button
+															onClick={() => setQuantity((q) => q + 1)}
+															className="px-3 py-1 border-l text-lg">
+															+
+														</button>
+													</div>
+												</div>
+												<PrimaryButton
+													className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
+													onClick={handleAddToCart}
+													isSmall>
+													<ShoppingCartIcon
+														className="cursor-pointer hover:text-primary transition"
+														style={{ width: "20px" }}
+													/>
+													Add to Cart
+												</PrimaryButton>
+												<button
+													title="Add to Favorites"
+													onClick={(e) => {
+														e.stopPropagation();
+														handleFavourite();
+													}}
+													className="border border-[#999999] text-[#999999] rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
+													<Heart
+														className={`size-3.5 md:size-4 ${isFavourite ? "fill-red-500 text-red-500" : ""}`}
+													/>
+												</button>
+											</div>
+
+											{/* SKU and Categories */}
+											<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
+												{/* Attributes */}
+												{Object.entries(attributeOptions).map(
+													([name, values]) => (
+														<div
+															key={name}
+															className="flex items-center gap-2 flex-wrap capitalize">
+															<span className="font-medium ">{name}:</span>
+															<span className="">{values?.join(", ")}</span>
+														</div>
+													),
 												)}
 											</div>
-										)}
 
-										{/* Quantity & Buttons */}
-										<div className="flex md:items-end gap-3 max-md:gap-1 mb-6 pb-6 border-b">
-											<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
-												<span className="font-medium">Quantity:</span>
-												<div className="flex items-center border rounded-md">
-													<button
-														onClick={() =>
-															setQuantity((q) => Math.max(1, q - 1))
-														}
-														className="px-3 py-1 border-r text-lg">
-														-
-													</button>
-													<span className="px-4">{quantity}</span>
-													<button
-														onClick={() => setQuantity((q) => q + 1)}
-														className="px-3 py-1 border-l text-lg">
-														+
-													</button>
-												</div>
+											{/* Social Share */}
+											<div className="mt-4">
+												<SocialShare />
 											</div>
-											<PrimaryButton
-												className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
-												onClick={handleAddToCart}
-												isSmall>
-												<ShoppingCartIcon
-													className="cursor-pointer hover:text-primary transition"
-													style={{ width: "20px" }}
-												/>
-												Add to Cart
-											</PrimaryButton>
-											<button
-												title="Add to Favorites"
-												onClick={(e) => {
-													e.stopPropagation();
-													handleFavourite();
-												}}
-												className="border border-[#999999] text-[#999999] rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
-												<Heart
-													className={`size-3.5 md:size-4 ${isFavourite ? "fill-red-500 text-red-500" : ""}`}
-												/>
-											</button>
 										</div>
-
-										{/* SKU and Categories */}
-										<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
-											<p>
-												<span className="font-medium">SKU:</span> {product.sku}
-											</p>
-											{product.categories?.length > 0 && (
-												<p className="capitalize">
-													<span className="font-medium">Categories:</span>{" "}
-													{product.categories.map((v) => v.title).join(", ")}
-												</p>
-											)}
-											{/* Attributes */}
-											{Object.entries(attributeOptions).map(
-												([name, values]) => (
-													<div
-														key={name}
-														className="flex items-center gap-2 flex-wrap capitalize">
-														<span className="font-medium ">{name}:</span>
-														<span className="">{values?.join(", ")}</span>
-													</div>
-												),
-											)}
-										</div>
-
-										{/* Social Share */}
-										<div className="mt-4">
-											<SocialShare />
-										</div>
-									</div>
+									</section>
 								</section>
 							</DialogPanel>
 						</TransitionChild>

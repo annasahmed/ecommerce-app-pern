@@ -6,6 +6,7 @@ import {
 import ProductCard from "@/app/components/Themes/KidsTheme/ProductCard";
 import { useCartStore } from "@/app/store/cartStore";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { toast } from "react-toastify";
 
 export default function FavouritesPage() {
@@ -18,10 +19,12 @@ export default function FavouritesPage() {
 			{favourites.length === 0 ? (
 				<div className="text-center py-20 text-muted">
 					<p>You don&apos;t have any favorite items yet.</p>
-					<Button className="mt-4 bg-primary text-light flex items-center gap-2">
-						<ArrowLeft size={18} />
-						Browse Products
-					</Button>
+					<Link href="/">
+						<Button className="mt-4 bg-primary text-light flex items-center gap-2">
+							<ArrowLeft size={18} />
+							Browse Products
+						</Button>
+					</Link>
 				</div>
 			) : (
 				<div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6">
@@ -41,8 +44,7 @@ export default function FavouritesPage() {
 						onClick={() => {
 							clearFavourites();
 							toast.info("Favourites cleared");
-						}}
-						className="bg-gray-200 text-dark">
+						}}>
 						Clear All Favourites
 					</PrimaryButton>
 				</div>
