@@ -185,7 +185,7 @@ export default function ProductDetailsPage() {
 					)}
 
 					{/* Quantity & Buttons */}
-					<div className="flex md:items-center gap-3 max-md:gap-1 mb-6 pb-6 border-b">
+					<div className="flex items-end gap-3 max-md:gap-1 mb-6 pb-6 border-b">
 						<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
 							<span className="font-medium">Quantity:</span>
 							<div className="flex items-center border rounded-md">

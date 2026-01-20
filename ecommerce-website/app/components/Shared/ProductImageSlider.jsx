@@ -35,7 +35,7 @@ export default function ProductImageSlider({ images }) {
 
 	return (
 		<section className="md:flex flex-row-reverse gap-4 md:col-span-3 relative">
-			<div className="md:flex/ flex-1 mb-2 flex-row-reverse gap-4 md:col-span-3 relative w-[calc(100%-112px)]">
+			<div className="md:flex/ flex-1 mb-2 flex-row-reverse gap-4 md:col-span-3 relative md:w-[calc(100%-112px)]">
 				<Swiper
 					style={{
 						"--swiper-navigation-color": "#525252",
