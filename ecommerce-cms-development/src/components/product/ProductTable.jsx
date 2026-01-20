@@ -58,14 +58,13 @@ const ProductTable = ({
 							/>
 							{product?.product_translations[0]?.title}
 						</TableCell>
-						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
-						{/* <TableCell className="text-sm">
-							{product?.categories?.length > 0
-								? product?.categories
-										?.map((v) => showingTranslateValue(v?.title))
-										?.join(", ")
+						<TableCell className="text-sm">
+							{product?.brand?.translations
+								? product?.brand?.translations[0]?.title
 								: "-"}
-						</TableCell> */}
+						</TableCell>
+
+						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
 
 						<TableCell className="text-center">
 							<ShowHideButton id={product.id} product status={product.status} />

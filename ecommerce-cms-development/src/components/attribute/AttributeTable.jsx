@@ -52,7 +52,7 @@ const AttributeTable = ({
 						<TableCell className="text-sm">
 							{displayTranslatedValue(attribute?.name)}
 						</TableCell>
-						<TableCell className="text-sm">
+						<TableCell className="text-sm text-wrap">
 							[
 							{attribute?.values
 								?.map((v) => displayTranslatedValue(v))

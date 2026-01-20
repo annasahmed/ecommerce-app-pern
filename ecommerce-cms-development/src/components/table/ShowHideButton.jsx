@@ -27,7 +27,7 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 			} else {
 				newStatus = true;
 			}
-			if (location.pathname === "/parent-categories" || category) {
+			if (location.pathname === "/parent-categories") {
 				const res = await ParentCategoryServices.updateStatus(id, {
 					status: newStatus,
 				});
