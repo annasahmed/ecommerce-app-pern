@@ -31,7 +31,7 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 		}
 	}, []);
 	return (
-		<section className="relative flex md:w-1/2 shrink-0 !h-fit rounded-l-2xl overflow-hidden">
+		<section className="relative md:flex md:w-1/2 md:shrink-0 md:!h-fit md:rounded-l-2xl max-md:rounded-t-2xl overflow-hidden">
 			<Swiper
 				spaceBetween={0}
 				onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance
@@ -39,7 +39,7 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 				// fadeEffect={{ crossFade: true }}
 				loop
 				modules={[Navigation]}
-				className="mySwiper2 w-full !h-fit">
+				className="mySwiper2 w-full md:!h-fit">
 				{images?.map((v, idx) => {
 					return (
 						<SwiperSlide key={`product-images-${idx}`}>

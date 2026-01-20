@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import BasePrice from "../BaseComponents/BasePrice";
 import PrimaryButton from "./PrimaryButton";
 import ProductImageSliderWithoutThumbnails from "./ProductImageSliderWithoutThumbnails";
-import Ratings from "./Ratings";
 import SocialShare from "./SocialShare";
 import SpinLoader from "./SpinLoader";
 
@@ -141,7 +140,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 				</TransitionChild>
 
 				<div className="fixed inset-0 overflow-y-auto">
-					<div className="flex items-center justify-center p-4 h-full">
+					<div className="flex items-center justify-center p-4 max-md:p-2 h-full">
 						<TransitionChild
 							as={Fragment}
 							enter="ease-out duration-300"
@@ -150,13 +149,19 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 							leave="ease-in duration-200"
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95">
-							<DialogPanel className="w-full max-w-4xl rounded-2xl overflow-hidden inline-block p-10">
-								<section className="w-full rounded-2xl bg-white shadow-xl">
-									<section className="flex flex-col md:flex-row w-full items-start relative rounded-2xl">
+							<DialogPanel className="w-full max-w-4xl  rounded-2xl overflow-hidden inline-block md:p-10 max-md:px-2 max-md:py-2">
+								<section className="w-full rounded-2xl bg-white shadow-xl relative">
+									<button
+										onClick={onClose}
+										aria-label="Close modal"
+										className="md:hidden absolute -right-3 -top-3 max-md:-right-1.5 max-md:-top-1.5 z-[9999] rounded-full p-1.5 max-md:p-1 bg-secondary text-light transition hover:brightness-90 shadow-lg">
+										<X className="h-4 w-4 max-md:h-3 max-md:w-3" />
+									</button>
+									<section className="md:flex flex-col md:flex-row w-full items-start relative rounded-2xl max-md:overflow-y-auto max-md:max-h-[calc(100vh-100px)]">
 										<button
 											onClick={onClose}
 											aria-label="Close modal"
-											className="absolute -right-3 -top-3 z-[9999] rounded-full p-1.5 bg-secondary text-light transition hover:brightness-90 shadow-lg">
+											className="max-md:hidden absolute -right-3 -top-3 z-[9999] rounded-full p-1.5 bg-secondary text-light transition hover:brightness-90 shadow-lg">
 											<X className="h-4 w-4" />
 										</button>
 										{/* Left Section - Image Slider */}
@@ -166,20 +171,10 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 										/>
 
 										{/* Right Section - Product Info */}
-										<div className="px-4 pt-2 flex flex-col overflow-y-auto h-[calc(100%-32px)] md:w-1/2 absolute top-5 right-0">
+										<div className="max-md:mt-4 px-4 pt-2 flex flex-col md:overflow-y-auto md:h-[calc(100%-32px)] max-md:h-full md:w-1/2 md:absolute top-5 right-0">
 											<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
 												{product.title?.toLowerCase()}
 											</h1>
-
-											{/* Rating */}
-											<div className="flex items-center gap-2 mb-4">
-												<Ratings rating={product.rating} />
-												{product.reviewsCount && (
-													<span className="p5 text-muted text-sm sm:text-base">
-														({product.reviewsCount} reviews)
-													</span>
-												)}
-											</div>
 
 											{/* Price */}
 											<div className="flex items-center gap-3 mb-3 flex-wrap">
@@ -248,7 +243,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 											)}
 
 											{/* Quantity & Buttons */}
-											<div className="flex md:items-end gap-3 max-md:gap-1 mb-4 pb-4 border-b">
+											<div className="flex items-end gap-3 max-md:gap-1 mb-4 pb-4 border-b">
 												<div className="flex flex-wrap items-center gap-3 mb-4/ p4 text-sm md:text-base">
 													<span className="font-medium">Quantity:</span>
 													<div className="flex items-center border rounded-md">
@@ -306,7 +301,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 											</div>
 
 											{/* Social Share */}
-											<div className="mt-4">
+											<div>
 												<SocialShare />
 											</div>
 										</div>
