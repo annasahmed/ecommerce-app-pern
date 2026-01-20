@@ -141,27 +141,24 @@ const getProducts = async (req) => {
 				},
 				{
 					model: db.product_variant,
-					attributes: ['id', 'sku'],
 					required: false,
 					include: [
+						// { model: db.media, required: false },
 						{
-							model: db.media,
-							required: false,
-							attributes: ['url', 'title'],
-						},
-						{
-							model: db.branch,
+							model: db.attribute,
 							required: false,
 							through: {
-								as: 'pvb',
-								attributes: [
-									'stock',
-									'sale_price',
-									'discount_percentage',
-								],
-							}, // this will stay intact
-							attributes: ['id'],
+								as: 'pva',
+							},
+							attributes: ['id', 'name'],
 						},
+						// {
+						// 	model: db.branch,
+						// 	required: false,
+						// 	through: {
+						// 		as: 'pvb',
+						// 	},
+						// },
 					],
 				},
 				{

@@ -51,6 +51,14 @@ const envVarsSchema = Joi.object()
 		EMAIL_FROM: Joi.string().description(
 			'the from field in the emails sent by the app'
 		),
+
+		// brevo details
+		BREVO_SMTP_HOST: Joi.string().description('BREVO SMTP host'),
+		BREVO_SMTP_PORT: Joi.number().description('BREVO SMTP port'),
+		BREVO_SMTP_USER: Joi.string().description('BREVO SMTP user'),
+		BREVO_SMTP_PASS: Joi.string().description('BREVO SMTP password'),
+		BREVO_SENDER_EMAIL: Joi.string().description('BREVO SENDER EMAIL'),
+		BREVO_SENDER_NAME: Joi.string().description('BREVO SENDER NAME'),
 	})
 	.unknown();
 
@@ -115,6 +123,15 @@ module.exports = {
 			},
 		},
 		from: envVars.EMAIL_FROM,
+	},
+	brevoEmail: {
+		host: envVars.BREVO_SMTP_HOST,
+		port: envVars.BREVO_SMTP_PORT,
+		auth: {
+			user: envVars.BREVO_SMTP_USER,
+			pass: envVars.BREVO_SMTP_PASS,
+		},
+		from: `"${envVars.BREVO_SENDER_NAME}" <${envVars.BREVO_SENDER_EMAIL}>`,
 	},
 	s3Bucket: {
 		accessKeyId: envVars.AWS_ACCESS_KEY_ID,

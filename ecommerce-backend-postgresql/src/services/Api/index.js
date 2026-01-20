@@ -6,3 +6,4 @@ module.exports.apiProductService = require('./productService');
 module.exports.apiLanguageService = require('./languageService');
 module.exports.apiHomepageSectionsService = require('./homepageSectionsService');
 module.exports.apiMetadataService = require('./metadataService');
+module.exports.apiOrderService = require('./orderService');

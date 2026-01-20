@@ -5,3 +5,4 @@ module.exports.apiProductController = require('./productController');
 module.exports.apiLanguageController = require('./languageController');
 module.exports.apiHomepageSectionsController = require('./homepageSectionsController');
 module.exports.apiMetadataController = require('./metadataController');
+module.exports.apiOrderController = require('./orderController');
