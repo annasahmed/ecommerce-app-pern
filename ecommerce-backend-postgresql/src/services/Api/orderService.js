@@ -25,7 +25,7 @@ async function confirmOrder(req) {
 	});
 	// send order notification email to admin
 	await sendEmail({
-		to: 'salmanazeemkhan@gmail.com',
+		to: 'annasahmed1609@gmail.com',
 		// to: 'orders@babiesnbaba.com',
 		subject: `New Order #${orderId}`,
 		html: orderConfirmationAdminTemplate({

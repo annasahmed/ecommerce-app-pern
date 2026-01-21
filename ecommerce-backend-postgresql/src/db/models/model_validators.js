@@ -6,8 +6,6 @@ const stringWithTranslation = (value, attribute = 'title') => {
 
 	for (const [key, val] of Object.entries(value)) {
 		if (typeof val !== 'string' || val.trim() === '') {
-			console.log('cnasdsalmd');
-
 			throw new Error(
 				`${attribute} for '${key}' must be a non-empty string`
 			);
