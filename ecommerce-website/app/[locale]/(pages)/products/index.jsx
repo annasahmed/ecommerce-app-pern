@@ -12,8 +12,12 @@ import ProductServices from "@/app/services/ProductServices";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import Loader from "@/app/components/Shared/Loader";
 import SpinLoader from "@/app/components/Shared/SpinLoader";
+import { useSearchParams } from "next/navigation";
 
 const ProductsPage = () => {
+	const searchParams = useSearchParams();
+	const paramsCategory = searchParams.get("category");
+	const paramsBrand = searchParams.get("brand");
 	const store = useStore();
 	// const { ProductsSlider } = loadThemeComponents(store.themeName);
 	const [selectedFilters, setSelectedFilters] = useState({
@@ -72,6 +76,8 @@ const ProductsPage = () => {
 					<FilterSidebar
 						selectedFilters={selectedFilters}
 						setSelectedFilters={setSelectedFilters}
+						paramsCategory={paramsCategory}
+						paramsBrand={paramsBrand}
 					/>
 					<section
 						className="md:col-span-3 overflow-y-scroll md:max-h-[115vh]/ hide-scrollbar"

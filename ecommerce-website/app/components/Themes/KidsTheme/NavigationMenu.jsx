@@ -3,6 +3,7 @@ import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import MetadataService from "@/app/services/MetadataService";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
@@ -26,6 +27,27 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 		<nav className="bg-primary text-light shadow-sm overflow-auto/">
 			{/* Desktop Nav */}
 			<ul className="hidden sm:flex flex-wrap items-center justify-between gap-4 pt-4 container-layout">
+				<li
+					className={`
+						relative pb-4
+						text-sm sm:text-base font-medium
+						after:content-['']
+						after:absolute after:left-1/2 after:-translate-x-1/2
+						after:bottom-2.5
+						after:h-[2px] after:w-6 rounded-full
+						after:bg-light
+						after:scale-x-0
+						after:origin-center
+						after:transition-transform after:duration-300
+						hover:after:scale-x-100
+						hover:after:scale-x-100/
+					`}>
+					<BaseLink
+						href={`/`}
+						className="uppercase px-4 py-1 rounded-full transition">
+						Home
+					</BaseLink>
+				</li>
 				{navCategories.map((item, index) => (
 					<li
 						key={index}
@@ -99,7 +121,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 												</li>
 											))
 										) : (
-											<li className="px-4 flex-1">
+											<li className="px-4 flex-1 min-w-40">
 												<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">
 													Shop By Category
 												</h3>
@@ -115,7 +137,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 												</ul>
 											</li>
 										)}
-										<li className="px-4 flex-1">
+										<li className="px-4 flex-1 min-w-40">
 											<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">
 												Popular Brands
 											</h3>
@@ -196,7 +218,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 														<li
 															key={idx}
 															className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
-															{subCat.title}
+															<Link href={`/products?category=${subCat.slug}`}>
+																{subCat.title}
+															</Link>
 														</li>
 													))}
 												</ul>
@@ -213,7 +237,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 													<li
 														key={idx}
 														className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
-														{subCat.title}
+														<Link href={`/products?category=${subCat.slug}`}>
+															{subCat.title}
+														</Link>
 													</li>
 												))}
 											</ul>
@@ -229,7 +255,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 												<li
 													key={idx}
 													className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
-													{brand.title}
+													<Link href={`/products?brand=${brand.slug}`}>
+														{brand.title}
+													</Link>
 												</li>
 											))}
 										</ul>

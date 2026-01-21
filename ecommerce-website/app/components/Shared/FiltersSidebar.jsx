@@ -24,15 +24,24 @@ const Section = ({ title, children, defaultOpen = true }) => {
 };
 
 // --- Main Component ---
-export default function FilterSidebar({ selectedFilters, setSelectedFilters }) {
+export default function FilterSidebar({
+	selectedFilters,
+	setSelectedFilters,
+	paramsCategory,
+	paramsBrand,
+}) {
 	const [selectedColor, setSelectedColor] = useState("Red");
 	const [selectedSize, setSelectedSize] = useState(null);
 	const [priceRange, setPriceRange] = useState(null);
 	const [selectedPrice, setSelectedPrice] = useState(null);
 
 	const { data, isLoading } = useFetchReactQuery(
-		() => MetadataService.getFiltersData(),
-		["filtersData"],
+		() =>
+			MetadataService.getFiltersData({
+				category: paramsCategory,
+				brand: paramsBrand,
+			}),
+		["filtersData", paramsCategory, paramsBrand],
 		{ enabled: true },
 	);
 

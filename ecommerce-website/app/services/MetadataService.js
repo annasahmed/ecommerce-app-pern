@@ -1,10 +1,12 @@
 import requests from "./httpServices";
 
 const MetadataService = {
-	getFiltersData: async () => {
+	getFiltersData: async ({ category, brand }) => {
 		// Simulate an API call to fetch filter data
 		try {
-			const data = await requests.get("/metadata/filters");
+			const data = await requests.get("/metadata/filters", {
+				params: { category, brand },
+			});
 			return data;
 		} catch (err) {
 			console.error("API error:", err);
