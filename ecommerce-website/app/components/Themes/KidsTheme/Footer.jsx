@@ -178,7 +178,7 @@ const Footer = () => {
 				{/* Bottom Section */}
 				<section className="flex flex-col md:flex-row justify-center items-center gap-4 text-center md:text-left py-4">
 					<p className="p4 text-sm md:text-base">
-						Copyright &copy; {currentYear} {store.companyName || store.name}.
+						Copyright &copy; {currentYear} {store.companyName || store.name}. All rights reserved
 						All rights reserved
 					</p>
 				</section>
