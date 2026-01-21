@@ -131,7 +131,10 @@ module.exports = (sequelize, DataTypes) => {
 			otherKey: 'attribute_id',
 		});
 		product.hasMany(models.product_variant);
-		product.hasMany(models.product_translation);
+		// product.hasMany(models.product_translation);
+		product.hasMany(models.product_translation, {
+			foreignKey: 'product_id',
+		});
 		baseAssociation(product, models);
 	};
 

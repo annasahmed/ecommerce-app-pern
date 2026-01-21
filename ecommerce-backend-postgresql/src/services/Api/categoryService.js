@@ -6,7 +6,7 @@ const categoryService = createAppBaseService(db.category, {
 	name: 'Category',
 });
 
-async function getAllDescendantCategoryIds(categoryId) {
+async function getAllDescendantCategoryIds(categoryId, includeOwnId = true) {
 	const [rows] = await db.sequelize.query(
 		`
 		WITH RECURSIVE category_tree AS (
@@ -20,7 +20,8 @@ async function getAllDescendantCategoryIds(categoryId) {
 			FROM category c
 			INNER JOIN category_tree ct ON ct.id = c.parent_id
 		)
-		SELECT id FROM category_tree;
+		 SELECT id FROM category_tree
+		 ${includeOwnId ? '' : ' WHERE id != :categoryId'};
 		`,
 		{ replacements: { categoryId } }
 	);

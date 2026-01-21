@@ -14,7 +14,7 @@ const productService = createAppBaseService(db.product, {
 });
 
 const productFilterConditions = async (req) => {
-	const { categoryId, vendorId, minPrice, maxPrice } = req.query;
+	const { categoryId, vendorId, minPrice, maxPrice, search } = req.query;
 	/* ---------------- CATEGORY FILTER ---------------- */
 	let categoryIds = [];
 
@@ -66,11 +66,33 @@ const productFilterConditions = async (req) => {
 		}
 	}
 
+	/* ---------------- 🔥 SEARCH FILTER ---------------- */
+	let searchCondition = null;
+
+	if (search) {
+		searchCondition = {
+			[Op.or]: [
+				{
+					title: {
+						[Op.iLike]: `%${search}%`,
+					},
+				},
+				{
+					excerpt: {
+						[Op.iLike]: `%${search}%`,
+					},
+				},
+				{ slug: { [Op.iLike]: `%${search}%` } },
+			],
+		};
+	}
+
 	return {
 		categoryIds,
 		vendorCondition,
 		vendorRequired,
 		priceCondition,
+		searchCondition,
 	};
 };
 
@@ -79,8 +101,15 @@ const getProducts = async (req) => {
 	const { page = defaultPage, limit = defaultLimit } = req.query;
 	const offset = getOffset(page, limit);
 
-	const { categoryIds, vendorCondition, vendorRequired, priceCondition } =
-		await productFilterConditions(req);
+	const {
+		categoryIds,
+		vendorCondition,
+		vendorRequired,
+		priceCondition,
+		searchCondition,
+	} = await productFilterConditions(req);
+
+	console.log(categoryIds, req.query.categoryId);
 
 	const products = await db.product
 		.scope(
@@ -175,16 +204,17 @@ const getProducts = async (req) => {
 				},
 				{
 					model: db.product_translation,
-					required: false,
+					required: true,
 					attributes: ['title', 'excerpt', 'slug'],
-					include: [
-						{
-							model: db.language,
-							attributes: [],
-							where: { code: getLang(req) }, // "en" or "ur",
-							required: true,
-						},
-					],
+					where: { ...(searchCondition || {}), language_id: 1 },
+					// include: [
+					// 	{
+					// 		model: db.language,
+					// 		attributes: [],
+					// 		where: { code: getLang(req) }, // "en" or "ur",
+					// 		required: true,
+					// 	},
+					// ],
 				},
 			],
 			unique: true,
