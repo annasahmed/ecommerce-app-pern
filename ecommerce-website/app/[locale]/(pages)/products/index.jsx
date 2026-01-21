@@ -51,7 +51,7 @@ const ProductsPage = () => {
 			store.themeName,
 			JSON.stringify(selectedFilters),
 			JSON.stringify(defaultFilters || {}),
-			paramsSearch.toString(),
+			paramsSearch?.toString() || "",
 			page,
 		],
 		{

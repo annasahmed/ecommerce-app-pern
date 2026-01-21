@@ -6,6 +6,7 @@ import { FiFacebook, FiInstagram, FiYoutube, FiGlobe } from "react-icons/fi";
 
 import { FaTiktok, FaPinterestP, FaWhatsapp, FaLink } from "react-icons/fa";
 import { useStore } from "@/app/providers/StoreProvider";
+import Link from "next/link";
 
 const currentYear = new Date().getFullYear();
 
@@ -116,7 +117,7 @@ const Footer = () => {
 							<section
 								key={i}
 								className="min-w-[150px] flex-1 md:flex-none lg:flex-1">
-								<h5 className="h5 mb-4 md:mb-8 uppercase font-bold text-sm md:text-base">
+								<h5 className="h5 mb-4 md:mb-8 uppercase font-semibold text-sm md:text-base">
 									{sect.title}
 								</h5>
 								<ul className="flex flex-col gap-2 md:gap-3">
@@ -176,10 +177,19 @@ const Footer = () => {
 				<div className="w-full h-[1px] rounded-full bg-light opacity-30 max-md:mt-0" />
 
 				{/* Bottom Section */}
-				<section className="flex flex-col md:flex-row justify-center items-center gap-4 text-center md:text-left py-4">
+				<section className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left py-4">
 					<p className="p4 text-sm md:text-base">
-						Copyright &copy; {currentYear} {store.companyName || store.name}. All rights reserved
-						All rights reserved
+						Copyright &copy; {currentYear} {store.companyName || store.name}.
+						All rights reserved All rights reserved
+					</p>
+					<p className="p4 text-sm md:text-base text-light/80">
+						Design and Developed by:{" "}
+						<Link
+							href={"https://bananastudios.digital"}
+							target="_blank"
+							className=" text-light hover:border-b ">
+							Banana Studios Digital
+						</Link>
 					</p>
 				</section>
 			</div>

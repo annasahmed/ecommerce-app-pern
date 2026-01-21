@@ -8,8 +8,8 @@ const SpinLoader = ({ size = 40 }) => {
 				style={{ width: size, height: size }}
 				role="status"
 				aria-label="Loading">
-				<div className="absolute inset-0 rounded-full border-4 border-neutral-200"></div>
-				<div className="absolute inset-0 rounded-full border-4 border-brand border-t-transparent animate-spin"></div>
+				<div className="absolute inset-0 rounded-full border-4 border-neutral-400"></div>
+				<div className="absolute inset-0 rounded-full border-4 border-border-color border-t-transparent animate-spin"></div>
 			</div>
 		</div>
 	);

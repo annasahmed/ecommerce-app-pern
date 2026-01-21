@@ -65,8 +65,6 @@ const ProductServices = {
 			...buildFilterParams(filters, defaultFilters),
 		};
 
-		console.log(params, "chkingparams");
-
 		if (limit) params.limit = limit;
 		if (page) params.page = page;
 		if (search) params.search = search;

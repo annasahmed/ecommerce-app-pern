@@ -120,46 +120,22 @@ export const storeSettingsKidsTheme = {
 							text: "about us",
 							link: "/about-us",
 						},
-						{
-							text: "our experts",
-							link: "/our-experts",
-						},
-						{
-							text: "services & price",
-							link: "/services-and-price",
-						},
-						{
-							text: "latest news",
-							link: "/latest-news",
-						},
-						{
-							text: "support center",
-							link: "/support-center",
-						},
 					],
 				},
 				{
 					title: "Customers",
 					links: [
 						{
-							text: "contact us",
-							link: "/contact-us",
+							text: "shipping policy",
+							link: "/shipping-policy",
 						},
 						{
-							text: "payment & tax",
-							link: "/payment-and-tax",
+							text: "return and exchange",
+							link: "/return-and-exchange",
 						},
 						{
-							text: "bonus point",
-							link: "/bonus-point",
-						},
-						{
-							text: "supply chain",
-							link: "/supply-chain",
-						},
-						{
-							text: "student discount",
-							link: "/student-discount",
+							text: "terms and conditions",
+							link: "/terms-and-conditions",
 						},
 					],
 				},
@@ -167,24 +143,8 @@ export const storeSettingsKidsTheme = {
 					title: "Support",
 					links: [
 						{
-							text: "shipping info",
-							link: "/shipping-info",
-						},
-						{
-							text: "returns",
-							link: "/returns",
-						},
-						{
-							text: "refund",
-							link: "/refund",
-						},
-						{
-							text: "how to order",
-							link: "/how-to-order",
-						},
-						{
-							text: "how to track",
-							link: "/how-to-track",
+							text: "contact us",
+							link: "/contact-us",
 						},
 					],
 				},

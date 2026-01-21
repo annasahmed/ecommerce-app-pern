@@ -9,7 +9,7 @@ const ContactUsPage = () => {
 			<h1 className="h1 font-medium text-secondary mb-3 text-center">
 				Contact Us
 			</h1>
-			<p className="text-center text-gray-700 mb-12 p3">
+			<p className="text-center text-gray-700 mb-12 p4">
 				We&apos;d love to hear from you!
 			</p>
 
@@ -19,7 +19,7 @@ const ContactUsPage = () => {
 					<MapPin className="w-6 h-6 text-secondary mt-1" />
 					<div>
 						<h2 className="h4 font-semibold text-gray-800 mb-1">Address</h2>
-						<p className="text-gray-600 leading-relaxed p3">
+						<p className="text-gray-600 leading-relaxed p4">
 							Babiesnbaba Warehouse
 							<br />
 							Plot No. 21, 1st Floor, Sector 11-G-78,
@@ -36,7 +36,7 @@ const ContactUsPage = () => {
 						<h2 className="h4 font-semibold text-gray-800 mb-1">
 							Call / WhatsApp
 						</h2>
-						<p className="text-gray-600 p3">
+						<p className="text-gray-600 p4">
 							<Link href="tel:+923340002625" className="hover:underline">
 								+92 334 000 2625
 							</Link>
@@ -49,7 +49,7 @@ const ContactUsPage = () => {
 					<Mail className="w-6 h-6 text-secondary mt-1" />
 					<div>
 						<h2 className="h4 font-semibold text-gray-800 mb-1">Email</h2>
-						<p className="text-gray-600 p3">
+						<p className="text-gray-600 p4">
 							<Link
 								href="mailto:babiesnbaba@gmail.com"
 								className="hover:underline">
@@ -66,7 +66,7 @@ const ContactUsPage = () => {
 						<h2 className="h4 font-semibold text-gray-800 mb-1">
 							Availability
 						</h2>
-						<p className="text-gray-600 p3">Customer support available 24/7</p>
+						<p className="text-gray-600 p4">Customer support available 24/7</p>
 					</div>
 				</div>
 			</div>

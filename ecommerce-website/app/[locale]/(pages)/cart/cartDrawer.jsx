@@ -10,8 +10,6 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 
 export default function CartDrawer({ open, setOpen }) {
 	const { cart, addToCart, removeFromCart } = useCartStore();
-	console.log(cart, "chkking cart");
-
 	const updateQty = (item, type) => {
 		if (type === "inc") addToCart(item, 1);
 		if (type === "dec" && item.quantity > 1) addToCart(item, -1);
@@ -114,14 +112,14 @@ export default function CartDrawer({ open, setOpen }) {
 						<BasePrice price={subtotal} />
 					</div>
 
-					<PrimaryButton
-						link="/checkout"
-						className="w-full bg-primary text-white"
-						onClick={onClose}>
+					<PrimaryButton link="/checkout" className="w-full" onClick={onClose}>
 						Checkout
 					</PrimaryButton>
 
-					<PrimaryButton link="/cart" className="w-full" onClick={onClose}>
+					<PrimaryButton
+						link="/cart"
+						className="w-full bg-primary text-white"
+						onClick={onClose}>
 						View Cart
 					</PrimaryButton>
 				</div>
