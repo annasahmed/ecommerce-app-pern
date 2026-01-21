@@ -42,7 +42,7 @@ const orderConfirmationCustomerTemplate = ({
 							<h2 style="margin:0 0 10px; color:#5DABEA;">Thank you for your order 🎉</h2>
 							<p style="margin:0 0 20px; color:#333;">
 								Hi <strong>${customerName}</strong>,<br/>
-								Your order <strong>#${orderId}</strong> has been placed successfully.
+								Your order <strong>${orderId}</strong> has been placed successfully.
 							</p>
 						</td>
 					</tr>
@@ -83,14 +83,22 @@ const orderConfirmationCustomerTemplate = ({
 							</table>
 						</td>
 					</tr>
-
+					<!-- CTA Button -->
+					<tr>
+						<td align="center" style="padding:30px 0;">
+							<a href="https://babiesnbaba.com/order-tracking?id=${orderId}" target="_blank"
+								style="background:#5DABEA; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:6px; display:inline-block; font-weight:bold;">
+								View Your Order
+							</a>
+						</td>
+					</tr>
 				
 
 					<!-- Footer Message -->
 					<tr>
 						<td style="padding-top:20px; color:#555;">
 							<p style="margin:0;">
-								We’ll contact you once your order is shipped.<br/>
+								We'll contact you once your order is shipped.<br/>
 								If you have any questions, just reply to this email.
 							</p>
 						</td>
@@ -113,13 +121,3 @@ const orderConfirmationCustomerTemplate = ({
 };
 
 module.exports = { orderConfirmationCustomerTemplate };
-
-// <!-- CTA Button -->
-// 				<tr>
-// 					<td align="center" style="padding:30px 0;">
-// 						<a href="https://yourwebsite.com/orders/${orderId}" target="_blank"
-// 							style="background:#5DABEA; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:6px; display:inline-block; font-weight:bold;">
-// 							View Your Order
-// 						</a>
-// 					</td>
-// 				</tr>

@@ -1,45 +1,255 @@
+const httpStatus = require('http-status');
 const {
 	orderConfirmationAdminTemplate,
 } = require('../../config/emailTemplates/orderConfirmationAdmin');
 const {
 	orderConfirmationCustomerTemplate,
 } = require('../../config/emailTemplates/orderConfirmationUser');
+const db = require('../../db/models');
+const ApiError = require('../../utils/ApiError');
 const { sendEmail } = require('../email.service');
 
 async function confirmOrder(req) {
-	const { customer, billingAddress, items, summary } = req.body;
-	let orderId = 10909;
+	const { customer, billingAddress, items, summary, userId } = req.body;
 
-	// send order confirmation email to user
-	await sendEmail({
-		to: customer.email,
-		subject: `Order Confirmation #${orderId}`,
-		html: orderConfirmationCustomerTemplate({
-			orderId,
-			customerName: `${customer.firstName} ${customer.lastName}`,
-			items,
-			subtotal: summary.subtotal,
-			shipping: summary.shipping,
-			total: summary.total,
-		}),
+	const data = {
+		shipping_address: customer.address,
+		shipping_city: customer.city,
+		shipping_country: customer.country,
+		shipping_postal_code: customer.postalCode,
+		shipping_apartment: customer.apartment || null,
+
+		billing_address: customer.billingSameAsShipping
+			? customer.address
+			: billingAddress.address,
+		billing_apartment: customer.billingSameAsShipping
+			? customer.apartment
+			: billingAddress.apartment || customer.apartment || null,
+		billing_city: customer.billingSameAsShipping
+			? customer.city
+			: billingAddress.city || customer.city,
+		billing_country: customer.billingSameAsShipping
+			? customer.country
+			: billingAddress.country || customer.country,
+		billing_postal_code: customer.billingSameAsShipping
+			? customer.postalCode
+			: billingAddress.postalCode || customer.postalCode,
+
+		payment_method: customer.paymentMethod,
+
+		order_amount: summary.subtotal,
+		shipping: summary.shipping,
+		total: summary.total,
+	};
+
+	if (userId) {
+		data.app_user_id = userId;
+	} else {
+		data.guest_first_name = customer.firstName;
+		data.guest_last_name = customer.lastName;
+		data.guest_email = customer.email;
+		data.guest_phone = customer.phone;
+	}
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const createdOrder = await db.order.create(data, {
+			transaction,
+		});
+
+		// Step 2: Generate unique tracking ID
+		const trackingId = 'ORD-' + Date.now() + '-' + createdOrder.id;
+
+		// Step 3: Update order with tracking_id
+		createdOrder.tracking_id = trackingId;
+		await createdOrder.save({ transaction });
+
+		const orderItemsData = items.map((item) => ({
+			order_id: createdOrder.id,
+			product_id: item.id,
+			product_title: item.title,
+			price: item.finalPrice,
+			quantity: item.quantity,
+			product_variant_id: item.selectedVariant
+				? item.selectedVariant.id
+				: null,
+		}));
+
+		await db.order_item.bulkCreate(orderItemsData, {
+			transaction,
+		});
+
+		const orderId = createdOrder.tracking_id;
+
+		// send order confirmation email to user
+
+		if (customer.email) {
+			await sendEmail({
+				to: customer.email,
+				subject: `Order Confirmation #${orderId}`,
+				html: orderConfirmationCustomerTemplate({
+					orderId,
+					customerName: `${customer.firstName} ${customer.lastName}`,
+					items,
+					subtotal: summary.subtotal,
+					shipping: summary.shipping,
+					total: summary.total,
+				}),
+			});
+		}
+
+		// send order notification email to admin
+		await sendEmail({
+			// to: 'annasahmed1609@gmail.com',
+			to: 'salmanazeemkhan@gmail.com',
+			// to: 'orders@babiesnbaba.com',
+			subject: `New Order #${orderId}`,
+			html: orderConfirmationAdminTemplate({
+				orderId,
+				customer,
+				billingAddress,
+				items,
+				total: summary.total,
+				shipping: summary.shipping,
+				paymentMethod: customer.paymentMethod,
+			}),
+		});
+
+		await transaction.commit();
+
+		return createdOrder;
+	} catch (error) {
+		await transaction.rollback();
+		console.log(error.message || error);
+
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			error.message || 'Order confirmation failed'
+		);
+	}
+}
+
+async function trackOrderByTrackingId(req) {
+	const { trackingId } = req.params;
+	const order = await db.order.findOne({
+		where: {
+			tracking_id: trackingId,
+		},
+		include: [
+			{
+				model: db.order_item,
+				required: false,
+			},
+		],
 	});
-	// send order notification email to admin
-	await sendEmail({
-		to: 'salmanazeemkhan@gmail.com',
-		// to: 'orders@babiesnbaba.com',
-		subject: `New Order #${orderId}`,
-		html: orderConfirmationAdminTemplate({
-			orderId,
-			customer,
-			billingAddress,
-			items,
-			total: summary.total,
-			shipping: summary.shipping,
-			paymentMethod: customer.paymentMethod,
-		}),
-	});
+
+	if (!order) {
+		throw new ApiError(
+			httpStatus.NOT_FOUND,
+			'Order not found with this tracking ID'
+		);
+	}
+
+	return order;
 }
 
 module.exports = {
 	confirmOrder,
+	trackOrderByTrackingId,
+};
+
+// confirmOrderPayload
+const confirmOrderPayload = {
+	customer: {
+		email: 'annasahmed1609@gmail.com',
+		firstName: 'Annas',
+		lastName: 'Ahmed',
+		address: 'Bahadurabad, Karachi, Pakistan',
+		city: 'Karachi',
+		postalCode: '07482',
+		country: 'Pakistan',
+		phone: '03326556262',
+		paymentMethod: 'cod',
+		billingSameAsShipping: false,
+	},
+	billingAddress: {
+		country: 'Pakistan',
+		firstName: 'Annas',
+		lastName: 'Ahmed',
+		address: 'Bahadurabad, Karachi, Pakistan',
+		city: 'Karachi',
+		postalCode: '07482',
+		phone: '03326556262',
+	},
+	items: [
+		{
+			id: 389,
+			title: 'BABY U SHAPE NECK PILLOW FOX ORANGE',
+			slug: 'baby-u-shape-neck-pillow-fox-orange',
+			thumbnail: '/uploads/baby-u-shape-neck-pillow-fox-orange (1).jpg',
+			base_price: 748,
+			base_discount_percentage: 20,
+			quantity: 4,
+			selectedVariant: {
+				id: 201,
+				sku: 'SKU-1',
+				image: null,
+				attributes: [],
+			},
+			unitPrice: 598.4,
+			finalPrice: 2393.6,
+		},
+		{
+			id: 307,
+			title: 'TU BABY 2PCS PLASTIC APPRIN BIB',
+			slug: 'tu-baby-2pcs-plastic-apprin-bib',
+			thumbnail: '/uploads/tu-baby-2pcs-plastic-apprin-bib (1).jpg',
+			base_price: 415,
+			base_discount_percentage: 20,
+			quantity: 1,
+			selectedVariant: {
+				id: 120,
+				sku: 'SKU-1',
+				image: null,
+				attributes: [
+					{
+						id: 9,
+						name: 'gender',
+						value: 'Unisex',
+					},
+				],
+			},
+			unitPrice: 332,
+			finalPrice: 332,
+		},
+		{
+			id: 306,
+			title: 'NUS SLEEVE BIB CHINA PRINTED',
+			slug: 'nus-sleeve-bib-china-printed',
+			thumbnail: '/uploads/nus-sleeve-bib-china-printed (1).jpg',
+			base_price: 325,
+			base_discount_percentage: 20,
+			quantity: 1,
+			selectedVariant: {
+				id: 119,
+				sku: 'SKU-1',
+				image: null,
+				attributes: [
+					{
+						id: 9,
+						name: 'gender',
+						value: 'Unisex',
+					},
+				],
+			},
+			unitPrice: 260,
+			finalPrice: 260,
+		},
+	],
+	summary: {
+		subtotal: 2985.6,
+		shipping: 150,
+		total: 3135.6,
+	},
 };

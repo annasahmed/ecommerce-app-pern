@@ -42,7 +42,7 @@ const orderConfirmationAdminTemplate = ({
 						<td>
 							<h2 style="margin:0 0 10px; color:#5DABEA;">🛒 New Order Received</h2>
 							<p style="margin:0 0 20px; color:#333;">
-								<strong>Order ID:</strong> #${orderId}
+								<strong>Order ID:</strong> ${orderId}
 							</p>
 						</td>
 					</tr>
