@@ -1,0 +1,70 @@
+/* Container */
+
+/* Headings */
+.static-pages-container h1,
+.static-pages-container h2 {
+	color: var(--color-secondary); /* Indigo-ish */
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.static-pages-container h1 {
+	font-size: 2.5rem;
+}
+
+.static-pages-container h2 {
+	font-size: 1.75rem;
+	margin-top: 40px;
+	text-align: left;
+}
+
+/* Paragraphs */
+.static-pages-container p {
+	margin-bottom: 20px;
+	font-size: 1.15rem;
+	line-height: 1.8;
+	color: #555;
+	text-align: justify;
+}
+
+/* Lists */
+.static-pages-container ul {
+	list-style-type: disc;
+	padding-left: 20px;
+	margin-bottom: 20px;
+}
+
+.static-pages-container li {
+	margin-bottom: 10px;
+	font-size: 1.15rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.static-pages-container h1 {
+		font-size: 2rem;
+	}
+
+	.static-pages-container h2 {
+		font-size: 1.5rem;
+	}
+
+	.static-pages-container p,
+	.static-pages-container li {
+		font-size: 0.95rem;
+	}
+}
+@media (max-width: 576px) {
+	.static-pages-container h1 {
+		font-size: 1.75rem;
+	}
+
+	.static-pages-container h2 {
+		font-size: 1.15rem;
+	}
+
+	.static-pages-container p,
+	.static-pages-container li {
+		font-size: 0.9rem;
+	}
+}
