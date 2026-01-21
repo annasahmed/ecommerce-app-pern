@@ -29,9 +29,9 @@ const orderConfirmationCustomerTemplate = ({
 					
 					<!-- Logo -->
 					<tr>
-						<td align="center" style="padding-bottom:20px;">
-							<a href="https://babiesnbaba.com" target="_blank">
-								<img src="https://babiesnbaba.com/logo.png" alt="B. Babies n Baba" width="150" style="display:block;"/>
+						<td align="center" style="padding-bottom:20px; color:#616161; font-size:20px; font-weight:bold;">
+							<a href="https://babiesnbaba.com" target="_blank" style="text-decoration:none; color:#616161;">
+								<img src="https://babiesnbaba.com/logo.png" alt="B. Babies n Baba" width="175" style="display:block;"/>
 							</a>
 						</td>
 					</tr>
@@ -65,7 +65,7 @@ const orderConfirmationCustomerTemplate = ({
 					<!-- Totals -->
 					<tr>
 						<td style="padding-top:20px;">
-							<table width="100%" cellpadding="0" cellspacing="0">
+							<table width="100%" cellpadding="2" cellspacing="0">
 								<tr>
 									<td>Subtotal</td>
 									<td align="right">Rs ${subtotal}</td>
@@ -74,8 +74,8 @@ const orderConfirmationCustomerTemplate = ({
 									<td>Shipping</td>
 									<td align="right">Rs ${shipping}</td>
 								</tr>
-								<tr>
-									<td style="font-weight:bold; color:#5DABEA;">Total</td>
+								<tr style="margin-top:8px;">
+									<td style="color:#5DABEA; font-weight:bold;">Total</td>
 									<td align="right" style="font-weight:bold; color:#5DABEA;">
 										Rs ${total}
 									</td>
@@ -84,15 +84,7 @@ const orderConfirmationCustomerTemplate = ({
 						</td>
 					</tr>
 
-					<!-- CTA Button -->
-					<tr>
-						<td align="center" style="padding:30px 0;">
-							<a href="https://yourwebsite.com/orders/${orderId}" target="_blank" 
-								style="background:#5DABEA; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:6px; display:inline-block; font-weight:bold;">
-								View Your Order
-							</a>
-						</td>
-					</tr>
+				
 
 					<!-- Footer Message -->
 					<tr>
@@ -121,3 +113,13 @@ const orderConfirmationCustomerTemplate = ({
 };
 
 module.exports = { orderConfirmationCustomerTemplate };
+
+// <!-- CTA Button -->
+// 				<tr>
+// 					<td align="center" style="padding:30px 0;">
+// 						<a href="https://yourwebsite.com/orders/${orderId}" target="_blank"
+// 							style="background:#5DABEA; color:#ffffff; text-decoration:none; padding:12px 24px; border-radius:6px; display:inline-block; font-weight:bold;">
+// 							View Your Order
+// 						</a>
+// 					</td>
+// 				</tr>
