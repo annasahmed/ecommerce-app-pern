@@ -1,58 +1,58 @@
 "use client";
 
-import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import CheckboxInput from "@/app/components/Shared/form/CheckboxInput";
 import InputArea from "@/app/components/Shared/form/InputArea";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import { useAuth } from "@/app/providers/AuthProvider";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
-export default function LoginForm({ onSuccess, switchToSignup }) {
+export default function OtpForm({ onSuccess, switchToLogin }) {
+	const [isOtpVerification, setIsOtpVerification] = useState(true);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
 
-	const { login } = useAuth();
+	const { register: signUp, sendOtp } = useAuth();
 	const router = useRouter();
 
 	const onSubmit = async (values) => {
-		const user = await login(values.email, values.password);
-		if (user) {
-			onSuccess();
-			toast.success("Logged Inn Successfully");
-			// if (
-			// 	document.referrer &&
-			// 	!document.referrer.includes("/login") &&
-			// 	!document.referrer.includes("/signup")
-			// ) {
-			// 	router.back();
-			// } else {
-			// 	router.push("/");
-			// }
+		if (isOtpVerification) {
+			await sendOtp(values.email, values.name);
+		} else {
+			const user = await signUp(values.email, values.password, values.name);
+			if (user) {
+				onSuccess?.();
+				router.push("/");
+			}
 		}
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="flex flex-col gap-6"
-			noValidate>
+		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
 			<div>
-				<h1 className="h2 font-semibold">Sign In</h1>
+				<h1 className="h2 font-semibold">Sign Up</h1>
 				<p className="text-muted font-medium mt-3">
-					Don't have an account yet?{" "}
+					Already have an account?{" "}
 					<button
 						type="button"
-						onClick={switchToSignup}
+						onClick={switchToLogin}
 						className="text-secondary font-medium">
-						Sign Up
+						Sign In
 					</button>
 				</p>
 			</div>
+
+			<InputArea
+				name="name"
+				label="Name:"
+				register={register}
+				placeholder="Enter your name"
+				errorName={errors.name}
+			/>
 
 			<InputArea
 				name="email"
@@ -73,13 +73,13 @@ export default function LoginForm({ onSuccess, switchToSignup }) {
 			/>
 
 			<CheckboxInput
-				name="remember"
-				label="Remember Me"
+				name="terms"
+				label="I agree with Privacy Policy and Terms of Use"
 				register={register}
-				errorName={errors.remember}
+				errorName={errors.terms}
 			/>
 
-			<PrimaryButton className="w-full">Sign In</PrimaryButton>
+			<PrimaryButton className="w-full">Sign Up</PrimaryButton>
 		</form>
 	);
 }

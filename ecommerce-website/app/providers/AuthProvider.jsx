@@ -8,7 +8,7 @@ import {
 	useCallback,
 } from "react";
 import requests from "../services/httpServices";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -33,11 +33,11 @@ export const AuthProvider = ({ children }) => {
 
 	// Login function
 	const login = useCallback(async (email, password) => {
-		await requests
+		return await requests
 			.post("/auth/login", { email, password })
 			.then((res) => {
 				setUser(res.user);
-				return res;
+				return res.user;
 			})
 			.catch((err) => {
 				toast.error(err.message);
@@ -45,14 +45,31 @@ export const AuthProvider = ({ children }) => {
 	}, []);
 
 	// Register function
-	const register = useCallback(async (email, password, name) => {
-		const res = await requests.post("/auth/register", {
+	const register = useCallback(async (email, password, name, otp) => {
+		const res = await requests
+			.post("/auth/register", {
+				email,
+				password,
+				name,
+				otp,
+				user_type: "website",
+			})
+			.then((res) => {
+				setUser(res.user);
+				return res.user;
+			})
+			.catch((err) => {
+				toast.error(err.message || err);
+			});
+		return res;
+	}, []);
+
+	// Register function
+	const sendOtp = useCallback(async (email, name) => {
+		const res = await requests.post("/auth/send-otp", {
 			email,
-			password,
 			name,
-			user_type: "website",
 		});
-		setUser(res.user);
 		return res;
 	}, []);
 
@@ -73,6 +90,7 @@ export const AuthProvider = ({ children }) => {
 		login,
 		register,
 		logout,
+		sendOtp,
 		loading,
 		isAuthenticated: !!user,
 	};

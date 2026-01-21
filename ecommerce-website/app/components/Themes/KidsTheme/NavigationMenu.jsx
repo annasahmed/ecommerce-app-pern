@@ -48,7 +48,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 						Home
 					</BaseLink>
 				</li>
-				{navCategories.map((item, index) => (
+				{(navCategories || []).map((item, index) => (
 					<li
 						key={index}
 						// className="text-sm sm:text-base font-medium relative pb-4"
@@ -175,7 +175,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 				${isMenuOpen ? "translate-y-25" : "-translate-y-full"}
 				h-full max-h-[calc(100vh-100px)] overflow-y-auto`}>
 				<ul className="p-4/ space-y-2/">
-					{navCategories.map((item, index) => (
+					{(navCategories || []).map((item, index) => (
 						<li key={index}>
 							<div
 								onClick={() => setOpenIndex(openIndex === index ? null : index)}
