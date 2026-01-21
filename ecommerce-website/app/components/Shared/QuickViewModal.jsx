@@ -98,17 +98,20 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		// }
 		// const variantPrice = selectedVariant.price ?? discountedPrice;
 
-		addToCart({
-			id: product.id,
-			title: product.title,
-			slug: product.slug,
-			thumbnail: product.thumbnail,
-			base_price: product.base_price || product.price,
-			base_discount_percentage:
-				product.discount || product.base_discount_percentage,
+		addToCart(
+			{
+				id: product.id,
+				title: product.title,
+				slug: product.slug,
+				thumbnail: product.thumbnail,
+				base_price: product.base_price || product.price,
+				base_discount_percentage:
+					product.discount || product.base_discount_percentage,
+				quantity,
+				selectedVariant,
+			},
 			quantity,
-			selectedVariant,
-		});
+		);
 
 		toast.success("Added to cart!");
 	};

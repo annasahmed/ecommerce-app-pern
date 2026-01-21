@@ -127,71 +127,70 @@ export default function CheckoutPage() {
 		}
 		setLoading(true);
 
-		try {
-			const orderPayload = {
-				customer: formData,
-				billingAddress: formData.billingSameAsShipping ? null : billingAddress,
-				items: cart.map((item) => {
-					const unitPrice =
-						(item.base_price || item.price) *
-						(1 - (item.base_discount_percentage || 0) / 100);
+		const orderPayload = {
+			customer: formData,
+			billingAddress: formData.billingSameAsShipping ? null : billingAddress,
+			items: cart.map((item) => {
+				const unitPrice =
+					(item.base_price || item.price) *
+					(1 - (item.base_discount_percentage || 0) / 100);
 
-					return {
-						...item,
-						unitPrice,
-						finalPrice: Number((unitPrice * item.quantity).toFixed(2)),
-					};
-				}),
-				summary: {
-					subtotal,
-					shipping,
-					total,
-				},
-			};
+				return {
+					...item,
+					unitPrice,
+					finalPrice: Number((unitPrice * item.quantity).toFixed(2)),
+				};
+			}),
+			summary: {
+				subtotal,
+				shipping,
+				total,
+			},
+		};
 
-			const res = await OrderService.confirmOrder(orderPayload);
+		await OrderService.confirmOrder(orderPayload)
+			.then((res) => {
+				// ✅ Success UI state
+				setOrderSummary({
+					...orderPayload,
+					paymentMethod: formData.paymentMethod,
+					orderId: res?.order?.tracking_id || Date.now(), // fallback safe ID
+				});
 
-			// ✅ Success UI state
-			setOrderSummary({
-				...orderPayload,
-				paymentMethod: formData.paymentMethod,
-				orderId: res?.data?.orderId || Date.now(), // fallback safe ID
+				setOrderSuccess(true);
+				clearCart();
+
+				toast.success("Order placed successfully!");
+
+				setFormData({
+					email: "",
+					firstName: "",
+					lastName: "",
+					address: "",
+					city: "",
+					postalCode: "",
+					country: "Pakistan",
+					phone: "",
+					paymentMethod: "cod",
+					billingSameAsShipping: true,
+				});
+				setBillingAddress({
+					country: "Pakistan",
+					firstName: "",
+					lastName: "",
+					address: "",
+					city: "",
+					postalCode: "",
+					phone: "",
+				});
+			})
+			.catch((err) => {
+				toast.error("Something went wrong while placing the order.");
+				console.error("ORDER ERROR", err);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
-
-			setOrderSuccess(true);
-			clearCart();
-
-			toast.success("Order placed successfully!");
-
-			setFormData({
-				email: "",
-				firstName: "",
-				lastName: "",
-				address: "",
-				city: "",
-				postalCode: "",
-				country: "Pakistan",
-				phone: "",
-				paymentMethod: "cod",
-				billingSameAsShipping: true,
-			});
-			setBillingAddress({
-				country: "Pakistan",
-				firstName: "",
-				lastName: "",
-				address: "",
-				city: "",
-				postalCode: "",
-				phone: "",
-			});
-			console.log("ORDER RESPONSE", res);
-			// clearCart();
-		} catch (err) {
-			toast.error("Something went wrong while placing the order.");
-			console.error("ORDER ERROR", err);
-		} finally {
-			setLoading(false);
-		}
 	};
 	const paymentLabelMap = {
 		cod: "Cash on Delivery (COD)",

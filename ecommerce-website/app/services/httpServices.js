@@ -66,12 +66,12 @@ instance.interceptors.response.use(
 );
 
 const requests = {
-	get: (url, config) => {
-		return instance.get(url, config);
+	get: async (url, config) => {
+		return await instance.get(url, config);
 	},
-	post: (url, body, config) => instance.post(url, body, config),
-	put: (url, body, config) => instance.put(url, body, config),
-	delete: (url, config) => instance.delete(url, config),
+	post: async (url, body, config) => await instance.post(url, body, config),
+	put: async (url, body, config) => await instance.put(url, body, config),
+	delete: async (url, config) => await instance.delete(url, config),
 };
 
 export default requests;
