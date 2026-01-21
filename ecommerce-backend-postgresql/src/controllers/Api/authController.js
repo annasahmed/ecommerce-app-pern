@@ -34,6 +34,11 @@ const login = catchAsync(async (req, res) => {
 	res.send({ user });
 });
 
+const sendOtp = catchAsync(async (req, res) => {
+	await apiAppUserService.sendRegistrationOtp(req);
+	res.send({ message: 'Otp sent successfully' });
+});
+
 const register = catchAsync(async (req, res) => {
 	const user = await apiAppUserService.createAppUser(req);
 	const tokens = await tokenService.generateAuthTokens({
@@ -131,4 +136,5 @@ module.exports = {
 	refreshAccessToken,
 	logout,
 	me,
+	sendOtp,
 };

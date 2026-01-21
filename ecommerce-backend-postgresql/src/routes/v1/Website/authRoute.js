@@ -12,8 +12,14 @@ router.post(
 );
 
 router.post(
+	'/send-otp',
+	// validate(apiAuthValidation.sendOtp),
+	apiAuthController.sendOtp
+);
+
+router.post(
 	'/register',
-	validate(apiAuthValidation.register),
+	// validate(apiAuthValidation.register),
 	apiAuthController.register
 );
 

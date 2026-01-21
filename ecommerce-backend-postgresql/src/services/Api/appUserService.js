@@ -2,6 +2,10 @@ const httpStatus = require('http-status');
 const db = require('../../db/models/index.js');
 const ApiError = require('../../utils/ApiError.js');
 const createAppBaseService = require('../../utils/appBaseService.js');
+const {
+	emailVerificationOtpTemplate,
+} = require('../../config/emailTemplates/emailVerificationOtp.js');
+const { sendEmail } = require('../email.service.js');
 
 const validations = async (data) => {
 	if (data.email) {
@@ -36,6 +40,76 @@ const appUserService = createAppBaseService(db.app_user, {
 	validations,
 });
 
+async function sendRegistrationOtp(req) {
+	const { email, name } = req.body;
+	if (!email) {
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Email is required!');
+	}
+	const existingUser = await db.app_user.findOne({ where: { email } });
+	if (existingUser) {
+		throw new ApiError(httpStatus.CONFLICT, 'Email already registered');
+	}
+
+	// Generate 6-digit OTP
+	const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+	// Set expiry 30 minutes from now
+	const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
+	// Save OTP in DB (upsert if email already exists)
+
+	await db.otp.destroy({ where: { email } });
+
+	await db.otp.create({
+		email,
+		otp,
+		type: 'appuser_registration',
+		expires_at: expiresAt,
+	});
+
+	console.log(otp, 'chkking otp');
+
+	await sendEmail({
+		to: email,
+		subject: `Verify Your Email with One-Time 6-Digit PIN`,
+		html: emailVerificationOtpTemplate({
+			customerName: name,
+			otp,
+		}),
+	});
+}
+
+async function verifyOtp(req) {
+	const { email, otp } = req.body;
+	const record = await db.otp.findOne({ where: { email } });
+	if (!record) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'OTP not found. Please request again.'
+		);
+	}
+
+	if (record.expires_at < new Date()) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'OTP expired. Please request again.'
+		);
+	}
+
+	console.log(record.otp, otp);
+
+	if (record.otp !== otp) {
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid OTP');
+	}
+
+	await db.otp.destroy({ where: { email } });
+}
+
+async function createAppUser(req) {
+	await verifyOtp(req);
+	req.body.password = encryptData(req.body.password);
+	return await appUserService.create(req.body);
+}
+
 module.exports = {
 	getAppUserById: (id) => appUserService.getById(id),
 	getAppUserByEmail: (email) =>
@@ -45,6 +119,7 @@ module.exports = {
 			['activeEntity', 'withPassword'],
 			false
 		),
-	createAppUser: (req) => appUserService.create(req.body),
+	createAppUser,
 	updateAppUser: (req) => appUserService.update(req.body),
+	sendRegistrationOtp,
 };

@@ -19,6 +19,12 @@ const register = {
 		// phone: Joi.string().allow(null).optional().custom(validatePhoneNumber),
 	}),
 };
+const sendOtp = {
+	body: Joi.object().keys({
+		email: Joi.string().required(),
+		name: Joi.string().required(),
+	}),
+};
 const logout = {
 	body: Joi.object().keys({}),
 };
@@ -31,4 +37,5 @@ module.exports = {
 	register,
 	logout,
 	refresh,
+	sendOtp,
 };
