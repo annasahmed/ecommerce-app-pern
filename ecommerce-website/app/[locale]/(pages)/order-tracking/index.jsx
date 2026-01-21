@@ -44,7 +44,7 @@ export default function TrackOrderPage() {
 	}, [paramsTrackingId]);
 
 	return (
-		<div className="max-w-4xl mx-auto section-layout">
+		<div className="md:!max-w-4xl container-layout mx-auto section-layout">
 			<h1 className="h1 font-bold text-secondary mb-6 text-center">
 				Track Your Order
 			</h1>
@@ -58,7 +58,7 @@ export default function TrackOrderPage() {
 					placeholder="Enter your tracking ID"
 					value={trackingId}
 					onChange={(e) => setTrackingId(e.target.value)}
-					className="border border-gray-300 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+					className="w-full border border-gray-300 p-3 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
 					required
 				/>
 				<button
