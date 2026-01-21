@@ -52,12 +52,24 @@ const ProductServices = {
 	// 	size: "18-24m",
 	// 	color: "brown"
 	// 	}
-	getFilteredProducts: async ({ themeName = "KidsTheme", filters }) => {
+	getFilteredProducts: async ({
+		themeName = "KidsTheme",
+		filters,
+		defaultFilters,
+		search,
+		page,
+		limit,
+	}) => {
 		const params = {
 			sort: "latest",
-			...buildFilterParams(filters),
+			...buildFilterParams(filters, defaultFilters),
 		};
 
+		console.log(params, "chkingparams");
+
+		if (limit) params.limit = limit;
+		if (page) params.page = page;
+		if (search) params.search = search;
 		try {
 			const data = await requests.get("/product", { params });
 			if (data) return data;
@@ -85,17 +97,21 @@ const ProductServices = {
 
 export default ProductServices;
 
-const buildFilterParams = (filters = {}) => {
+const buildFilterParams = (filters = {}, defaultFilters = {}) => {
 	const params = {};
 
 	// categories → repeated categoryId
 	if (filters.categories?.length) {
 		params.categoryId = filters.categories; // array
+	} else if (defaultFilters.categories) {
+		params.categoryId = [defaultFilters.categories]; // array
 	}
 
 	// brands → repeated brandId
 	if (filters.brands?.length) {
 		params.brandId = filters.brands; // array
+	} else if (defaultFilters.brands) {
+		params.brandId = [defaultFilters.brands]; // array
 	}
 
 	// price

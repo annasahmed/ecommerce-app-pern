@@ -1,126 +1,152 @@
 "use client";
-import BaseImage from "@/app/components/BaseComponents/BaseImage";
-import FilterSidebar from "@/app/components/Shared/FiltersSidebar";
-import SearchInput from "@/app/components/Shared/form/SearchInput";
-import Pagination from "@/app/components/Shared/Pagination";
-import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
-import productsHeroBanner from "@/app/assets/themes/kidsTheme/products-banner.jpg";
-import { useStore } from "@/app/providers/StoreProvider";
-import React, { useEffect, useRef, useState } from "react";
-import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
-import ProductServices from "@/app/services/ProductServices";
-import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
-import Loader from "@/app/components/Shared/Loader";
-import SpinLoader from "@/app/components/Shared/SpinLoader";
+
 import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
+import FilterSidebar from "@/app/components/Shared/FiltersSidebar";
+import SpinLoader from "@/app/components/Shared/SpinLoader";
+import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
+
+import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
+import { useStore } from "@/app/providers/StoreProvider";
+import ProductServices from "@/app/services/ProductServices";
+
+const PRODUCTS_PER_PAGE = 12;
 
 const ProductsPage = () => {
 	const searchParams = useSearchParams();
 	const paramsCategory = searchParams.get("category");
 	const paramsBrand = searchParams.get("brand");
+	const paramsSearch = searchParams.get("search");
 	const store = useStore();
-	// const { ProductsSlider } = loadThemeComponents(store.themeName);
+
 	const [selectedFilters, setSelectedFilters] = useState({
-		categories: [], // [id]
-		brands: [], // [id]
-		price: null, // ["Under $50"]
-		size: null, // "M"
-		color: null, // "Red"
+		categories: [],
+		brands: [],
+		price: null,
+		size: null,
+		color: null,
 	});
+
+	const [defaultFilters, setDefaultFilters] = useState(null);
+
 	const [page, setPage] = useState(1);
-	const productsPerPage = 12;
-	const totalProducts = store.content.allProducts?.length || 0;
-	const totalPages = Math.ceil(totalProducts / productsPerPage);
+	const [products, setProducts] = useState([]);
+	const [hasMore, setHasMore] = useState(true);
 
-	const { data: filteredProducts, isLoading: isProductsLoading } =
-		useFetchReactQuery(
-			() =>
-				ProductServices.getFilteredProducts({
-					themeName: store.themeName,
-					filters: selectedFilters,
-				}),
-			["filteredProducts", store.themeName, selectedFilters, page],
-			{ enabled: !!store.themeName },
-		);
-	const isFirstRender = useRef(true);
-	const sectionRef = useRef(null);
+	const loaderRef = useRef(null);
 
+	const { data, isLoading } = useFetchReactQuery(
+		() =>
+			ProductServices.getFilteredProducts({
+				themeName: store.themeName,
+				filters: selectedFilters,
+				defaultFilters,
+				search: paramsSearch,
+				page,
+				limit: PRODUCTS_PER_PAGE,
+			}),
+		[
+			"filteredProducts",
+			store.themeName,
+			JSON.stringify(selectedFilters),
+			JSON.stringify(defaultFilters || {}),
+			paramsSearch.toString(),
+			page,
+		],
+		{
+			enabled: !!store.themeName && defaultFilters !== null && hasMore,
+			keepPreviousData: true,
+		},
+	);
+
+	/* ============================
+	   Reset on filter change
+	============================ */
 	useEffect(() => {
-		if (isFirstRender.current) {
-			isFirstRender.current = false;
-			return;
+		setProducts([]);
+		setPage(1);
+		setHasMore(true);
+	}, [selectedFilters, searchParams.toString(), defaultFilters]);
+
+	/* ============================
+	   Append fetched products
+	============================ */
+	useEffect(() => {
+		if (!data?.records) return;
+
+		setProducts((prev) => [...prev, ...data.records]);
+
+		if (data.records.length < PRODUCTS_PER_PAGE) {
+			setHasMore(false);
 		}
-		if (!sectionRef.current) return;
+	}, [data]);
 
-		const yOffset = -170; // navbar height
-		const y =
-			sectionRef.current.getBoundingClientRect().top +
-			window.pageYOffset +
-			yOffset;
+	/* ============================
+	   Infinite Scroll Observer
+	============================ */
+	useEffect(() => {
+		if (!loaderRef.current || isLoading || !hasMore) return;
 
-		window.scrollTo({ top: y, behavior: "smooth" });
-	}, [page]); // 🔥 scroll when page changes
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting) {
+					setPage((prev) => prev + 1);
+				}
+			},
+			{ rootMargin: "200px" }, // preload before reaching bottom
+		);
+
+		observer.observe(loaderRef.current);
+
+		return () => observer.disconnect();
+	}, [isLoading, hasMore]);
 
 	return (
 		<main>
-			{/* <BaseImage
-				src={productsHeroBanner}
-				alt="products-banner"
-				className="w-full h-auto object-contain/"
-			/> */}
 			<section className="container-layout section-layout">
-				{/* <section className="mb-10">
-					<SearchInput />
-				</section> */}
-				<section className="grid md:grid-cols-4 max gap-10 md:max-h-[115vh]/ md:overflow-hidden">
+				<section className="grid md:grid-cols-4 gap-10">
 					<FilterSidebar
 						selectedFilters={selectedFilters}
 						setSelectedFilters={setSelectedFilters}
 						paramsCategory={paramsCategory}
 						paramsBrand={paramsBrand}
+						defaultFilters={defaultFilters}
+						setDefaultFilters={setDefaultFilters}
 					/>
-					<section
-						className="md:col-span-3 overflow-y-scroll md:max-h-[115vh]/ hide-scrollbar"
-						ref={sectionRef}>
+
+					<section className="md:col-span-3">
 						<h4 className="h4 font-bold mb-4 border-b pb-1">Results</h4>
-						{isProductsLoading ? (
-							<SpinLoader />
-						) : (
+
+						{products.length > 0 ? (
 							<ProductsSlider
-								// productsData={store.content.allProducts.slice(
-								// 	(page - 1) * productsPerPage,
-								// 	page * productsPerPage,
-								// )}
-								productsData={
-									filteredProducts?.records?.length > 0
-										? filteredProducts?.records.slice(
-												(page - 1) * productsPerPage,
-												page * productsPerPage,
-											)
-										: store.content.allProducts.slice(7, 12)
-								}
+								productsData={products}
 								isSlider={false}
 								showTitle={false}
 							/>
+						) : !isLoading ? (
+							<h4 className="h4 text-muted text-center section-layout">
+								No products found, please adjust filters
+							</h4>
+						) : null}
+
+						{/* Loader trigger */}
+						{hasMore && (
+							<div ref={loaderRef} className="flex justify-center py-10">
+								<SpinLoader />
+							</div>
 						)}
 					</section>
 				</section>
-				<Pagination
-					currentPage={page}
-					totalPages={totalPages}
-					onPageChange={(newPage) => setPage(newPage)}
-				/>
 			</section>
+
 			<div className="w-full h-px bg-border-color" />
+
 			<section className="container-layout section-layout">
 				<ProductsSlider
-					productsData={
-						filteredProducts?.records?.length > 0
-							? filteredProducts?.records.slice(0, 5)
-							: store.content.allProducts.slice(7, 12)
-					}
+					productsData={products.slice(0, 5)}
 					isSlider={false}
-					title="Recently View Products"
+					title="Recently Viewed Products"
 					columns="grid-cols-5"
 				/>
 			</section>

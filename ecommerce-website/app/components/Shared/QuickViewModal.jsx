@@ -30,7 +30,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 	const { data: product, isLoading } = useFetchReactQuery(
 		() => ProductServices.getProductBySlug(store.themeName, slug),
 		["productDetails", store.themeName, slug],
-		{ enabled: !!store.themeName },
+		{ enabled: isOpen },
 	);
 
 	// Build attribute options when product loads
@@ -63,6 +63,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		setSelectedAttributes(defaults);
 	}, [product]);
 
+	if (!isOpen) return null;
 	if (isLoading) return <SpinLoader />;
 	if (!product)
 		return <h1 className="py-10 text-center h3">Product Not Found</h1>;

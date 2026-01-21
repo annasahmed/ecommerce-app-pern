@@ -3,7 +3,7 @@ import { COLORMAP } from "@/app/data/colors";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import MetadataService from "@/app/services/MetadataService";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // --- Filter Configuration ---
 
@@ -29,6 +29,8 @@ export default function FilterSidebar({
 	setSelectedFilters,
 	paramsCategory,
 	paramsBrand,
+	defaultFilters = {},
+	setDefaultFilters = () => {},
 }) {
 	const [selectedColor, setSelectedColor] = useState("Red");
 	const [selectedSize, setSelectedSize] = useState(null);
@@ -93,6 +95,18 @@ export default function FilterSidebar({
 		};
 	}, [data]);
 
+	useEffect(() => {
+		if (!data) return;
+
+		const newDefaults = {};
+
+		if (data?.selectedCategory?.id)
+			newDefaults.categories = data.selectedCategory.id;
+		if (data?.selectedBrand?.id) newDefaults.brands = data.selectedBrand.id;
+
+		setDefaultFilters(newDefaults); // could be {} if nothing is selected
+	}, [data, setDefaultFilters]);
+
 	const toggleArrayFilter = (key, value) => {
 		setSelectedFilters((prev) => {
 			const exists = prev[key]?.includes(value);
@@ -113,121 +127,124 @@ export default function FilterSidebar({
 		}));
 	};
 
-	if (isLoading) {
-		return <aside className="p-4 text-sm text-muted">Loading filters...</aside>;
-	}
-
 	return (
 		<aside className="overflow-y-scroll md:max-h-[115vh] hide-scrollbar max-md:hidden">
 			<h4 className="h4 font-bold border-b pb-1">Filter</h4>
+			{isLoading ? (
+				<p className="py-4 p4">Loading filters...</p>
+			) : (
+				<>
+					{/* Categories */}
+					<Section title="Categories">
+						{filterData.categories?.map(({ id, title, count }, idx) => (
+							<label
+								key={`category-${id}-${idx}`}
+								className="flex items-center justify-between text-sm">
+								<div>
+									<input
+										type="checkbox"
+										className="mr-2 accent-secondary"
+										checked={selectedFilters.categories?.includes(id)}
+										onChange={() => toggleArrayFilter("categories", id)}
+									/>
+									{title}
+								</div>
+								{/* <span className="text-muted text-xs">{count}</span> */}
+							</label>
+						))}
+					</Section>
 
-			{/* Categories */}
-			<Section title="Categories">
-				{filterData.categories?.map(({ id, title, count }) => (
-					<label key={id} className="flex items-center justify-between text-sm">
-						<div>
-							<input
-								type="checkbox"
-								className="mr-2 accent-secondary"
-								checked={selectedFilters.categories?.includes(id)}
-								onChange={() => toggleArrayFilter("categories", id)}
-							/>
-							{title}
+					{/* Brands */}
+					{filterData.brands && filterData.brands.length > 0 && (
+						<Section title="Brands">
+							{filterData.brands.map(({ id, title, count }, idx) => (
+								<label
+									key={`brand-${id}-${idx}`}
+									className="flex items-center justify-between text-sm">
+									<div>
+										<input
+											type="checkbox"
+											className="mr-2 accent-secondary"
+											checked={selectedFilters.brands?.includes(id)}
+											onChange={() => toggleArrayFilter("brands", id)}
+										/>
+										{title}
+									</div>
+									{/* <span className="text-muted text-xs">{count}</span> */}
+								</label>
+							))}
+						</Section>
+					)}
+
+					<Section title="Price">
+						{filterData.price.options.map(({ label, min, max }, idx) => (
+							<label
+								key={`price-${idx}`}
+								className="flex items-center justify-between text-sm">
+								<div>
+									<input
+										type="radio"
+										name="price"
+										className="mr-2 accent-secondary"
+										checked={
+											selectedFilters?.price?.min === min &&
+											selectedFilters?.price?.max === max
+										}
+										onChange={() =>
+											setSelectedFilters((prev) => ({
+												...prev,
+												price: { min, max },
+											}))
+										}
+									/>
+									{label}
+								</div>
+							</label>
+						))}
+					</Section>
+
+					{/* Size */}
+					<Section title="Size">
+						<div className="flex gap-2 flex-wrap">
+							{filterData.sizes?.map((size, idx) => (
+								<button
+									key={`size-${size}-${idx}`}
+									className={`text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl border ${
+										selectedFilters.size === size
+											? "border-dark shadow-2xl"
+											: " border-transparent/"
+									}`}
+									onClick={() => setSingleFilter("size", size)}>
+									{size}
+								</button>
+							))}
 						</div>
-						{/* <span className="text-muted text-xs">{count}</span> */}
-					</label>
-				))}
-			</Section>
+					</Section>
 
-			{/* Brands */}
-			{filterData.brands && filterData.brands.length > 0 && (
-				<Section title="Brands">
-					{filterData.brands.map(({ id, title, count }) => (
-						<label
-							key={id}
-							className="flex items-center justify-between text-sm">
-							<div>
-								<input
-									type="checkbox"
-									className="mr-2 accent-secondary"
-									checked={selectedFilters.brands?.includes(id)}
-									onChange={() => toggleArrayFilter("brands", id)}
-								/>
-								{title}
-							</div>
-							{/* <span className="text-muted text-xs">{count}</span> */}
-						</label>
-					))}
-				</Section>
+					{/* Color */}
+					<Section title="Color">
+						<div className="flex flex-wrap gap-3">
+							{filterData.colors?.map(({ name, color }, idx) => (
+								<div
+									key={`color-${name}-${idx}`}
+									onClick={() => setSingleFilter("color", name)}
+									className={`relative w-6 h-6 rounded-full cursor-pointer border-2 ${
+										selectedFilters.color === name
+											? "border-dark"
+											: "border-transparent/"
+									} ${color}`}>
+									{selectedFilters.color === name && (
+										<Check
+											className="absolute inset-0 m-auto text-light"
+											size={14}
+										/>
+									)}
+								</div>
+							))}
+						</div>
+					</Section>
+				</>
 			)}
-
-			<Section title="Price">
-				{filterData.price.options.map(({ label, min, max }) => (
-					<label
-						key={label}
-						className="flex items-center justify-between text-sm">
-						<div>
-							<input
-								type="radio"
-								name="price"
-								className="mr-2 accent-secondary"
-								checked={
-									selectedFilters?.price?.min === min &&
-									selectedFilters?.price?.max === max
-								}
-								onChange={() =>
-									setSelectedFilters((prev) => ({
-										...prev,
-										price: { min, max },
-									}))
-								}
-							/>
-							{label}
-						</div>
-					</label>
-				))}
-			</Section>
-
-			{/* Size */}
-			<Section title="Size">
-				<div className="flex gap-2 flex-wrap">
-					{filterData.sizes?.map((size) => (
-						<button
-							key={size}
-							className={`text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl border ${
-								selectedFilters.size === size
-									? "border-dark shadow-2xl"
-									: " border-transparent/"
-							}`}
-							onClick={() => setSingleFilter("size", size)}>
-							{size}
-						</button>
-					))}
-				</div>
-			</Section>
-
-			{/* Color */}
-			<Section title="Color">
-				<div className="flex flex-wrap gap-3">
-					{filterData.colors?.map(({ name, color }) => (
-						<div
-							key={name}
-							onClick={() => setSingleFilter("color", name)}
-							className={`relative w-6 h-6 rounded-full cursor-pointer border-2 ${
-								selectedFilters.color === name
-									? "border-dark"
-									: "border-transparent/"
-							} ${color}`}>
-							{selectedFilters.color === name && (
-								<Check
-									className="absolute inset-0 m-auto text-light"
-									size={14}
-								/>
-							)}
-						</div>
-					))}
-				</div>
-			</Section>
 		</aside>
 	);
 }
