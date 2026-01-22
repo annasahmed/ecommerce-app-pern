@@ -34,7 +34,7 @@ function transformVendor(vendor, lang) {
 	};
 }
 
-function transformVariant(variant, lang) {
+function transformVariant(variant, lang, multipleProducts = false) {
 	// return variant;
 	return {
 		id: variant.id,
@@ -50,15 +50,28 @@ function transformVariant(variant, lang) {
 		// 	low_stock: b.pvb?.low_stock,
 		// 	discount_percentage: b.pvb?.discount_percentage,
 		// })),
-		attributes: (variant.attributes || []).map((a) => ({
-			id: a.id,
-			name: extractLangField(a.name, lang),
-			value: extractLangField(a.pva.value, lang),
-		})),
+		attributes: multipleProducts
+			? (variant.product_variant_to_attributes || []).map((a) => {
+					return {
+						id: a.id,
+						variant_id: a.id,
+						attribute_id: a.attribute_id,
+						value: extractLangField(a.value, lang),
+						name: extractLangField(a.attribute?.name, lang),
+					};
+			  })
+			: (variant.attributes || []).map((a) => {
+					// return a;
+					return {
+						id: a.id,
+						value: extractLangField(a.pva?.value, lang),
+						name: extractLangField(a.name, lang),
+					};
+			  }),
 	};
 }
 
-function transformProduct(product, lang) {
+function transformProduct(product, lang, multipleProducts = false) {
 	const translation = extractTranslation(product.product_translations, lang);
 
 	return {
@@ -88,7 +101,7 @@ function transformProduct(product, lang) {
 		vendors: (product.vendors || []).map((v) => transformVendor(v, lang)),
 
 		variants: (product.product_variants || []).map((v) =>
-			transformVariant(v, lang)
+			transformVariant(v, lang, multipleProducts)
 		),
 
 		created_at: product.created_at,
@@ -100,7 +113,7 @@ function transformProductsResponse(response, lang = 'en') {
 		...response,
 		// records: (response.records || []).map((product) => product),
 		records: (response.records || []).map((product) =>
-			transformProduct(product, lang)
+			transformProduct(product, lang, true)
 		),
 	};
 }

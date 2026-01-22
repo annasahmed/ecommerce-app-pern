@@ -14,7 +14,8 @@ const productService = createAppBaseService(db.product, {
 });
 
 const productFilterConditions = async (req) => {
-	const { categoryId, vendorId, minPrice, maxPrice, search } = req.query;
+	const { categoryId, vendorId, minPrice, maxPrice, search, color, size } =
+		req.query;
 	/* ---------------- CATEGORY FILTER ---------------- */
 	let categoryIds = [];
 
@@ -87,12 +88,38 @@ const productFilterConditions = async (req) => {
 		};
 	}
 
+	// --- ATTRIBUTE FILTERS (JSONB in product_variant_to_attribute.value) ---
+	const variantAttributeFilter = [];
+
+	if (color) {
+		const colors = Array.isArray(color) ? color : color.split(',');
+		variantAttributeFilter.push({
+			[Op.or]: colors.map((c) =>
+				db.Sequelize.where(db.Sequelize.json('value.en'), {
+					[Op.iLike]: `%${c}%`,
+				})
+			),
+		});
+	}
+
+	if (size) {
+		const sizes = Array.isArray(size) ? size : size.split(',');
+		variantAttributeFilter.push({
+			[Op.or]: sizes.map((s) =>
+				db.Sequelize.where(db.Sequelize.json('value.en'), {
+					[Op.iLike]: `%${s}%`,
+				})
+			),
+		});
+	}
+
 	return {
 		categoryIds,
 		vendorCondition,
 		vendorRequired,
 		priceCondition,
 		searchCondition,
+		variantAttributeFilter,
 	};
 };
 
@@ -107,8 +134,8 @@ const getProducts = async (req) => {
 		vendorRequired,
 		priceCondition,
 		searchCondition,
+		variantAttributeFilter,
 	} = await productFilterConditions(req);
-
 
 	const products = await db.product
 		.scope(
@@ -167,28 +194,74 @@ const getProducts = async (req) => {
 					required: vendorRequired,
 					where: vendorCondition,
 				},
+				// --- PRODUCT VARIANTS & ATTRIBUTE FILTER ---
 				{
 					model: db.product_variant,
-					required: false,
+					required: variantAttributeFilter.length > 0,
 					include: [
-						// { model: db.media, required: false },
 						{
-							model: db.attribute,
-							required: false,
-							through: {
-								as: 'pva',
-							},
-							attributes: ['id', 'name'],
+							model: db.product_variant_to_attribute,
+							as: 'product_variant_to_attributes', // must match the alias above
+							required: true,
+							where:
+								variantAttributeFilter.length > 0
+									? { [Op.and]: variantAttributeFilter }
+									: undefined,
+							include: [
+								{
+									model: db.attribute,
+									required: false,
+									attributes: ['name'],
+								},
+							],
 						},
-						// {
-						// 	model: db.branch,
-						// 	required: false,
-						// 	through: {
-						// 		as: 'pvb',
-						// 	},
-						// },
 					],
 				},
+				// {
+				// 	model: db.product_variant,
+				// 	required: variantAttributeFilter.length > 0,
+				// 	include: [
+				// 		{
+				// 			model: db.product_variant_to_attribute,
+				// 			as: 'pva', // make sure this matches your alias in association
+				// 			required: true, // only include variants that match
+				// 			include: [
+				// 				{
+				// 					model: db.attribute,
+				// 					required: true,
+				// 					attributes: ['id', 'name'],
+				// 				},
+				// 			],
+				// 			where:
+				// 				variantAttributeFilter.length > 0
+				// 					? { [Op.or]: variantAttributeFilter }
+				// 					: undefined,
+				// 		},
+				// 	],
+				// },
+				// {
+				// 	model: db.product_variant,
+				// 	required: variantAttributeFilter.length > 0,
+
+				// 	include: [
+				// 		// { model: db.media, required: false },
+				// 		{
+				// 			model: db.attribute,
+				// 			required: false,
+				// 			through: {
+				// 				as: 'pva',
+				// 			},
+				// 			attributes: ['id', 'name'],
+				// 		},
+				// 		// {
+				// 		// 	model: db.branch,
+				// 		// 	required: false,
+				// 		// 	through: {
+				// 		// 		as: 'pvb',
+				// 		// 	},
+				// 		// },
+				// 	],
+				// },
 				{
 					model: db.media,
 					required: false,

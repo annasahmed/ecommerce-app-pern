@@ -50,6 +50,10 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'product_variant_id',
 			otherKey: 'attribute_id',
 		});
+		product_variant.hasMany(models.product_variant_to_attribute, {
+			foreignKey: 'product_variant_id',
+			as: 'product_variant_to_attributes', // alias to use in include
+		});
 		mediaAssociation(product_variant, models, 'image');
 	};
 
