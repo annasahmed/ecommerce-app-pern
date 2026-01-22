@@ -287,22 +287,47 @@ export default function FilterSidebar({
 
 					{/* Color */}
 					<Section title="Color">
-						<div className="flex flex-wrap gap-3">
+						<div className="flex/ flex-wrap/ grid grid-cols-6 gap-1.5 mt-1">
 							{filterData.colors?.map(({ name, color }, idx) => (
 								<div
 									key={`color-${name}-${idx}`}
 									onClick={() => setSingleFilter("color", name)}
-									className={`relative w-6 h-6 rounded-full cursor-pointer border-2 ${
-										selectedFilters.color === name
-											? "border-dark"
-											: "border-transparent/"
-									} ${color}`}>
-									{selectedFilters.color === name && (
-										<Check
-											className="absolute inset-0 m-auto text-light"
-											size={14}
-										/>
-									)}
+									className="group flex flex-col items-center gap-2 cursor-pointer">
+									{/* Color Circle */}
+									<div
+										className={`
+			relative w-6.5 h-6.5 rounded-full 
+			transition-all duration-200
+			border-2 
+			${
+				selectedFilters.color === name
+					? "border-secondary  scale-110"
+					: "border-gray-300 dark:border-gray-600 group-hover:border-secondary/60 group-hover:scale-110 "
+			}
+			${color}
+		`}>
+										{/* Checkmark Icon */}
+										{selectedFilters.color === name && (
+											<Check
+												className="absolute inset-0 m-auto text-white drop-shadow-md"
+												size={14}
+												strokeWidth={3}
+											/>
+										)}
+									</div>
+
+									{/* Color Name Label */}
+									<span
+										className={`
+			text-xs text-center font-medium capitalize transition-colors duration-200
+			${
+				selectedFilters.color === name
+					? "text-secondary"
+					: "text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200"
+			}
+		`}>
+										{name}
+									</span>
 								</div>
 							))}
 						</div>

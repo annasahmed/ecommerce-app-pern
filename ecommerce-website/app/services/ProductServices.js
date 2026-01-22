@@ -65,7 +65,6 @@ const ProductServices = {
 			sort: "latest",
 			...buildFilterParams(filters, defaultFilters),
 		};
-		console.log("chkinaapii");
 
 		if (limit) params.limit = limit;
 		if (page) params.page = page;

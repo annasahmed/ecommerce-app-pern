@@ -12,7 +12,7 @@ import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
 import { Heart, ShoppingCartIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function ProductDetailsPage() {
@@ -68,6 +68,9 @@ export default function ProductDetailsPage() {
 			defaults[name] = values[0];
 		});
 		setSelectedAttributes(defaults);
+	}, [product]);
+	const randomRating = useMemo(() => {
+		return Math.floor(Math.random() * 9 + 2) / 2;
 	}, [product]);
 
 	if (isLoading || latestProductsLoading) return <Loader />;
@@ -155,7 +158,7 @@ export default function ProductDetailsPage() {
 
 					{/* Rating */}
 					<div className="flex items-center gap-2 mb-4">
-						<Ratings rating={product.rating} />
+						<Ratings rating={product.rating || randomRating} />
 						{product.reviewsCount && (
 							<span className="p5 text-muted text-sm sm:text-base">
 								({product.reviewsCount} reviews)

@@ -63,10 +63,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		setSelectedAttributes(defaults);
 	}, [product]);
 
-	if (!isOpen) return null;
-	if (isLoading) return <SpinLoader />;
-	if (!product)
-		return <h1 className="py-10 text-center h3">Product Not Found</h1>;
+	if (!isOpen || !product) return null;
 
 	const discountedPrice = (
 		(product.base_price || product.price) *
@@ -154,163 +151,169 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95">
 							<DialogPanel className="w-full max-w-4xl  rounded-2xl overflow-hidden inline-block md:p-10 max-md:px-2 max-md:py-2">
-								<section className="w-full rounded-2xl bg-white shadow-xl relative">
-									<button
-										onClick={onClose}
-										aria-label="Close modal"
-										className="md:hidden absolute -right-3 -top-3 max-md:-right-1.5 max-md:-top-1.5 z-[9999] rounded-full p-1.5 max-md:p-1 bg-secondary text-light transition hover:brightness-90 shadow-lg">
-										<X className="h-4 w-4 max-md:h-3 max-md:w-3" />
-									</button>
-									<section className="md:flex flex-col md:flex-row w-full items-start relative rounded-2xl max-md:overflow-y-auto max-md:max-h-[calc(100vh-100px)]">
+								{isLoading ? (
+									<SpinLoader />
+								) : !product ? (
+									<h3 className="py-10 text-center h3">Product Not Found</h3>
+								) : (
+									<section className="w-full rounded-2xl bg-white shadow-xl relative">
 										<button
 											onClick={onClose}
 											aria-label="Close modal"
-											className="max-md:hidden absolute -right-3 -top-3 z-[9999] rounded-full p-1.5 bg-secondary text-light transition hover:brightness-90 shadow-lg">
-											<X className="h-4 w-4" />
+											className="md:hidden absolute -right-3 -top-3 max-md:-right-1.5 max-md:-top-1.5 z-[9999] rounded-full p-1.5 max-md:p-1 bg-secondary text-light transition hover:brightness-90 shadow-lg">
+											<X className="h-4 w-4 max-md:h-3 max-md:w-3" />
 										</button>
-										{/* Left Section - Image Slider */}
-										<ProductImageSliderWithoutThumbnails
-											images={[product.thumbnail, ...product.images]}
-											discount={product.discount}
-										/>
+										<section className="md:flex flex-col md:flex-row w-full items-start relative rounded-2xl max-md:overflow-y-auto max-md:max-h-[calc(100vh-100px)]">
+											<button
+												onClick={onClose}
+												aria-label="Close modal"
+												className="max-md:hidden absolute -right-3 -top-3 z-[9999] rounded-full p-1.5 bg-secondary text-light transition hover:brightness-90 shadow-lg">
+												<X className="h-4 w-4" />
+											</button>
+											{/* Left Section - Image Slider */}
+											<ProductImageSliderWithoutThumbnails
+												images={[product.thumbnail, ...product.images]}
+												discount={product.discount}
+											/>
 
-										{/* Right Section - Product Info */}
-										<div className="max-md:mt-4 px-4 pt-2 flex flex-col md:overflow-y-auto md:h-[calc(100%-32px)] max-md:h-full md:w-1/2 md:absolute top-5 right-0">
-											<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-												{product.title?.toLowerCase()}
-											</h1>
+											{/* Right Section - Product Info */}
+											<div className="max-md:mt-4 px-4 pt-2 flex flex-col md:overflow-y-auto md:h-[calc(100%-32px)] max-md:h-full md:w-1/2 md:absolute top-5 right-0">
+												<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+													{product.title?.toLowerCase()}
+												</h1>
 
-											{/* Price */}
-											<div className="flex items-center gap-3 mb-3 flex-wrap">
-												{(product.discount ||
-													product.base_discount_percentage) > 0 && (
+												{/* Price */}
+												<div className="flex items-center gap-3 mb-3 flex-wrap">
+													{(product.discount ||
+														product.base_discount_percentage) > 0 && (
+														<BasePrice
+															className="text-muted h5 line-through text-sm md:text-base"
+															price={product.base_price || product.price}
+														/>
+													)}
 													<BasePrice
-														className="text-muted h5 line-through text-sm md:text-base"
-														price={product.base_price || product.price}
+														className="h3 font-bold text-secondary text-xl md:text-2xl"
+														price={discountedPrice}
 													/>
-												)}
-												<BasePrice
-													className="h3 font-bold text-secondary text-xl md:text-2xl"
-													price={discountedPrice}
-												/>
-												{(product.discount ||
-													product.base_discount_percentage) > 0 && (
-													<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
-														SAVE{" "}
-														{product.discount ||
-															product.base_discount_percentage}
-														%
-													</p>
-												)}
-											</div>
+													{(product.discount ||
+														product.base_discount_percentage) > 0 && (
+														<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
+															SAVE{" "}
+															{product.discount ||
+																product.base_discount_percentage}
+															%
+														</p>
+													)}
+												</div>
 
-											{/* Description */}
-											<p className="leading-relaxed mb-4 pb-4 border-b p4 text-sm md:text-base text-[#999999]">
-												{product.excerpt || product.description}
-											</p>
+												{/* Description */}
+												<p className="leading-relaxed mb-4 pb-4 border-b p4 text-sm md:text-base text-[#999999]">
+													{product.excerpt || product.description}
+												</p>
 
-											{/* Attributes */}
-											{Object.entries(attributeOptions).filter(
-												([name, values]) => values.length > 1,
-											).length > 0 && (
-												<div className="space-y-4 pb-4">
-													{Object.entries(attributeOptions).map(
-														([name, values]) =>
-															values.length > 1 && (
-																<div
-																	key={name}
-																	className="flex items-center gap-2 flex-wrap">
-																	<span className="font-medium capitalize">
-																		Select {name}:
-																	</span>
-																	<div className="flex gap-2 flex-wrap">
-																		{values.map((value) => (
-																			<button
-																				key={value}
-																				onClick={() =>
-																					handleSelectAttribute(name, value)
-																				}
-																				className={`px-3 py-1 border rounded-md capitalize transition
+												{/* Attributes */}
+												{Object.entries(attributeOptions).filter(
+													([name, values]) => values.length > 1,
+												).length > 0 && (
+													<div className="space-y-4 pb-4">
+														{Object.entries(attributeOptions).map(
+															([name, values]) =>
+																values.length > 1 && (
+																	<div
+																		key={name}
+																		className="flex items-center gap-2 flex-wrap">
+																		<span className="font-medium capitalize">
+																			Select {name}:
+																		</span>
+																		<div className="flex gap-2 flex-wrap">
+																			{values.map((value) => (
+																				<button
+																					key={value}
+																					onClick={() =>
+																						handleSelectAttribute(name, value)
+																					}
+																					className={`px-3 py-1 border rounded-md capitalize transition
                           							${
 																					selectedAttributes[name] === value
 																						? "bg-light border-primary"
 																						: "bg-light text-gray-700 border-gray-300 hover:bg-gray-100"
 																				}`}>
-																				{value}
-																			</button>
-																		))}
+																					{value}
+																				</button>
+																			))}
+																		</div>
 																	</div>
-																</div>
-															),
+																),
+														)}
+													</div>
+												)}
+
+												{/* Quantity & Buttons */}
+												<div className="flex items-end gap-3 max-md:gap-1 mb-4 pb-4 border-b">
+													<div className="flex flex-wrap items-center gap-3 mb-4/ p4 text-sm md:text-base">
+														<span className="font-medium">Quantity:</span>
+														<div className="flex items-center border rounded-md">
+															<button
+																onClick={() =>
+																	setQuantity((q) => Math.max(1, q - 1))
+																}
+																className="px-3 py-1 border-r text-lg">
+																-
+															</button>
+															<span className="px-4">{quantity}</span>
+															<button
+																onClick={() => setQuantity((q) => q + 1)}
+																className="px-3 py-1 border-l text-lg">
+																+
+															</button>
+														</div>
+													</div>
+													<PrimaryButton
+														className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
+														onClick={handleAddToCart}
+														isSmall>
+														<ShoppingCartIcon
+															className="cursor-pointer hover:text-primary transition"
+															style={{ width: "20px" }}
+														/>
+														Add to Cart
+													</PrimaryButton>
+													<button
+														title="Add to Favorites"
+														onClick={(e) => {
+															e.stopPropagation();
+															handleFavourite();
+														}}
+														className="border border-[#999999] text-[#999999] rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
+														<Heart
+															className={`size-3.5 md:size-4 ${isFavourite ? "fill-red-500 text-red-500" : ""}`}
+														/>
+													</button>
+												</div>
+
+												{/* SKU and Categories */}
+												<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
+													{/* Attributes */}
+													{Object.entries(attributeOptions).map(
+														([name, values]) => (
+															<div
+																key={name}
+																className="flex items-center gap-2 flex-wrap capitalize">
+																<span className="font-medium ">{name}:</span>
+																<span className="">{values?.join(", ")}</span>
+															</div>
+														),
 													)}
 												</div>
-											)}
 
-											{/* Quantity & Buttons */}
-											<div className="flex items-end gap-3 max-md:gap-1 mb-4 pb-4 border-b">
-												<div className="flex flex-wrap items-center gap-3 mb-4/ p4 text-sm md:text-base">
-													<span className="font-medium">Quantity:</span>
-													<div className="flex items-center border rounded-md">
-														<button
-															onClick={() =>
-																setQuantity((q) => Math.max(1, q - 1))
-															}
-															className="px-3 py-1 border-r text-lg">
-															-
-														</button>
-														<span className="px-4">{quantity}</span>
-														<button
-															onClick={() => setQuantity((q) => q + 1)}
-															className="px-3 py-1 border-l text-lg">
-															+
-														</button>
-													</div>
+												{/* Social Share */}
+												<div>
+													<SocialShare />
 												</div>
-												<PrimaryButton
-													className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
-													onClick={handleAddToCart}
-													isSmall>
-													<ShoppingCartIcon
-														className="cursor-pointer hover:text-primary transition"
-														style={{ width: "20px" }}
-													/>
-													Add to Cart
-												</PrimaryButton>
-												<button
-													title="Add to Favorites"
-													onClick={(e) => {
-														e.stopPropagation();
-														handleFavourite();
-													}}
-													className="border border-[#999999] text-[#999999] rounded-full p-1 md:p-2 shadow hover:brightness-95 transition">
-													<Heart
-														className={`size-3.5 md:size-4 ${isFavourite ? "fill-red-500 text-red-500" : ""}`}
-													/>
-												</button>
 											</div>
-
-											{/* SKU and Categories */}
-											<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
-												{/* Attributes */}
-												{Object.entries(attributeOptions).map(
-													([name, values]) => (
-														<div
-															key={name}
-															className="flex items-center gap-2 flex-wrap capitalize">
-															<span className="font-medium ">{name}:</span>
-															<span className="">{values?.join(", ")}</span>
-														</div>
-													),
-												)}
-											</div>
-
-											{/* Social Share */}
-											<div>
-												<SocialShare />
-											</div>
-										</div>
+										</section>
 									</section>
-								</section>
+								)}
 							</DialogPanel>
 						</TransitionChild>
 					</div>

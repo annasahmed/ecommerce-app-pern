@@ -5,7 +5,7 @@ import useWindowSize from "@/app/hooks/useWindowSize";
 import { useCartStore } from "@/app/store/cartStore";
 import { Eye, Heart, Repeat, ShoppingCartIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
@@ -30,6 +30,10 @@ const ProductCard = ({ product }) => {
 	const [selectedAttributes, setSelectedAttributes] = useState({});
 	const [attributeOptions, setAttributeOptions] = useState({});
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
+
+	const randomRating = useMemo(() => {
+		return Math.floor(Math.random() * 9 + 2) / 2;
+	}, [product]);
 
 	const isFavourite = favourites?.some((f) => f.id === product.id);
 
@@ -305,7 +309,7 @@ const ProductCard = ({ product }) => {
 						<BasePrice className="text-secondary" price={discountedPrice} />
 					</h6>
 
-					<Ratings rating={product.rating} />
+					<Ratings rating={product.rating || randomRating} />
 
 					<div className="flex flex-col gap-0.5">
 						<PrimaryButton
