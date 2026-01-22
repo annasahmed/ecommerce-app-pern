@@ -37,7 +37,6 @@ async function verifyToken(token, type = tokenTypes.ACCESS) {
 			if (!tokenInDb)
 				throw new ApiError(httpStatus.UNAUTHORIZED, 'Session Expired');
 		}
-		console.log(payload, 'chkking payload111');
 
 		return payload;
 	} catch (err) {

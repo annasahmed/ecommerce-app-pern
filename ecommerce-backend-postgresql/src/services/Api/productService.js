@@ -98,7 +98,7 @@ const productFilterConditions = async (req) => {
 
 const getProducts = async (req) => {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
-	const { page = defaultPage, limit = defaultLimit } = req.query;
+	const { page = defaultPage, limit = defaultLimit, filterQuery } = req.query;
 	const offset = getOffset(page, limit);
 
 	const {
@@ -109,7 +109,6 @@ const getProducts = async (req) => {
 		searchCondition,
 	} = await productFilterConditions(req);
 
-	console.log(categoryIds, req.query.categoryId);
 
 	const products = await db.product
 		.scope(
@@ -121,7 +120,7 @@ const getProducts = async (req) => {
 			where: {
 				...priceCondition,
 			},
-			order: [['id', 'DESC']],
+			order: filterQuery ? db.sequelize.random() : [['id', 'DESC']],
 			attributes: [
 				'id',
 				'sku',

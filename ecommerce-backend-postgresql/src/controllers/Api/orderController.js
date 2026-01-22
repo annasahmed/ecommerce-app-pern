@@ -6,11 +6,9 @@ const httpStatus = require('http-status');
 
 const confirmOrder = catchAsync(async (req, res) => {
 	const accessToken = req.cookies.accessToken;
-	console.log(accessToken, 'accessToken');
 	if (accessToken) {
 		// Verify access token
 		const payload = await verifyToken(accessToken);
-		console.log(payload);
 		req.body.userId = payload.userId || null;
 	}
 	// return;

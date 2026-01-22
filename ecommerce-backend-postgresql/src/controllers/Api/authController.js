@@ -70,15 +70,6 @@ const refreshAccessToken = catchAsync(async (req, res) => {
 		tokenTypes.REFRESH
 	);
 
-	console.log(
-		{
-			userId,
-			roleId,
-			isCmsUser,
-		},
-		'chkking user payload'
-	);
-
 	const tokens = await tokenService.generateAccessTokens(
 		{ userId, roleId },
 		isCmsUser
@@ -120,8 +111,6 @@ const me = catchAsync(async (req, res) => {
 
 	// Verify access token
 	const payload = await verifyToken(accessToken);
-
-	console.log(payload, 'chkking payload');
 
 	// Fetch user from DB
 	let user;

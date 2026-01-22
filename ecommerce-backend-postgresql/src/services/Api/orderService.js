@@ -41,7 +41,6 @@ async function confirmOrder(req) {
 		shipping: summary.shipping,
 		total: summary.total,
 	};
-	console.log(userId);
 
 	if (userId) {
 		data.app_user_id = userId;
