@@ -18,9 +18,14 @@ const ProductsSlider = ({
 	isFetchProducts = false,
 	limit,
 	categoryId,
+	categorySlug,
 	query,
 }) => {
-
+	const viewAllParam = categorySlug
+		? categorySlug
+		: query
+			? `/products?${query}`
+			: "";
 	const { data: products, isLoading } = useFetchReactQuery(
 		() =>
 			ProductServices.getFilteredProducts({
@@ -41,7 +46,7 @@ const ProductsSlider = ({
 	}, [isFetchProducts, JSON.stringify(products)]);
 	return (
 		<>
-			{showTitle && <SectionTitle title={title} href={`/${slug}`} />}
+			{showTitle && <SectionTitle title={title} href={viewAllParam} />}
 			{isLoading ? (
 				<SpinLoader />
 			) : isSlider ? (

@@ -6,7 +6,13 @@ const SectionTitle = ({ title = "", href, className = "" }) => {
 		<div
 			className={`flex gap-8 items-center justify-between mb-4 ${className}`}>
 			<h3 className={`h3 font-bold text-primary uppercase `}>{title}</h3>
-			{href && <ViewAllButton href={`/products?category=${title}`} />}
+			{href && (
+				<ViewAllButton
+					href={
+						href.includes("/products") ? href : `/products?category=${href}`
+					}
+				/>
+			)}
 		</div>
 	);
 };

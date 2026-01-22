@@ -73,6 +73,7 @@ export default function HomepageSection({ section }) {
 						isSlider={config.layout === "slider"}
 						isFetchProducts
 						categoryId={config.category?.id}
+						categorySlug={config.category?.slug}
 						query={config.category_id}
 					/>
 				</section>
