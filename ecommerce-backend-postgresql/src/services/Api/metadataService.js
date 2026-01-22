@@ -44,7 +44,8 @@ async function getFiltersData(req) {
 
 	if (selectedCategory) {
 		const descendantIds = await getAllDescendantCategoryIds(
-			selectedCategory.id,false
+			selectedCategory.id,
+			false
 		);
 
 		if (descendantIds.length > 0) {
@@ -82,6 +83,9 @@ async function getFiltersData(req) {
 	});
 
 	const brands = await db.brand.scope({ method: ['active'] }).findAll({
+		where: {
+			id: { [Op.ne]: 1 },
+		},
 		include: [
 			{
 				model: db.brand_translation,
@@ -282,6 +286,9 @@ async function getNavCategories(req) {
 }
 async function getBrands(req) {
 	const brands = await db.brand.scope('active').findAll({
+		where: {
+			id: { [Op.ne]: 1 },
+		},
 		attributes: ['id'],
 		include: [
 			{
