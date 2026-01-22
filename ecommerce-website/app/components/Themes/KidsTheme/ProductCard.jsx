@@ -272,7 +272,7 @@ const ProductCard = ({ product }) => {
 						rounded-full
 						bg-secondary
 						py-2 px-3 max-md:pt-2.5 max-md:pb-1.5 max-md:px-2
-						p6 font-normal konnect-font text-white
+						p7 font-normal konnect-font text-white
 						shadow-md
 						select-none
 						text-center

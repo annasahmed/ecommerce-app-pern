@@ -50,7 +50,7 @@ export default function CategorySlider({ data = [], isStoreData }) {
 				}}
 				navigation={true}
 				modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-				className="flat-coverflow-slider">
+				className="flat-coverflow-slider mt-4">
 				{[...slidesData, ...slidesData].map((category, idx) => (
 					<SwiperSlide key={idx}>
 						<div key={idx} className="bg-white shadow-xl rounded-xl pb-3">
@@ -59,16 +59,16 @@ export default function CategorySlider({ data = [], isStoreData }) {
 									src={
 										isStoreData
 											? category.icon
-											: category.icon
-											? ENV_VARIABLES.IMAGE_BASE_URL + category.icon
-											: noImage
+											: category.icons
+												? ENV_VARIABLES.IMAGE_BASE_URL + category.icons
+												: noImage
 									}
 									width={300}
 									height={300}
 									key={idx}
 									className="w-full h-auto object-cover rounded-t-xl"
 								/>
-								<h3 className="max-md:hidden h3 text-center capitalize mt-2 font-medium">
+								<h3 className="max-md:hidden h4 text-center capitalize mt-2 font-medium">
 									{category.title}
 								</h3>
 								<h4 className="md:hidden h5 text-center capitalize mt-2 font-normal">

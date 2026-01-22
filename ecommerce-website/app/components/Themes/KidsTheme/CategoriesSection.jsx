@@ -3,6 +3,7 @@ import { useStore } from "@/app/providers/StoreProvider";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BaseSlider from "../../BaseComponents/BaseSlider";
 import BaseLink from "../../BaseComponents/BaseLink";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 
 const CategoriesSection = ({ data = [], isSlider = true }) => {
 	const store = useStore();
@@ -21,6 +22,7 @@ const CategoriesSection = ({ data = [], isSlider = true }) => {
 					spaceBetween={20}
 					showNavigation={false}
 					showPagination={false}
+					// arrowsPosition={"outside"}
 					breakpoints={{
 						768: {
 							showNavigation: slidesData?.length > 7,
@@ -38,7 +40,11 @@ const CategoriesSection = ({ data = [], isSlider = true }) => {
 						<div key={idx}>
 							<BaseLink href={`/products?category=${category.slug}`}>
 								<BaseImage
-									src={category.icon}
+									src={
+										category.icons
+											? ENV_VARIABLES.IMAGE_BASE_URL + category.icons
+											: category.icon
+									}
 									key={idx}
 									className="w-full rounded-full h-auto "
 								/>
@@ -55,7 +61,11 @@ const CategoriesSection = ({ data = [], isSlider = true }) => {
 						<div key={idx}>
 							<BaseLink href={`/products?category=${category.slug}`}>
 								<BaseImage
-									src={category.icon}
+									src={
+										category.icons
+											? ENV_VARIABLES.IMAGE_BASE_URL + category.icons
+											: category.icon
+									}
 									key={idx}
 									className="w-full rounded-full h-auto "
 								/>

@@ -6,6 +6,7 @@ import CategoriesSection from "../Themes/KidsTheme/CategoriesSection";
 import HeroSection from "../Themes/KidsTheme/HeroSection";
 import PopularCatTabs from "../Themes/KidsTheme/PopularCatTabs";
 import ProductsSlider from "../Themes/KidsTheme/ProductsSlider";
+import ParentCategoriesGrid from "../Themes/KidsTheme/ParentCategoriesGrid";
 
 export default function HomepageSection({ section }) {
 	const { type, config, title } = section;
@@ -24,9 +25,21 @@ export default function HomepageSection({ section }) {
 			);
 		case "categories":
 			return config.layout === "slider" ? (
-				<CategorySlider data={config.categories} />
-			) : (
+				config.design === "square" ? (
+					<CategorySlider data={config.categories} />
+				) : (
+					<CategoriesSection data={config.categories} isSlider={true} />
+				)
+			) : config.design === "circle" ? (
 				<CategoriesSection data={config.categories} isSlider={false} />
+			) : (
+				<ParentCategoriesGrid
+					title={title}
+					// title="FOOTWEAR"
+					data={config.categories}
+					bgColor={config.bgColor || "bg-primary/80"}
+					showTitle={true} // change this to false to show no title and background color
+				/>
 			);
 
 		case "banner":
@@ -50,12 +63,20 @@ export default function HomepageSection({ section }) {
 					productsPerTab={config.products_per_tab}
 				/>
 			);
-		// case "products":
-		// 	return (
-		// 		<section className="container-layout">
-		// 			<ProductsSlider title={title} slug="" />
-		// 		</section>
-		// 	);
+		case "products":
+			return (
+				<section className="container-layout">
+					<ProductsSlider
+						title={title}
+						slug=""
+						limit={config.limit}
+						isSlider={config.layout === "slider"}
+						isFetchProducts
+						categoryId={config.category?.id}
+						query={config.category_id}
+					/>
+				</section>
+			);
 		default:
 			return null;
 	}

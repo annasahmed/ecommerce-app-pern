@@ -1,4 +1,5 @@
 "use client";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BaseLink from "../../BaseComponents/BaseLink";
 import SectionTitle from "../../Shared/SectionTitle";
@@ -23,16 +24,20 @@ const ParentCategoriesGrid = ({
 								showTitle ? "p-2" : ""
 							} text-light block rounded-lg hover:scale-105 transition-all duration-500 hover:shadow-lg`}>
 							<BaseImage
-								src={pCat.icon}
+								src={
+									pCat.icons
+										? ENV_VARIABLES.IMAGE_BASE_URL + pCat.icons
+										: pCat.icon
+								}
 								key={idx}
 								className={`w-full rounded-lg ${
 									showTitle ? "md:h-80" : "md:h-full"
 								}  object-cover border-${bgColor}`}
 							/>
 							{showTitle && (
-								<p className="text-center capitalize mt-2 font-medium">
+								<h4 className="text-center capitalize mt-2 h5 font-normal">
 									{pCat.title}
-								</p>
+								</h4>
 							)}
 						</BaseLink>
 					</div>

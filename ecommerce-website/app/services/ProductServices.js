@@ -57,6 +57,7 @@ const ProductServices = {
 		filters,
 		defaultFilters,
 		search,
+		filterQuery,
 		page,
 		limit,
 	}) => {
@@ -68,8 +69,12 @@ const ProductServices = {
 		if (limit) params.limit = limit;
 		if (page) params.page = page;
 		if (search) params.search = search;
+		if (filterQuery) params.filterQuery = filterQuery;
+
 		try {
-			const data = await requests.get("/product", { params });
+			const data = await requests.get(`/product`, {
+				params,
+			});
 			if (data) return data;
 		} catch (err) {
 			console.error("API error:", err);

@@ -84,7 +84,7 @@ const BaseSlider = ({
 				<SliderArrows
 					prevRef={prevRef}
 					nextRef={nextRef}
-					position={arrowsPosition}
+					arrowsPosition={arrowsPosition}
 				/>
 			)}
 		</div>
