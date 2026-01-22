@@ -3,11 +3,12 @@ const { extractTranslation } = require('../../utils/transformerHelpers');
 function transformCategory(category, lang) {
 	const translation = extractTranslation(category.translations, lang);
 	return {
+		// ...category,
 		id: category.id,
 		title: translation.title,
 		description: translation.description,
 		slug: translation.slug,
-		icons: category.medium?.url || null,
+		icons: category.cat_icon?.url || null,
 	};
 }
 
