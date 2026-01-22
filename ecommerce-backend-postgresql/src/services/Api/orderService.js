@@ -41,12 +41,12 @@ async function confirmOrder(req) {
 		shipping: summary.shipping,
 		total: summary.total,
 	};
+	console.log(userId);
 
 	if (userId) {
 		data.app_user_id = userId;
 	} else {
-		data.guest_first_name = customer.firstName;
-		data.guest_last_name = customer.lastName;
+		data.guest_first_name = customer.name;
 		data.guest_email = customer.email;
 		data.guest_phone = customer.phone;
 	}
@@ -90,7 +90,7 @@ async function confirmOrder(req) {
 				subject: `Order Confirmation #${orderId}`,
 				html: orderConfirmationCustomerTemplate({
 					orderId,
-					customerName: `${customer.firstName} ${customer.lastName}`,
+					customerName: `${customer.name}`,
 					items,
 					subtotal: summary.subtotal,
 					shipping: summary.shipping,
@@ -101,8 +101,8 @@ async function confirmOrder(req) {
 
 		// send order notification email to admin
 		await sendEmail({
-			// to: 'annasahmed1609@gmail.com',
-			to: 'salmanazeemkhan@gmail.com',
+			to: 'annasahmed1609@gmail.com',
+			// to: 'salmanazeemkhan@gmail.com',
 			// to: 'orders@babiesnbaba.com',
 			subject: `New Order #${orderId}`,
 			html: orderConfirmationAdminTemplate({
@@ -154,9 +154,19 @@ async function trackOrderByTrackingId(req) {
 	return order;
 }
 
+async function myOrders(req, userId) {
+	if (!userId) {
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+	}
+	return await db.order.findAll({
+		where: { app_user_id: userId },
+	});
+}
+
 module.exports = {
 	confirmOrder,
 	trackOrderByTrackingId,
+	myOrders,
 };
 
 // confirmOrderPayload

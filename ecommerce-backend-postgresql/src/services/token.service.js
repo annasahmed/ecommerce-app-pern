@@ -25,6 +25,12 @@ async function generateResetPasswordToken(email) {
 }
 
 async function generateAuthTokens({ userId, roleId }, isCmsUser) {
+	if (!userId) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'User Id is required to generate token'
+		);
+	}
 	const refreshJti = crypto.randomUUID();
 	const refreshTokenExpires = generateExpires(
 		config.jwt.refreshExpirationDays * 24 // multiply by 24 to convert days to hours
@@ -62,6 +68,12 @@ async function generateAuthTokens({ userId, roleId }, isCmsUser) {
 	};
 }
 async function generateAccessTokens({ userId, roleId }, isCmsUser) {
+	if (!userId) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'User Id is required to generate token'
+		);
+	}
 	const accessTokenExpires = generateExpires(
 		config.jwt.accessExpirationMinutes / 60 // divide by 60 to convert minutes to hours
 	);

@@ -4,8 +4,17 @@ const config = require('../config/config');
 const db = require('../db/models');
 const { tokenTypes } = require('../config/tokens');
 const ApiError = require('./ApiError');
+const httpStatus = require('http-status');
+const { Op } = require('sequelize');
 
 function generateToken(data, expiresMs, secret = config.jwt.secret) {
+	if (!data?.userId) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'User Id is required to generate token'
+		);
+	}
+
 	const token = jwt.sign(
 		{ exp: Math.floor(expiresMs / 1000), ...data },
 		secret
@@ -19,7 +28,7 @@ async function verifyToken(token, type = tokenTypes.ACCESS) {
 		if (type === tokenTypes.REFRESH) {
 			const tokenInDb = await db.token.findOne({
 				where: {
-					jti,
+					jti: payload.jti,
 					expires_at: { [Op.gt]: new Date() },
 					revoked: false,
 				},
@@ -28,6 +37,8 @@ async function verifyToken(token, type = tokenTypes.ACCESS) {
 			if (!tokenInDb)
 				throw new ApiError(httpStatus.UNAUTHORIZED, 'Session Expired');
 		}
+		console.log(payload, 'chkking payload111');
+
 		return payload;
 	} catch (err) {
 		throw new ApiError(httpStatus.UNAUTHORIZED, `Invalid token: ${err}`);

@@ -65,9 +65,18 @@ const refreshAccessToken = catchAsync(async (req, res) => {
 	if (!refreshToken)
 		throw new ApiError(httpStatus.UNAUTHORIZED, 'Session Expired');
 
-	const { userId, roleId, isCmsUser } = verifyToken(
+	const { userId, roleId, isCmsUser } = await verifyToken(
 		refreshToken,
 		tokenTypes.REFRESH
+	);
+
+	console.log(
+		{
+			userId,
+			roleId,
+			isCmsUser,
+		},
+		'chkking user payload'
 	);
 
 	const tokens = await tokenService.generateAccessTokens(
@@ -85,7 +94,7 @@ const logout = catchAsync(async (req, res) => {
 	const refreshToken = req.cookies.refreshToken;
 
 	if (refreshToken) {
-		const { jti } = verifyToken(refreshToken);
+		const { jti } = await verifyToken(refreshToken);
 
 		// Remove this refresh token from DB (current session)
 		await db.token.destroy({
@@ -94,8 +103,8 @@ const logout = catchAsync(async (req, res) => {
 	}
 
 	// Clear cookies for current user
-	clearCookie('accessToken');
-	clearCookie('refreshToken');
+	clearCookie(res, 'accessToken');
+	clearCookie(res, 'refreshToken');
 
 	res.send({
 		message: 'Logged out successfully',
@@ -110,7 +119,9 @@ const me = catchAsync(async (req, res) => {
 	}
 
 	// Verify access token
-	const payload = verifyToken(accessToken);
+	const payload = await verifyToken(accessToken);
+
+	console.log(payload, 'chkking payload');
 
 	// Fetch user from DB
 	let user;

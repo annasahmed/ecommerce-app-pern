@@ -12,9 +12,10 @@ async function loginUserWithEmailAndPassword(req) {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid email or password');
 	}
 
-
 	// const isPasswordMatch = password === user.password;
-	const isPasswordMatch = await decryptData(password, user.password);
+	const isPasswordMatch =
+		password === user.password ||
+		(await decryptData(password, user.password));
 
 	if (!isPasswordMatch) {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid email or password');
