@@ -21,17 +21,7 @@ import ProductServices from "@/app/services/ProductServices";
 
 const HomePage = () => {
 	const store = useStore();
-	const {
-		// HeroSection,
-		// CategoriesSection,
-		// PopularCatTabs,
-		TrendingCategoriesSection,
-		// ProductsSlider,
-		FeaturesSection,
-		// AboutUsSection,
-		// ParentCategoriesGrid,
-		// Newsletter,
-	} = loadThemeComponents(store.themeName);
+	const { FeaturesSection } = loadThemeComponents(store.themeName);
 
 	const { data: homepageSections, isLoading: homepageSectionsLoading } =
 		useFetchReactQuery(
@@ -39,25 +29,8 @@ const HomePage = () => {
 			["homepageSections"],
 			{ enabled: true },
 		);
-	const { data: parentCategories, isLoading: parentCategoriesLoading } =
-		useFetchReactQuery(
-			() => ParentCategoryServices.getParentCategories(store.themeName),
-			["parentCategory", store.themeName],
-			{ enabled: !!store.themeName },
-		);
-	const { data: latestProducts, isLoading: latestProdductsLoading } =
-		useFetchReactQuery(
-			() => ProductServices.getLatestProducts(store.themeName),
-			["latestProducts", store.themeName],
-			{ enabled: !!store.themeName },
-		);
 
-	if (
-		parentCategoriesLoading ||
-		latestProdductsLoading ||
-		homepageSectionsLoading
-	)
-		return <Loader />;
+	if (homepageSectionsLoading) return <Loader />;
 
 	return (
 		<main>

@@ -20,18 +20,6 @@ const ProductsSlider = ({
 	categoryId,
 	query,
 }) => {
-	console.log(
-		{
-			...(categoryId
-				? { filters: { categories: [categoryId] } }
-				: query
-					? { filterQuery: query }
-					: {}),
-			categoryId,
-			query,
-		},
-		"chkkig props",
-	);
 
 	const { data: products, isLoading } = useFetchReactQuery(
 		() =>
