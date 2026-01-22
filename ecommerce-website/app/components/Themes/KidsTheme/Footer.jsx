@@ -7,6 +7,7 @@ import { FiFacebook, FiInstagram, FiYoutube, FiGlobe } from "react-icons/fi";
 import { FaTiktok, FaPinterestP, FaWhatsapp, FaLink } from "react-icons/fa";
 import { useStore } from "@/app/providers/StoreProvider";
 import Link from "next/link";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 const currentYear = new Date().getFullYear();
 
@@ -79,38 +80,56 @@ const Footer = () => {
 								Pakistan. We offer trusted baby brands at competitive prices
 								with fast home delivery nationwide.
 							</p>
-							{/* <h5 className="h5 my-2 uppercase font-bold text-sm md:text-base">
-								Contact
-							</h5>
-							<ul className="flex flex-col gap-2 md:gap-3">
+
+							<ul className="flex flex-col gap-1 md:gap-2 mt-3">
 								{[
-									// {
-									// 	text: "Monday to Friday 8 a.m - 5 p.m",
-									// },
 									{
-										text: "+01 456 789",
+										icon: MapPin,
+										className: "w-6 h-6",
+										label: "Address",
+										value:
+											"Babiesnbaba Warehouse, Plot No. 21, 1st Floor, Sector 11-G-78, New Karachi, North Town, Karachi",
 									},
-									// {
-									// 	text: "+01 456 789",
-									// },
 									{
-										text: "contact@kidify.com",
-										link: "mailto:contact@kidify.com",
+										icon: Phone,
+										label: "Call / WhatsApp",
+										value: "+92 334 000 2625",
+										link: "tel:+923340002625",
 									},
-								]?.map((link, index) => (
-									<li
-										key={index}
-										className={`p4 text-sm md:text-base ${
-											link.text.includes("@") ? "lowercase" : "capitalize"
-										}`}>
-										{link.link ? (
-											<BaseLink href={link.link}>{link.text}</BaseLink>
-										) : (
-											link.text
-										)}
-									</li>
-								))}
-							</ul> */}
+									{
+										icon: Mail,
+										label: "Email",
+										value: "babiesnbaba@gmail.com",
+										link: "mailto:babiesnbaba@gmail.com",
+									},
+									{
+										icon: Clock,
+										label: "Availability",
+										value: "10:00 - 20:00",
+									},
+								]?.map((item, index) => {
+									const Icon = item.icon;
+
+									return (
+										<div key={index} className="flex items-start gap-2 p5">
+											<Icon
+												className={`${item.className || "w-4 h-4 mt-0.5"}`}
+											/>
+
+											<p className={`${item.className ? "" : "flex"} gap-1`}>
+												<h4 className="font-noraml p5">{item.label}:</h4>{" "}
+												{item.link ? (
+													<a href={item.link} className="hover:underline">
+														{item.value}
+													</a>
+												) : (
+													item.value
+												)}
+											</p>
+										</div>
+									);
+								})}
+							</ul>
 						</div>
 						{/* Dynamic Sections */}
 						{footerContent.sections?.map((sect, i) => (

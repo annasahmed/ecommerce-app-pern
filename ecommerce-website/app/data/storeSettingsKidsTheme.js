@@ -134,6 +134,10 @@ export const storeSettingsKidsTheme = {
 							link: "/order-tracking",
 						},
 						{
+							text: "payment methods",
+							link: "/payment-methods",
+						},
+						{
 							text: "return and exchange",
 							link: "/return-and-exchange",
 						},

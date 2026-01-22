@@ -60,7 +60,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+strong {
 	font-family: var(--font-konnect);
 }
 
@@ -82,8 +83,11 @@ a {
 }
 
 .bubble-text {
-	text-shadow: 2px 2px 0 var(--color-light), -2px 2px 0 var(--color-light),
-		2px -2px 0 var(--color-light), -2px -2px 0 var(--color-light);
+	text-shadow:
+		2px 2px 0 var(--color-light),
+		-2px 2px 0 var(--color-light),
+		2px -2px 0 var(--color-light),
+		-2px -2px 0 var(--color-light);
 }
 @layer base {
 	* {
