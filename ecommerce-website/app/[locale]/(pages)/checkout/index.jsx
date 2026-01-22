@@ -160,7 +160,7 @@ export default function CheckoutPage() {
 				});
 
 				setOrderSuccess(true);
-				// clearCart();
+				clearCart();
 
 				toast.success("Order placed successfully!");
 
