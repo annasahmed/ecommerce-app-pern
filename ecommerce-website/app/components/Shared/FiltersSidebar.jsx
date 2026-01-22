@@ -2,7 +2,7 @@
 import { COLORMAP } from "@/app/data/colors";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import MetadataService from "@/app/services/MetadataService";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, CheckIcon, ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 // --- Filter Configuration ---
@@ -18,7 +18,11 @@ const Section = ({ title, children, defaultOpen = true }) => {
 				<h3 className="font-semibold">{title}</h3>
 				{open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
 			</div>
-			{open && <div className="mt-3 space-y-2">{children}</div>}
+			{open && (
+				<div className="mt-3 space-y-0 max-h-[240px] overflow-y-auto hide-scrollbar">
+					{children}
+				</div>
+			)}
 		</div>
 	);
 };
@@ -128,7 +132,8 @@ export default function FilterSidebar({
 	};
 
 	return (
-		<aside className="overflow-y-scroll md:max-h-[115vh] hide-scrollbar max-md:hidden">
+		// <aside className="overflow-y-scroll md:max-h-[150vh] hide-scrollbar/ max-md:hidden">
+		<aside className="max-md:hidden">
 			<h4 className="h4 font-bold border-b pb-1">Filter</h4>
 			{isLoading ? (
 				<p className="py-4 p4">Loading filters...</p>
@@ -139,17 +144,38 @@ export default function FilterSidebar({
 						{filterData.categories?.map(({ id, title, count }, idx) => (
 							<label
 								key={`category-${id}-${idx}`}
-								className="flex items-center justify-between text-sm">
-								<div>
-									<input
-										type="checkbox"
-										className="mr-2 accent-secondary"
-										checked={selectedFilters.categories?.includes(id)}
-										onChange={() => toggleArrayFilter("categories", id)}
-									/>
-									{title}
+								className="group flex items-center justify-between px-0 py-1 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50">
+								<div className="flex items-center gap-3 flex-1">
+									{/* Custom Checkbox */}
+									<div className="relative flex items-center">
+										<input
+											type="checkbox"
+											className="peer sr-only"
+											checked={selectedFilters.categories?.includes(id)}
+											onChange={() => toggleArrayFilter("categories", id)}
+											id={`category-${id}-${idx}`}
+										/>
+										<div className="w-4 h-4 border-2 border-gray-300 rounded-[2px] transition-all duration-200 peer-checked:border-secondary peer-checked:bg-secondary  flex items-center justify-center group-hover:border-secondary/60">
+											{/* Checkmark Icon - Only shows when checked */}
+											{selectedFilters.categories?.includes(id) && (
+												<CheckIcon
+													className="w-3.5 h-3.5 text-white"
+													strokeWidth={3}
+												/>
+											)}
+										</div>
+									</div>
+
+									{/* Label Text */}
+									<span className="p4 font-medium text-muted capitalize transition-colors group-hover:text-gray-900  select-none">
+										{title}
+									</span>
 								</div>
-								{/* <span className="text-muted text-xs">{count}</span> */}
+
+								{/* Optional Count Badge */}
+								{/* <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full transition-colors group-hover:bg-secondary/10 group-hover:text-secondary">
+		{count}
+	</span> */}
 							</label>
 						))}
 					</Section>
@@ -160,17 +186,33 @@ export default function FilterSidebar({
 							{filterData.brands.map(({ id, title, count }, idx) => (
 								<label
 									key={`brand-${id}-${idx}`}
-									className="flex items-center justify-between text-sm">
-									<div>
-										<input
-											type="checkbox"
-											className="mr-2 accent-secondary"
-											checked={selectedFilters.brands?.includes(id)}
-											onChange={() => toggleArrayFilter("brands", id)}
-										/>
-										{title}
+									className="group flex items-center justify-between px-0 py-1 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50">
+									<div className="flex items-center gap-3 flex-1">
+										{/* Custom Checkbox */}
+										<div className="relative flex items-center">
+											<input
+												type="checkbox"
+												className="peer sr-only"
+												checked={selectedFilters.brands?.includes(id)}
+												onChange={() => toggleArrayFilter("brands", id)}
+												key={`brand-${id}-${idx}`}
+											/>
+											<div className="w-4 h-4 border-2 border-gray-300 rounded-[2px] transition-all duration-200 peer-checked:border-secondary peer-checked:bg-secondary  flex items-center justify-center group-hover:border-secondary/60">
+												{/* Checkmark Icon - Only shows when checked */}
+												{selectedFilters.brands?.includes(id) && (
+													<CheckIcon
+														className="w-3.5 h-3.5 text-white"
+														strokeWidth={3}
+													/>
+												)}
+											</div>
+										</div>
+
+										{/* Label Text */}
+										<span className="p4 font-medium text-muted capitalize transition-colors group-hover:text-gray-900  select-none">
+											{title}
+										</span>
 									</div>
-									{/* <span className="text-muted text-xs">{count}</span> */}
 								</label>
 							))}
 						</Section>
@@ -180,24 +222,39 @@ export default function FilterSidebar({
 						{filterData.price.options.map(({ label, min, max }, idx) => (
 							<label
 								key={`price-${idx}`}
-								className="flex items-center justify-between text-sm">
-								<div>
-									<input
-										type="radio"
-										name="price"
-										className="mr-2 accent-secondary"
-										checked={
-											selectedFilters?.price?.min === min &&
-											selectedFilters?.price?.max === max
-										}
-										onChange={() =>
-											setSelectedFilters((prev) => ({
-												...prev,
-												price: { min, max },
-											}))
-										}
-									/>
-									{label}
+								className="group flex items-center justify-between px-0 py-1 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50">
+								<div className="flex items-center gap-3 flex-1">
+									{/* Custom Radio Button */}
+									<div className="relative flex items-center">
+										<input
+											type="radio"
+											name="price"
+											className="peer sr-only"
+											checked={
+												selectedFilters?.price?.min === min &&
+												selectedFilters?.price?.max === max
+											}
+											onChange={() =>
+												setSelectedFilters((prev) => ({
+													...prev,
+													price: { min, max },
+												}))
+											}
+											id={`price-${idx}`}
+										/>
+										<div className="w-4 h-4 border-2 border-gray-300 rounded-full transition-all duration-200 peer-checked:border-secondary flex items-center justify-center group-hover:border-secondary/60">
+											{/* Inner Circle - Only shows when checked */}
+											{selectedFilters?.price?.min === min &&
+												selectedFilters?.price?.max === max && (
+													<div className="w-2.5 h-2.5 bg-secondary rounded-full transition-transform duration-200 scale-100"></div>
+												)}
+										</div>
+									</div>
+
+									{/* Label Text */}
+									<span className="p4 font-medium text-muted  transition-colors group-hover:text-gray-900  select-none">
+										{label}
+									</span>
 								</div>
 							</label>
 						))}
@@ -205,15 +262,22 @@ export default function FilterSidebar({
 
 					{/* Size */}
 					<Section title="Size">
-						<div className="flex gap-2 flex-wrap">
+						<div className="flex gap-2 flex-wrap py-1">
 							{filterData.sizes?.map((size, idx) => (
 								<button
 									key={`size-${size}-${idx}`}
-									className={`text-sm px-3 py-1 rounded-md hover:border-dark hover:shadow-2xl border ${
-										selectedFilters.size === size
-											? "border-dark shadow-2xl"
-											: " border-transparent/"
-									}`}
+									className={`
+				relative px-4 py-2 rounded-lg font-medium p5
+				transition-all duration-200 
+				border-2 
+				${
+					selectedFilters.size === size
+						? "border-secondary bg-secondary text-white shadow-lg shadow-secondary/30 scale-105"
+						: "border-gray-200 bg-white text-gray-700 hover:border-secondary/60 hover:bg-secondary/5 hover:scale-105 hover:shadow-md"
+				}
+				active:scale-95
+				focus:outline-none
+			`}
 									onClick={() => setSingleFilter("size", size)}>
 									{size}
 								</button>

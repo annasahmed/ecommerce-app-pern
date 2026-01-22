@@ -37,7 +37,7 @@ const LoginPage = () => {
 		<AuthLayout>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className="flex flex-col gap-6 w-[75%]"
+				className="flex flex-col gap-6 md:w-[75%]"
 				noValidate>
 				<div>
 					<h1 className="h2 font-semibold">Sign In</h1>

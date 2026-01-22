@@ -67,7 +67,7 @@ instance.interceptors.response.use(
 				// 🚪 Optional: logout & redirect
 				if (typeof window !== "undefined") {
 					// window.location.href = "/login";
-					triggerAuthDrawer();
+					// triggerAuthDrawer();
 				}
 
 				return Promise.reject(refreshError);

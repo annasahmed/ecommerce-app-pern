@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/app/providers/AuthProvider";
 import { useCartStore } from "@/app/store/cartStore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,16 +17,18 @@ export default function MobileBottomNav() {
 	const cartCount = cart?.length || 0;
 	const favCount = favourites?.length || 0;
 	const pathname = usePathname();
-
+	const { isAuthenticated } = useAuth();
 	const active = pathname.includes("favourites")
 		? "favourites"
 		: pathname.includes("cart")
-		? "cart"
-		: pathname.includes("account")
-		? "account"
-		: pathname.includes("search")
-		? "search"
-		: "shop";
+			? "cart"
+			: pathname.includes("login") ||
+				  pathname.includes("signup") ||
+				  pathname.includes("profile")
+				? "account"
+				: pathname.includes("products")
+					? "search"
+					: "shop";
 
 	return (
 		<nav className="pt-2 pb-1 fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 sm:hidden pb-[env(safe-area-inset-bottom)]/">
@@ -37,7 +40,7 @@ export default function MobileBottomNav() {
 					active={active === "shop"}
 				/>
 				<NavItem
-					href="/wishlist"
+					href="/favourites"
 					icon={FiHeart}
 					label="Wishlist"
 					count={favCount}
@@ -51,13 +54,13 @@ export default function MobileBottomNav() {
 					active={active === "cart"}
 				/>
 				<NavItem
-					href="/account"
+					href={isAuthenticated ? "/profile" : "/login"}
 					icon={FiUser}
 					label="Account"
 					active={active === "account"}
 				/>
 				<NavItem
-					href="/search"
+					href="/products"
 					icon={FiSearch}
 					label="Search"
 					active={active === "search"}

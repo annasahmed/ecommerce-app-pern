@@ -59,7 +59,7 @@ export default function Newsletter() {
 					</p>
 				</div>
 
-				<form onSubmit={handleSubmit} className="flex-1 pr-10 pt-2">
+				<form onSubmit={handleSubmit} className="flex-1 pr-10 pt-2 w-full">
 					<div className="flex relative">
 						<input
 							type="email"

@@ -69,8 +69,8 @@ const Footer = () => {
 			<div className="container-layout">
 				{/* Top Section */}
 				<section className="section-layout-top flex flex-wrap justify-between gap-10 md:gap-16 lg:flex-nowrap">
-					<div className="flex flex-wrap justify-between gap-10 max-md:gap-x-6 max-md:gap-y-8 w-full">
-						<div className=" min-w-[150px] flex-1 md:flex-none lg:flex-2 md:pr-20">
+					<div className="grid grid-cols-5 max-md:grid-cols-2 justify-between gap-10 max-md:gap-x-6 max-md:gap-y-8 w-full">
+						<div className=" min-w-[150px]/ flex-1 col-span-2 max-md:col-span-2 md:pr-20">
 							<Logo
 								src={footerContent.logo}
 								className="w-32 max-md:w-28 h-auto object-contain"
@@ -135,7 +135,7 @@ const Footer = () => {
 						{footerContent.sections?.map((sect, i) => (
 							<section
 								key={i}
-								className="min-w-[150px] flex-1 md:flex-none lg:flex-1">
+								className="min-w-[150px]/ flex-1 md:flex-none lg:flex-1">
 								<h5 className="h5 mb-4 md:mb-8 uppercase font-semibold text-sm md:text-base">
 									{sect.title}
 								</h5>
@@ -196,7 +196,7 @@ const Footer = () => {
 				<div className="w-full h-[1px] rounded-full bg-light opacity-30 max-md:mt-0" />
 
 				{/* Bottom Section */}
-				<section className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left py-4">
+				<section className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left pt-4 pb-4 max-md:pb-20">
 					<p className="p4 text-sm md:text-base">
 						Copyright &copy; {currentYear} {store.companyName || store.name}.
 						All rights reserved All rights reserved

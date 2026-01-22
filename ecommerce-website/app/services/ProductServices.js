@@ -65,6 +65,7 @@ const ProductServices = {
 			sort: "latest",
 			...buildFilterParams(filters, defaultFilters),
 		};
+		console.log("chkinaapii");
 
 		if (limit) params.limit = limit;
 		if (page) params.page = page;
@@ -112,9 +113,11 @@ const buildFilterParams = (filters = {}, defaultFilters = {}) => {
 
 	// brands → repeated brandId
 	if (filters.brands?.length) {
-		params.brandId = filters.brands; // array
+		params.vendorId = filters.brands; // array
+		// params.brandId = filters.brands; // array
 	} else if (defaultFilters.brands) {
-		params.brandId = [defaultFilters.brands]; // array
+		params.vendorId = [defaultFilters.brands]; // array
+		// params.brandId = [defaultFilters.brands]; // array
 	}
 
 	// price

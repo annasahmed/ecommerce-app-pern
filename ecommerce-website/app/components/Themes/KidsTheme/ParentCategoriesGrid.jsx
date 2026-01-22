@@ -22,7 +22,7 @@ const ParentCategoriesGrid = ({
 							href={`/products?category=${pCat.slug}`}
 							className={`${bgColor} ${
 								showTitle ? "p-2" : ""
-							} text-light block rounded-lg hover:scale-105 transition-all duration-500 hover:shadow-lg`}>
+							} h-full  text-light block rounded-lg hover:scale-105 transition-all duration-500 hover:shadow-lg`}>
 							<BaseImage
 								src={
 									pCat.icons

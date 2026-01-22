@@ -162,7 +162,8 @@ export default function CartPage() {
 
 						<PrimaryButton
 							link={"/checkout"}
-							className="w-full bg-primary text-light flex items-center justify-center gap-2">
+							className="w-full bg-primary text-white flex items-center justify-center gap-2">
+							{/* className="w-full bg-primary text-light flex items-center justify-center gap-2"> */}
 							Proceed to Checkout <ArrowRight size={18} />
 						</PrimaryButton>
 
