@@ -63,6 +63,12 @@ async function getHomepageSections() {
 							required: false,
 							attributes: ['title', 'slug'],
 						},
+						{
+							model: db.media,
+							as: 'cat_icon',
+							required: false,
+							attributes: ['url', 'title'],
+						},
 					],
 			  })
 			: [],
