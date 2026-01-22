@@ -11,17 +11,21 @@ import { useAuth } from "@/app/providers/AuthProvider";
 import CartDrawer from "@/app/[locale]/(pages)/cart/cartDrawer";
 import AuthDrawer from "../../Shared/AuthDrawer";
 import { SOCIAL_CONFIG } from "./Footer";
+import { useRouter } from "next/navigation";
+import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-	const [authDrawerOpen, setAuthDrawerOpen] = useState(false);
+	// const [authDrawerOpen, setAuthDrawerOpen] = useState(false);
+	const { authDrawerOpen, openAuthDrawer, closeAuthDrawer } = useAuthUIStore();
 	const [showMobileSearch, setShowMobileSearch] = useState(false);
 
 	const store = useStore();
 	const { cart, favourites } = useCartStore();
 
 	const { isAuthenticated, user } = useAuth();
+	const router = useRouter();
 
 	const cartCount = cart?.length || 0;
 	const favCount = favourites?.length || 0;
@@ -142,7 +146,7 @@ const Navbar = () => {
 
 							<button
 								onClick={() => {
-									setAuthDrawerOpen(true);
+									!isAuthenticated ? openAuthDrawer() : router.push("/profile");
 								}}
 								// href={!isAuthenticated ? "/login" : "/profile"}
 							>
@@ -162,7 +166,11 @@ const Navbar = () => {
 					)}
 				</div>
 
-				<AuthDrawer open={authDrawerOpen} setOpen={setAuthDrawerOpen} />
+				{/* <AuthDrawer open={authDrawerOpen} setOpen={setAuthDrawerOpen} /> */}
+				<AuthDrawer
+					open={authDrawerOpen}
+					setOpen={(val) => (val ? openAuthDrawer() : closeAuthDrawer())}
+				/>
 				<CartDrawer open={isCartDrawerOpen} setOpen={setIsCartDrawerOpen} />
 				{/* Navigation Menu */}
 				<NavigationMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />

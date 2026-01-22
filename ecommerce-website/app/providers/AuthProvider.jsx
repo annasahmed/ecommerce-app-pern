@@ -21,14 +21,14 @@ export const AuthProvider = ({ children }) => {
 		const fetchUser = async () => {
 			try {
 				const data = await requests.get("/auth/me"); // backend returns user info
-				setUser(data);
+				setUser(data.user);
 			} catch (error) {
 				setUser(null);
 			} finally {
 				setLoading(false);
 			}
 		};
-		// fetchUser();
+		fetchUser();
 	}, []);
 
 	// Login function
@@ -77,6 +77,7 @@ export const AuthProvider = ({ children }) => {
 	const logout = useCallback(async () => {
 		try {
 			await requests.post("/auth/logout");
+			setUser(null);
 		} catch (e) {
 			console.error("Logout failed", e);
 		} finally {

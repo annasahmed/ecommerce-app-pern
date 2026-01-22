@@ -130,6 +130,10 @@ export const storeSettingsKidsTheme = {
 							link: "/shipping-policy",
 						},
 						{
+							text: "track order",
+							link: "/order-tracking",
+						},
+						{
 							text: "return and exchange",
 							link: "/return-and-exchange",
 						},

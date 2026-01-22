@@ -22,6 +22,14 @@ const OrderService = {
 			console.error("API error:", err);
 		}
 	},
+	myOrders: async () => {
+		try {
+			const data = await requests.get(`/order/my-orders`);
+			return data;
+		} catch (err) {
+			console.error("API error:", err);
+		}
+	},
 };
 
 export default OrderService;

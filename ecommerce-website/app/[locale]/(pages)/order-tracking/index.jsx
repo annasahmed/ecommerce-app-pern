@@ -40,7 +40,9 @@ export default function TrackOrderPage() {
 	};
 
 	useEffect(() => {
-		fetchOrder();
+		if (paramsTrackingId) {
+			fetchOrder();
+		}
 	}, [paramsTrackingId]);
 
 	return (
@@ -74,12 +76,12 @@ export default function TrackOrderPage() {
 			)} */}
 
 			{/* Order Details */}
-			{loading ? (
+			{!paramsTrackingId ? null : loading ? (
 				<>
 					<SpinLoader />
 				</>
 			) : !order ? (
-				<h4>Order not found</h4>
+				<h4 className="text-center h4 text-red-400">Order not found</h4>
 			) : (
 				<div className="bg-white border border-gray-200 rounded-xl shadow-lg p-6 p4 space-y-6">
 					<div className="flex justify-between items-center flex-wrap gap-3">

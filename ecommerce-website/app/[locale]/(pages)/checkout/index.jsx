@@ -63,8 +63,9 @@ export default function CheckoutPage() {
 	const [orderSummary, setOrderSummary] = useState(null);
 	const [formData, setFormData] = useState({
 		email: "",
-		firstName: "",
-		lastName: "",
+		name: "",
+		// firstName: "",
+		// lastName: "",
 		address: "",
 		city: "Karachi",
 		postalCode: "",
@@ -75,8 +76,9 @@ export default function CheckoutPage() {
 	});
 	const [billingAddress, setBillingAddress] = useState({
 		country: "Pakistan",
-		firstName: "",
-		lastName: "",
+		// firstName: "",
+		// lastName: "",
+		name: "",
 		address: "",
 		city: "Karachi",
 		postalCode: "",
@@ -158,16 +160,16 @@ export default function CheckoutPage() {
 				});
 
 				setOrderSuccess(true);
-				clearCart();
+				// clearCart();
 
 				toast.success("Order placed successfully!");
 
 				setFormData({
 					email: "",
-					firstName: "",
-					lastName: "",
+					name: "",
+					// lastName: "",
 					address: "",
-					city: "",
+					city: "Karachi",
 					postalCode: "",
 					country: "Pakistan",
 					phone: "",
@@ -176,10 +178,11 @@ export default function CheckoutPage() {
 				});
 				setBillingAddress({
 					country: "Pakistan",
-					firstName: "",
-					lastName: "",
+					name: "",
+					// firstName: "",
+					// lastName: "",
 					address: "",
-					city: "",
+					city: "Karachi",
 					postalCode: "",
 					phone: "",
 				});
@@ -201,7 +204,7 @@ export default function CheckoutPage() {
 	return (
 		<div className="relative">
 			{loading ? (
-				<div className="absolute inset-0 bg-gray-100 opacity-75 flex py-40 items-center justify-center">
+				<div className="absolute inset-0 bg-gray-100 opacity-75 flex py-50 items-center justify-center">
 					<SpinLoader />
 				</div>
 			) : null}
@@ -244,23 +247,23 @@ export default function CheckoutPage() {
 									<option>Pakistan</option>
 								</select>
 
-								<div className="grid grid-cols-2 gap-4 mb-4">
+								<div className="grid grid-cols-1 gap-4 mb-4">
 									<input
-										name="firstName"
-										placeholder="First name"
+										name="name"
+										placeholder="Name"
 										className="border rounded-md p-3"
 										required
-										value={formData.firstName}
+										value={formData.name}
 										onChange={handleChange}
 									/>
-									<input
+									{/* <input
 										name="lastName"
 										placeholder="Last name"
 										className="border rounded-md p-3"
 										required
 										value={formData.lastName}
 										onChange={handleChange}
-									/>
+									/> */}
 								</div>
 
 								<input
@@ -430,19 +433,19 @@ export default function CheckoutPage() {
 												<option>Pakistan</option>
 											</select>
 
-											<div className="grid grid-cols-2 gap-4">
+											<div className="grid grid-cols-1 gap-4">
 												<input
-													placeholder="First name"
+													placeholder="Name"
 													className="border rounded-md p-3"
-													value={billingAddress.firstName}
+													value={billingAddress.name}
 													onChange={(e) =>
 														setBillingAddress({
 															...billingAddress,
-															firstName: e.target.value,
+															name: e.target.value,
 														})
 													}
 												/>
-												<input
+												{/* <input
 													placeholder="Last name"
 													className="border rounded-md p-3"
 													value={billingAddress.lastName}
@@ -452,7 +455,7 @@ export default function CheckoutPage() {
 															lastName: e.target.value,
 														})
 													}
-												/>
+												/> */}
 											</div>
 
 											<input

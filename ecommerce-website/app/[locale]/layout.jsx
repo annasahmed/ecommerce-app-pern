@@ -16,6 +16,7 @@ import { AuthProvider } from "@/app/providers/AuthProvider";
 import backgroundPattern from "@/app/assets/themes/kidsTheme/background-pattern.png";
 
 import localFont from "next/font/local";
+import AppProviders from "../providers/AppProviders";
 
 let cachedTheme = null;
 
@@ -93,9 +94,11 @@ export default async function RootLayout({ children }) {
 			<ToastContainer />
 			<ReactQueryProvider>
 				<NextIntlClientProvider>
-					<AuthProvider>
-						<StoreProvider value={store}>{children}</StoreProvider>
-					</AuthProvider>
+					<AppProviders>
+						<AuthProvider>
+							<StoreProvider value={store}>{children}</StoreProvider>
+						</AuthProvider>
+					</AppProviders>
 				</NextIntlClientProvider>
 			</ReactQueryProvider>
 		</div>
