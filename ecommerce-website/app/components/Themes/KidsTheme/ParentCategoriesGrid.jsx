@@ -7,7 +7,8 @@ import SectionTitle from "../../Shared/SectionTitle";
 const ParentCategoriesGrid = ({
 	title,
 	data = [],
-	bgColor = "bg-secondary/80",
+	bgColor,
+	// bgColor = "bg-secondary/80",
 	showTitle = true,
 }) => {
 	return (
@@ -20,7 +21,10 @@ const ParentCategoriesGrid = ({
 					<div key={idx}>
 						<BaseLink
 							href={`/products?category=${pCat.slug}`}
-							className={`${bgColor} ${
+							style={{
+								backgroundColor: bgColor || "transparent",
+							}}
+							className={`${
 								showTitle ? "p-2" : ""
 							} h-full  text-light block rounded-lg hover:scale-105 transition-all duration-500 hover:shadow-lg`}>
 							<BaseImage
@@ -30,9 +34,12 @@ const ParentCategoriesGrid = ({
 										: pCat.icon
 								}
 								key={idx}
+								style={{
+									backgroundColor: bgColor || "transparent",
+								}}
 								className={`w-full rounded-lg ${
 									showTitle ? "md:h-80" : "md:h-full"
-								}  object-cover border-${bgColor}`}
+								}  object-cover`}
 							/>
 							{showTitle && (
 								<h4 className="text-center capitalize mt-2 h5 font-normal">

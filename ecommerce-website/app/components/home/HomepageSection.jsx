@@ -37,7 +37,8 @@ export default function HomepageSection({ section }) {
 					title={title}
 					// title="FOOTWEAR"
 					data={config.categories}
-					bgColor={config.bgColor || "bg-primary/80"}
+					bgColor={config.color}
+					// bgColor={config.color || "bg-primary/80"}
 					showTitle={true} // change this to false to show no title and background color
 				/>
 			);
