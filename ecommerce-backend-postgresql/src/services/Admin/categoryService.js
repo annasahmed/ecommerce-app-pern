@@ -108,7 +108,7 @@ async function updateCategory(req) {
 		if (newParentId) {
 			const exist = await db.category
 				.scope(['onlyId', 'activeEntity'])
-				.findByPk(parentId);
+				.findByPk(newParentId);
 			if (!exist)
 				throw new ApiError(
 					httpStatus.NOT_FOUND,
