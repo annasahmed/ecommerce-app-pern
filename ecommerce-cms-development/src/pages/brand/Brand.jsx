@@ -8,21 +8,21 @@ import CheckBox from "@/components/form/others/CheckBox";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
 import TableWrapperWithPagination from "@/components/newComponents/TableWrapperWithPagination";
 import PageTitle from "@/components/Typography/PageTitle";
-import UspTable from "@/components/usp/UspTable";
+import BrandTable from "@/components/brand/BrandTable";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import UspServices from "@/services/UspServices";
+import BrandServices from "@/services/BrandServices";
 import MainDrawer from "@/components/drawer/MainDrawer";
-import UspDrawer from "@/components/usp/UspDrawer";
+import BrandDrawer from "@/components/brand/BrandDrawer";
 
-const Usp = () => {
+const Brand = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
 	const {
-		data: uspsData,
+		data: brandsData,
 		loading,
 		error,
-	} = useAsync(UspServices.getAllUsps);
+	} = useAsync(BrandServices.getAllBrands);
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
@@ -42,16 +42,16 @@ const Usp = () => {
 
 	return (
 		<>
-			<PageTitle>{t("Usp")}</PageTitle>
+			<PageTitle>{t("Brand")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddUsp")}
-				inputPlaceholder={t("SearchUsp")}
+				buttonText={t("AddBrand")}
+				inputPlaceholder={t("SearchBrand")}
 				onClick={toggleDrawer}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={uspsData}>
+				data={brandsData}>
 				<Table>
 					<TableHeader>
 						<tr>
@@ -71,8 +71,8 @@ const Usp = () => {
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>
 					</TableHeader>
-					<UspTable
-						data={uspsData.records}
+					<BrandTable
+						data={brandsData.records}
 						isCheck={isCheck}
 						setIsCheck={setIsCheck}
 						toggleDrawerData={toggleDrawerData}
@@ -81,14 +81,10 @@ const Usp = () => {
 			</TableWrapperWithPagination>
 
 			<MainDrawer>
-				<UspDrawer
-					id={serviceId}
-					data={uspsData.records}
-					lang={lang}
-				/>
+				<BrandDrawer id={serviceId} data={brandsData.records} lang={lang} />
 			</MainDrawer>
 		</>
 	);
 };
 
-export default Usp;
+export default Brand;

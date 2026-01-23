@@ -9,11 +9,12 @@ const AddProducts = lazy(() => import("@/pages/product/AddProduct"));
 const Media = lazy(() => import("@/pages/media/Media"));
 const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
 const Category = lazy(() => import("@/pages/category/Category"));
-const ParentCategory = lazy(() =>
-	import("@/pages/parentCategory/ParentCategory"),
+const ParentCategory = lazy(
+	() => import("@/pages/parentCategory/ParentCategory"),
 );
 const Homepage = lazy(() => import("@/pages/homepage/Homepage"));
 const Usp = lazy(() => import("@/pages/usp/Usp"));
+const Brand = lazy(() => import("@/pages/brand/Brand"));
 const SizeChart = lazy(() => import("@/pages/sizeChart/SizeChart"));
 const Branch = lazy(() => import("@/pages/branch/Branch"));
 const Vendor = lazy(() => import("@/pages/vendor/Vendor"));
@@ -89,6 +90,10 @@ const routes = [
 	{
 		path: "/usp",
 		component: Usp,
+	},
+	{
+		path: "/brand",
+		component: Brand,
 	},
 	{
 		path: "/size-chart",

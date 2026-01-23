@@ -46,12 +46,20 @@ const sidebar = [
 				name: "Usps",
 			},
 			{
+				path: "/brand",
+				name: "Brands",
+			},
+			{
 				path: "/size-chart",
 				name: "SizeChart",
 			},
 			{
 				path: "/attributes",
 				name: "Attributes",
+			},
+			{
+				path: "/homepage",
+				name: "Homepage",
 			},
 			// {
 			// 	path: "/coupons",

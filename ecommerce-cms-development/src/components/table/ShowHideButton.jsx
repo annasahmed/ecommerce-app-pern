@@ -13,6 +13,7 @@ import ProductServices from "@/services/ProductServicesOld";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import UspServices from "@/services/UspServices";
 import ParentCategoryServices from "@/services/ParentCategoryServices";
+import BrandServices from "@/services/BrandServices";
 
 const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 	const location = useLocation();
@@ -29,6 +30,13 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 			}
 			if (location.pathname === "/parent-categories") {
 				const res = await ParentCategoryServices.updateStatus(id, {
+					status: newStatus,
+				});
+				setIsUpdate(true);
+				notifySuccess(res.message);
+			}
+			if (location.pathname === "/brand") {
+				const res = await BrandServices.updateStatus(id, {
 					status: newStatus,
 				});
 				setIsUpdate(true);

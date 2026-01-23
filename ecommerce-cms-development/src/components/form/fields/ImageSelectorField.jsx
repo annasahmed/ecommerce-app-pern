@@ -13,6 +13,7 @@ const ImageSelectorField = ({
 	onChange = () => {},
 	isSmall = false,
 	isMultipleSelect = false,
+	imageDimensions,
 }) => {
 	return (
 		<div
@@ -30,6 +31,7 @@ const ImageSelectorField = ({
 					setSelectedImageUrl={setSelectedImageUrl}
 					isSmall={isSmall}
 					isMultipleSelect={isMultipleSelect}
+					imageDimensions={imageDimensions}
 				/>
 			</div>
 		</div>

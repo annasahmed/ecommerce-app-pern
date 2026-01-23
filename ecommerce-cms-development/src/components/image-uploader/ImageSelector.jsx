@@ -17,6 +17,7 @@ const ImageSelector = ({
 	setSelectedImageUrl,
 	isMultipleSelect = false,
 	isSmall,
+	imageDimensions,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { t } = useTranslation();
@@ -25,8 +26,8 @@ const ImageSelector = ({
 	const images = isMultipleSelect
 		? selectedImageUrl || []
 		: selectedImageUrl
-		? [selectedImageUrl]
-		: [];
+			? [selectedImageUrl]
+			: [];
 
 	const handleRemove = (index) => {
 		if (isMultipleSelect) {
@@ -55,7 +56,7 @@ const ImageSelector = ({
 								src={img}
 								alt="selected"
 								className={`object-contain rounded
-								${isSmall ? "h-20 w-20" : "h-32 w-32"}`}
+								${imageDimensions ? imageDimensions : isSmall ? "h-20 w-20" : "h-32 w-32"}`}
 							/>
 
 							{/* Remove button */}
@@ -95,6 +96,7 @@ const ImageSelector = ({
 						setSelectedImage={setSelectedImage}
 						setSelectedImageUrl={setSelectedImageUrl}
 						onClose={() => setIsOpen(false)}
+						isUnderModal={true}
 					/>
 				</ModalBody>
 				<ModalFooter>

@@ -17,7 +17,7 @@ const HomepageSectionsServices = {
 		return requests.patch(`/homepage-sections/${id}`, body);
 	},
 
-	reorderHomepageSection: async (id, body) => {
+	reorderHomepageSection: async (body) => {
 		return requests.patch(`/homepage-sections/reorder`, body);
 	},
 

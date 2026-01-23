@@ -29,6 +29,7 @@ const Media = ({
 	isMultipleSelect = false,
 	setSelectedImageUrl,
 	onClose,
+	isUnderModal = false,
 }) => {
 	const { title, serviceId, handleModalOpen } = useToggleDrawer();
 	const [previewImage, setPreviewImage] = useState(null);
@@ -60,7 +61,8 @@ const Media = ({
 		);
 
 	return (
-		<div className="max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300">
+		<div
+			className={`${isUnderModal ? "max-h-[60vh] overflow-y-auto" : ""} pr-2 scrollbar-thin scrollbar-thumb-gray-300`}>
 			{serviceId && <DeleteModal id={serviceId} title={title} />}
 			{!isSelectImage && <PageTitle>{t("MediaLibrary")}</PageTitle>}
 			<div className="my-8">

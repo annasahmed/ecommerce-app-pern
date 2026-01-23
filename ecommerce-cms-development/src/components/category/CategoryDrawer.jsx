@@ -117,6 +117,9 @@ const CategoryDrawer = ({ id, data }) => {
 	];
 
 	useEffect(() => {
+		setSelectedImage(null);
+		setSelectedImageUrl(null);
+		setStatus(true);
 		if (id) {
 			(async () => {
 				try {
