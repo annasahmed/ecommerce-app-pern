@@ -1,0 +1,104 @@
+const httpStatus = require('http-status');
+const config = require('../../config/config');
+const db = require('../../db/models');
+const ApiError = require('../../utils/ApiError');
+const { getOffset } = require('../../utils/query');
+const { Op } = require('sequelize');
+
+async function getOrderById(req) {
+	const { orderId } = req.params;
+	const order = db.order.findByPk(orderId, {
+		include: [
+			{
+				model: db.order_item,
+				include: [
+					{ model: db.product, required: false },
+					{
+						model: db.product_variant,
+						required: false,
+						include: [{ model: db.attribute, required: false }],
+					},
+				],
+			},
+		],
+	});
+
+	if (!order) throw new ApiError(httpStatus.NOT_FOUND, `Order not found`);
+	return order;
+}
+
+async function getAllOrder(req) {
+	const { page: defaultPage, limit: defaultLimit } = config.pagination;
+	const {
+		page = defaultPage,
+		limit = 1000,
+		status,
+		trackingId,
+		paymentMethod,
+		startDate,
+		endDate,
+	} = req.query;
+	const offset = getOffset(page, limit);
+
+	let whereCondition = {};
+	if (status) {
+		whereCondition.status = status;
+	}
+	if (paymentMethod) {
+		whereCondition.payment_method = paymentMethod;
+	}
+	if (trackingId) {
+		whereCondition.tracking_id = trackingId;
+	}
+
+	if (startDate && endDate) {
+		whereCondition.created_at = {
+			[Op.between]: [new Date(startDate), new Date(endDate)],
+		};
+	} else if (startDate) {
+		whereCondition.created_at = {
+			[Op.gte]: new Date(startDate),
+		};
+	} else if (endDate) {
+		whereCondition.created_at = {
+			[Op.lte]: new Date(endDate),
+		};
+	}
+
+	const orders = db.order.findAndCountAll({
+		offset,
+		limit,
+		where: whereCondition,
+		order: [['id', 'DESC']],
+		unique: true,
+		distinct: true, // to fix count
+		col: 'id', // to fix count
+	});
+
+	return {
+		total: orders.count,
+		records: orders.rows,
+		limit: limit,
+		page: page,
+	};
+}
+
+async function updateOrderStatus(req) {
+	const { orderId } = req.parms;
+	const [_, updated] = await db.order.update(
+		{
+			status: req.body.status,
+		},
+		{
+			id: orderId,
+		}
+	);
+	if (!updated) throw new ApiError(httpStatus.NOT_FOUND, `Order not found`);
+	return updated;
+}
+
+module.exports = {
+	getOrderById,
+	getAllOrder,
+	updateOrderStatus,
+};

@@ -32,5 +32,6 @@ adminRouter.use('/media', mediaRoute);
 adminRouter.use('/attribute', attributeRoute);
 adminRouter.use('/sizeChart', sizeChartRoute);
 adminRouter.use('/script', scriptRoute);
+adminRouter.use('/order', require('./orderRoute'));
 
 module.exports = adminRouter;
