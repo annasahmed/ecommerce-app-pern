@@ -112,11 +112,11 @@ const buildFilterParams = (filters = {}, defaultFilters = {}) => {
 
 	// brands → repeated brandId
 	if (filters.brands?.length) {
-		params.vendorId = filters.brands; // array
-		// params.brandId = filters.brands; // array
+		// params.vendorId = filters.brands; // array
+		params.brandId = filters.brands; // array
 	} else if (defaultFilters.brands) {
-		params.vendorId = [defaultFilters.brands]; // array
-		// params.brandId = [defaultFilters.brands]; // array
+		// params.vendorId = [defaultFilters.brands]; // array
+		params.brandId = [defaultFilters.brands]; // array
 	}
 
 	// price

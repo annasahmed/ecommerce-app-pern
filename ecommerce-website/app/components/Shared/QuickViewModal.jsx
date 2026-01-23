@@ -163,7 +163,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 											className="md:hidden absolute -right-3 -top-3 max-md:-right-1.5 max-md:-top-1.5 z-[9999] rounded-full p-1.5 max-md:p-1 bg-secondary text-light transition hover:brightness-90 shadow-lg">
 											<X className="h-4 w-4 max-md:h-3 max-md:w-3" />
 										</button>
-										<section className="md:flex flex-col md:flex-row w-full items-start relative rounded-2xl max-md:overflow-y-auto max-md:max-h-[calc(100vh-100px)]">
+										<section className="md:flex flex-col md:flex-row w-full items-start relative rounded-2xl max-md:overflow-y-auto custom-scrollbar/ max-md:max-h-[calc(100vh-100px)]">
 											<button
 												onClick={onClose}
 												aria-label="Close modal"
