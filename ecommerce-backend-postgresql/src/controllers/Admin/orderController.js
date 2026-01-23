@@ -6,7 +6,7 @@ const getOrderById = catchAsync(async (req, res) => {
 	res.send(order);
 });
 const getOrders = catchAsync(async (req, res) => {
-	const orders = await adminOrderService.getOrders(req);
+	const orders = await adminOrderService.getAllOrders(req);
 	res.send(orders);
 });
 

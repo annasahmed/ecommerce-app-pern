@@ -54,6 +54,7 @@ app.use(compression());
 
 const allowedOrigins = [
 	'http://localhost:4100', // local_cms
+	'http://localhost:3001', // local_website
 	'http://localhost:3000', // local_website
 	'http://72.61.149.213:3000', // website
 	'https://babiesnbaba.com', // website

@@ -266,7 +266,7 @@ async function getNavCategories(req) {
 					{
 						model: db.category_translation,
 						as: 'translations',
-						attributes: ['title'],
+						attributes: ['title', 'slug'],
 						include: [translationInclude(req)],
 					},
 				],

@@ -27,7 +27,7 @@ async function getOrderById(req) {
 	return order;
 }
 
-async function getAllOrder(req) {
+async function getAllOrders(req) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const {
 		page = defaultPage,
@@ -40,7 +40,7 @@ async function getAllOrder(req) {
 	} = req.query;
 	const offset = getOffset(page, limit);
 
-	let whereCondition = {};
+	const whereCondition = {};
 	if (status) {
 		whereCondition.status = status;
 	}
@@ -65,10 +65,17 @@ async function getAllOrder(req) {
 		};
 	}
 
-	const orders = db.order.findAndCountAll({
+	const orders = await db.order.findAndCountAll({
 		offset,
 		limit,
 		where: whereCondition,
+		include: [
+			{
+				model: db.app_user,
+				as: 'user',
+				required: false,
+			},
+		],
 		order: [['id', 'DESC']],
 		unique: true,
 		distinct: true, // to fix count
@@ -99,6 +106,6 @@ async function updateOrderStatus(req) {
 
 module.exports = {
 	getOrderById,
-	getAllOrder,
+	getAllOrders,
 	updateOrderStatus,
 };
