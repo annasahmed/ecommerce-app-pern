@@ -114,7 +114,10 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 															<li
 																key={idx}
 																className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
-																{subCat.title}
+																<BaseLink
+																	href={`/products?category=${subCat.slug}`}>
+																	{subCat.title}
+																</BaseLink>
 															</li>
 														))}
 													</ul>
@@ -131,7 +134,10 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 														<li
 															key={idx}
 															className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
-															{subCat.title}
+															<BaseLink
+																href={`/products?category=${subCat.slug}`}>
+																{subCat.title}
+															</BaseLink>
 														</li>
 													))}
 												</ul>
@@ -147,7 +153,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 													<li
 														key={idx}
 														className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
-														{brand.title}
+														<BaseLink href={`/products?brand=${brand.slug}`}>
+															{brand.title}
+														</BaseLink>
 													</li>
 												))}
 											</ul>
