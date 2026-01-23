@@ -14,7 +14,7 @@ const productService = createAppBaseService(db.product, {
 });
 
 const productFilterConditions = async (req) => {
-	const { categoryId, vendorId, minPrice, maxPrice, search, color, size } =
+	const { categoryId, brandId, minPrice, maxPrice, search, color, size } =
 		req.query;
 	/* ---------------- CATEGORY FILTER ---------------- */
 	let categoryIds = [];
@@ -31,19 +31,19 @@ const productFilterConditions = async (req) => {
 		categoryIds = [...new Set(descendantResults.flat().map(Number))];
 	}
 
-	/* ---------------- 🔥 VENDOR FILTER ---------------- */
-	let vendorCondition = {};
-	let vendorRequired = false;
+	/* ---------------- 🔥 BRAND FILTER ---------------- */
+	let brandCondition = {};
+	let brandRequired = false;
 
-	if (vendorId) {
-		const vendorIds = Array.isArray(vendorId)
-			? vendorId.map(Number)
-			: vendorId.split(',').map(Number);
+	if (brandId) {
+		const brandIds = Array.isArray(brandId)
+			? brandId.map(Number)
+			: brandId.split(',').map(Number);
 
-		vendorCondition.id = {
-			[Op.in]: vendorIds,
+		brandCondition.brand_id = {
+			[Op.in]: brandIds,
 		};
-		vendorRequired = true;
+		brandRequired = true;
 	}
 
 	/* -----------;----- 🔥 PRICE FILTER ---------------- */
@@ -115,8 +115,8 @@ const productFilterConditions = async (req) => {
 
 	return {
 		categoryIds,
-		vendorCondition,
-		vendorRequired,
+		brandCondition,
+		brandRequired,
 		priceCondition,
 		searchCondition,
 		variantAttributeFilter,
@@ -130,8 +130,8 @@ const getProducts = async (req) => {
 
 	const {
 		categoryIds,
-		vendorCondition,
-		vendorRequired,
+		brandCondition,
+		brandRequired,
 		priceCondition,
 		searchCondition,
 		variantAttributeFilter,
@@ -146,6 +146,7 @@ const getProducts = async (req) => {
 			limit,
 			where: {
 				...priceCondition,
+				...brandCondition,
 			},
 			order: filterQuery ? db.sequelize.random() : [['id', 'DESC']],
 			attributes: [
@@ -188,12 +189,24 @@ const getProducts = async (req) => {
 						},
 					],
 				},
-				{
-					model: db.vendor,
-					attributes: ['id', 'name'],
-					required: vendorRequired,
-					where: vendorCondition,
-				},
+				// {
+				// 	model: db.brand.scope('active'),
+				// 	attributes: ['id'],
+				// 	required: Boolean(brandIds.length),
+				// 	where: brandIds.length
+				// 		? { id: { [Op.in]: brandIds } }
+				// 		: undefined,
+				// 	include: [
+				// 		{
+				// 			model: db.brand_translation,
+				// 			separate: true,
+				// 			as: 'translations',
+				// 			attributes: ['title'],
+
+				// 			include: [translationInclude(req)],
+				// 		},
+				// 	],
+				// },
 				// --- PRODUCT VARIANTS & ATTRIBUTE FILTER ---
 				{
 					model: db.product_variant,
@@ -355,10 +368,20 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 		],
 	},
 	{
-		model: db.vendor,
-		attributes: ['id', 'name', 'address', 'country'],
+		model: db.brand.scope('active'),
+		attributes: ['id'],
 		required: false,
+		include: [
+			{
+				model: db.brand_translation,
+				as: 'translations',
+				separate: true,
+				attributes: ['title', 'description', 'slug'],
+				include: [translationInclude(req)],
+			},
+		],
 	},
+
 	// {
 	// 	model: db.product_variant,
 	// 	attributes: ['id', 'sku'],

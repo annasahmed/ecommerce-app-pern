@@ -5,6 +5,7 @@ module.exports.adminAuthService = require('./authService');
 module.exports.adminParentCategoryService = require('./parentCategoryService');
 module.exports.adminCategoryService = require('./categoryService');
 module.exports.adminUspService = require('./uspService');
+module.exports.adminBrandService = require('./brandService');
 
 module.exports.adminBranchService = require('./branchService');
 module.exports.adminVendorService = require('./vendorService');

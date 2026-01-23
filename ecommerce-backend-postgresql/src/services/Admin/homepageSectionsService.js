@@ -20,10 +20,70 @@ async function updateSection(req) {
 }
 
 async function getHomepageSections(req) {
-	return db.homepage_sections.findAll({
+	const sections = await db.homepage_sections.findAll({
 		where: { status: true },
 		order: [['position', 'ASC']],
+		raw: true,
 	});
+
+	// return sections
+	console.log(sections, "chkking sections");
+	
+	if (!sections.length) return [];
+	const mediaIds = new Set();
+	for (const section of sections) {
+		const config = section.config || {};
+
+		// Slider
+		if (Array.isArray(config.images)) {
+			config.images.forEach((id) => mediaIds.add(id));
+		}
+
+		// Banner
+		if (config.image) {
+			mediaIds.add(config.image);
+		}
+	}
+
+	// 3. Fetch media in bulk
+	const [media] = await Promise.all([
+		mediaIds.size
+			? db.media.findAll({
+					where: { id: [...mediaIds] },
+					attributes: ['id', 'url'],
+			  })
+			: [],
+	]);
+
+	// 4. Create lookup maps
+	const mediaMap = Object.fromEntries(media.map((m) => [m.id, m]));
+
+	// 5. Hydrate sections (THIS IS THE MAGIC)
+	const hydratedSections = sections.map((section) => {
+		const config = { ...section.config };
+
+		// Slider images
+		if (Array.isArray(config.images)) {
+			config.imagesUrl = config.images
+				.map((id) => mediaMap[id])
+				.filter(Boolean);
+		}
+
+		// Banner image
+		if (config.image) {
+			config.imageUrl = mediaMap[config.image] || null;
+		}
+
+		return {
+			id: section.id,
+			type: section.type,
+			title: section.title,
+			position: section.position,
+			config,
+		};
+	});
+
+	return hydratedSections;
 }
 
 async function deleteSection(req) {

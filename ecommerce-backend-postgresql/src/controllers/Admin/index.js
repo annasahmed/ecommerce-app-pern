@@ -2,6 +2,7 @@ module.exports.adminAuthController = require('./authController');
 module.exports.adminParentCategoryController = require('./parentCategoryController');
 module.exports.adminCategoryController = require('./categoryController');
 module.exports.adminUspController = require('./uspController');
+module.exports.adminBrandController = require('./brandController');
 module.exports.adminBranchController = require('./branchController');
 module.exports.adminVendorController = require('./vendorController');
 module.exports.adminProductController = require('./productController');

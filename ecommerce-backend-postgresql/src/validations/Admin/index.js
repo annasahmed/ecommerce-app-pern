@@ -3,6 +3,7 @@ module.exports.adminAuthValidation = require('./authValidation');
 module.exports.adminParentCategoryValidation = require('./parentCategoryValidation');
 module.exports.adminCategoryValidation = require('./categoryValidation');
 module.exports.adminUspValidation = require('./uspValidation');
+module.exports.adminBrandValidation = require('./brandValidation');
 module.exports.adminBranchValidation = require('./branchValidation');
 module.exports.adminVendorValidation = require('./vendorValidation');
 module.exports.adminProductValidation = require('./productValidation');
