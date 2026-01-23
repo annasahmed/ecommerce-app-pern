@@ -27,62 +27,69 @@ const sidebar = [
 
 	{
 		icon: FiSlack,
-		name: "Catalog",
+		name: "Filters",
 		routes: [
 			{
-				path: "/products",
-				name: "Products",
-			},
-			{
-				path: "/parent-categories",
-				name: "Parent Categories",
-			},
-			{
+				icon: FiSlack,
 				path: "/categories",
 				name: "Categories",
 			},
 			{
+				icon: FiSlack,
 				path: "/usp",
 				name: "Usps",
 			},
 			{
+				icon: FiSlack,
 				path: "/brand",
 				name: "Brands",
 			},
 			{
+				icon: FiSlack,
 				path: "/size-chart",
 				name: "SizeChart",
 			},
 			{
+				icon: FiSlack,
 				path: "/attributes",
 				name: "Attributes",
 			},
-			{
-				path: "/homepage",
-				name: "Homepage",
-			},
-			// {
-			// 	path: "/coupons",
-			// 	name: "Coupons",
-			// },
 		],
 	},
+
+	{
+		icon: FiSlack,
+		path: "/products",
+		name: "Products",
+	},
+
+	{
+		icon: FiSlack,
+		path: "/homepage",
+		name: "Homepage",
+	},
+	// {
+	// 	path: "/coupons",
+	// 	name: "Coupons",
+	// },
+	// 	],
+	// },
 
 	{
 		path: "/media",
 		icon: FiImage,
 		name: "Media",
 	},
-	{
-		path: "/branches",
-		icon: FiGitBranch,
-		name: "Branches",
-	},
-	{
-		path: "/vendors",
-		icon: FiUser,
-		name: "Vendors",
-	},
+	// {
+	// 	path: "/branches",
+	// 	icon: FiGitBranch,
+	// 	name: "Branches",
+	// },
+	// {
+	// 	path: "/vendors",
+	// 	icon: FiUser,
+	// 	name: "Vendors",
+	// },
 	{
 		path: "/customers",
 		icon: FiUsers,
@@ -100,11 +107,11 @@ const sidebar = [
 		name: "OurStaff",
 	},
 
-	{
-		path: "/settings?settingTab=common-settings",
-		icon: FiSettings,
-		name: "Settings",
-	},
+	// {
+	// 	path: "/settings?settingTab=common-settings",
+	// 	icon: FiSettings,
+	// 	name: "Settings",
+	// },
 	// {
 	// 	icon: FiGlobe,
 	// 	name: "International",

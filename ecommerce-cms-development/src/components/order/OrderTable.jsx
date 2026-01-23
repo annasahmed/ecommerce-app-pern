@@ -1,78 +1,90 @@
 import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
-import { useTranslation } from "react-i18next";
-import { FiZoomIn } from "react-icons/fi";
-import { Link } from "react-router-dom";
-
 //internal import
 
-import Status from "@/components/table/Status";
-import Tooltip from "@/components/tooltip/Tooltip";
+import CheckBox from "@/components/form/others/CheckBox";
+import DeleteModal from "@/components/modal/DeleteModal";
+import EditDeleteButton from "@/components/table/EditDeleteButton";
+import ShowHideButton from "@/components/table/ShowHideButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
-import PrintReceipt from "@/components/form/others/PrintReceipt";
-import SelectStatus from "@/components/form/selectOption/SelectStatus";
+import { formatDate } from "@/utils/globals";
 
-const OrderTable = ({ orders }) => {
-	const { t } = useTranslation();
-	const { showDateTimeFormat, currency, getNumberTwo } = useUtilsFunction();
+const OrderTable = ({
+	data,
+	toggleDrawerData,
+	isCheck,
+	setIsCheck,
+	useParamId,
+}) => {
+	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
+	const { showSelectedLanguageTranslation } = useUtilsFunction();
 
+	const handleClick = (e) => {
+		const { id, checked } = e.target;
+		setIsCheck([...isCheck, parseInt(id)]);
+		if (!checked) {
+			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
+		}
+	};
 	return (
 		<>
-			<TableBody className="dark:bg-customGray-900">
-				{orders?.map((order, i) => (
-					<TableRow key={i + 1}>
-						<TableCell>
-							<span className="font-semibold uppercase text-xs">
-								{order?.invoice}
+			{isCheck?.length < 1 && (
+				<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
+			)}
+
+			<TableBody>
+				{data?.map((order) => (
+					<TableRow key={order.id}>
+						<TableCell className="font-semibold uppercase text-xs">
+							{order?.id}
+						</TableCell>
+						<TableCell className="text-sm">
+							{formatDate(order.updated_at)}
+						</TableCell>
+						<TableCell className="text-sm">{order.tracking_id}</TableCell>
+						<TableCell className="text-sm">
+							{order.guest_first_name
+								? order.guest_first_name + (order.guest_last_name || "")
+								: order.app_user_id
+									? order.user?.name
+									: "-"}
+						</TableCell>
+						<TableCell className="text-sm text-center uppercase">
+							{order.payment_method}
+						</TableCell>
+						<TableCell className="text-sm">Rs. {order.order_amount}</TableCell>
+						<TableCell className="text-sm">Rs. {order.shipping}</TableCell>
+						<TableCell className="text-sm">Rs. {order.total}</TableCell>
+						<TableCell className={`text-sm`}>
+							<span
+								className={`px-4 py-1 rounded-full text-xs font-bold uppercase p4 tracking-wide shadow-sm ${
+									order.status === "pending"
+										? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
+										: order.status === "confirmed"
+											? "bg-blue-100 text-blue-800 ring-1 ring-blue-300"
+											: order.status === "cancelled"
+												? "bg-red-100 text-red-800 ring-1 ring-red-300"
+												: order.status === "delivered"
+													? "bg-green-100 text-green-800 ring-1 ring-green-300"
+													: "bg-gray-100 text-gray-800"
+								}`}>
+								{order.status}
 							</span>
 						</TableCell>
 
 						<TableCell>
-							<span className="text-sm">
-								{showDateTimeFormat(order?.updatedDate)}
-							</span>
-						</TableCell>
-
-						<TableCell className="text-xs">
-							<span className="text-sm">{order?.user_info?.name}</span>{" "}
-						</TableCell>
-
-						<TableCell>
-							<span className="text-sm font-semibold">
-								{order?.paymentMethod}
-							</span>
-						</TableCell>
-
-						<TableCell>
-							<span className="text-sm font-semibold">
-								{currency}
-								{getNumberTwo(order?.total)}
-							</span>
-						</TableCell>
-
-						<TableCell className="text-xs">
-							<Status status={order?.status} />
-						</TableCell>
-
-						<TableCell className="text-center">
-							<SelectStatus id={order.id} order={order} />
-						</TableCell>
-
-						<TableCell className="text-right flex justify-end">
-							<div className="flex justify-between items-center">
-								<PrintReceipt orderId={order.id} />
-
-								<span className="p-2 cursor-pointer text-customGray-400 hover:text-customTeal-600">
-									<Link to={`/order/${order.id}`}>
-										<Tooltip
-											id="view"
-											Icon={FiZoomIn}
-											title={t("ViewInvoice")}
-											bgColor="#059669"
-										/>
-									</Link>
-								</span>
-							</div>
+							{/* <EditDeleteButton
+								id={order?.id}
+								parent={order}
+								isCheck={isCheck}
+								children={order?.children}
+								handleUpdate={handleUpdate}
+								handleModalOpen={handleModalOpen}
+								title={showSelectedLanguageTranslation(
+									order?.translations,
+									"title",
+								)}
+							/> */}
 						</TableCell>
 					</TableRow>
 				))}
