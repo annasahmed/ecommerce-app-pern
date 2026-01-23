@@ -52,7 +52,7 @@ const Navbar = () => {
 						<BaseLink href="/about-us" className="hover:underline">
 							About Us
 						</BaseLink>
-						<BaseLink href="/about-us" className="hover:underline">
+						<BaseLink href="/contact-us" className="hover:underline">
 							Contact Us
 						</BaseLink>
 					</div>
