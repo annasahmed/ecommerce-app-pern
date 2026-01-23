@@ -384,9 +384,9 @@ async function isCategoryDescendant(
 		LIMIT 1;
 	`;
 
-	const result = await sequelize.query(query, {
+	const result = await db.sequelize.query(query, {
 		replacements: { categoryId, potentialParentId },
-		type: sequelize.QueryTypes.SELECT,
+		type: db.sequelize.QueryTypes.SELECT,
 		transaction,
 	});
 
@@ -414,7 +414,7 @@ async function updateChildrenLevels(categoryId, levelDiff, transaction) {
 		WHERE id IN (SELECT id FROM descendants);
 	`;
 
-	await sequelize.query(query, {
+	await db.sequelize.query(query, {
 		replacements: { categoryId, levelDiff },
 		transaction,
 	});
