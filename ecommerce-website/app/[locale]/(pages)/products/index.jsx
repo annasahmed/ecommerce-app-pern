@@ -149,7 +149,7 @@ const ProductsPage = () => {
 				</section>
 			</section>
 
-			<div className="w-full h-px bg-border-color" />
+			{/* <div className="w-full h-px bg-border-color" />
 
 			<section className="container-layout section-layout">
 				{recentlyViewed.length > 0 && (
@@ -160,7 +160,7 @@ const ProductsPage = () => {
 						columns="grid-cols-5"
 					/>
 				)}
-			</section>
+			</section> */}
 		</main>
 	);
 };
