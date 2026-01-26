@@ -20,3 +20,30 @@ export function scrollToSection(e, id) {
 		});
 	}
 }
+export function formatDateTime(isoString, { dateOnly = false } = {}) {
+	if (!isoString) return "";
+
+	const date = new Date(isoString);
+
+	const dateOptions = {
+		year: "numeric",
+		month: "short",
+		day: "2-digit",
+	};
+
+	const timeOptions = {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: true,
+	};
+
+	const formattedDate = date.toLocaleDateString("en-US", dateOptions);
+
+	if (dateOnly) {
+		return formattedDate;
+	}
+
+	const formattedTime = date.toLocaleTimeString("en-US", timeOptions);
+
+	return `${formattedDate} ${formattedTime}`;
+}

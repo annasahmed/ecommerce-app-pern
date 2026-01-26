@@ -1,10 +1,11 @@
+import SpinLoader from "@/app/components/Shared/SpinLoader";
 import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import OrderService from "@/app/services/OrderService";
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const orderSubmenu = [
 	{ id: "all", label: "All orders" },
@@ -90,7 +91,11 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 	}, [myOrders, activeOrderFilter, searchQuery]);
 
 	if (isLoading) {
-		return <div className="py-10 text-center">Loading orders...</div>;
+		return (
+			<div className="py-10 text-center">
+				<SpinLoader />
+			</div>
+		);
 	}
 
 	return (
@@ -245,9 +250,9 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 								</button>
 							)} */}
 
-							<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
+							{/* <button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
 								Buy this again
-							</button>
+							</button> */}
 						</div>
 					</div>
 				))

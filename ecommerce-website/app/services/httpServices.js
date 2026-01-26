@@ -67,7 +67,12 @@ instance.interceptors.response.use(
 				// 🚪 Optional: logout & redirect
 				if (typeof window !== "undefined") {
 					// window.location.href = "/login";
-					// triggerAuthDrawer();
+					if (window.location.href?.includes("/profile")) {
+						window.location.href = "/";
+					}
+					setTimeout(() => {
+						triggerAuthDrawer();
+					}, 3000);
 				}
 
 				return Promise.reject(refreshError);

@@ -7,6 +7,9 @@ import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import OrderService from "@/app/services/OrderService";
 import Image from "next/image";
 import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import ReviewService from "@/app/services/ReviewService";
+import { toast } from "react-toastify";
+import SpinLoader from "@/app/components/Shared/SpinLoader";
 
 const WriteReview = () => {
 	const { id } = useParams();
@@ -20,7 +23,11 @@ const WriteReview = () => {
 	const [reviews, setReviews] = useState({});
 
 	if (isLoading) {
-		return <div className="p-10 text-center">Loading...</div>;
+		return (
+			<div className="p-10 text-center">
+				<SpinLoader />
+			</div>
+		);
 	}
 
 	/* -------- GROUP PRODUCTS -------- */
@@ -32,6 +39,8 @@ const WriteReview = () => {
 		if (!productMap[productId]) {
 			productMap[productId] = {
 				product_id: productId,
+				title: item.product_title,
+				order_item_id: item.id,
 				title: item.product_title,
 				image: item.product?.images?.[0] || item.product?.thumbnail || "",
 			};
@@ -62,15 +71,36 @@ const WriteReview = () => {
 	};
 
 	const handleSubmit = async () => {
-		const payload = products.map((product) => ({
-			product_id: product.product_id,
-			rating: reviews[product.product_id]?.rating || 0,
-			comment: reviews[product.product_id]?.comment || "",
-			order_id: order.id,
-		}));
+		const payload = products
+			.map((product) => ({
+				product_id: product.product_id,
+				order_item_id: product.order_item_id,
+				title: product.title,
+				rating: reviews[product.product_id]?.rating || 0,
+				comment: reviews[product.product_id]?.comment || "",
+				// order_id: order.id,
+			}))
+			?.filter((v) => v.comment?.length > 0 && v.rating > 0);
 
-		await OrderService.submitReviews(payload);
-		router.push("/orders");
+		await ReviewService.addReview({
+			reviews: payload,
+			name: order?.guest_first_name || null,
+		})
+			.then(() => {
+				toast.success("Thanks for your review");
+				setTimeout(() => {
+					if (window?.history?.length > 1) {
+						router.back();
+					} else {
+						router.push("/");
+					}
+				}, 500);
+			})
+			.catch((err) => {
+				toast.error("Error saving review, please try again later!");
+				console.log(err.message || err);
+			});
+		// router.push("/orders");
 	};
 
 	return (
@@ -83,7 +113,9 @@ const WriteReview = () => {
 					<ChevronLeft className="w-5 h-5" />
 					Back
 				</button>
-				<h2 className="text-xl font-semibold">Write a review</h2>
+				<h2 className=" flex-1 h2 text-secondary text-center font-medium">
+					Write a review
+				</h2>
 			</div>
 
 			{/* ---------- PRODUCTS ---------- */}
@@ -103,7 +135,9 @@ const WriteReview = () => {
 							height={600}
 							className="w-16 h-16 object-cover rounded-lg"
 						/>
-						<p className="font-medium">{product.title}</p>
+						<p className="p4 font-medium capitalize">
+							{product.title?.toLowerCase()}
+						</p>
 					</div>
 
 					{/* ---------- STARS ---------- */}
@@ -127,7 +161,7 @@ const WriteReview = () => {
 						placeholder="Share your experience..."
 						value={reviews[product.product_id]?.comment || ""}
 						onChange={(e) => handleComment(product.product_id, e.target.value)}
-						className="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-secondary"
+						className="w-full border rounded-lg p-3 p4 focus:outline-0 focus:ring-2 focus:ring-secondary"
 					/>
 				</div>
 			))}
