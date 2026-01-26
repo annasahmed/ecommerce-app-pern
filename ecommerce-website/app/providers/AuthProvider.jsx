@@ -31,6 +31,20 @@ export const AuthProvider = ({ children }) => {
 		fetchUser();
 	}, []);
 
+	// update user function
+	const updateUser = useCallback(async (data = {}) => {
+		return await requests
+			.patch("/profile", data)
+			.then((res) => {
+				setUser(res);
+				toast.success("Profile updated successfully");
+				return res;
+			})
+			.catch((err) => {
+				toast.error(err.message);
+			});
+	}, []);
+
 	// Login function
 	const login = useCallback(async (email, password) => {
 		return await requests
@@ -94,6 +108,7 @@ export const AuthProvider = ({ children }) => {
 		sendOtp,
 		loading,
 		isAuthenticated: !!user,
+		updateUser,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

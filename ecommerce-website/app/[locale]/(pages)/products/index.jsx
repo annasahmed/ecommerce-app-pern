@@ -89,15 +89,19 @@ const ProductsPage = () => {
 	return (
 		<main>
 			<section className="container-layout section-layout">
-				<section className="grid md:grid-cols-4 gap-10">
-					<FilterSidebar
-						selectedFilters={selectedFilters}
-						setSelectedFilters={setSelectedFilters}
-						paramsCategory={paramsCategory}
-						paramsBrand={paramsBrand}
-						defaultFilters={defaultFilters}
-						setDefaultFilters={setDefaultFilters}
-					/>
+				<section className="grid md:grid-cols-4 gap-10 relative">
+					<aside className="md:col-span-1 max-md:hidden bg-light">
+						<div className="sticky top-46">
+							<FilterSidebar
+								selectedFilters={selectedFilters}
+								setSelectedFilters={setSelectedFilters}
+								paramsCategory={paramsCategory}
+								paramsBrand={paramsBrand}
+								defaultFilters={defaultFilters}
+								setDefaultFilters={setDefaultFilters}
+							/>
+						</div>
+					</aside>
 
 					<section className="md:col-span-3">
 						<h4 className="h4 font-bold mb-4 border-b pb-1">

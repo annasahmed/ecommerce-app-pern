@@ -9,7 +9,7 @@ import Profile from "./tabContents/Profile";
 import Reviews from "./tabContents/Reviews";
 
 export default function ProfileDashboard() {
-	const [activeTab, setActiveTab] = useState("all-orders");
+	const [activeTab, setActiveTab] = useState("profile");
 
 	// Sample data
 	const user = {
@@ -19,9 +19,9 @@ export default function ProfileDashboard() {
 	};
 
 	const menuItems = [
+		{ id: "profile", icon: User, label: "Your profile" },
 		{ id: "orders", icon: Package, label: "Your orders" },
 		{ id: "reviews", icon: Star, label: "Your reviews" },
-		{ id: "profile", icon: User, label: "Your profile" },
 		// { id: "coupons", icon: CreditCard, label: "Coupons & offers" },
 		// { id: "credit", icon: CreditCard, label: "Credit balance" },
 		{ id: "wishlist", icon: Heart, label: "Wishlist" },
@@ -103,8 +103,8 @@ export default function ProfileDashboard() {
 	};
 
 	return (
-		<div className="min-h-screen ">
-			<div className="container-layout py-6">
+		<div className="min-h-[50vh]">
+			<div className="container-layout pt-10 pb-16">
 				<div className="flex flex-col lg:flex-row gap-6">
 					{/* Sidebar */}
 					<ProfileSidebar

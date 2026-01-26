@@ -99,6 +99,7 @@ const requests = {
 	get: (url, config) => instance.get(url, config),
 	post: (url, body, config) => instance.post(url, body, config),
 	put: (url, body, config) => instance.put(url, body, config),
+	patch: (url, body, config) => instance.patch(url, body, config),
 	delete: (url, config) => instance.delete(url, config),
 };
 

@@ -45,6 +45,7 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 			return {
 				id: String(order.id),
 				status: order.status,
+				tracking_id: order.tracking_id,
 				trackingId: order.tracking_id,
 				date: order.created_at,
 				deliveredDate: order.updated_at,
@@ -138,17 +139,24 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 						className="bg-white border rounded-lg p-6 hover:shadow-md transition-shadow">
 						{/* ---------- HEADER ---------- */}
 						<div className="flex justify-between items-start mb-4">
-							<div className="text-lg font-semibold">
-								{order.status === "delivered"
-									? `Delivered on ${new Date(
-											order.deliveredDate,
-										).toLocaleDateString("en-GB", {
-											day: "numeric",
-											month: "short",
-											year: "numeric",
-										})}`
-									: order.status.charAt(0).toUpperCase() +
-										order.status.slice(1)}
+							<div className="flex justify-between items-center flex-wrap gap-3">
+								<h2 className="h3 font-semibold text-gray-800">
+									Order # {order.tracking_id}
+								</h2>
+								<span
+									className={`px-4 py-1 rounded-full text-sm font-bold uppercase p5 tracking-wide shadow-sm ${
+										order.status === "pending"
+											? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
+											: order.status === "confirmed"
+												? "bg-blue-100 text-blue-800 ring-1 ring-blue-300"
+												: order.status === "cancelled"
+													? "bg-red-100 text-red-800 ring-1 ring-red-300"
+													: order.status === "delivered"
+														? "bg-green-100 text-green-800 ring-1 ring-green-300"
+														: "bg-gray-100 text-gray-800"
+									}`}>
+									{order.status}
+								</span>
 							</div>
 
 							<button className="text-secondary flex items-center gap-1 font-medium">
@@ -226,7 +234,7 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 								})}
 							</div>
 
-							<div>Order ID: {order.id}</div>
+							{/* <div>Order ID: {order.id}</div> */}
 						</div>
 
 						{/* ---------- ACTIONS ---------- */}
