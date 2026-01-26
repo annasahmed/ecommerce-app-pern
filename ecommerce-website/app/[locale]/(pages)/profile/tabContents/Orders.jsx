@@ -1,0 +1,259 @@
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
+import OrderService from "@/app/services/OrderService";
+import { ChevronRight, Search } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+
+const orderSubmenu = [
+	{ id: "all", label: "All orders" },
+	{ id: "pending", label: "Pending" },
+	{ id: "confirmed", label: "Confirmed" },
+	{ id: "cancelled", label: "Cancelled" },
+	{ id: "delivered", label: "Delivered" },
+];
+
+const Orders = ({ setSearchQuery, searchQuery }) => {
+	const [filteredOrders, setFilteredOrders] = useState([]);
+	const [activeOrderFilter, setActiveOrderFilter] = useState("all");
+
+	/* ---------------- NORMALIZE API DATA ---------------- */
+	const normalizeOrders = (orders = []) => {
+		return orders.map((order) => {
+			// Group products
+			const productMap = {};
+
+			order.order_items?.forEach((item) => {
+				const productId = item.product_id;
+
+				if (!productMap[productId]) {
+					productMap[productId] = {
+						product_id: productId,
+						title: item.product_title,
+						quantity: item.quantity,
+						image: item.product?.images?.[0] || item.product?.thumbnail || "",
+					};
+				} else {
+					productMap[productId].quantity += item.quantity;
+				}
+			});
+
+			const products = Object.values(productMap);
+
+			return {
+				id: String(order.id),
+				status: order.status,
+				trackingId: order.tracking_id,
+				date: order.created_at,
+				deliveredDate: order.updated_at,
+				items: products.reduce((sum, product) => sum + product.quantity, 0),
+				products, // 👈 grouped products
+				total: order.total,
+				payment_method: order.payment_method,
+			};
+		});
+	};
+
+	/* ---------------- FETCH ORDERS ---------------- */
+	const { data: myOrders, isLoading } = useFetchReactQuery(
+		() => OrderService.myOrders(),
+		["myOrders"],
+	);
+
+	/* ---------------- APPLY FILTERS ---------------- */
+	const applyFilters = (orders) => {
+		let filtered = [...orders];
+
+		// Status filter
+		if (activeOrderFilter !== "all") {
+			filtered = filtered.filter((order) => order.status === activeOrderFilter);
+		}
+
+		// Search filter
+		if (searchQuery) {
+			filtered = filtered.filter(
+				(order) =>
+					order.id.includes(searchQuery) ||
+					order.trackingId.toLowerCase().includes(searchQuery.toLowerCase()),
+			);
+		}
+
+		setFilteredOrders(filtered);
+	};
+
+	/* ---------------- EFFECT ---------------- */
+	useEffect(() => {
+		if (!myOrders) return;
+		const normalized = normalizeOrders(myOrders);
+		applyFilters(normalized);
+	}, [myOrders, activeOrderFilter, searchQuery]);
+
+	if (isLoading) {
+		return <div className="py-10 text-center">Loading orders...</div>;
+	}
+
+	return (
+		<div className="space-y-4">
+			{/* ---------------- FILTER TABS ---------------- */}
+			<div className="flex flex-wrap gap-4 mb-6 border-b">
+				{orderSubmenu.map((filter) => (
+					<button
+						key={filter.id}
+						onClick={() => setActiveOrderFilter(filter.id)}
+						className={`pb-3 px-2 font-medium transition-colors ${
+							activeOrderFilter === filter.id
+								? "text-gray-900 border-b-2 border-secondary"
+								: "text-gray-500 hover:text-gray-900"
+						}`}>
+						{filter.label}
+					</button>
+				))}
+			</div>
+
+			{/* ---------------- SEARCH ---------------- */}
+			{/* <div className="relative mb-6">
+				<Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+				<input
+					type="text"
+					placeholder="Order ID / Tracking No."
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+				/>
+			</div> */}
+
+			{/* ---------------- ORDERS LIST ---------------- */}
+			{filteredOrders.length === 0 ? (
+				<div className="text-center py-12 text-gray-500">No orders found</div>
+			) : (
+				filteredOrders.map((order) => (
+					<div
+						key={order.id}
+						className="bg-white border rounded-lg p-6 hover:shadow-md transition-shadow">
+						{/* ---------- HEADER ---------- */}
+						<div className="flex justify-between items-start mb-4">
+							<div className="text-lg font-semibold">
+								{order.status === "delivered"
+									? `Delivered on ${new Date(
+											order.deliveredDate,
+										).toLocaleDateString("en-GB", {
+											day: "numeric",
+											month: "short",
+											year: "numeric",
+										})}`
+									: order.status.charAt(0).toUpperCase() +
+										order.status.slice(1)}
+							</div>
+
+							<button className="text-secondary flex items-center gap-1 font-medium">
+								<Link
+									href={`/order/${order.trackingId}`}
+									className="flex items-center gap-1">
+									View order details <ChevronRight className="w-4 h-4" />
+								</Link>
+							</button>
+						</div>
+
+						{/* ---------- PRODUCTS ---------- */}
+						<div className="flex gap-6 mb-4 overflow-x-auto pt-6 pb-2">
+							{order.products.map((product, idx) => (
+								<div
+									key={idx}
+									className=" relative w-full max-w-40 flex-shrink-0/ text-center">
+									{/* Quantity Badge */}
+									{product.quantity > 1 && (
+										<span className="absolute -top-2 -right-2 bg-secondary text-white text-xs px-2 py-0.5 rounded-full">
+											×{product.quantity}
+										</span>
+									)}
+
+									<Image
+										key={idx}
+										src={
+											product.image
+												? ENV_VARIABLES.IMAGE_BASE_URL + product.image
+												: null
+										}
+										alt={product.title}
+										width={600}
+										height={600}
+										className="w-full mx-auto object-contain rounded-lg mb-2"
+									/>
+
+									<p className="p5 capitalize text-gray-500 text-left line-clamp-2">
+										{product.title?.toLowerCase()}
+									</p>
+								</div>
+							))}
+						</div>
+
+						{/* ---------- IMAGES ---------- */}
+						<div className="flex gap-3 mb-4 overflow-x-auto pb-2">
+							{order.images?.slice(0, 6).map((img, idx) => (
+								<Image
+									key={idx}
+									src={img ? ENV_VARIABLES.IMAGE_BASE_URL + img : null}
+									alt="product"
+									width={600}
+									height={600}
+									className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+								/>
+							))}
+
+							{order.images?.length > 6 && (
+								<div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+									<ChevronRight className="w-6 h-6 text-gray-400" />
+								</div>
+							)}
+						</div>
+
+						{/* ---------- DETAILS ---------- */}
+						<div className="flex flex-wrap justify-between text-sm text-gray-600 mb-4 gap-4">
+							<div>{order.items} items</div>
+
+							<div>
+								Order Time:{" "}
+								{new Date(order.date).toLocaleDateString("en-GB", {
+									day: "numeric",
+									month: "short",
+									year: "numeric",
+								})}
+							</div>
+
+							<div>Order ID: {order.id}</div>
+						</div>
+
+						{/* ---------- ACTIONS ---------- */}
+						<div className="flex flex-wrap gap-3">
+							<button className="flex-1 min-w-[150px] bg-secondary text-white py-3 rounded-lg font-medium">
+								<Link href={`/order-tracking/${order.trackingId}`} className="">
+									Track
+								</Link>
+							</button>
+
+							<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
+								<Link href={`/orders/${order.trackingId}/review`} className="">
+									{/* Track */}
+									Leave a review
+								</Link>
+							</button>
+
+							{/* {order.status === "delivered" && (
+								<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
+									Return / Refund
+								</button>
+							)} */}
+
+							<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
+								Buy this again
+							</button>
+						</div>
+					</div>
+				))
+			)}
+		</div>
+	);
+};
+
+export default Orders;

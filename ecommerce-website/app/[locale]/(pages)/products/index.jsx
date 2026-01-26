@@ -99,7 +99,7 @@ const ProductsPage = () => {
 						setDefaultFilters={setDefaultFilters}
 					/>
 
-					<section className="md:col-span-3 ">
+					<section className="md:col-span-3">
 						<h4 className="h4 font-bold mb-4 border-b pb-1">
 							Results
 							{data?.pages[0]?.total > 0 && (

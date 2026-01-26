@@ -1,0 +1,145 @@
+"use client";
+
+import { useParams, useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { Star, ChevronLeft } from "lucide-react";
+import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
+import OrderService from "@/app/services/OrderService";
+import Image from "next/image";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
+
+const WriteReview = () => {
+	const { id } = useParams();
+	const router = useRouter();
+
+	const { data: order, isLoading } = useFetchReactQuery(
+		() => OrderService.getOrderByTrackingId(id),
+		["order-review", id],
+	);
+
+	const [reviews, setReviews] = useState({});
+
+	if (isLoading) {
+		return <div className="p-10 text-center">Loading...</div>;
+	}
+
+	/* -------- GROUP PRODUCTS -------- */
+	const productMap = {};
+
+	order.order_items.forEach((item) => {
+		const productId = item.product_id;
+
+		if (!productMap[productId]) {
+			productMap[productId] = {
+				product_id: productId,
+				title: item.product_title,
+				image: item.product?.images?.[0] || item.product?.thumbnail || "",
+			};
+		}
+	});
+
+	const products = Object.values(productMap);
+
+	/* -------- HANDLERS -------- */
+	const handleRating = (productId, rating) => {
+		setReviews((prev) => ({
+			...prev,
+			[productId]: {
+				...prev[productId],
+				rating,
+			},
+		}));
+	};
+
+	const handleComment = (productId, comment) => {
+		setReviews((prev) => ({
+			...prev,
+			[productId]: {
+				...prev[productId],
+				comment,
+			},
+		}));
+	};
+
+	const handleSubmit = async () => {
+		const payload = products.map((product) => ({
+			product_id: product.product_id,
+			rating: reviews[product.product_id]?.rating || 0,
+			comment: reviews[product.product_id]?.comment || "",
+			order_id: order.id,
+		}));
+
+		await OrderService.submitReviews(payload);
+		router.push("/orders");
+	};
+
+	return (
+		<div className="max-w-4xl mx-auto p-6 space-y-6">
+			{/* ---------- HEADER ---------- */}
+			<div className="flex items-center gap-3">
+				<button
+					onClick={() => router.back()}
+					className="flex items-center gap-1 text-gray-600 hover:text-black">
+					<ChevronLeft className="w-5 h-5" />
+					Back
+				</button>
+				<h2 className="text-xl font-semibold">Write a review</h2>
+			</div>
+
+			{/* ---------- PRODUCTS ---------- */}
+			{products.map((product) => (
+				<div
+					key={product.product_id}
+					className="bg-white border rounded-lg p-5 space-y-4">
+					<div className="flex items-center gap-4">
+						<Image
+							src={
+								product.image
+									? ENV_VARIABLES.IMAGE_BASE_URL + product.image
+									: null
+							}
+							alt={product.title}
+							width={600}
+							height={600}
+							className="w-16 h-16 object-cover rounded-lg"
+						/>
+						<p className="font-medium">{product.title}</p>
+					</div>
+
+					{/* ---------- STARS ---------- */}
+					<div className="flex gap-1">
+						{[1, 2, 3, 4, 5].map((star) => (
+							<Star
+								key={star}
+								onClick={() => handleRating(product.product_id, star)}
+								className={`w-6 h-6 cursor-pointer ${
+									(reviews[product.product_id]?.rating || 0) >= star
+										? "fill-yellow-400 text-yellow-400"
+										: "text-gray-300"
+								}`}
+							/>
+						))}
+					</div>
+
+					{/* ---------- COMMENT ---------- */}
+					<textarea
+						rows={4}
+						placeholder="Share your experience..."
+						value={reviews[product.product_id]?.comment || ""}
+						onChange={(e) => handleComment(product.product_id, e.target.value)}
+						className="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-secondary"
+					/>
+				</div>
+			))}
+
+			{/* ---------- SUBMIT ---------- */}
+			<button
+				onClick={handleSubmit}
+				className="w-full bg-secondary text-white py-3 rounded-lg font-medium">
+				Submit Reviews
+			</button>
+		</div>
+	);
+};
+
+export default WriteReview;

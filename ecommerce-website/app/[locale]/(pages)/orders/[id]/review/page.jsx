@@ -1,13 +1,13 @@
 import React from "react";
-import EditProfilePage from ".";
+import ReviewPage from ".";
 import Layout from "@/app/components/Shared/layout/Layout";
 
-const EditProfile = () => {
+const Review = () => {
 	return (
 		<Layout>
-			<EditProfilePage />
+			<ReviewPage />
 		</Layout>
 	);
 };
 
-export default EditProfile;
+export default Review;

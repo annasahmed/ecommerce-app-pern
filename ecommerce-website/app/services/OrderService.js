@@ -25,6 +25,14 @@ const OrderService = {
 	myOrders: async () => {
 		try {
 			const data = await requests.get(`/order/my-orders`);
+			return data || [];
+		} catch (err) {
+			console.error("API error:", err);
+		}
+	},
+	getOrderByTrackingId: async (id) => {
+		try {
+			const data = await requests.get(`/order/${id}`);
 			return data;
 		} catch (err) {
 			console.error("API error:", err);

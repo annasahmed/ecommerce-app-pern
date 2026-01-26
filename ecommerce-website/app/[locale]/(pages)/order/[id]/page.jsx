@@ -1,13 +1,13 @@
 import React from "react";
-import EditProfilePage from ".";
+import ProductDetailsPage from ".";
 import Layout from "@/app/components/Shared/layout/Layout";
 
-const EditProfile = () => {
+const Products = () => {
 	return (
 		<Layout>
-			<EditProfilePage />
+			<ProductDetailsPage />
 		</Layout>
 	);
 };
 
-export default EditProfile;
+export default Products;
