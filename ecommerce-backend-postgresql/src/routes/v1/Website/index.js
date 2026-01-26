@@ -16,5 +16,7 @@ websiteRouter.use('/language', languageRoute);
 websiteRouter.use('/homepage-sections', require('./homepageSectionsRoute'));
 websiteRouter.use('/metadata', require('./metadataRoute'));
 websiteRouter.use('/order', require('./orderRoute'));
+websiteRouter.use('/review', require('./reviewRoute'));
+websiteRouter.use('/profile', require('./profileRoute'));
 
 module.exports = websiteRouter;

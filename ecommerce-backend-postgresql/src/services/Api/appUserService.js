@@ -6,11 +6,15 @@ const {
 	emailVerificationOtpTemplate,
 } = require('../../config/emailTemplates/emailVerificationOtp.js');
 const { sendEmail } = require('../email.service.js');
+const { Op } = require('sequelize');
 
 const validations = async (data) => {
 	if (data.email) {
 		const exist = await db.app_user.scope(['onlyId']).findOne({
-			where: { email: data.email },
+			where: {
+				email: data.email,
+				...(data.id ? { id: { [Op.ne]: data.id } } : {}),
+			},
 		});
 		if (exist)
 			throw new ApiError(httpStatus.BAD_REQUEST, `Email already exists`);
@@ -120,6 +124,6 @@ module.exports = {
 			false
 		),
 	createAppUser,
-	updateAppUser: (req) => appUserService.update(req.body),
+	updateAppUser: (req) => appUserService.update(req.body.id, req.body),
 	sendRegistrationOtp,
 };

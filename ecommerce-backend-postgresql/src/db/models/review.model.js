@@ -17,16 +17,22 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
+			guest_name: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 			product_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
-
+			order_item_id: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+			},
 			app_user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
 			},
-
 			rating: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -35,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
 					max: 5,
 				},
 			},
-
+			// for saving product title
 			title: {
 				type: DataTypes.STRING,
 				allowNull: true,

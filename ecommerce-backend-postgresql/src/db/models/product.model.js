@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.TEXT,
 				allowNull: false,
 			},
+			avg_rating: {
+				type: DataTypes.FLOAT,
+				defaultValue: 0,
+			},
+			total_reviews: {
+				type: DataTypes.INTEGER,
+				defaultValue: 0,
+			},
 			size_chart_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
