@@ -3,6 +3,10 @@ const { apiOrderService } = require('../../services/Api');
 const { verifyToken } = require('../../utils/auth');
 const ApiError = require('../../utils/ApiError');
 const httpStatus = require('http-status');
+const {
+	transformOrdersResponse,
+	transformOrderResponse,
+} = require('../../transformers/Api/orderTransformer');
 
 const confirmOrder = catchAsync(async (req, res) => {
 	const accessToken = req.cookies.accessToken;
@@ -31,11 +35,28 @@ const myOrders = catchAsync(async (req, res) => {
 	// Verify access token
 	const payload = await verifyToken(accessToken);
 	const order = await apiOrderService.myOrders(req, payload.userId);
-	res.send({ order });
+
+	res.send(transformOrdersResponse(order));
+});
+const getOrderByTrackingId = catchAsync(async (req, res) => {
+	const accessToken = req.cookies.accessToken;
+	if (!accessToken) {
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+	}
+
+	// Verify access token
+	const payload = await verifyToken(accessToken);
+	const order = await apiOrderService.getOrderByTrackingId(
+		req,
+		payload.userId
+	);
+
+	res.send(transformOrderResponse(order));
 });
 
 module.exports = {
 	confirmOrder,
 	trackOrder,
 	myOrders,
+	getOrderByTrackingId,
 };

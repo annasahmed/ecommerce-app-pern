@@ -158,7 +158,70 @@ async function myOrders(req, userId) {
 		throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
 	}
 	return await db.order.findAll({
-		where: { app_user_id: userId },
+		where: {
+			app_user_id: userId,
+		},
+		include: [
+			{
+				model: db.order_item,
+				required: false,
+				include: [
+					{
+						model: db.product,
+						include: [
+							{
+								model: db.media,
+								required: false,
+								as: 'images',
+								attributes: ['url', 'title'],
+							},
+							{
+								model: db.media,
+								required: false,
+								as: 'thumbnailImage',
+								attributes: ['url', 'title'],
+							},
+						],
+					},
+				],
+			},
+		],
+	});
+}
+async function getOrderByTrackingId(req, userId) {
+	if (!userId) {
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+	}
+	return await db.order.findOne({
+		where: {
+			app_user_id: userId,
+			tracking_id: req.params.trackingId,
+		},
+		include: [
+			{
+				model: db.order_item,
+				required: false,
+				include: [
+					{
+						model: db.product,
+						include: [
+							{
+								model: db.media,
+								required: false,
+								as: 'images',
+								attributes: ['url', 'title'],
+							},
+							{
+								model: db.media,
+								required: false,
+								as: 'thumbnailImage',
+								attributes: ['url', 'title'],
+							},
+						],
+					},
+				],
+			},
+		],
 	});
 }
 
@@ -166,6 +229,7 @@ module.exports = {
 	confirmOrder,
 	trackOrderByTrackingId,
 	myOrders,
+	getOrderByTrackingId,
 };
 
 // confirmOrderPayload
