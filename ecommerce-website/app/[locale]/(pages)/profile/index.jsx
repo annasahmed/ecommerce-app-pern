@@ -1,14 +1,9 @@
 "use client";
 
-import {
-	Heart,
-	Package,
-	Star,
-	User
-} from "lucide-react";
+import { Heart, Package, Star, User } from "lucide-react";
 import { useState } from "react";
 import FavouritesPage from "../favourites";
-import ProfileSidebar from "./profileSidebar";
+import ProfileSidebar from "./ProfileSidebar";
 import Orders from "./tabContents/Orders";
 import Profile from "./tabContents/Profile";
 import Reviews from "./tabContents/Reviews";
