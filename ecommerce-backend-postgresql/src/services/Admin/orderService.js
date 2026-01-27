@@ -12,14 +12,35 @@ async function getOrderById(req) {
 			{
 				model: db.order_item,
 				include: [
-					{ model: db.product, required: false },
+					{
+						model: db.product,
+						required: false,
+						include: [
+							{
+								model: db.media,
+								required: false,
+								as: 'thumbnailImage',
+								attributes: ['url', 'title', 'size'],
+							},
+						],
+					},
 					{
 						model: db.product_variant,
 						required: false,
-						include: [{ model: db.attribute, required: false }],
+						include: [
+							{
+								model: db.attribute,
+								required: false,
+								through: {
+									as: 'pva',
+								},
+								attributes: ['id', 'name'],
+							},
+						],
 					},
 				],
 			},
+			{ model: db.app_user, as: 'user', required: false },
 		],
 	});
 
@@ -90,22 +111,42 @@ async function getAllOrders(req) {
 	};
 }
 
+async function updateOrderId(req) {
+	const { orderId } = req.params;
+	const updatedOrder = await db.order.update(
+		{
+			...req.body,
+		},
+		{
+			where: {
+				id: orderId,
+			},
+		}
+	);
+	if (!updatedOrder[0])
+		throw new ApiError(httpStatus.NOT_FOUND, `Order not found`);
+	return { success: true };
+}
 async function updateOrderStatus(req) {
-	const { orderId } = req.parms;
-	const [_, updated] = await db.order.update(
+	const { orderId } = req.params;
+	const updatedOrder = await db.order.update(
 		{
 			status: req.body.status,
 		},
 		{
-			id: orderId,
+			where: {
+				id: orderId,
+			},
 		}
 	);
-	if (!updated) throw new ApiError(httpStatus.NOT_FOUND, `Order not found`);
-	return updated;
+	if (!updatedOrder[0])
+		throw new ApiError(httpStatus.NOT_FOUND, `Order not found`);
+	return { success: true };
 }
 
 module.exports = {
 	getOrderById,
 	getAllOrders,
 	updateOrderStatus,
+	updateOrderId,
 };

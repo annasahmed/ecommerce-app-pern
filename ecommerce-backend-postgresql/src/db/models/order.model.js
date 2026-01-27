@@ -55,6 +55,13 @@ module.exports = (sequelize, DataTypes) => {
 				unique: true,
 			},
 
+			// courier tracking id for order tracking
+			courier_tracking_id: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				// unique: true,
+			},
+
 			status: {
 				type: DataTypes.ENUM(
 					'pending',

@@ -107,6 +107,22 @@ function transformProduct(product, lang, multipleProducts = false) {
 		created_at: product.created_at,
 	};
 }
+function transformProductSuggestion(product, lang, multipleProducts = false) {
+	const translation = extractTranslation(product.product_translations, lang);
+
+	return {
+		id: product.id,
+		sku: product.sku,
+		title: translation.title,
+		excerpt: translation.excerpt,
+		slug: translation.slug,
+		base_price: product.base_price,
+		base_discount_percentage: product.base_discount_percentage,
+		is_featured: product.is_featured,
+		thumbnail: product.thumbnailImage ? product.thumbnailImage.url : null,
+		created_at: product.created_at,
+	};
+}
 
 function transformProductsResponse(response, lang = 'en') {
 	return {
@@ -117,10 +133,20 @@ function transformProductsResponse(response, lang = 'en') {
 		),
 	};
 }
+function transformProductsSuggestionResponse(response, lang = 'en') {
+	return {
+		...response,
+		// records: (response.records || []).map((product) => product),
+		records: (response.records || []).map((product) =>
+			transformProductSuggestion(product, lang, true)
+		),
+	};
+}
 
 module.exports = {
 	transformProductsResponse,
 	transformProduct,
 	transformCategory,
 	extractLangField,
+	transformProductsSuggestionResponse,
 };

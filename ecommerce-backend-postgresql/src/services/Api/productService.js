@@ -123,6 +123,55 @@ const productFilterConditions = async (req) => {
 	};
 };
 
+const getProductsSuggestions = async (req) => {
+	const { page: defaultPage } = config.pagination;
+	const { page = defaultPage, limit = 5 } = req.query;
+	const offset = getOffset(page, limit);
+
+	const { searchCondition } = await productFilterConditions(req);
+
+	const products = await db.product
+		.scope(
+			{ method: ['active'] } // active scope with params
+		)
+		.findAll({
+			offset,
+			limit,
+			order: [['id', 'DESC']],
+			attributes: [
+				'id',
+				'sku',
+				'base_price',
+				'base_discount_percentage',
+				'is_featured',
+			],
+			include: [
+				{
+					model: db.media,
+					required: false,
+					as: 'thumbnailImage',
+					attributes: ['url', 'title'],
+				},
+				{
+					model: db.product_translation,
+					required: true,
+					attributes: ['title', 'excerpt', 'slug'],
+					where: { ...(searchCondition || {}), language_id: 1 },
+				},
+			],
+			unique: true,
+			distinct: true, // to fix count
+			col: 'id', // to fix count
+		});
+
+	return {
+		records: products,
+		limit: limit,
+		page: page,
+	};
+
+	return products;
+};
 const getProducts = async (req) => {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const { page = defaultPage, limit = defaultLimit, filterQuery } = req.query;
@@ -326,6 +375,7 @@ module.exports = {
 		);
 	},
 	getProducts,
+	getProductsSuggestions,
 	// getProducts: (req) => {
 	// 	return productService.list(
 	// 		req,
