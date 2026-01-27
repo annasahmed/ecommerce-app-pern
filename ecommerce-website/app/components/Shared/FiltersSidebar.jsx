@@ -36,11 +36,6 @@ export default function FilterSidebar({
 	defaultFilters = {},
 	setDefaultFilters = () => {},
 }) {
-	const [selectedColor, setSelectedColor] = useState("Red");
-	const [selectedSize, setSelectedSize] = useState(null);
-	const [priceRange, setPriceRange] = useState(null);
-	const [selectedPrice, setSelectedPrice] = useState(null);
-
 	const { data, isLoading } = useFetchReactQuery(
 		() =>
 			MetadataService.getFiltersData({

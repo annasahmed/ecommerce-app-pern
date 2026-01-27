@@ -3,7 +3,8 @@ import React from "react";
 
 const WhatsAppButton = () => {
 	// Your WhatsApp number with country code (no + sign)
-	const phoneNumber = "923219262592";
+	const phoneNumber = "923340002625";
+	// const phoneNumber = "923219262592";
 
 	// General message
 	const message = "Hello! I would like to inquire about your products.";
@@ -19,7 +20,7 @@ const WhatsAppButton = () => {
 			target="_blank"
 			rel="noopener noreferrer"
 			className="
-        fixed bottom-5 right-5 max-md:bottom-15 max-md:right-3 z-50
+        fixed bottom-5 left-5 max-md:bottom-15 max-md:left-3 z-50
         bg-green-500 hover:bg-green-600
         text-white
         p-2 rounded-full

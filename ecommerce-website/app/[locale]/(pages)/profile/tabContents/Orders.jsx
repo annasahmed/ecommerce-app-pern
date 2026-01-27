@@ -240,7 +240,7 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 						{/* ---------- ACTIONS ---------- */}
 						<div className="flex flex-wrap gap-3">
 							<button className="flex-1 min-w-[150px] bg-secondary text-white py-3 rounded-lg font-medium">
-								<Link href={`/order-tracking/${order.trackingId}`} className="">
+								<Link href={`/order-tracking?id=${order.trackingId}`} className="">
 									Track
 								</Link>
 							</button>

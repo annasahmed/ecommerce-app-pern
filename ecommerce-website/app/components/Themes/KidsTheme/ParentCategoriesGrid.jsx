@@ -42,9 +42,9 @@ const ParentCategoriesGrid = ({
 								}  object-cover`}
 							/>
 							{showTitle && (
-								<h4 className="text-center capitalize mt-2 h5 font-normal">
+								<p className="text-center capitalize mt-2 p3 font-normal">
 									{pCat.title}
-								</h4>
+								</p>
 							)}
 						</BaseLink>
 					</div>

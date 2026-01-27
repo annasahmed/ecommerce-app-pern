@@ -1,6 +1,25 @@
 import requests from "./httpServices";
 
 const ProductServices = {
+	getProductSuggestions: async ({ search }) => {
+		try {
+			const params = {};
+			if (search) params.search = search;
+
+			// Pass params to requests.get without hardcoding query string
+			const data = await requests.get("/product/suggestions", { params });
+
+			if (data && data.records?.length > 0) {
+				return data;
+			}
+		} catch (err) {
+			console.error("API error:", err);
+		}
+		return [];
+		const dataModule = await import(`../data/${themeName}/data`);
+		// const dataModule  = await import(`./${themeName}/data.js`);
+		return dataModule.latestProducts;
+	},
 	getProducts: async ({
 		themeName = "KidsTheme",
 		categoryId,

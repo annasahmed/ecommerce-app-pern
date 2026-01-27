@@ -33,7 +33,7 @@ export const storeSettingsKidsTheme = {
 	},
 	content: {
 		header: {
-			text: "Spend 500 or more and get free shipping for 12 months!",
+			text: "Spend 3000 or more and get free shipping",
 			link: "/shop",
 		},
 		logo,

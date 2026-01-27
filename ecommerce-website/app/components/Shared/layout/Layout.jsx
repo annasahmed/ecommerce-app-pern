@@ -3,6 +3,7 @@ import { loadThemeComponents } from "@/app/components/Themes/autoLoader";
 import { useStore } from "@/app/providers/StoreProvider";
 import WhatsAppButton from "../WhatsAppButton";
 import MobileBottomNav from "../MobileBottomNav";
+import BackToTop from "../BackToTop";
 
 const Layout = ({ children }) => {
 	const store = useStore();
@@ -12,6 +13,7 @@ const Layout = ({ children }) => {
 			<Navbar />
 			{children}
 			<WhatsAppButton />
+			<BackToTop />
 			<MobileBottomNav />
 			<Footer />
 		</>

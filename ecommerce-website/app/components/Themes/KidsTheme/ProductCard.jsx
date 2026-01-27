@@ -236,7 +236,16 @@ const ProductCard = ({ product }) => {
 				</div> */}
 
 					{/* Action buttons */}
-					<div className="flex flex-col gap-1 md:gap-2 absolute top-2 right-2 md:top-3 md:right-3">
+					{/* <div className="flex flex-col gap-1 md:gap-2 absolute top-2 right-2 md:top-3 md:right-3"> */}
+					<div
+						className="
+		absolute top-2 right-2 md:top-3 md:right-3
+		flex flex-col gap-1 md:gap-2
+		opacity-0 translate-y-2 scale-95 pointer-events-none
+		transition-all duration-300 ease-out
+		group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto
+		max-md:opacity-100 max-md:pointer-events-auto max-md:translate-y-0 max-md:scale-100
+	">
 						<button
 							title="Add to Favorites"
 							onClick={(e) => {
