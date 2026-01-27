@@ -44,7 +44,7 @@ const OrderTable = ({
 						<TableCell className="text-sm">{order.tracking_id}</TableCell>
 						<TableCell className="text-sm">
 							{order.guest_first_name
-								? order.guest_first_name + (order.guest_last_name || "")
+								? order.guest_first_name + " " + (order.guest_last_name || "")
 								: order.app_user_id
 									? order.user?.name
 									: "-"}
@@ -73,6 +73,12 @@ const OrderTable = ({
 						</TableCell>
 
 						<TableCell>
+							<button
+								onClick={() => {
+									handleUpdate(order.id);
+								}}>
+								View
+							</button>
 							{/* <EditDeleteButton
 								id={order?.id}
 								parent={order}

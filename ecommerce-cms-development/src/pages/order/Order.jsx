@@ -1,23 +1,23 @@
 import { Table, TableCell, TableHeader } from "@windmill/react-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 //internal import
 
-import CheckBox from "@/components/form/others/CheckBox";
+import MainDrawer from "@/components/drawer/MainDrawer";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
 import TableWrapperWithPagination from "@/components/newComponents/TableWrapperWithPagination";
-import PageTitle from "@/components/Typography/PageTitle";
+import OrderDetailsDrawer from "@/components/order/OrderDetailsDrawer";
 import OrderTable from "@/components/order/OrderTable";
+import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import OrderServices from "@/services/OrderServices";
-import MainDrawer from "@/components/drawer/MainDrawer";
-import OrderDrawer from "@/components/order/OrderDrawer";
 
 const Order = () => {
-	const { toggleDrawer, lang } = useContext(SidebarContext);
+	const { toggleDrawer, lang, setIsUpdate, isDrawerOpen } =
+		useContext(SidebarContext);
 	const {
 		data: ordersData,
 		loading,
@@ -26,28 +26,28 @@ const Order = () => {
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
+	// 🔥 REFRESH ORDERS WHEN DRAWER CLOSES
+	useEffect(() => {
+		if (!isDrawerOpen) {
+			setIsUpdate(true);
+		}
+	}, [isDrawerOpen, setIsUpdate]);
+
 	const { t } = useTranslation();
 
 	// react hooks
-	const [isCheckAll, setIsCheckAll] = useState(false);
 	const [isCheck, setIsCheck] = useState([]);
-
-	const handleSelectAll = () => {
-		setIsCheckAll(!isCheckAll);
-		setIsCheck(data[0]?.children.map((li) => li.id));
-		if (isCheckAll) {
-			setIsCheck([]);
-		}
-	};
 
 	return (
 		<>
 			<PageTitle>{t("Order")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddOrder")}
-				inputPlaceholder={t("SearchOrder")}
+				buttonText={t("Add Order")}
+				inputPlaceholder={t("Search Order")}
 				onClick={toggleDrawer}
+				showAddButtom={false}
 			/>
+
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
@@ -59,7 +59,9 @@ const Order = () => {
 							<TableCell>{t("Date")}</TableCell>
 							<TableCell>{t("Tracking Id")}</TableCell>
 							<TableCell>{t("Name")}</TableCell>
-							<TableCell className="text-center">{t("Payment Method")}</TableCell>
+							<TableCell className="text-center">
+								{t("Payment Method")}
+							</TableCell>
 							<TableCell>{t("Order Amount")}</TableCell>
 							<TableCell>{t("Shipping")}</TableCell>
 							<TableCell>{t("Total")}</TableCell>
@@ -74,9 +76,12 @@ const Order = () => {
 					/>
 				</Table>
 			</TableWrapperWithPagination>
-
-			<MainDrawer>
-				<OrderDrawer id={serviceId} data={ordersData.records} lang={lang} />
+			<MainDrawer setIsUpdate={setIsUpdate}>
+				<OrderDetailsDrawer
+					id={serviceId}
+					data={ordersData.records}
+					lang={lang}
+				/>
 			</MainDrawer>
 		</>
 	);

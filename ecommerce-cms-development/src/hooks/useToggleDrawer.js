@@ -2,50 +2,56 @@ import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "@/context/SidebarContext";
 
 const useToggleDrawer = () => {
-  const [serviceId, setServiceId] = useState("");
-  const [allId, setAllId] = useState([]);
-  const [title, setTitle] = useState("");
-  const { toggleDrawer, isDrawerOpen, toggleModal, toggleBulkDrawer } =
-    useContext(SidebarContext);
+	const [serviceId, setServiceId] = useState("");
+	const [allId, setAllId] = useState([]);
+	const [title, setTitle] = useState("");
+	const {
+		toggleDrawer,
+		isDrawerOpen,
+		toggleModal,
+		toggleBulkDrawer,
+		closeDrawer,
+	} = useContext(SidebarContext);
 
-  const handleUpdate = (id) => {
-    setServiceId(id);
-    toggleDrawer();
-  };
+	const handleUpdate = (id) => {
+		setServiceId(id);
+		toggleDrawer();
+	};
 
-  const handleUpdateMany = (id) => {
-    setAllId(id);
-    toggleBulkDrawer();
-  };
+	const handleUpdateMany = (id) => {
+		setAllId(id);
+		toggleBulkDrawer();
+	};
 
-  const handleModalOpen = (id, title) => {
-    setServiceId(id);
-    toggleModal();
-    setTitle(title);
-  };
+	const handleModalOpen = (id, title) => {
+		setServiceId(id);
+		toggleModal();
+		setTitle(title);
+	};
 
-  useEffect(() => {
-    if (!isDrawerOpen) {
-      setServiceId();
-    }
-  }, [isDrawerOpen]);
+	useEffect(() => {
+		if (!isDrawerOpen) {
+			setServiceId();
+		}
+	}, [isDrawerOpen]);
 
-  const handleDeleteMany = async (id, products) => {
-    setAllId(id);
-    toggleModal();
-    setTitle("Selected Products");
-  };
+	const handleDeleteMany = async (id, products) => {
+		setAllId(id);
+		toggleModal();
+		setTitle("Selected Products");
+	};
 
-  return {
-    title,
-    allId,
-    serviceId,
-    handleUpdate,
-    setServiceId,
-    handleModalOpen,
-    handleDeleteMany,
-    handleUpdateMany,
-  };
+	return {
+		title,
+		allId,
+		serviceId,
+    isDrawerOpen, // 👈 IMPORTANT
+		handleUpdate,
+		setServiceId,
+		handleModalOpen,
+		handleDeleteMany,
+		handleUpdateMany,
+	};
 };
 
 export default useToggleDrawer;

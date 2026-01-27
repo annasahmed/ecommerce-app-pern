@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 //internal import
 import { SidebarContext } from "@/context/SidebarContext";
 
-const MainDrawer = ({ children, product }) => {
+const MainDrawer = ({ children, product, setIsUpdate = () => {} }) => {
 	const { toggleDrawer, isDrawerOpen, closeDrawer, windowDimension } =
 		useContext(SidebarContext);
 	const [isProduct, setIsProduct] = useState(false);
@@ -26,7 +26,10 @@ const MainDrawer = ({ children, product }) => {
 	return (
 		<Drawer
 			open={isDrawerOpen}
-			onClose={closeDrawer}
+			onClose={() => {
+				closeDrawer();
+				setIsUpdate(true);
+			}}
 			parent={null}
 			level={null}
 			placement={"right"}

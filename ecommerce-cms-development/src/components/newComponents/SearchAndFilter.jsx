@@ -7,6 +7,7 @@ const SearchAndFilter = ({
 	inputPlaceholder = "",
 	buttonText = "",
 	onClick = () => {},
+	showAddButtom = true,
 }) => {
 	return (
 		<AnimatedContent>
@@ -42,15 +43,17 @@ const SearchAndFilter = ({
 								</Button>
 							</div>
 						</div>
-						<div className="w-full md:w-48 lg:w-48 xl:w-48">
-							<Button onClick={onClick} className="rounded-md h-12 w-full">
-								<span className="mr-2">
-									<FiPlus />
-								</span>
+						{showAddButtom && (
+							<div className="w-full md:w-48 lg:w-48 xl:w-48">
+								<Button onClick={onClick} className="rounded-md h-12 w-full">
+									<span className="mr-2">
+										<FiPlus />
+									</span>
 
-								{buttonText}
-							</Button>
-						</div>
+									{buttonText}
+								</Button>
+							</div>
+						)}
 					</form>
 				</CardBody>
 			</Card>

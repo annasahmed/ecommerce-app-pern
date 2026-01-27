@@ -25,8 +25,8 @@ const OrderServices = {
 		return requests.patch(`/order/${id}`, body);
 	},
 
-	updateStatus: async (id, body) => {
-		return requests.patch(`/order/${id}`, body);
+	updateOrderStatus: async (id, body) => {
+		return requests.patch(`/order/status/${id}`, body);
 	},
 
 	deleteOrder: async (id, body) => {
