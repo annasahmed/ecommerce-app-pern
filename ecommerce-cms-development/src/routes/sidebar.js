@@ -100,6 +100,11 @@ const sidebar = [
 		icon: FiCompass,
 		name: "Orders",
 	},
+	{
+		path: "/returned",
+		icon: FiCompass,
+		name: "Return Requests",
+	},
 
 	{
 		path: "/our-staff",
