@@ -1,9 +1,11 @@
+import { useAuth } from "@/app/providers/AuthProvider";
 import React from "react";
 
-const ProfileSidebar = ({ user, menuItems, activeTab, setActiveTab }) => {
+const ProfileSidebar = ({ menuItems, activeTab, setActiveTab }) => {
+	const { user } = useAuth();
 	return (
 		<div className="lg:w-64 flex-shrink-0">
-			<div className="bg-white rounded-lg border sticky top-48">
+			<div className="bg-white rounded-lg border sticky top-40">
 				<div className="p-4 border-b">
 					<div className="flex items-center gap-3">
 						<div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-semibold text-lg">
@@ -13,7 +15,7 @@ const ProfileSidebar = ({ user, menuItems, activeTab, setActiveTab }) => {
 							<div className="font-medium">
 								Hello, {user.name.split(" ")[0]}
 							</div>
-							<div className="text-sm text-gray-500">Orders & Account</div>
+							<div className="p4 text-gray-500">Orders & Account</div>
 						</div>
 					</div>
 				</div>
@@ -37,7 +39,7 @@ const ProfileSidebar = ({ user, menuItems, activeTab, setActiveTab }) => {
 											: "text-gray-700 hover:bg-gray-50"
 									}`}>
 									<Icon className="w-5 h-5" />
-									<span className="flex-1 text-left text-sm">{item.label}</span>
+									<span className="flex-1 text-left p4">{item.label}</span>
 								</button>
 							</div>
 						);

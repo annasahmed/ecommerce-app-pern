@@ -20,16 +20,16 @@ const WhatsAppButton = () => {
 			target="_blank"
 			rel="noopener noreferrer"
 			className="
-        fixed bottom-5 left-5 max-md:bottom-15 max-md:left-3 z-50
-        bg-green-500 hover:bg-green-600
-        text-white
-        p-2 rounded-full
-        shadow-lg
-        flex items-center justify-center
-        transition-all duration-300
-        hover:scale-110
-		whatsapp-float
-      "
+			fixed bottom-5 left-5 max-md:bottom-15 max-md:left-3 z-50
+			bg-green-500 hover:bg-green-600
+			text-white
+			p-2 rounded-full
+			shadow-lg
+			flex items-center justify-center
+			transition-all duration-300
+			hover:scale-110
+			whatsapp-float
+		"
 			title="Chat with us on WhatsApp">
 			{/* WhatsApp Icon */}
 			<svg

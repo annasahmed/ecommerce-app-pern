@@ -9,10 +9,14 @@ import { useEffect, useState } from "react";
 
 const orderSubmenu = [
 	{ id: "all", label: "All orders" },
-	{ id: "pending", label: "Pending" },
-	{ id: "confirmed", label: "Confirmed" },
-	{ id: "cancelled", label: "Cancelled" },
-	{ id: "delivered", label: "Delivered" },
+	{ id: ["pending"], label: "Pending" },
+	{ id: ["confirmed"], label: "Confirmed" },
+	{ id: ["cancelled"], label: "Cancelled" },
+	{ id: ["delivered"], label: "Delivered" },
+	{
+		id: ["return_requested", "returned", "refunded", "exchanged"],
+		label: "Returned",
+	},
 ];
 
 const Orders = ({ setSearchQuery, searchQuery }) => {
@@ -69,7 +73,9 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 
 		// Status filter
 		if (activeOrderFilter !== "all") {
-			filtered = filtered.filter((order) => order.status === activeOrderFilter);
+			filtered = filtered.filter((order) =>
+				activeOrderFilter.includes(order.status),
+			);
 		}
 
 		// Search filter
@@ -153,9 +159,9 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 													? "bg-red-100 text-red-800 ring-1 ring-red-300"
 													: order.status === "delivered"
 														? "bg-green-100 text-green-800 ring-1 ring-green-300"
-														: "bg-gray-100 text-gray-800"
+														: "bg-orange-400 text-gray-600"
 									}`}>
-									{order.status}
+									{order.status?.replace("_", " ")}
 								</span>
 							</div>
 
@@ -240,7 +246,9 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 						{/* ---------- ACTIONS ---------- */}
 						<div className="flex flex-wrap gap-3">
 							<button className="flex-1 min-w-[150px] bg-secondary text-white py-3 rounded-lg font-medium">
-								<Link href={`/order-tracking?id=${order.trackingId}`} className="">
+								<Link
+									href={`/order-tracking?id=${order.trackingId}`}
+									className="">
 									Track
 								</Link>
 							</button>
@@ -252,9 +260,28 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 								</Link>
 							</button>
 
-							{/* {order.status === "delivered" && (
-								<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
-									Return / Refund
+							{[
+								"delivered",
+								"return_requested",
+								"returned",
+								"refunded",
+								"exchanged",
+							].includes(order.status) && (
+								<button className="flex-1 min-w-[150px] bg-primary text-light border py-3 rounded-lg font-medium">
+									<Link href={`/order/${order.id}/return`} className="">
+										Return / Refund
+									</Link>
+								</button>
+							)}
+							{/* {[
+								// "delivered",
+								"return_requested",
+								"returned",
+								"refunded",
+								"exchanged",
+							].includes(order.status) && (
+								<button className="flex-1 min-w-[150px] bg-primary text-light border py-3 rounded-lg font-medium">
+									Cancel return request
 								</button>
 							)} */}
 
