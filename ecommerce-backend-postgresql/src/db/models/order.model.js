@@ -67,7 +67,11 @@ module.exports = (sequelize, DataTypes) => {
 					'pending',
 					'confirmed',
 					'cancelled',
-					'delivered'
+					'delivered',
+					'return_requested',
+					'returned',
+					'refunded',
+					'exchanged'
 				),
 				allowNull: false,
 				defaultValue: 'pending',
@@ -75,6 +79,11 @@ module.exports = (sequelize, DataTypes) => {
 			order_amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
 			shipping: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
 			total: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+
+			delivered_at: {
+				type: DataTypes.DATE,
+				allowNull: true,
+			},
 
 			app_user_id: {
 				type: DataTypes.INTEGER,

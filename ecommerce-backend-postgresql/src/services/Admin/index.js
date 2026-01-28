@@ -19,3 +19,4 @@ module.exports.adminAttributeService = require('./attributeService');
 module.exports.adminSizeChartService = require('./sizeChartService');
 module.exports.adminHomepageSectionsService = require('./homepageSectionsService');
 module.exports.adminOrderService = require('./orderService');
+module.exports.adminReturnedService = require('./returnedService');

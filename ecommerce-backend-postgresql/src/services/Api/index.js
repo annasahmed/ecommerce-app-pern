@@ -8,3 +8,4 @@ module.exports.apiHomepageSectionsService = require('./homepageSectionsService')
 module.exports.apiMetadataService = require('./metadataService');
 module.exports.apiOrderService = require('./orderService');
 module.exports.apiReviewService = require('./reviewService');
+module.exports.apiReturnedService = require('./returnedService');

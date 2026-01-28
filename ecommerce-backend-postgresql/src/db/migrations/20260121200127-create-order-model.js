@@ -60,7 +60,11 @@ module.exports = {
 					'pending',
 					'confirmed',
 					'cancelled',
-					'delivered'
+					'delivered',
+					'return_requested',
+					'returned',
+					'refunded',
+					'exchanged'
 				),
 				allowNull: false,
 				defaultValue: 'pending',
