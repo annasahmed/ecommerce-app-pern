@@ -1,4 +1,6 @@
+import SubscriberService from "@/app/services/SubscriberService";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Newsletter() {
 	const [email, setEmail] = useState("");
@@ -25,7 +27,12 @@ export default function Newsletter() {
 		setAgree(false);
 		try {
 			// Replace this with your actual API endpoint
+			await SubscriberService.createSubscriber({
+				email,
+			});
+
 			setMessage("Thank you for subscribing!");
+			toast.success("Thank you for subscribing!");
 			// const res = await fetch("/api/subscribe", {
 			// 	method: "POST",
 			// 	headers: {
@@ -42,7 +49,12 @@ export default function Newsletter() {
 			// }
 		} catch (error) {
 			console.error(error);
-			setMessage("Network error. Please try again.");
+			toast.error(
+				error.message || "Request cannot proceed now. Please try again.",
+			);
+			setMessage(
+				error.message || "Request cannot proceed now. Please try again.",
+			);
 		}
 
 		setLoading(false);
