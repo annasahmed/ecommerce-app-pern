@@ -107,9 +107,9 @@ const sidebar = [
 	},
 
 	{
-		path: "/our-staff",
+		path: "/user",
 		icon: FiUser,
-		name: "OurStaff",
+		name: "Users",
 	},
 	{
 		path: "/subscriber",

@@ -7,7 +7,8 @@ const TableWrapperWithPagination = ({ loading, error, data, children }) => {
 		<TableLoading row={12} col={6} width={190} height={20} />
 	) : error ? (
 		<span className="text-center mx-auto text-customRed-500">{error}</span>
-	) : data?.total !== 0 ? (
+	) : data?.total !== 0 &&
+	  (data?.records ? data?.records?.length !== 0 : true) ? (
 		<TableContainer className="mb-8">
 			{children}
 			<TableFooter>
