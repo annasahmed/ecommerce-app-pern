@@ -15,3 +15,5 @@ module.exports.adminScriptController = require('./scriptController');
 module.exports.adminHomepageSectionsController = require('./homepageSectionsController');
 module.exports.adminOrderController = require('./orderController');
 module.exports.adminReturnedController = require('./returnedController');
+module.exports.adminSubscriberController = require('./subscriberController');
+module.exports.adminAppUserController = require('./appUserController');

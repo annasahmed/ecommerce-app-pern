@@ -19,5 +19,6 @@ websiteRouter.use('/order', require('./orderRoute'));
 websiteRouter.use('/review', require('./reviewRoute'));
 websiteRouter.use('/profile', require('./profileRoute'));
 websiteRouter.use('/returned', require('./returnedRoute'));
+websiteRouter.use('/subscriber', require('./subscriberRoute'));
 
 module.exports = websiteRouter;

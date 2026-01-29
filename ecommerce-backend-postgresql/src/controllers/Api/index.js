@@ -9,3 +9,4 @@ module.exports.apiOrderController = require('./orderController');
 module.exports.apiReviewController = require('./reviewController');
 module.exports.apiAppUserController = require('./appUserController');
 module.exports.apiReturnedController = require('./returnedController');
+module.exports.apiSubscriberController = require('./subscriberController');

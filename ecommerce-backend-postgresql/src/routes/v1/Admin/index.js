@@ -34,5 +34,7 @@ adminRouter.use('/sizeChart', sizeChartRoute);
 adminRouter.use('/script', scriptRoute);
 adminRouter.use('/order', require('./orderRoute'));
 adminRouter.use('/returned', require('./returnedRoute'));
+adminRouter.use('/subscriber', require('./subscriberRoute'));
+adminRouter.use('/appuser', require('./appUserRoute'));
 
 module.exports = adminRouter;
