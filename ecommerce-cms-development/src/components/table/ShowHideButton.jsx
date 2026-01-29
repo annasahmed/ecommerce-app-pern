@@ -14,6 +14,7 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import UspServices from "@/services/UspServices";
 import ParentCategoryServices from "@/services/ParentCategoryServices";
 import BrandServices from "@/services/BrandServices";
+import AppuserServices from "@/services/AppuserServices";
 
 const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 	const location = useLocation();
@@ -27,6 +28,16 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 				newStatus = false;
 			} else {
 				newStatus = true;
+			}
+			if (
+				location.pathname === "/customer" ||
+				location.pathname === "/appuser"
+			) {
+				const res = await AppuserServices.updateStatus(id, {
+					status: newStatus,
+				});
+				setIsUpdate(true);
+				notifySuccess(res.message);
 			}
 			if (location.pathname === "/parent-categories") {
 				const res = await ParentCategoryServices.updateStatus(id, {

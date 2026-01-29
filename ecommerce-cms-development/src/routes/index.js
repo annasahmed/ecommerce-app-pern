@@ -20,10 +20,11 @@ const Branch = lazy(() => import("@/pages/branch/Branch"));
 const Vendor = lazy(() => import("@/pages/vendor/Vendor"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
 const Staff = lazy(() => import("@/pages/Staff"));
-const Customers = lazy(() => import("@/pages/Customers"));
+const Customers = lazy(() => import("@/pages/appuser/Appuser"));
 const CustomerOrder = lazy(() => import("@/pages/CustomerOrder"));
 const Orders = lazy(() => import("@/pages/order/Order"));
 const Returned = lazy(() => import("@/pages/returned/Returned"));
+const Subscriber = lazy(() => import("@/pages/subscriber/Subscriber"));
 const OrderInvoice = lazy(() => import("@/pages/OrderInvoice"));
 const Coupons = lazy(() => import("@/pages/Coupons"));
 // const Setting = lazy(() => import("@/pages/Setting"));
@@ -140,6 +141,10 @@ const routes = [
 	{
 		path: "/returned",
 		component: Returned,
+	},
+	{
+		path: "/subscriber",
+		component: Subscriber,
 	},
 	{
 		path: "/order/:id",

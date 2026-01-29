@@ -111,6 +111,11 @@ const sidebar = [
 		icon: FiUser,
 		name: "OurStaff",
 	},
+	{
+		path: "/subscriber",
+		icon: FiUser,
+		name: "Subscribers",
+	},
 
 	// {
 	// 	path: "/settings?settingTab=common-settings",
