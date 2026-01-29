@@ -5,6 +5,7 @@ const { encryptData } = require('../../utils/auth.js');
 const config = require('../../config/config.js');
 const db = require('../../db/models/index.js');
 const roleService = require('../role.service.js');
+const commonUtils = require('../../utils/commonUtils.js');
 
 async function getUserByEmail(email, scope = 'defaultScope') {
 	const user = await db.user.scope(scope).findOne({
@@ -15,7 +16,7 @@ async function getUserByEmail(email, scope = 'defaultScope') {
 }
 
 async function getUserById(id) {
-	const user = await db.user.findOne({
+	const user = await db.user.scope('defaultScope').findOne({
 		where: { id },
 		include: [
 			{
@@ -24,15 +25,13 @@ async function getUserById(id) {
 				attributes: ['id', 'name'],
 			},
 		],
-		raw: true,
 	});
 
 	return user;
 }
 
 async function createUser(req) {
-	const { firstName, lastName, image, email, name, password, roleId } =
-		req.body;
+	const { first_name, last_name, image, email, password, role_id } = req.body;
 	const hashedPassword = await encryptData(password);
 	const user = await getUserByEmail(email);
 
@@ -40,7 +39,7 @@ async function createUser(req) {
 		throw new ApiError(httpStatus.CONFLICT, 'This email already exits');
 	}
 
-	const role = await roleService.getRoleById(roleId);
+	const role = await roleService.getRoleById(role_id);
 
 	if (!role) {
 		throw new ApiError(httpStatus.NOT_FOUND, 'Role not found');
@@ -48,9 +47,11 @@ async function createUser(req) {
 
 	const createdUser = await db.user
 		.create({
-			name,
+			first_name,
+			last_name,
+			image,
 			email,
-			role_id: roleId,
+			role_id,
 			password: hashedPassword,
 		})
 		.then((resultEntity) => resultEntity.get({ plain: true }));
@@ -64,11 +65,11 @@ async function getUsers(req) {
 
 	const offset = getOffset(page, limit);
 
-	const users = await db.user.findAndCountAll({
+	const users = await db.user.scope('defaultScope').findAndCountAll({
 		order: [
-			['name', 'ASC'],
-			['created_date_time', 'DESC'],
-			['modified_date_time', 'DESC'],
+			['first_name', 'ASC'],
+			['created_at', 'DESC'],
+			['updated_at', 'DESC'],
 		],
 		include: [
 			{
@@ -77,23 +78,35 @@ async function getUsers(req) {
 				attributes: ['id', 'name'],
 			},
 		],
-		attributes: [
-			'id',
-			'name',
-			'email',
-			'created_date_time',
-			'modified_date_time',
-		],
 		offset,
 		limit,
-		raw: true,
 	});
 
-	return users;
+	return {
+		total: users.count,
+		records: users.rows,
+		// records: users.rows,
+		limit: limit,
+		page: page,
+	};
 }
 
 async function deleteUserById(userId) {
-	const deletedUser = await db.user.destroy({
+	const deletedByUserId = commonUtils.getUserId(req);
+	const deletedUser = await commonUtils.softDelete(
+		db.user,
+		userId,
+		deletedByUserId
+	);
+
+	if (!deletedUser) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+	}
+
+	return deletedUser;
+}
+async function permanentDeleteUserById(userId) {
+	const deletedUser = await db.user.scope('withDeleted').destroy({
 		where: { id: userId },
 	});
 
@@ -138,7 +151,6 @@ async function updateUser(req) {
 				where: { id: req.params.userId || req.body.id },
 				returning: true,
 				plain: true,
-				raw: true,
 			}
 		)
 		.then((data) => data[1]);
@@ -153,4 +165,5 @@ module.exports = {
 	updateUser,
 	getUsers,
 	deleteUserById,
+	permanentDeleteUserById,
 };

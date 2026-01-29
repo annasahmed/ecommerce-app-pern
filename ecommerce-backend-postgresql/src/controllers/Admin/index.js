@@ -1,4 +1,5 @@
 module.exports.adminAuthController = require('./authController');
+module.exports.adminUserController = require('./userController');
 module.exports.adminParentCategoryController = require('./parentCategoryController');
 module.exports.adminCategoryController = require('./categoryController');
 module.exports.adminUspController = require('./uspController');
