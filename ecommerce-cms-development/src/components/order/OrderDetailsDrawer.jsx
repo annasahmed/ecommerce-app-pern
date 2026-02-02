@@ -15,7 +15,7 @@ const OrderDetailsDrawer = ({ id, data }) => {
 	const [isEditingTracking, setIsEditingTracking] = useState(false);
 	const [isSavingTracking, setIsSavingTracking] = useState(false);
 
-	const orderStatuses = ["pending", "confirmed", "cancelled", "delivered"];
+	const orderStatuses = ["pending", "in_progress", "cancelled", "delivered"];
 
 	const getOrderDetails = async () => {
 		if (!id) return;
@@ -104,7 +104,7 @@ const OrderDetailsDrawer = ({ id, data }) => {
 					</svg>
 				),
 			},
-			confirmed: {
+			in_progress: {
 				bg: "bg-blue-50 dark:bg-blue-900/20",
 				text: "text-blue-700 dark:text-blue-400",
 				border: "border-blue-200 dark:border-blue-800",
