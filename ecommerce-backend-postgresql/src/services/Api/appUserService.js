@@ -71,8 +71,6 @@ async function sendRegistrationOtp(req) {
 		expires_at: expiresAt,
 	});
 
-	console.log(otp, 'chkking otp');
-
 	await sendEmail({
 		to: email,
 		subject: `Verify Your Email with One-Time 6-Digit PIN`,
@@ -109,7 +107,7 @@ async function verifyOtp(req) {
 
 async function createAppUser(req) {
 	await verifyOtp(req);
-	req.body.password = encryptData(req.body.password);
+	req.body.password = await encryptData(req.body.password);
 	return await appUserService.create(req.body);
 }
 
