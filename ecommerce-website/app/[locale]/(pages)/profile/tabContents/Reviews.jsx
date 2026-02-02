@@ -1,12 +1,10 @@
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import Ratings from "@/app/components/Shared/Ratings";
 import SpinLoader from "@/app/components/Shared/SpinLoader";
 import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import ReviewService from "@/app/services/ReviewService";
 import { formatDateTime } from "@/app/utils/commonUtils";
-import { Star } from "lucide-react";
-import Image from "next/image";
-import React from "react";
 
 const Reviews = () => {
 	/* ---------------- FETCH REVIEWS ---------------- */
@@ -33,7 +31,7 @@ const Reviews = () => {
 						<div className="bg-white rounded-lg p-6 border">
 							<div className="flex gap-4 mb-4">
 								<div className="w-26 h-26 bg-gray-100 rounded-lg flex items-center justify-center text-3xl">
-									<Image
+									<BaseImage
 										src={
 											review.product?.thumbnailImage?.url
 												? ENV_VARIABLES.IMAGE_BASE_URL +

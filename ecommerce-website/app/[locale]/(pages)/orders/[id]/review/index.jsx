@@ -1,15 +1,15 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { Star, ChevronLeft } from "lucide-react";
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
+import SpinLoader from "@/app/components/Shared/SpinLoader";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import OrderService from "@/app/services/OrderService";
-import Image from "next/image";
-import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import ReviewService from "@/app/services/ReviewService";
+import { ChevronLeft, Star } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import SpinLoader from "@/app/components/Shared/SpinLoader";
 
 const WriteReview = () => {
 	const { id } = useParams();
@@ -124,7 +124,7 @@ const WriteReview = () => {
 					key={product.product_id}
 					className="bg-white border rounded-lg p-5 space-y-4">
 					<div className="flex items-center gap-4">
-						<Image
+						<BaseImage
 							src={
 								product.image
 									? ENV_VARIABLES.IMAGE_BASE_URL + product.image

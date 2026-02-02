@@ -1,12 +1,11 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import React from "react";
-import { ChevronLeft } from "lucide-react";
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import OrderService from "@/app/services/OrderService";
-import Image from "next/image";
-import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import { ChevronLeft } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 
 const OrderDetails = () => {
 	const { id } = useParams();
@@ -59,7 +58,9 @@ const OrderDetails = () => {
 
 			{/* ---------- ORDER SUMMARY ---------- */}
 			<div className="bg-white border rounded-lg p-6 space-y-4">
-				<h2 className="h4 text-secondary font-semibold">Order #{order.tracking_id}</h2>
+				<h2 className="h4 text-secondary font-semibold">
+					Order #{order.tracking_id}
+				</h2>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4 p5 text-gray-600">
 					<div>
@@ -102,7 +103,7 @@ const OrderDetails = () => {
 						<div
 							key={idx}
 							className="flex items-center gap-4 border-b pb-4 last:border-b-0">
-							<Image
+							<BaseImage
 								src={
 									product.image
 										? ENV_VARIABLES.IMAGE_BASE_URL + product.image
@@ -129,7 +130,9 @@ const OrderDetails = () => {
 
 			{/* ---------- SHIPPING ---------- */}
 			<div className="bg-white border rounded-lg p-6">
-				<h3 className="h4 text-secondary font-semibold mb-2">Shipping Address</h3>
+				<h3 className="h4 text-secondary font-semibold mb-2">
+					Shipping Address
+				</h3>
 
 				<p className="p5 text-gray-600">
 					{order.shipping_address}, {order.shipping_city},{" "}
@@ -139,7 +142,9 @@ const OrderDetails = () => {
 
 			{/* ---------- BILLING ---------- */}
 			<div className="bg-white border rounded-lg p-6">
-				<h3 className="h4 text-secondary font-semibold mb-2">Billing Summary</h3>
+				<h3 className="h4 text-secondary font-semibold mb-2">
+					Billing Summary
+				</h3>
 
 				<div className="space-y-2 p5">
 					<div className="flex justify-between">
