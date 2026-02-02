@@ -7,6 +7,7 @@ const {
 } = require('../../config/emailTemplates/emailVerificationOtp.js');
 const { sendEmail } = require('../email.service.js');
 const { Op } = require('sequelize');
+const { encryptData } = require('../../utils/auth.js');
 
 const validations = async (data) => {
 	if (data.email) {
@@ -98,8 +99,6 @@ async function verifyOtp(req) {
 			'OTP expired. Please request again.'
 		);
 	}
-
-	console.log(record.otp, otp);
 
 	if (record.otp !== otp) {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid OTP');
