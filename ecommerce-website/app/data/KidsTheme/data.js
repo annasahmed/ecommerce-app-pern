@@ -189,13 +189,13 @@ export const KIDSTHEME_DATA = {
 	features: [
 		{
 			icon: returnFeatureIcon,
-			title: "30 DAY RETURNS",
+			title: "15 DAY RETURNS",
 			description: "No-nonsense return policy if you are not happy",
 		},
 		{
 			icon: shippingFeatureIcon,
 			title: "FAST SHIPING",
-			description: "Your precious package is expedited and insured",
+			description: "Your precious package is expedited",
 		},
 		{
 			icon: certifiedFeatureIcon,

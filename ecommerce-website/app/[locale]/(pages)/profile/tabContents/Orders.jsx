@@ -1,9 +1,9 @@
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import SpinLoader from "@/app/components/Shared/SpinLoader";
 import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import OrderService from "@/app/services/OrderService";
 import { ChevronRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -139,141 +139,155 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 			{filteredOrders.length === 0 ? (
 				<div className="text-center py-12 text-gray-500">No orders found</div>
 			) : (
-				filteredOrders.map((order) => (
-					<div
-						key={order.id}
-						className="bg-white border rounded-lg p-6 hover:shadow-md transition-shadow">
-						{/* ---------- HEADER ---------- */}
-						<div className="flex justify-between items-start mb-4">
-							<div className="flex justify-between items-center flex-wrap gap-3">
-								<h2 className="h3 font-semibold text-gray-800">
-									Order # {order.tracking_id}
-								</h2>
-								<span
-									className={`px-4 py-1 rounded-full text-sm font-bold uppercase p5 tracking-wide shadow-sm ${
-										order.status === "pending"
-											? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
-											: order.status === "confirmed"
-												? "bg-blue-100 text-blue-800 ring-1 ring-blue-300"
-												: order.status === "cancelled"
-													? "bg-red-100 text-red-800 ring-1 ring-red-300"
-													: order.status === "delivered"
-														? "bg-green-100 text-green-800 ring-1 ring-green-300"
-														: "bg-orange-400 text-gray-600"
-									}`}>
-									{order.status?.replace("_", " ")}
-								</span>
+				filteredOrders.map((order) => {
+					console.log(order.images, "chkking order.images");
+
+					return (
+						<div
+							key={order.id}
+							className="bg-white border rounded-lg p-6 hover:shadow-md transition-shadow">
+							{/* ---------- HEADER ---------- */}
+							<div className="flex justify-between items-start mb-4">
+								<div className="flex justify-between items-center flex-wrap gap-3">
+									<h2 className="h3 font-semibold text-gray-800">
+										Order # {order.tracking_id}
+									</h2>
+									<span
+										className={`px-4 py-1 rounded-full text-sm font-bold uppercase p5 tracking-wide shadow-sm ${
+											order.status === "pending"
+												? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
+												: order.status === "confirmed"
+													? "bg-blue-100 text-blue-800 ring-1 ring-blue-300"
+													: order.status === "cancelled"
+														? "bg-red-100 text-red-800 ring-1 ring-red-300"
+														: order.status === "delivered"
+															? "bg-green-100 text-green-800 ring-1 ring-green-300"
+															: "bg-orange-400 text-gray-600"
+										}`}>
+										{order.status?.replace("_", " ")}
+									</span>
+								</div>
+
+								<button className="text-secondary flex items-center gap-1 font-medium">
+									<Link
+										href={`/order/${order.trackingId}`}
+										className="flex items-center gap-1">
+										View order details <ChevronRight className="w-4 h-4" />
+									</Link>
+								</button>
 							</div>
 
-							<button className="text-secondary flex items-center gap-1 font-medium">
-								<Link
-									href={`/order/${order.trackingId}`}
-									className="flex items-center gap-1">
-									View order details <ChevronRight className="w-4 h-4" />
-								</Link>
-							</button>
-						</div>
+							{/* ---------- PRODUCTS ---------- */}
+							<div className="flex gap-6 mb-4 overflow-x-auto pt-6 pb-2">
+								{order.products.map((product, idx) => {
+									console.log(
+										product.image
+											? ENV_VARIABLES.IMAGE_BASE_URL + product.image
+											: null,
+										"chkking product",
+									);
 
-						{/* ---------- PRODUCTS ---------- */}
-						<div className="flex gap-6 mb-4 overflow-x-auto pt-6 pb-2">
-							{order.products.map((product, idx) => (
-								<div
-									key={idx}
-									className=" relative w-full max-w-40 flex-shrink-0/ text-center">
-									{/* Quantity Badge */}
-									{product.quantity > 1 && (
-										<span className="absolute -top-2 -right-2 bg-secondary text-white text-xs px-2 py-0.5 rounded-full">
-											×{product.quantity}
-										</span>
-									)}
+									return (
+										<div
+											key={idx}
+											className=" relative w-full max-w-40 flex-shrink-0/ text-center">
+											{/* Quantity Badge */}
+											{product.quantity > 1 && (
+												<span className="absolute -top-2 -right-2 bg-secondary text-white text-xs px-2 py-0.5 rounded-full">
+													×{product.quantity}
+												</span>
+											)}
 
-									<Image
-										key={idx}
-										src={
-											product.image
-												? ENV_VARIABLES.IMAGE_BASE_URL + product.image
-												: null
-										}
-										alt={product.title}
-										width={600}
-										height={600}
-										className="w-full mx-auto object-contain rounded-lg mb-2"
-									/>
+											<BaseImage
+												key={idx}
+												src={
+													product.image
+														? ENV_VARIABLES.IMAGE_BASE_URL + product.image
+														: null
+												}
+												alt={product.title}
+												width={600}
+												height={600}
+												className="w-full mx-auto object-contain rounded-lg mb-2"
+											/>
 
-									<p className="p5 capitalize text-gray-500 text-left line-clamp-2">
-										{product.title?.toLowerCase()}
-									</p>
-								</div>
-							))}
-						</div>
-
-						{/* ---------- IMAGES ---------- */}
-						<div className="flex gap-3 mb-4 overflow-x-auto pb-2">
-							{order.images?.slice(0, 6).map((img, idx) => (
-								<Image
-									key={idx}
-									src={img ? ENV_VARIABLES.IMAGE_BASE_URL + img : null}
-									alt="product"
-									width={600}
-									height={600}
-									className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
-								/>
-							))}
-
-							{order.images?.length > 6 && (
-								<div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-									<ChevronRight className="w-6 h-6 text-gray-400" />
-								</div>
-							)}
-						</div>
-
-						{/* ---------- DETAILS ---------- */}
-						<div className="flex flex-wrap justify-between text-sm text-gray-600 mb-4 gap-4">
-							<div>{order.items} items</div>
-
-							<div>
-								Order Time:{" "}
-								{new Date(order.date).toLocaleDateString("en-GB", {
-									day: "numeric",
-									month: "short",
-									year: "numeric",
+											<p className="p5 capitalize text-gray-500 text-left line-clamp-2">
+												{product.title?.toLowerCase()}
+											</p>
+										</div>
+									);
 								})}
 							</div>
 
-							{/* <div>Order ID: {order.id}</div> */}
-						</div>
+							{/* ---------- IMAGES ---------- */}
+							<div className="flex gap-3 mb-4 overflow-x-auto pb-2">
+								{order.images?.slice(0, 6).map((img, idx) => (
+									<BaseImage
+										key={idx}
+										src={img ? ENV_VARIABLES.IMAGE_BASE_URL + img : null}
+										alt="product"
+										width={600}
+										height={600}
+										className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+									/>
+								))}
 
-						{/* ---------- ACTIONS ---------- */}
-						<div className="flex flex-wrap gap-3">
-							<button className="flex-1 min-w-[150px] bg-secondary text-white py-3 rounded-lg font-medium">
-								<Link
-									href={`/order-tracking?id=${order.trackingId}`}
-									className="">
-									Track
-								</Link>
-							</button>
+								{order.images?.length > 6 && (
+									<div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+										<ChevronRight className="w-6 h-6 text-gray-400" />
+									</div>
+								)}
+							</div>
 
-							<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
-								<Link href={`/orders/${order.trackingId}/review`} className="">
-									{/* Track */}
-									Leave a review
-								</Link>
-							</button>
+							{/* ---------- DETAILS ---------- */}
+							<div className="flex flex-wrap justify-between text-sm text-gray-600 mb-4 gap-4">
+								<div>{order.items} items</div>
 
-							{[
-								"delivered",
-								"return_requested",
-								"returned",
-								"refunded",
-								"exchanged",
-							].includes(order.status) && (
-								<button className="flex-1 min-w-[150px] bg-primary text-light border py-3 rounded-lg font-medium">
-									<Link href={`/order/${order.id}/return`} className="">
-										Return / Refund
+								<div>
+									Order Time:{" "}
+									{new Date(order.date).toLocaleDateString("en-GB", {
+										day: "numeric",
+										month: "short",
+										year: "numeric",
+									})}
+								</div>
+
+								{/* <div>Order ID: {order.id}</div> */}
+							</div>
+
+							{/* ---------- ACTIONS ---------- */}
+							<div className="flex flex-wrap gap-3">
+								<button className="flex-1 min-w-[150px] bg-secondary text-white py-3 rounded-lg font-medium">
+									<Link
+										href={`/order-tracking?id=${order.trackingId}`}
+										className="">
+										Track
 									</Link>
 								</button>
-							)}
-							{/* {[
+
+								<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
+									<Link
+										href={`/orders/${order.trackingId}/review`}
+										className="">
+										{/* Track */}
+										Leave a review
+									</Link>
+								</button>
+
+								{[
+									"delivered",
+									"return_requested",
+									"returned",
+									"refunded",
+									"exchanged",
+								].includes(order.status) && (
+									<button className="flex-1 min-w-[150px] bg-primary text-light border py-3 rounded-lg font-medium">
+										<Link href={`/order/${order.id}/return`} className="">
+											Return / Refund
+										</Link>
+									</button>
+								)}
+								{/* {[
 								// "delivered",
 								"return_requested",
 								"returned",
@@ -285,12 +299,13 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 								</button>
 							)} */}
 
-							{/* <button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
+								{/* <button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
 								Buy this again
 							</button> */}
+							</div>
 						</div>
-					</div>
-				))
+					);
+				})
 			)}
 		</div>
 	);

@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Package, Star, User } from "lucide-react";
+import { Heart, LogOut, Package, Star, User } from "lucide-react";
 import { useState } from "react";
 import FavouritesPage from "../favourites";
 import ProfileSidebar from "./ProfileSidebar";
@@ -25,6 +25,7 @@ export default function ProfileDashboard() {
 		// { id: "coupons", icon: CreditCard, label: "Coupons & offers" },
 		// { id: "credit", icon: CreditCard, label: "Credit balance" },
 		{ id: "wishlist", icon: Heart, label: "Wishlist" },
+		{ id: "logout", icon: LogOut, label: "Logout" },
 		// { id: "stores", icon: Store, label: "Followed stores" },
 		// { id: "history", icon: History, label: "Browsing history" },
 		// { id: "addresses", icon: MapPin, label: "Addresses" },

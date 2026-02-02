@@ -9,11 +9,11 @@ const ProfileSidebar = ({ menuItems, activeTab, setActiveTab }) => {
 				<div className="p-4 border-b">
 					<div className="flex items-center gap-3">
 						<div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-semibold text-lg">
-							{user.name.charAt(0)}
+							{user?.name?.charAt(0)}
 						</div>
 						<div>
 							<div className="font-medium">
-								Hello, {user.name.split(" ")[0]}
+								Hello, {user?.name?.split(" ")[0]}
 							</div>
 							<div className="p4 text-gray-500">Orders & Account</div>
 						</div>

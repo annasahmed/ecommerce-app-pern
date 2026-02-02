@@ -77,6 +77,7 @@ export default function LoginForm({ onSuccess, switchToSignup }) {
 				label="Remember Me"
 				register={register}
 				errorName={errors.remember}
+				required={false}
 			/>
 
 			<PrimaryButton className="w-full">Sign In</PrimaryButton>
