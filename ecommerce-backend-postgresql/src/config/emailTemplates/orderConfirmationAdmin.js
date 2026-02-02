@@ -52,9 +52,7 @@ const orderConfirmationAdminTemplate = ({
 						<td>
 							<h3 style="margin-bottom:10px; color:#E95CA7;">Customer Details</h3>
 							<table width="100%" cellpadding="4" cellspacing="0">
-								<tr><td><strong>Name:</strong></td><td>${customer.firstName} ${
-		customer.lastName
-	}</td></tr>
+								<tr><td><strong>Name:</strong></td><td>${customer.name || 'User'}</td></tr>
 								<tr><td><strong>Email:</strong></td><td>${customer.email}</td></tr>
 								<tr><td><strong>Phone:</strong></td><td>${customer.phone}</td></tr>
 								<tr><td><strong>Address:</strong></td><td>${customer.address}</td></tr>
