@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 const orderSubmenu = [
 	{ id: "all", label: "All orders" },
 	{ id: ["pending"], label: "Pending" },
-	{ id: ["confirmed"], label: "Confirmed" },
+	{ id: ["in_progress"], label: "In Progress" },
 	{ id: ["cancelled"], label: "Cancelled" },
 	{ id: ["delivered"], label: "Delivered" },
 	{
@@ -156,7 +156,7 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 										className={`px-4 py-1 rounded-full text-sm font-bold uppercase p5 tracking-wide shadow-sm ${
 											order.status === "pending"
 												? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
-												: order.status === "confirmed"
+												: order.status === "in_progress"
 													? "bg-blue-100 text-blue-800 ring-1 ring-blue-300"
 													: order.status === "cancelled"
 														? "bg-red-100 text-red-800 ring-1 ring-red-300"

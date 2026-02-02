@@ -1,19 +1,14 @@
 "use client";
 
-import React from "react";
 import {
-	FacebookShareButton,
-	TwitterShareButton,
-	LinkedinShareButton,
-	PinterestShareButton,
-	WhatsappShareButton,
-	RedditShareButton,
 	FacebookIcon,
-	TwitterIcon,
+	FacebookShareButton,
 	LinkedinIcon,
-	PinterestIcon,
+	LinkedinShareButton,
+	TwitterIcon,
+	TwitterShareButton,
 	WhatsappIcon,
-	RedditIcon,
+	WhatsappShareButton,
 } from "react-share";
 
 const SocialShare = ({ url, title, description, image }) => {
@@ -40,20 +35,11 @@ const SocialShare = ({ url, title, description, image }) => {
 			Button: LinkedinShareButton,
 			Icon: LinkedinIcon,
 		},
-		{
-			name: "Pinterest",
-			Button: PinterestShareButton,
-			Icon: PinterestIcon,
-		},
+
 		{
 			name: "WhatsApp",
 			Button: WhatsappShareButton,
 			Icon: WhatsappIcon,
-		},
-		{
-			name: "Reddit",
-			Button: RedditShareButton,
-			Icon: RedditIcon,
 		},
 	];
 

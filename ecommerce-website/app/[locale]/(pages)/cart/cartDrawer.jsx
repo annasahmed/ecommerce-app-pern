@@ -7,6 +7,8 @@ import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useCartStore } from "@/app/store/cartStore";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function CartDrawer({ open, setOpen }) {
 	const { cart, addToCart, removeFromCart } = useCartStore();
@@ -112,9 +114,10 @@ export default function CartDrawer({ open, setOpen }) {
 						<BasePrice price={subtotal} />
 					</div>
 
-					<PrimaryButton link="/checkout" className="w-full" onClick={onClose}>
+					{/* <PrimaryButton link="/checkout" className="w-full" onClick={onClose}>
 						Checkout
-					</PrimaryButton>
+					</PrimaryButton> */}
+					<CheckoutButton onClose={onClose} />
 
 					<PrimaryButton
 						link="/cart"
@@ -127,3 +130,25 @@ export default function CartDrawer({ open, setOpen }) {
 		</BaseDrawer>
 	);
 }
+
+const CheckoutButton = ({ onClose }) => {
+	const router = useRouter();
+	const pathname = usePathname();
+
+	const handleCheckout = () => {
+		onClose?.(); // close drawer first
+
+		if (pathname === "/checkout") {
+			// Reload current page
+			window.location.reload();
+		} else {
+			router.push("/checkout");
+		}
+	};
+
+	return (
+		<PrimaryButton className="w-full" onClick={handleCheckout}>
+			Checkout
+		</PrimaryButton>
+	);
+};

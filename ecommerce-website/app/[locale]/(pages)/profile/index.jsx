@@ -25,7 +25,7 @@ export default function ProfileDashboard() {
 		// { id: "coupons", icon: CreditCard, label: "Coupons & offers" },
 		// { id: "credit", icon: CreditCard, label: "Credit balance" },
 		{ id: "wishlist", icon: Heart, label: "Wishlist" },
-		{ id: "logout", icon: LogOut, label: "Logout" },
+		{ id: "logout", icon: LogOut, label: "Logout", isLogoutButton: true },
 		// { id: "stores", icon: Store, label: "Followed stores" },
 		// { id: "history", icon: History, label: "Browsing history" },
 		// { id: "addresses", icon: MapPin, label: "Addresses" },

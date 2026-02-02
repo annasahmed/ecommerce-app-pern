@@ -2,7 +2,7 @@ import { useAuth } from "@/app/providers/AuthProvider";
 import React from "react";
 
 const ProfileSidebar = ({ menuItems, activeTab, setActiveTab }) => {
-	const { user } = useAuth();
+	const { user, logout } = useAuth();
 	return (
 		<div className="lg:w-64 flex-shrink-0">
 			<div className="bg-white rounded-lg border sticky top-40">
@@ -30,9 +30,16 @@ const ProfileSidebar = ({ menuItems, activeTab, setActiveTab }) => {
 						return (
 							<div key={item.id}>
 								<button
-									onClick={() =>
-										setActiveTab(item.id === "orders" ? "all-orders" : item.id)
-									}
+									onClick={async () => {
+										if (item.isLogoutButton) {
+											await logout();
+											window.location.href = "/";
+										} else {
+											setActiveTab(
+												item.id === "orders" ? "all-orders" : item.id,
+											);
+										}
+									}}
 									className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${
 										isActive
 											? "bg-secondary/20 text-secondary"

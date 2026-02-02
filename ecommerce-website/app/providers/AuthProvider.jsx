@@ -91,6 +91,7 @@ export const AuthProvider = ({ children }) => {
 	const logout = useCallback(async () => {
 		try {
 			await requests.post("/auth/logout");
+			toast.success("User logged out successfully");
 			setUser(null);
 		} catch (e) {
 			console.error("Logout failed", e);
