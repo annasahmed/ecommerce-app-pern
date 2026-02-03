@@ -45,6 +45,22 @@ export const AuthProvider = ({ children }) => {
 			});
 	}, []);
 
+	// change password function
+	const changePassword = useCallback(async (data = {}) => {
+		return await requests
+			.patch("/auth/change-password", data)
+			.then((res) => {
+				setUser(res);
+				toast.success("Password updated successfully");
+				return res;
+			})
+			.catch((err) => {
+				toast.error(
+					err.message || "error updating password, please try again later",
+				);
+			});
+	}, []);
+
 	// Login function
 	const login = useCallback(async (email, password) => {
 		return await requests
@@ -110,6 +126,7 @@ export const AuthProvider = ({ children }) => {
 		loading,
 		isAuthenticated: !!user,
 		updateUser,
+		changePassword,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
