@@ -27,9 +27,9 @@ const UserTable = ({ data, toggleDrawerData }) => {
 							{formatDate(user.created_at)}
 						</TableCell>
 
-						<TableCell className="text-center">
+						{/* <TableCell className="text-center">
 							<ShowHideButton id={user.id} user status={user.status} />
-						</TableCell>
+						</TableCell> */}
 						<TableCell>
 							<EditDeleteButton
 								id={user?.id}

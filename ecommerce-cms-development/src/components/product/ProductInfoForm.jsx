@@ -112,7 +112,7 @@ const ProductInfoForm = ({
 						defaultSelected={selectedCategories}
 						isVertical
 					/>
-					<InputMultipleSelectField
+					{/* <InputMultipleSelectField
 						label={t("SelectUsp")}
 						inputName="usps"
 						inputPlaceholder={t("SelectUsp")}
@@ -127,21 +127,26 @@ const ProductInfoForm = ({
 						errorName={errors.usps}
 						defaultSelected={selectedUsps}
 						isVertical
-					/>
+					/> */}
 					<InputMultipleSelectField
-						label={t("SelectVendor")}
+						label={t("Select Brand")}
 						inputName="vendors"
-						inputPlaceholder={t("SelectVendor")}
+						inputPlaceholder={t("Select Brand")}
+						// options={vendors?.map((pCat) => ({
+						// 	id: pCat.id,
+						// 	// name: pCat.id,
+						// 	name: showingTranslateValue(pCat?.name),
+						// }))}
 						options={vendors?.map((pCat) => ({
 							id: pCat.id,
-							// name: pCat.id,
-							name: showingTranslateValue(pCat?.name),
+							name: showSelectedLanguageTranslation(pCat.translations, "title"),
 						}))}
 						setValue={setValue}
 						errorName={errors.vendors}
 						defaultSelected={selectedVendors}
 						isVertical
 					/>
+					<div></div>
 
 					<InputAreaField
 						label={t("BasePrice")}
@@ -165,7 +170,7 @@ const ProductInfoForm = ({
 						isVertical
 					/>
 					<div>
-						<SwitchToggleField
+						{/* <SwitchToggleField
 							label={t("HasVariants")}
 							handleProcess={setHasVariants}
 							processOption={hasVariants}
@@ -174,7 +179,7 @@ const ProductInfoForm = ({
 							label={t("IsFeatured")}
 							handleProcess={setIsFeatured}
 							processOption={isFeatured}
-						/>
+						/> */}
 						<SwitchToggleField
 							label={t("Status")}
 							handleProcess={setStatus}

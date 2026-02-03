@@ -107,10 +107,10 @@ const UserDrawer = ({ id, data }) => {
 			<DrawerHeader
 				id={id}
 				register={register}
-				updateTitle={t("UpdateUser")}
-				updateDescription={t("UpdateUserDescription")}
-				addTitle={t("AddUserTitle")}
-				addDescription={t("AddUserDescription")}
+				updateTitle={t("Update User")}
+				updateDescription={""}
+				addTitle={t("Add User")}
+				addDescription={""}
 			/>
 
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
@@ -145,6 +145,16 @@ const UserDrawer = ({ id, data }) => {
 							inputType="email"
 							inputPlaceholder={t("Enter user email")}
 							errorName={errors.email}
+						/>
+						<InputAreaField
+							label={t("Password")}
+							required={true}
+							register={register}
+							inputLabel="password"
+							inputName="password"
+							// inputType="password"
+							inputPlaceholder={t("Enter user password")}
+							errorName={errors.password}
 						/>
 						<InputSelectField
 							label={t("Select Role")}

@@ -50,7 +50,7 @@ const User = () => {
 							<TableCell>{t("Email")}</TableCell>
 							<TableCell>{t("Role")}</TableCell>
 							<TableCell className="text-center">{t("Created At")}</TableCell>
-							<TableCell className="text-center">{t("Status")}</TableCell>
+							{/* <TableCell className="text-center">{t("Status")}</TableCell> */}
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>
 					</TableHeader>

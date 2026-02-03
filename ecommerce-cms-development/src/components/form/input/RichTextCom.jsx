@@ -11,7 +11,7 @@ const RichTextCom = ({
 }) => {
 	return (
 		<Editor
-			apiKey="5y7voddyq0zwpxv0s32ecw56ewi4wz3mtrzgqxil4qw52p14"
+			apiKey="pagii8pj434rhsxrqo62xewua7av1ycy6s8hif7fzmch99b6"
 			value={value ? value.replace(/&lt;/g, "<") : "<p></p>"}
 			// value={value}
 			init={{

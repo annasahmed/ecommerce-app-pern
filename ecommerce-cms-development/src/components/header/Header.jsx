@@ -215,10 +215,10 @@ const Header = () => {
 											data?.length === 0
 												? "h-40"
 												: data?.length <= 2
-												? "h-40"
-												: data?.length <= 3
-												? "h-56"
-												: "h-330"
+													? "h-40"
+													: data?.length <= 3
+														? "h-56"
+														: "h-330"
 										} md:w-400 w-300`}>
 										<Scrollbars>
 											{data?.length === 0 ? (
@@ -241,8 +241,8 @@ const Header = () => {
 																		value.productId
 																			? `/product/${value.productId}`
 																			: value.orderId
-																			? `/order/${value.orderId}`
-																			: "/our-staff"
+																				? `/order/${value.orderId}`
+																				: "/our-staff"
 																	}
 																	className="flex items-center"
 																	onClick={() =>
@@ -348,7 +348,7 @@ const Header = () => {
 										</Link>
 									</li>
 
-									<li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-customGray-100 text-customGray-500 hover:text-customTeal-500 dark:text-customGray-400 dark:hover:bg-customGray-800 dark:hover:text-customGray-200">
+									{/* <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-customGray-100 text-customGray-500 hover:text-customTeal-500 dark:text-customGray-400 dark:hover:bg-customGray-800 dark:hover:text-customGray-200">
 										<Link to="/edit-profile">
 											<span className="flex items-center text-sm">
 												<FiSettings
@@ -358,7 +358,7 @@ const Header = () => {
 												<span>{t("EditProfile")}</span>
 											</span>
 										</Link>
-									</li>
+									</li> */}
 
 									<li
 										onClick={handleLogOut}
