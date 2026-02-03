@@ -8,6 +8,7 @@ const {
 const db = require('../../db/models');
 const ApiError = require('../../utils/ApiError');
 const { sendEmail } = require('../email.service');
+const { addOrUpdateAddress } = require('./appUserService');
 
 async function confirmOrder(req) {
 	const { customer, billingAddress, items, summary, userId } = req.body;
@@ -44,6 +45,30 @@ async function confirmOrder(req) {
 
 	if (userId) {
 		data.app_user_id = userId;
+		await addOrUpdateAddress(
+			{
+				address: customer.address,
+				apartment: customer.apartment || null,
+				city: customer.city,
+				country: customer.country,
+				postal_code: customer.postalCode,
+				type: 'shipping',
+			},
+			userId
+		);
+		if (!customer.billingSameAsShipping) {
+			await addOrUpdateAddress(
+				{
+					address: billingAddress.address,
+					apartment: billingAddress.apartment || null,
+					city: billingAddress.city,
+					country: billingAddress.country,
+					postal_code: billingAddress.postalCode,
+					type: 'billing',
+				},
+				userId
+			);
+		}
 	} else {
 		data.guest_first_name = customer.name;
 		data.guest_email = customer.email;

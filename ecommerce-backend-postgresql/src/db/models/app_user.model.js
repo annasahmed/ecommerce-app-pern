@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	app_user.associate = (models) => {
 		app_user.hasOne(models.token);
+		app_user.hasMany(models.address);
 		mediaAssociation(app_user, models, 'image');
 	};
 

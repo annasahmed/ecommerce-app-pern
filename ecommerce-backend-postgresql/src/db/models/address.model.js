@@ -10,10 +10,8 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
-			street: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
+			address: { type: DataTypes.TEXT, allowNull: false },
+			apartment: { type: DataTypes.TEXT, allowNull: true },
 			city: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -49,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
 			 */
 			tableName: 'address',
 			timestamps: true,
-			...baseScopes(),
+			// ...baseScopes(),
 		}
 	);
 	address.associate = (models) => {

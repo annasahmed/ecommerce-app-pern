@@ -16,7 +16,22 @@ const updateAppUser = catchAsync(async (req, res) => {
 	const appUser = await apiAppUserService.updateAppUser(req);
 	res.send(appUser);
 });
+const addOrUpdateAddress = catchAsync(async (req, res) => {
+	const accessToken = req.cookies.accessToken;
+	if (!accessToken) {
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+	}
+
+	// Verify access token
+	const payload = await verifyToken(accessToken);
+	const address = await apiAppUserService.addOrUpdateAddress(
+		req.body,
+		payload.userId
+	);
+	res.send(address);
+});
 
 module.exports = {
 	updateAppUser,
+	addOrUpdateAddress,
 };

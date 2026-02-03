@@ -4,6 +4,7 @@ const { getOffset } = require('./query');
 const config = require('../config/config');
 const { pickLanguageFields } = require('./languageUtils');
 const { Op } = require('sequelize');
+const db = require('../db/models');
 
 function createAppBaseService(model, options = {}) {
 	const {
@@ -46,7 +47,13 @@ function createAppBaseService(model, options = {}) {
 				)
 				.findOne({
 					where: { id },
-					include,
+					include: [
+						{
+							model: db.address,
+							required: false,
+						},
+						...include,
+					],
 					attributes: attributes?.length > 0 ? attributes : {},
 				});
 			if (!result)

@@ -111,6 +111,51 @@ async function createAppUser(req) {
 	return await appUserService.create(req.body);
 }
 
+async function addOrUpdateAddress(data, userId) {
+	const { address, apartment, city, country, postal_code, type } = data;
+
+	if (!type) {
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Address type is required');
+	}
+
+	return await db.sequelize.transaction(async (t) => {
+		const existingAddress = await db.address.findOne({
+			where: {
+				app_user_id: userId,
+				type, // 👈 important
+			},
+			transaction: t,
+		});
+
+		if (existingAddress) {
+			await existingAddress.update(
+				{
+					address,
+					apartment,
+					city,
+					country,
+					postal_code,
+				},
+				{ transaction: t }
+			);
+			return existingAddress;
+		}
+
+		return await db.address.create(
+			{
+				address,
+				apartment,
+				city,
+				country,
+				postal_code,
+				type,
+				app_user_id: userId,
+			},
+			{ transaction: t }
+		);
+	});
+}
+
 module.exports = {
 	getAppUserById: (id) => appUserService.getById(id),
 	getAppUserByEmail: (email) =>
@@ -123,4 +168,5 @@ module.exports = {
 	createAppUser,
 	updateAppUser: (req) => appUserService.update(req.body.id, req.body),
 	sendRegistrationOtp,
+	addOrUpdateAddress,
 };

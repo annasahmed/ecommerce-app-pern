@@ -107,7 +107,7 @@ async function updateCategory(req) {
 		let parentCategory = null;
 		if (newParentId) {
 			const exist = await db.category
-				.scope(['onlyId', 'activeEntity'])
+				.scope(['activeEntity'])
 				.findByPk(newParentId);
 			if (!exist)
 				throw new ApiError(
@@ -129,7 +129,8 @@ async function updateCategory(req) {
 				);
 			}
 
-			newLevel = parentCategory.level + 1;
+			parentCategory = exist;
+			newLevel = (parentCategory?.level || 0) + 1;
 		} else {
 			// Moved to root
 			newLevel = 1;
@@ -357,7 +358,6 @@ module.exports = {
 	getCategoriesForOptions,
 	importCategoriesTitles,
 	verifyCategoriesExist,
-	
 };
 
 async function isCategoryDescendant(
@@ -392,8 +392,6 @@ async function isCategoryDescendant(
 
 	return result.length > 0;
 }
-
-
 
 async function updateChildrenLevels(categoryId, levelDiff, transaction) {
 	const query = `

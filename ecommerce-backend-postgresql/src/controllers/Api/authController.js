@@ -57,6 +57,7 @@ const register = catchAsync(async (req, res) => {
 		tokens.access.token,
 		generateExpires(config.jwt.refreshExpirationDays * 24)
 	);
+
 	res.status(httpStatus.CREATED).send({ user });
 });
 
@@ -81,6 +82,35 @@ const refreshAccessToken = catchAsync(async (req, res) => {
 	res.send({ message: 'Access token refreshed' });
 });
 
+const changePassword = catchAsync(async (req, res) => {
+	const accessToken = req.cookies.accessToken;
+	if (!accessToken) {
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+	}
+
+	// Verify access token
+	const payload = await verifyToken(accessToken);
+	await apiAuthService.changePassword(req, payload.userId);
+
+	const refreshToken = req.cookies.refreshToken;
+
+	if (refreshToken) {
+		const { jti } = await verifyToken(refreshToken);
+
+		// Remove this refresh token from DB (current session)
+		await db.token.destroy({
+			where: { jti, expires_at: { [Op.gt]: new Date() } },
+		});
+	}
+
+	// Clear cookies for current user
+	clearCookie(res, 'accessToken');
+	clearCookie(res, 'refreshToken');
+
+	res.send({
+		message: 'password changed and user logged out successfully',
+	});
+});
 const logout = catchAsync(async (req, res) => {
 	const refreshToken = req.cookies.refreshToken;
 
@@ -137,4 +167,5 @@ module.exports = {
 	logout,
 	me,
 	sendOtp,
+	changePassword,
 };

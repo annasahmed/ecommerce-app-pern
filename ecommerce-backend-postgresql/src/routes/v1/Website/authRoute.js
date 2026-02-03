@@ -23,6 +23,8 @@ router.post(
 	apiAuthController.register
 );
 
+router.patch('/change-password', apiAuthController.changePassword);
+
 router.post(
 	'/logout',
 	validate(apiAuthValidation.logout),
