@@ -185,6 +185,7 @@ async function createProduct(req) {
 					{
 						...entry,
 						product_variant_id: newVariant.id,
+						branch_id: 1,
 					},
 					{ transaction }
 				);
@@ -579,7 +580,7 @@ module.exports = {
 	createProduct,
 	updateProduct,
 	getProducts: (req) =>
-		productService.list(req, [], [], [['created_at', 'ASC']]),
+		productService.list(req, [], [], [['created_at', 'DESC']]),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
 	updateProductCategoriesBySku,

@@ -351,7 +351,7 @@ module.exports = {
 				],
 				'created_at',
 			],
-			[['created_at', 'ASC']]
+			[['created_at', 'DESC']]
 		),
 	permanentDeleteCategoryById: categoryService.permanentDelete,
 	softDeleteCategoryById,
