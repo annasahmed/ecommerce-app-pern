@@ -1,6 +1,6 @@
+// not using this model right now
 // use this model only for filters
 // this model is when there are no variants
-
 module.exports = (sequelize, DataTypes) => {
 	const product_to_attribute = sequelize.define(
 		'product_to_attribute',

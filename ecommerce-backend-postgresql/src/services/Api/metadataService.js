@@ -26,7 +26,7 @@ async function getFiltersData(req) {
 
 	if (category) {
 		selectedCategory = await db.category.scope('active').findOne({
-			attributes: ['id', 'parent_id', 'level'],
+			attributes: ['id', 'parent_id', 'level', 'attribute_type'],
 			include: [
 				{
 					model: db.category_translation,
@@ -117,7 +117,29 @@ async function getFiltersData(req) {
 			attributes: ['id', 'name', 'values'],
 		});
 
-	return { categories, brands, attributes, selectedCategory, selectedBrand };
+	const categoryAttributeType = selectedCategory?.attribute_type || 'baby';
+	const filteredAttributes = attributes.map((attr) => {
+		// Only filter SIZE attribute
+		if (attr.name?.en?.toLowerCase() === 'size') {
+			return {
+				...attr.toJSON(),
+				values: (attr.values || []).filter(
+					(v) => v.type === categoryAttributeType
+				),
+			};
+		}
+
+		// gender / color untouched
+		return attr;
+	});
+
+	return {
+		categories,
+		brands,
+		attributes: filteredAttributes,
+		selectedCategory,
+		selectedBrand,
+	};
 }
 // async function getFiltersData(req) {
 // 	const { category, brand } = req.query; //get category and brand from slugs

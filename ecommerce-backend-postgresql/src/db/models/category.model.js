@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: 1,
 			},
+			attribute_type: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				defaultValue: 'baby',
+			},
 			icon: { ...mediaField, field: 'icon', as: 'cat_icon' },
 			user_id: {
 				type: DataTypes.INTEGER,

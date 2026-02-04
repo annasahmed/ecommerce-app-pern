@@ -19,6 +19,7 @@ function transformCategory(category, lang) {
 		id: category.id,
 		title: translation.title,
 		slug: translation.slug,
+		attribute_type: category.attribute_type,
 	};
 }
 function transformAttribute(category, lang) {
@@ -40,7 +41,8 @@ function transformFilterDataResponse(response, lang = 'en') {
 			transformBrand(brand, lang)
 		),
 		attributes: (response.attributes || []).map((attr) => {
-			const plainAttr = attr.get({ plain: true });
+			const plainAttr = attr;
+			// const plainAttr = attr.get({ plain: true });
 			return {
 				...plainAttr,
 				name: extractLangField(plainAttr.name, lang),
