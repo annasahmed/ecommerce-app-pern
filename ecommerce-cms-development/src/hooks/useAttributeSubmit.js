@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 //internal import
 import { SidebarContext } from "@/context/SidebarContext";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import useTranslationValue from "./useTranslationValue";

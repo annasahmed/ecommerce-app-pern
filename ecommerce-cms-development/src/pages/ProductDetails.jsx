@@ -16,7 +16,7 @@ import useAsync from "@/hooks/useAsync";
 import useFilter from "@/hooks/useFilter";
 import useProductSubmit from "@/hooks/useProductSubmit";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import AttributeList from "@/components/attributeOld/AttributeList";
 import MainDrawer from "@/components/drawer/MainDrawer";

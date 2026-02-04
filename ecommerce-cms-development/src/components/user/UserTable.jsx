@@ -5,13 +5,16 @@ import EditDeleteButton from "@/components/table/EditDeleteButton";
 import ShowHideButton from "@/components/table/ShowHideButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import { formatDate } from "@/utils/globals";
+import DeleteModal from "../modal/DeleteModal";
 
-const UserTable = ({ data, toggleDrawerData }) => {
+const UserTable = ({ data, toggleDrawerData, useParamId }) => {
 	const { title, serviceId, handleModalOpen, handleUpdate } = toggleDrawerData;
 	const { showSelectedLanguageTranslation } = useUtilsFunction();
 
 	return (
 		<>
+			<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
+
 			<TableBody>
 				{data?.map((user) => (
 					<TableRow key={user.id}>
@@ -27,9 +30,9 @@ const UserTable = ({ data, toggleDrawerData }) => {
 							{formatDate(user.created_at)}
 						</TableCell>
 
-						{/* <TableCell className="text-center">
+						<TableCell className="text-center">
 							<ShowHideButton id={user.id} user status={user.status} />
-						</TableCell> */}
+						</TableCell>
 						<TableCell>
 							<EditDeleteButton
 								id={user?.id}

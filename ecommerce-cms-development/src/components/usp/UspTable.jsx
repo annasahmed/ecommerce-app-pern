@@ -34,7 +34,7 @@ const UspTable = ({
 			<TableBody>
 				{data?.map((usp) => (
 					<TableRow key={usp.id}>
-						<TableCell>
+						{/* <TableCell>
 							<CheckBox
 								type="checkbox"
 								name="usp"
@@ -42,7 +42,7 @@ const UspTable = ({
 								handleClick={handleClick}
 								isChecked={isCheck?.includes(parseInt(usp.id))}
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell className="font-semibold uppercase text-xs">
 							{usp?.id}

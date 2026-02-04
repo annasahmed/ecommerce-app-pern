@@ -64,7 +64,7 @@ const Product = () => {
 				<Table>
 					<TableHeader>
 						<tr>
-							<TableCell>
+							{/* <TableCell>
 								<CheckBox
 									type="checkbox"
 									name="selectAll"
@@ -72,7 +72,7 @@ const Product = () => {
 									handleClick={handleSelectAll}
 									isChecked={isCheckAll}
 								/>
-							</TableCell>
+							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							<TableCell>{t("Brand")}</TableCell>

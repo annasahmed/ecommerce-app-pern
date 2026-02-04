@@ -7,7 +7,7 @@ import { FiTrash2 } from "react-icons/fi";
 import CustomerServices from "@/services/CustomerServices";
 import AdminServices from "@/services/AdminServices";
 import CouponServices from "@/services/CouponServices";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import CategoryServices from "@/services/CategoryServices";
 import { SidebarContext } from "@/context/SidebarContext";
 import { notifySuccess, notifyError } from "@/utils/toast";

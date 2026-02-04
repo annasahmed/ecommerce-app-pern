@@ -5,12 +5,12 @@ import { useLocation } from "react-router-dom";
 //internal import
 import useDisableForDemo from "./useDisableForDemo";
 import { SidebarContext } from "@/context/SidebarContext";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 
 const useBulkActionSubmit = (ids, lang = "en", childId) => {
@@ -142,9 +142,8 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 			if (
 				location.pathname === `/attributes/${location.pathname.split("/")[2]}`
 			) {
-				const res = await AttributeServices.updateManyChildAttribute(
-					childAttributeData,
-				);
+				const res =
+					await AttributeServices.updateManyChildAttribute(childAttributeData);
 				setIsUpdate(true);
 				notifySuccess(res.message);
 				closeBulkDrawer();

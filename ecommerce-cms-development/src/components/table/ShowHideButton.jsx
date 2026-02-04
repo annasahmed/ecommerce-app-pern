@@ -4,17 +4,19 @@ import { useLocation } from "react-router-dom";
 
 //internal import
 import { SidebarContext } from "@/context/SidebarContext";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import UspServices from "@/services/UspServices";
 import ParentCategoryServices from "@/services/ParentCategoryServices";
 import BrandServices from "@/services/BrandServices";
 import AppuserServices from "@/services/AppuserServices";
+import CustomerServices from "@/services/CustomerServices";
+import UserServices from "@/services/UserServices";
 
 const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 	const location = useLocation();
@@ -46,8 +48,22 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 				setIsUpdate(true);
 				notifySuccess(res.message);
 			}
+			if (location.pathname === "/customers") {
+				const res = await AppuserServices.updateStatus(id, {
+					status: newStatus,
+				});
+				setIsUpdate(true);
+				notifySuccess(res.message);
+			}
 			if (location.pathname === "/brand") {
 				const res = await BrandServices.updateStatus(id, {
+					status: newStatus,
+				});
+				setIsUpdate(true);
+				notifySuccess(res.message);
+			}
+			if (location.pathname === "/user") {
+				const res = await UserServices.updateStatus(id, {
 					status: newStatus,
 				});
 				setIsUpdate(true);

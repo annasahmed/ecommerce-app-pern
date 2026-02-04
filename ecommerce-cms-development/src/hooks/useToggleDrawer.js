@@ -45,7 +45,7 @@ const useToggleDrawer = () => {
 		title,
 		allId,
 		serviceId,
-    isDrawerOpen, // 👈 IMPORTANT
+		isDrawerOpen, // 👈 IMPORTANT
 		handleUpdate,
 		setServiceId,
 		handleModalOpen,

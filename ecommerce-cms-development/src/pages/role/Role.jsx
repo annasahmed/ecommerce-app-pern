@@ -8,87 +8,65 @@ import CheckBox from "@/components/form/others/CheckBox";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
 import TableWrapperWithPagination from "@/components/newComponents/TableWrapperWithPagination";
 import PageTitle from "@/components/Typography/PageTitle";
-import UspTable from "@/components/usp/UspTable";
+import RoleTable from "@/components/role/RoleTable";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import UspServices from "@/services/UspServices";
+import RoleServices from "@/services/RoleServices";
 import MainDrawer from "@/components/drawer/MainDrawer";
-import UspDrawer from "@/components/usp/UspDrawer";
+import RoleDrawer from "@/components/role/RoleDrawer";
 
-const Usp = () => {
+const Role = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
 	const {
-		data: uspsData,
+		data: rolesData,
 		loading,
 		error,
-	} = useAsync(UspServices.getAllUsps);
+	} = useAsync(RoleServices.getAllRoles);
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
+	console.log(serviceId, "chkking serviceId roles page");
 
 	const { t } = useTranslation();
 
 	// react hooks
-	const [isCheckAll, setIsCheckAll] = useState(false);
-	const [isCheck, setIsCheck] = useState([]);
-
-	const handleSelectAll = () => {
-		setIsCheckAll(!isCheckAll);
-		setIsCheck(data[0]?.children.map((li) => li.id));
-		if (isCheckAll) {
-			setIsCheck([]);
-		}
-	};
 
 	return (
 		<>
-			<PageTitle>{t("Usp")}</PageTitle>
+			<PageTitle>{t("Role")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddUsp")}
-				inputPlaceholder={t("SearchUsp")}
+				buttonText={t("Add Role")}
+				inputPlaceholder={t("Search Role")}
 				onClick={toggleDrawer}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={uspsData}>
+				data={rolesData}>
 				<Table>
 					<TableHeader>
 						<tr>
-							{/* <TableCell>
-								<CheckBox
-									type="checkbox"
-									name="selectAll"
-									id="selectAll"
-									handleClick={handleSelectAll}
-									isChecked={isCheckAll}
-								/>
-							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
-							<TableCell>{t("Description")}</TableCell>
-							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
+							{/* <TableCell>{t("Email")}</TableCell> */}
+							{/* <TableCell>{t("Role")}</TableCell> */}
+							<TableCell className="text-center">{t("Created At")}</TableCell>
+							{/* <TableCell className="text-center">{t("Status")}</TableCell> */}
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>
 					</TableHeader>
-					<UspTable
-						data={uspsData.records}
-						isCheck={isCheck}
-						setIsCheck={setIsCheck}
+					<RoleTable
+						data={rolesData.records}
 						toggleDrawerData={toggleDrawerData}
 					/>
 				</Table>
 			</TableWrapperWithPagination>
 
 			<MainDrawer>
-				<UspDrawer
-					id={serviceId}
-					data={uspsData.records}
-					lang={lang}
-				/>
+				<RoleDrawer id={serviceId} data={rolesData.records} lang={lang} />
 			</MainDrawer>
 		</>
 	);
 };
 
-export default Usp;
+export default Role;

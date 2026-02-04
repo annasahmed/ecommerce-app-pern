@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 
 //internal import
 import { SidebarContext } from "@/context/SidebarContext";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useDisableForDemo from "./useDisableForDemo";
 

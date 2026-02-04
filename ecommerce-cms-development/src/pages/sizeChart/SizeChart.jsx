@@ -55,7 +55,7 @@ const SizeChart = () => {
 				<Table>
 					<TableHeader>
 						<tr>
-							<TableCell>
+							{/* <TableCell>
 								<CheckBox
 									type="checkbox"
 									name="selectAll"
@@ -63,7 +63,7 @@ const SizeChart = () => {
 									handleClick={handleSelectAll}
 									isChecked={isCheckAll}
 								/>
-							</TableCell>
+							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							<TableCell>{t("DescriptionTbl")}</TableCell>

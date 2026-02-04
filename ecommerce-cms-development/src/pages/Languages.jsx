@@ -133,7 +133,7 @@ const Languages = () => {
 						<Table>
 							<TableHeader>
 								<tr>
-									<TableCell>
+									{/* <TableCell>
 										<CheckBox
 											type="checkbox"
 											name="selectAll"
@@ -141,7 +141,7 @@ const Languages = () => {
 											handleClick={handleSelectAll}
 											isChecked={isCheckAll}
 										/>
-									</TableCell>
+									</TableCell> */}
 									<TableCell>{t("LanguagesSr")}</TableCell>
 									<TableCell>{t("LanguagesNname")}</TableCell>
 									<TableCell>{t("LanguagesIsoCode")}</TableCell>

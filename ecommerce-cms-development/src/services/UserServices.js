@@ -24,10 +24,6 @@ const UserServices = {
 	deleteUser: async (id, body) => {
 		return requests.delete(`/user/${id}`, body);
 	},
-
-	getAllRoles: async (id, body) => {
-		return requests.delete(`/role/${id}`, body);
-	},
 };
 
 export default UserServices;

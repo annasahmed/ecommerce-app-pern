@@ -27,7 +27,7 @@ import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useFilter from "@/hooks/useFilter";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import AnimatedContent from "@/components/common/AnimatedContent";
 

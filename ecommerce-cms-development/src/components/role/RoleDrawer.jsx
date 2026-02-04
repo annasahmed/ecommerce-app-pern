@@ -5,33 +5,27 @@ import { useTranslation } from "react-i18next";
 //internal import
 import DrawerButton from "@/components/form/button/DrawerButton";
 import { SidebarContext } from "@/context/SidebarContext";
-import useTranslationValue from "@/hooks/useTranslationValue";
-import BrandServices from "@/services/BrandServices";
+import RoleServices from "@/services/RoleServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useForm } from "react-hook-form";
-import DrawerHeader from "../newComponents/DrawerHeader";
 import InputAreaField from "../form/fields/InputAreaField";
-import SwitchToggleField from "../form/fields/SwitchToggleField";
-import TranslationFields from "../newComponents/TranslationFields";
-import { useGlobalSettings } from "@/context/GlobalSettingsContext";
+import DrawerHeader from "../newComponents/DrawerHeader";
 
-const BrandDrawer = ({ id, data }) => {
+const RoleDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
-	const [status, setStatus] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const { closeDrawer, setIsUpdate, isDrawerOpen } = useContext(SidebarContext);
-	const { selectedLanguage } = useGlobalSettings();
+
+	// useEffect(() => {
+	// 	CategoryServices.getAllCategoriesForOptions(id).then((data) => {
+	// 		setParentCategories(data);
+	// 	});
+	// }, []);
 
 	const defaultValues = {
-		translations: [
-			{
-				title: null,
-				description: null,
-				slug: null,
-				language_id: selectedLanguage.id,
-			},
-		],
+		name: null,
+		description: null,
 	};
 
 	const {
@@ -48,20 +42,19 @@ const BrandDrawer = ({ id, data }) => {
 		try {
 			setIsSubmitting(true);
 
-			const brandData = {
+			const roleData = {
 				...data,
-				status,
 			};
 
 			if (id) {
-				const res = await BrandServices.updateBrand(id, brandData);
+				const res = await RoleServices.updateRole(id, roleData);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
 				closeDrawer();
 				reset();
 			} else {
-				const res = await BrandServices.addBrand(brandData);
+				const res = await RoleServices.addRole(roleData);
 				setIsUpdate(true);
 				setIsSubmitting(false);
 				notifySuccess(res.message);
@@ -78,12 +71,11 @@ const BrandDrawer = ({ id, data }) => {
 		if (id && isDrawerOpen) {
 			(async () => {
 				try {
-					const res = await BrandServices.getBrandById(id);
+					const res = await RoleServices.getRoleById(id);
 					if (res) {
 						setResData(res);
-						setValue("translations", res.translations);
-						setValue("slug", res.slug);
-						setStatus(res.status || false);
+						setValue("name", res.name);
+						setValue("description", res.description);
 					}
 				} catch (err) {
 					notifyError(err ? err.response?.data?.message : err.message);
@@ -94,55 +86,47 @@ const BrandDrawer = ({ id, data }) => {
 		}
 	}, [id, setValue, clearErrors, data]);
 
-	const translationFields = [
-		{
-			name: "title",
-			required: true,
-			fieldType: "inputArea",
-		},
-		{
-			name: "slug",
-			required: true,
-			fieldType: "inputArea",
-		},
-		{
-			name: "description",
-			fieldType: "textArea",
-		},
-	];
-
 	return (
 		<>
 			<DrawerHeader
 				id={id}
 				register={register}
-				updateTitle={t("UpdateBrand")}
-				updateDescription={t("UpdateBrandDescription")}
-				addTitle={t("AddBrandTitle")}
-				addDescription={t("AddBrandDescription")}
+				updateTitle={t("Update Role")}
+				updateDescription={""}
+				addTitle={t("Add Role")}
+				addDescription={""}
 			/>
 
 			<Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-customGray-700 dark:text-customGray-200">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
-						<TranslationFields
-							control={control}
-							errors={errors}
+						<InputAreaField
+							label={t("Name")}
+							required={true}
 							register={register}
-							translationFields={translationFields}
+							inputLabel="name"
+							inputName="name"
+							inputType="text"
+							inputPlaceholder={t("Enter role name")}
+							errorName={errors.name}
 						/>
-						<SwitchToggleField
-							label={t("Status")}
-							handleProcess={setStatus}
-							processOption={status}
+						<InputAreaField
+							label={t("Description")}
+							required={false}
+							register={register}
+							inputLabel="description"
+							inputName="description"
+							inputType="text"
+							inputPlaceholder={t("Enter role description")}
+							errorName={errors.description}
 						/>
 					</div>
 
-					<DrawerButton id={id} title="Brand" isSubmitting={isSubmitting} />
+					<DrawerButton id={id} title="Role" isSubmitting={isSubmitting} />
 				</form>
 			</Scrollbars>
 		</>
 	);
 };
 
-export default BrandDrawer;
+export default RoleDrawer;

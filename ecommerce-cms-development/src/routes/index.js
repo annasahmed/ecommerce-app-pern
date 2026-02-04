@@ -24,6 +24,7 @@ const Customers = lazy(() => import("@/pages/appuser/Appuser"));
 const Users = lazy(() => import("@/pages/user/User"));
 const CustomerOrder = lazy(() => import("@/pages/CustomerOrder"));
 const Orders = lazy(() => import("@/pages/order/Order"));
+const Roles = lazy(() => import("@/pages/role/Role"));
 const Returned = lazy(() => import("@/pages/returned/Returned"));
 const Subscriber = lazy(() => import("@/pages/subscriber/Subscriber"));
 const OrderInvoice = lazy(() => import("@/pages/OrderInvoice"));
@@ -121,6 +122,10 @@ const routes = [
 	{
 		path: "/currencies",
 		component: Currencies,
+	},
+	{
+		path: "/roles",
+		component: Roles,
 	},
 
 	{

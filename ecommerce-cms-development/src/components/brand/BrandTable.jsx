@@ -34,7 +34,7 @@ const BrandTable = ({
 			<TableBody>
 				{data?.map((brand) => (
 					<TableRow key={brand.id}>
-						<TableCell>
+						{/* <TableCell>
 							<CheckBox
 								type="checkbox"
 								name="brand"
@@ -42,7 +42,7 @@ const BrandTable = ({
 								handleClick={handleClick}
 								isChecked={isCheck?.includes(parseInt(brand.id))}
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell className="font-semibold uppercase text-xs">
 							{brand?.id}

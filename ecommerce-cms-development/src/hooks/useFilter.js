@@ -10,13 +10,13 @@ import { useLocation } from "react-router-dom";
 import useUtilsFunction from "./useUtilsFunction";
 import useDisableForDemo from "./useDisableForDemo";
 import { SidebarContext } from "@/context/SidebarContext";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import CustomerServices from "@/services/CustomerServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 
 const categorySchema = {

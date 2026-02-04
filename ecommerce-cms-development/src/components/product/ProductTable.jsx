@@ -25,16 +25,18 @@ const ProductTable = ({
 			setIsCheck(isCheck.filter((item) => item !== parseInt(id)));
 		}
 	};
+
 	return (
 		<>
 			{isCheck?.length < 1 && (
 				<DeleteModal useParamId={useParamId} id={serviceId} title={title} />
+				// <DeleteModal useParamId={useParamId} id={serviceId} title={title} />
 			)}
 
 			<TableBody>
 				{data?.map((product) => (
 					<TableRow key={product.id}>
-						<TableCell>
+						{/* <TableCell>
 							<CheckBox
 								type="checkbox"
 								name="product"
@@ -42,7 +44,7 @@ const ProductTable = ({
 								handleClick={handleClick}
 								isChecked={isCheck?.includes(parseInt(product.id))}
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell className="font-semibold uppercase text-xs">
 							{product?.id}

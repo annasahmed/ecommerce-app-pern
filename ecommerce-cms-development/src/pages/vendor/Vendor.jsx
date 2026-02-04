@@ -55,7 +55,7 @@ const Vendor = () => {
 				<Table>
 					<TableHeader>
 						<tr>
-							<TableCell>
+							{/* <TableCell>
 								<CheckBox
 									type="checkbox"
 									name="selectAll"
@@ -63,7 +63,7 @@ const Vendor = () => {
 									handleClick={handleSelectAll}
 									isChecked={isCheckAll}
 								/>
-							</TableCell>
+							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							<TableCell>{t("LocationTbl")}</TableCell>

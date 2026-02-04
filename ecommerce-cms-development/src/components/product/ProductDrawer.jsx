@@ -89,7 +89,8 @@ const ProductDrawer = ({ id, data }) => {
 	const [isFeatured, setIsFeatured] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
-	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
+	const { toggleDrawer, isDrawerOpen, closeDrawer, setIsUpdate } =
+		useContext(SidebarContext);
 	const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 	const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
 	const [selectedImages, setSelectedImages] = useState([]);
@@ -299,7 +300,7 @@ const ProductDrawer = ({ id, data }) => {
 	};
 
 	useEffect(() => {
-		if (id) {
+		if (id && isDrawerOpen) {
 			(async () => {
 				try {
 					const res = await ProductServices.getProductById(id);
@@ -320,7 +321,7 @@ const ProductDrawer = ({ id, data }) => {
 							res.images.length > 0
 								? res.images?.map(
 										(v) => import.meta.env.VITE_APP_CLOUDINARY_URL + v.url,
-								  )
+									)
 								: [],
 						);
 						setStatus(res.status ?? false);

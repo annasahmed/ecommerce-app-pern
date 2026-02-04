@@ -44,11 +44,11 @@ const sidebar = [
 				path: "/brand",
 				name: "Brands",
 			},
-			{
-				icon: FiSlack,
-				path: "/size-chart",
-				name: "SizeChart",
-			},
+			// {
+			// 	icon: FiSlack,
+			// 	path: "/size-chart",
+			// 	name: "SizeChart",
+			// },
 			{
 				icon: FiSlack,
 				path: "/attributes",
@@ -61,6 +61,16 @@ const sidebar = [
 		icon: FiSlack,
 		path: "/products",
 		name: "Products",
+	},
+	{
+		path: "/orders",
+		icon: FiCompass,
+		name: "Orders",
+	},
+	{
+		path: "/returned",
+		icon: FiCompass,
+		name: "Return Requests",
 	},
 
 	{
@@ -96,14 +106,9 @@ const sidebar = [
 		name: "Customers",
 	},
 	{
-		path: "/orders",
-		icon: FiCompass,
-		name: "Orders",
-	},
-	{
-		path: "/returned",
-		icon: FiCompass,
-		name: "Return Requests",
+		path: "/roles",
+		icon: FiUsers,
+		name: "Roles",
 	},
 
 	{

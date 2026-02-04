@@ -29,7 +29,7 @@ import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useFilter from "@/hooks/useFilter";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import AnimatedContent from "@/components/common/AnimatedContent";
 
 //internal import
@@ -197,7 +197,7 @@ const Attributes = () => {
 					<Table>
 						<TableHeader>
 							<tr>
-								<TableCell>
+								{/* <TableCell>
 									<CheckBox
 										type="checkbox"
 										name="selectAll"
@@ -205,7 +205,7 @@ const Attributes = () => {
 										handleClick={handleSelectAll}
 										isChecked={isCheckAll}
 									/>
-								</TableCell>
+								</TableCell> */}
 								<TableCell> {t("Id")} </TableCell>
 								<TableCell> {t("AName")}</TableCell>
 								<TableCell> {t("ADisplayName")}</TableCell>

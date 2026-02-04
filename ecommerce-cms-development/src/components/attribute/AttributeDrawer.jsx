@@ -22,7 +22,7 @@ const AttributeDrawer = ({ id }) => {
 	const { t } = useTranslation();
 	const [status, setStatus] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
+	const { closeDrawer, setIsUpdate, isDrawerOpen } = useContext(SidebarContext);
 	const { selectedLanguage } = useGlobalSettings();
 
 	// 🔹 Default values for create
@@ -90,7 +90,7 @@ const AttributeDrawer = ({ id }) => {
 
 	// 🔹 Edit mode
 	useEffect(() => {
-		if (id) {
+		if (id && isDrawerOpen) {
 			(async () => {
 				try {
 					const res = await AttributeServices.getAttributeById(id);

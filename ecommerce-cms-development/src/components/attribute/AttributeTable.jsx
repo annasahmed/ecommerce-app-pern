@@ -36,7 +36,7 @@ const AttributeTable = ({
 			<TableBody>
 				{data?.map((attribute) => (
 					<TableRow key={attribute.id}>
-						<TableCell>
+						{/* <TableCell>
 							<CheckBox
 								type="checkbox"
 								name="attribute"
@@ -44,7 +44,7 @@ const AttributeTable = ({
 								handleClick={handleClick}
 								isChecked={isCheck?.includes(parseInt(attribute.id))}
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell className="font-semibold uppercase text-xs">
 							{attribute?.id}

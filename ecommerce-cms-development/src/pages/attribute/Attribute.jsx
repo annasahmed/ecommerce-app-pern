@@ -55,7 +55,7 @@ const Attribute = () => {
 				<Table>
 					<TableHeader>
 						<tr>
-							<TableCell>
+							{/* <TableCell>
 								<CheckBox
 									type="checkbox"
 									name="selectAll"
@@ -63,7 +63,7 @@ const Attribute = () => {
 									handleClick={handleSelectAll}
 									isChecked={isCheckAll}
 								/>
-							</TableCell>
+							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							<TableCell>{t("ValuesTbl")}</TableCell>

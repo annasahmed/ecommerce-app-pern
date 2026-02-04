@@ -21,7 +21,7 @@ const UserDrawer = ({ id, data }) => {
 	const [status, setStatus] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
-	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
+	const { closeDrawer, setIsUpdate, isDrawerOpen } = useContext(SidebarContext);
 	const { selectedLanguage } = useGlobalSettings();
 
 	// useEffect(() => {
@@ -82,7 +82,7 @@ const UserDrawer = ({ id, data }) => {
 	};
 
 	useEffect(() => {
-		if (id) {
+		if (id && isDrawerOpen) {
 			(async () => {
 				try {
 					const res = await UserServices.getUserById(id);

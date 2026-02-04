@@ -55,7 +55,7 @@ const Category = () => {
 				<Table>
 					<TableHeader>
 						<tr>
-							<TableCell>
+							{/* <TableCell>
 								<CheckBox
 									type="checkbox"
 									name="selectAll"
@@ -63,7 +63,7 @@ const Category = () => {
 									handleClick={handleSelectAll}
 									isChecked={isCheckAll}
 								/>
-							</TableCell>
+							</TableCell> */}
 							<TableCell>{t("catIdTbl")}</TableCell>
 							<TableCell>{t("catIconTbl")}</TableCell>
 							<TableCell>{t("CatTbName")}</TableCell>

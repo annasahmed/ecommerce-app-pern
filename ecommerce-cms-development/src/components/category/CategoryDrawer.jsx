@@ -30,7 +30,7 @@ const CategoryDrawer = ({ id, data }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const [parentCategories, setParentCategories] = useState([]);
-	const { closeDrawer, setIsUpdate } = useContext(SidebarContext);
+	const { closeDrawer, setIsUpdate, isDrawerOpen } = useContext(SidebarContext);
 	const { selectedLanguage } = useGlobalSettings();
 
 	const defaultValues = {
@@ -120,7 +120,7 @@ const CategoryDrawer = ({ id, data }) => {
 		setSelectedImage(null);
 		setSelectedImageUrl(null);
 		setStatus(true);
-		if (id) {
+		if (id && isDrawerOpen) {
 			(async () => {
 				try {
 					const res = await CategoryServices.getCategoryById(id);

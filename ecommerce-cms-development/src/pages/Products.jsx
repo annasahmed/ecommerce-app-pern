@@ -22,7 +22,7 @@ import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import UploadMany from "@/components/common/UploadMany";
 import NotFound from "@/components/table/NotFound";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
 import ProductTable from "@/components/productOld/ProductTable";
@@ -239,7 +239,7 @@ const Products = () => {
 					<Table>
 						<TableHeader>
 							<tr>
-								<TableCell>
+								{/* <TableCell>
 									<CheckBox
 										type="checkbox"
 										name="selectAll"
@@ -247,7 +247,7 @@ const Products = () => {
 										isChecked={isCheckAll}
 										handleClick={handleSelectAll}
 									/>
-								</TableCell>
+								</TableCell> */}
 								<TableCell>{t("ProductNameTbl")}</TableCell>
 								<TableCell>{t("CategoryTbl")}</TableCell>
 								<TableCell>{t("PriceTbl")}</TableCell>

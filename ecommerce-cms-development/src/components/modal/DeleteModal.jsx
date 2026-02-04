@@ -13,9 +13,9 @@ import CategoryServices from "@/services/CategoryServices";
 import CouponServices from "@/services/CouponServices";
 import CustomerServices from "@/services/CustomerServices";
 import LanguageServices from "@/services/LanguageServices";
-import ProductServices from "@/services/ProductServicesOld";
+import ProductServices from "@/services/ProductServices";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
-import AttributeServices from "@/services/AttributeServicesOld";
+import AttributeServices from "@/services/AttributeServices";
 import CurrencyServices from "@/services/CurrencyServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useDisableForDemo from "@/hooks/useDisableForDemo";
@@ -23,8 +23,17 @@ import UspServices from "@/services/UspServices";
 import VendorServices from "@/services/VendorServices";
 import BranchServices from "@/services/BranchServices";
 import MediaServices from "@/services/MediaServices";
+import RoleServices from "@/services/RoleServices";
+import UserServices from "@/services/UserServices";
 
-const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
+const DeleteModal = ({
+	id,
+	ids,
+	setIsCheck = () => {},
+	category,
+	title,
+	useParamId,
+}) => {
 	const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
 	const { setServiceId } = useToggleDrawer();
 	const location = useLocation();
@@ -162,6 +171,24 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
 				notifySuccess(res.message);
 				setServiceId();
 				closeModal();
+				setIsSubmitting(false);
+			}
+			if (location.pathname === "/roles") {
+				const res = await RoleServices.deleteRole(id);
+				setIsUpdate(true);
+				notifySuccess(res.message);
+				setServiceId();
+				closeModal();
+				setIsCheck([]);
+				setIsSubmitting(false);
+			}
+			if (location.pathname === "/user") {
+				const res = await UserServices.deleteUser(id);
+				setIsUpdate(true);
+				notifySuccess(res.message);
+				setServiceId();
+				closeModal();
+				setIsCheck([]);
 				setIsSubmitting(false);
 			}
 
