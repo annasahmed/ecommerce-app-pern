@@ -20,7 +20,7 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const deleteUser = catchAsync(async (req, res) => {
-	await adminUserService.deleteUserById(req.params.userId);
+	await adminUserService.deleteUserById(req);
 	res.send({ success: true });
 });
 const permanentDeleteUser = catchAsync(async (req, res) => {

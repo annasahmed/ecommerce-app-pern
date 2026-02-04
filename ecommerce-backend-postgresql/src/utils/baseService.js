@@ -191,10 +191,10 @@ function createBaseService(model, options = {}) {
 			return true;
 		},
 
-		async permanentDelete(id) {
-			const deleted = await model
-				.scope('withDeleted')
-				.destroy({ where: { id } });
+		async permanentDelete(id, useScope = true) {
+			const deleted = useScope
+				? await model.scope('withDeleted').destroy({ where: { id } })
+				: await model.destroy({ where: { id } });
 			if (!deleted)
 				throw new ApiError(httpStatus.NOT_FOUND, `${name} not found`);
 			return deleted;
@@ -204,7 +204,7 @@ function createBaseService(model, options = {}) {
 			req,
 			include = [],
 			attributes = [],
-			sort = [['created_at', 'DESC']]
+			sort = [['id', 'DESC']]
 		) {
 			const { page: defaultPage, limit: defaultLimit } =
 				config.pagination;

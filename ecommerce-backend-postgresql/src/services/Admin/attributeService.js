@@ -232,7 +232,7 @@ module.exports = {
 	createAttribute,
 	updateAttribute,
 	getAttributes: (req) =>
-		attributeService.list(req, [], [], [['created_at', 'ASC']]),
+		attributeService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteAttributeById: attributeService.permanentDelete,
 	softDeleteAttributeById,
 	importAttributes,

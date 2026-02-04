@@ -12,11 +12,10 @@ const appUserService = createBaseService(db.app_user, {
 });
 
 async function updateAppUser(req) {
-	return uspService.update(req.params.id, req.body);
+	return appUserService.update(req.params.id, req.body);
 }
 
 module.exports = {
-	getAppUsers: (req) =>
-		appUserService.list(req, [], [], [['created_at', 'ASC']]),
+	getAppUsers: (req) => appUserService.list(req, [], [], [['id', 'DESC']]),
 	updateAppUser,
 };

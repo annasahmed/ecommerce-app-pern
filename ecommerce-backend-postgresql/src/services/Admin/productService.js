@@ -579,8 +579,7 @@ module.exports = {
 	getProductById: productService.getById,
 	createProduct,
 	updateProduct,
-	getProducts: (req) =>
-		productService.list(req, [], [], [['created_at', 'DESC']]),
+	getProducts: (req) => productService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
 	updateProductCategoriesBySku,

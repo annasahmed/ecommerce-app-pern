@@ -9,5 +9,5 @@ const subscriberService = createBaseService(db.subscriber, {
 
 module.exports = {
 	getSubscribers: (req) =>
-		subscriberService.list(req, [], [], [['created_at', 'ASC']]),
+		subscriberService.list(req, [], [], [['id', 'DESC']]),
 };

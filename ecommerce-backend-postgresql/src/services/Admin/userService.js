@@ -68,7 +68,7 @@ async function getUsers(req) {
 	const users = await db.user.scope('defaultScope').findAndCountAll({
 		order: [
 			['first_name', 'ASC'],
-			['created_at', 'DESC'],
+			['id', 'DESC'],
 			['updated_at', 'DESC'],
 		],
 		include: [
@@ -91,11 +91,11 @@ async function getUsers(req) {
 	};
 }
 
-async function deleteUserById(userId) {
+async function deleteUserById(req) {
 	const deletedByUserId = commonUtils.getUserId(req);
 	const deletedUser = await commonUtils.softDelete(
 		db.user,
-		userId,
+		req.params.userId,
 		deletedByUserId
 	);
 

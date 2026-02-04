@@ -48,8 +48,7 @@ async function permanentDeleteMediaById(req) {
 
 module.exports = {
 	createMedia,
-	getMedias: (req) =>
-		mediaService.list(req, [], [], [['created_at', 'DESC']]),
+	getMedias: (req) => mediaService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteMediaById,
 	softDeleteMediaById,
 };

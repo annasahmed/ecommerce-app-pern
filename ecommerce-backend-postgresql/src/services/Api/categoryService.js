@@ -49,7 +49,7 @@ module.exports = {
 				},
 			],
 			[],
-			[['created_at', 'ASC']]
+			[['id', 'DESC']]
 		),
 	getAllDescendantCategoryIds,
 };

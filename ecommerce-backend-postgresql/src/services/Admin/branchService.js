@@ -55,8 +55,7 @@ module.exports = {
 	getBranchById: branchService.getById,
 	createBranch,
 	updateBranch,
-	getBranches: (req) =>
-		branchService.list(req, [], [], [['created_at', 'ASC']]),
+	getBranches: (req) => branchService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteBranchById: branchService.permanentDelete,
 	softDeleteBranchById,
 };

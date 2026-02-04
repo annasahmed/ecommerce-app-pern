@@ -382,7 +382,7 @@ module.exports = {
 	// 		// [],
 	// 		getProductsIncludes(req),
 	// 		[], // keep attribtes array empty to get all the attributes
-	// 		[['created_at', 'ASC']]
+	// 		[['id', 'DESC']]
 	// 	);
 	// },
 };

@@ -55,7 +55,7 @@ async function getProducts(
 	req,
 	include = [],
 	attributes = [],
-	sort = [['created_at', 'DESC']]
+	sort = [['id', 'DESC']]
 ) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const {

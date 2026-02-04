@@ -106,8 +106,7 @@ module.exports = {
 	getVendorById: vendorService.getById,
 	createVendor,
 	updateVendor,
-	getVendors: (req) =>
-		vendorService.list(req, [], [], [['created_at', 'ASC']]),
+	getVendors: (req) => vendorService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteVendorById: vendorService.permanentDelete,
 	softDeleteVendorById,
 	importVendors,

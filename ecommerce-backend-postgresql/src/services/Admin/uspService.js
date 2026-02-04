@@ -39,7 +39,7 @@ module.exports = {
 	getUspById: uspService.getById,
 	createUsp,
 	updateUsp,
-	getUsps: (req) => uspService.list(req, [], [], [['created_at', 'ASC']]),
+	getUsps: (req) => uspService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteUspById: uspService.permanentDelete,
 	softDeleteUspById,
 };

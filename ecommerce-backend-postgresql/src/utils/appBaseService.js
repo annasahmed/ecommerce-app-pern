@@ -110,7 +110,7 @@ function createAppBaseService(model, options = {}) {
 			include = [],
 			attributes = [],
 			scope = {},
-			sort = [['created_at', 'DESC']]
+			sort = [['id', 'DESC']]
 		) {
 			const { page: defaultPage, limit: defaultLimit } =
 				config.pagination;

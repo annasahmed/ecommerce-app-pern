@@ -42,8 +42,7 @@ module.exports = {
 	getLanguageById: languageService.getById,
 	createLanguage,
 	updateLanguage,
-	getLanguages: (req) =>
-		languageService.list(req, [], [], [['created_at', 'ASC']]),
+	getLanguages: (req) => languageService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteLanguageById: languageService.permanentDelete,
 	softDeleteLanguageById,
 };

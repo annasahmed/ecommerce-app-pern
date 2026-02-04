@@ -18,3 +18,4 @@ module.exports.adminOrderController = require('./orderController');
 module.exports.adminReturnedController = require('./returnedController');
 module.exports.adminSubscriberController = require('./subscriberController');
 module.exports.adminAppUserController = require('./appUserController');
+module.exports.adminRoleController = require('./roleController');

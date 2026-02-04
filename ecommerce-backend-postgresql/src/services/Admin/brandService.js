@@ -39,7 +39,7 @@ module.exports = {
 	getBrandById: brandService.getById,
 	createBrand,
 	updateBrand,
-	getBrands: (req) => brandService.list(req, [], [], [['created_at', 'ASC']]),
+	getBrands: (req) => brandService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteBrandById: brandService.permanentDelete,
 	softDeleteBrandById,
 };

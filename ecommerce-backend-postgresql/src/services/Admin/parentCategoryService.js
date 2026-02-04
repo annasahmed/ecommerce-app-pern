@@ -54,7 +54,7 @@ module.exports = {
 	createParentCategory,
 	updateParentCategory,
 	getParentCategories: (req) =>
-		parentCategoryService.list(req, [], [], [['created_at', 'ASC']]),
+		parentCategoryService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteParentCategoryById: parentCategoryService.permanentDelete,
 	softDeleteParentCategoryById,
 };

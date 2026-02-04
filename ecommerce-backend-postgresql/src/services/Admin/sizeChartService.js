@@ -45,7 +45,7 @@ module.exports = {
 	createSizeChart,
 	updateSizeChart,
 	getSizeCharts: (req) =>
-		sizeChartService.list(req, [], [], [['created_at', 'ASC']]),
+		sizeChartService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteSizeChartById: sizeChartService.permanentDelete,
 	softDeleteSizeChartById,
 };

@@ -6,6 +6,5 @@ const languageService = createAppBaseService(db.language, {
 });
 
 module.exports = {
-	getLanguages: (req) =>
-		languageService.list(req, [], [], [['created_at', 'ASC']]),
+	getLanguages: (req) => languageService.list(req, [], [], [['id', 'DESC']]),
 };

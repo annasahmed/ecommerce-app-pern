@@ -63,7 +63,7 @@ function createBaseService(model, options = {}) {
 
 		async update(id, data, userId) {
 			console.log(id, data, userId);
-			
+
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
 			await validations(data);
@@ -127,7 +127,7 @@ function createBaseService(model, options = {}) {
 			req,
 			include = [],
 			attributes = [],
-			sort = [['created_at', 'DESC']]
+			sort = [['id', 'DESC']]
 		) {
 			const { page: defaultPage, limit: defaultLimit } =
 				config.pagination;
