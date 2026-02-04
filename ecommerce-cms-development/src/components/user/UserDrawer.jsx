@@ -15,20 +15,22 @@ import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TranslationFields from "../newComponents/TranslationFields";
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 import InputSelectField from "../form/fields/InputSelectField";
+import RoleServices from "@/services/RoleServices";
 
 const UserDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
 	const [status, setStatus] = useState(true);
+	const [roles, setRoles] = useState([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const { closeDrawer, setIsUpdate, isDrawerOpen } = useContext(SidebarContext);
 	const { selectedLanguage } = useGlobalSettings();
 
-	// useEffect(() => {
-	// 	CategoryServices.getAllCategoriesForOptions(id).then((data) => {
-	// 		setParentCategories(data);
-	// 	});
-	// }, []);
+	useEffect(() => {
+		RoleServices.getAllRoles(id).then((data) => {
+			setRoles(data?.records);
+		});
+	}, []);
 
 	const defaultValues = {
 		translations: [
@@ -162,7 +164,7 @@ const UserDrawer = ({ id, data }) => {
 							inputLabel={t("role")}
 							inputName="role_id"
 							inputPlaceholder={t("Select role")}
-							options={[{ id: 1, name: "admin" }]?.map((pCat, index) => {
+							options={roles?.map((pCat, index) => {
 								return (
 									<option value={pCat.id} key={index}>
 										{pCat.name}

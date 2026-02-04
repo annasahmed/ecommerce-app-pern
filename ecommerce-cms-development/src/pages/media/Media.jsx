@@ -60,6 +60,8 @@ const Media = ({
 			<span className="text-center mx-auto text-customRed-500">{error}</span>
 		);
 
+	console.log(isSelectImage, "chkking selectedImage111");
+
 	return (
 		<div
 			className={`${isUnderModal ? "max-h-[60vh] overflow-y-auto" : ""} pr-2 scrollbar-thin scrollbar-thumb-gray-300`}>
@@ -126,7 +128,7 @@ const Media = ({
 									/>
 
 									{/* Hover overlay */}
-									{!isSelectImage && hoveredImage === image.id && (
+									{!isUnderModal && hoveredImage === image.id && (
 										<div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center space-x-2 transition-opacity duration-200">
 											<Button
 												size="small"
