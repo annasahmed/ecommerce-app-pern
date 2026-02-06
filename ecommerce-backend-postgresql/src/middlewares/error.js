@@ -11,12 +11,12 @@ const errorConverter = (err, req, res, next) => {
 		error = new ApiError(httpStatus.UNAUTHORIZED, err.message, true);
 	}
 
-	// if (!(error instanceof ApiError)) {
-	// 	const statusCode = error.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
-	// 	const message =
-	// 		error.message || httpStatus[statusCode] || 'Internal Server Error';
-	// 	error = new ApiError(statusCode, message, false, err.stack, err.errors);
-	// }
+	if (!(error instanceof ApiError)) {
+		const statusCode = error.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
+		const message =
+			error.message || httpStatus[statusCode] || 'Internal Server Error';
+		error = new ApiError(statusCode, message, false, err.stack, err.errors);
+	}
 
 	// Pass the error to the next middleware
 	next(error);
@@ -44,7 +44,7 @@ const errorHandler = (err, req, res, next) => {
 
 	// Log the error details
 	// if (config.env !== 'production' || !err.isOperational) {
-		logger.error(err); // Log full error stack for debugging purposes
+	logger.error(err); // Log full error stack for debugging purposes
 	// }
 
 	// Send the formatted response

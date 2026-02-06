@@ -22,6 +22,7 @@ router
 router
 	.route('/import-products')
 	.post(adminProductController.importProductsFromSheet);
+router.route('/export-products').get(adminProductController.exportProducts);
 // router.route('/bulk-products').post(adminProductController.createBulkProducts);
 // router
 // 	.route('/update-bulk-products')

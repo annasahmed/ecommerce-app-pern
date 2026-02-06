@@ -19,3 +19,4 @@ module.exports.adminReturnedController = require('./returnedController');
 module.exports.adminSubscriberController = require('./subscriberController');
 module.exports.adminAppUserController = require('./appUserController');
 module.exports.adminRoleController = require('./roleController');
+module.exports.adminDashboardController = require('./dashboardController');

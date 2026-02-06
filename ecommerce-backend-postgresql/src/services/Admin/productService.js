@@ -4,6 +4,11 @@ const createBaseService = require('../../utils/baseService.js');
 const { Op, where, fn, col } = require('sequelize');
 const { createBrand } = require('./brandService.js');
 const { createCategory } = require('./categoryService.js');
+const ExcelJS = require('exceljs');
+const cheerio = require('cheerio');
+const { getFilterAttributes } = require('./attributeService.js');
+const ApiError = require('../../utils/ApiError.js');
+const httpStatus = require('http-status');
 
 const productService = createBaseService(db.product, {
 	name: 'Product',
@@ -250,7 +255,6 @@ async function updateProduct(req, existingTransaction) {
 		}
 
 		// Update associations
-		console.log(categories, product.setCategories, 'chkking categories');
 		if (images?.length) await product.setImages(images, { transaction });
 		if (categories?.length)
 			await product.setCategories(categories, { transaction });
@@ -687,6 +691,8 @@ const resolveBrandId = async (
 		createdBrands.push(brandId);
 	}
 
+	console.log(brand, brand.id, 'chkking brand');
+
 	return brand.id;
 };
 
@@ -747,7 +753,7 @@ async function importProductsFromSheet(req) {
 		for (const product of products) {
 			// 🔹 Resolve categories & brand FIRST
 			const categoryNames = product.categories || [];
-			const brandName = product.brand_name || null;
+			const brandName = product.brand_id || null;
 			// console.log(product, 'product111');
 
 			// continue;
@@ -767,6 +773,8 @@ async function importProductsFromSheet(req) {
 			);
 			product.categories = categoryIds;
 			product.brand_id = brandId;
+
+			console.log(product.brand_id, brandId, 'chkking111');
 
 			// 🔹 Find existing product
 			let existingProduct =
@@ -807,8 +815,355 @@ async function importProductsFromSheet(req) {
 			updatedProducts,
 		};
 	} catch (error) {
+		console.log(error.message || error, 'chkking error');
+
 		await transaction.rollback();
 		// throw error.message || error;
+	}
+}
+
+const excelFeilds = {
+	sku: 'SKU',
+	title: 'Title',
+	excerpt: 'Excerpt',
+	description: 'Description',
+	slug: 'Slug',
+	meta_title: 'Meta Title',
+	meta_description: 'Meta_Description',
+	categories: 'Categories',
+	brand: 'Brand',
+	size: 'VariantsSize',
+	color: 'Variants Color',
+	gender: 'Gender',
+	additionalInfo: 'Additional info',
+	price: 'Price',
+	discount: 'Discount',
+};
+function splitDescription(html) {
+	if (!html) return { description: '', additionalInfo: '' };
+
+	// Decode HTML entities
+	const decodedHtml = html
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/\\u003E/g, '>');
+
+	const $ = cheerio.load(decodedHtml);
+
+	// Description: all <p> text before any <ul>
+	let descriptionTexts = [];
+	$('p').each((i, el) => {
+		const pText = $(el).text().trim();
+		if (pText) descriptionTexts.push(pText);
+	});
+
+	// Additional info: all <li> items
+	let additionalInfoTexts = [];
+	$('ul li').each((i, el) => {
+		const liText = $(el).text().trim();
+		if (liText) additionalInfoTexts.push('• ' + liText);
+	});
+
+	return {
+		description: descriptionTexts.join('\n'),
+		additionalInfo: additionalInfoTexts.join('\n'),
+	};
+}
+async function exportProducts(req, res) {
+	const filterAttributes = await getFilterAttributes();
+	try {
+		const products = await db.product.findAll({
+			include: [
+				{ model: db.media, required: false, as: 'thumbnailImage' },
+				{ model: db.media, required: false, as: 'images' },
+				{
+					model: db.category,
+					required: false,
+					include: [
+						{
+							model: db.category_translation,
+							as: 'translations',
+							required: false,
+							attributes: {
+								exclude: [
+									'created_at',
+									'updated_at',
+									'category_id',
+									'language_id',
+									'id',
+								],
+							},
+						},
+					],
+				},
+				{ model: db.product_translation, required: false },
+				{
+					model: db.usp,
+					required: false,
+					include: [
+						{
+							model: db.usp_translation,
+							as: 'translations',
+							required: false,
+							attributes: {
+								exclude: [
+									'created_at',
+									'updated_at',
+									'usp_id',
+									'language_id',
+									'id',
+								],
+							},
+						},
+					],
+				},
+				{
+					model: db.brand,
+					required: false,
+					include: [
+						{
+							model: db.brand_translation,
+							as: 'translations',
+							required: false,
+							attributes: {
+								exclude: [
+									'created_at',
+									'updated_at',
+									'brand_id',
+									'language_id',
+									'id',
+								],
+							},
+						},
+					],
+				},
+				{ model: db.vendor, required: false },
+				{
+					model: db.product_variant,
+					required: false,
+					include: [
+						{ model: db.media, required: false },
+						{
+							model: db.attribute,
+							required: false,
+							through: {
+								as: 'pva',
+							},
+							attributes: ['id', 'name'],
+						},
+						// {
+						// 	model: db.branch,
+						// 	required: false,
+						// 	through: {
+						// 		as: 'pvb',
+						// 	},
+						// },
+					],
+				},
+			],
+			// limit: 10,
+		});
+		const workbook = new ExcelJS.Workbook();
+		const sheet = workbook.addWorksheet('Products');
+
+		sheet.columns = sheet.columns = [
+			{ header: 'S.No', key: 'sno', width: 6 },
+			{ header: excelFeilds.sku, key: excelFeilds.sku, width: 20 },
+			{ header: excelFeilds.title, key: excelFeilds.title, width: 30 },
+			{
+				header: excelFeilds.excerpt,
+				key: excelFeilds.excerpt,
+				width: 30,
+			},
+			{
+				header: excelFeilds.description,
+				key: excelFeilds.description,
+				width: 50,
+			},
+			{ header: excelFeilds.slug, key: excelFeilds.slug, width: 25 },
+			{
+				header: excelFeilds.meta_title,
+				key: excelFeilds.meta_title,
+				width: 25,
+			},
+			{
+				header: excelFeilds.meta_description,
+				key: excelFeilds.meta_description,
+				width: 35,
+			},
+			{
+				header: excelFeilds.categories,
+				key: excelFeilds.categories,
+				width: 25,
+			},
+			{ header: excelFeilds.brand, key: excelFeilds.brand, width: 20 },
+			{ header: excelFeilds.size, key: excelFeilds.size, width: 10 },
+			{ header: excelFeilds.color, key: excelFeilds.color, width: 10 },
+			{ header: excelFeilds.gender, key: excelFeilds.gender, width: 10 },
+			{
+				header: excelFeilds.additionalInfo,
+				key: excelFeilds.additionalInfo,
+				width: 50,
+			},
+			{ header: excelFeilds.price, key: excelFeilds.price, width: 12 },
+			{
+				header: excelFeilds.discount,
+				key: excelFeilds.discount,
+				width: 12,
+			},
+		];
+		// const workbook = new ExcelJS.Workbook();
+		// const worksheet = workbook.addWorksheet('Products');
+
+		// Map products to Excel rows using excelFeilds keys
+		products.forEach((p, index) => {
+			const translation = p.product_translations?.[0] || {};
+			const brandName = p.brand?.translations?.[0]?.title || '';
+			const categoryNames =
+				p.categories
+					?.map((c) => c.translations?.[0]?.title || '')
+					.filter(Boolean) || [];
+
+			// Attributes from first variant
+			const variant = p.product_variants?.[0] || {};
+			const color =
+				variant.attributes?.find(
+					(a) =>
+						a.id ===
+							filterAttributes.find((v) => v.name?.en === 'color')
+								?.id || 7
+				)?.pva?.value?.en || '';
+			const gender =
+				variant.attributes?.find(
+					(a) =>
+						a.id ===
+							filterAttributes.find(
+								(v) => v.name?.en === 'gender'
+							)?.id || 5
+				)?.pva?.value?.en || '';
+			const size =
+				variant.attributes?.find(
+					(a) =>
+						a.id ===
+							filterAttributes.find((v) => v.name?.en === 'size')
+								?.id || 4
+				)?.pva?.value?.en || '';
+
+			// Additional info (from USP)
+			// const additionalInfo =
+			// 	p.usps
+			// 		?.map((u) => u.translations?.[0]?.title || '')
+			// 		.join('\n') || '';
+
+			const { description, additionalInfo } = splitDescription(
+				translation.description
+			);
+
+			sheet.addRow({
+				sno: index + 1, // Add S.No
+				[excelFeilds.sku]: p.sku,
+				[excelFeilds.title]: translation.title || '',
+				[excelFeilds.excerpt]: translation.excerpt || '',
+				[excelFeilds.description]: description,
+				[excelFeilds.slug]: translation.slug || '',
+				[excelFeilds.meta_title]: p.meta_title || '',
+				[excelFeilds.meta_description]: p.meta_description || '',
+				[excelFeilds.categories]: categoryNames.join(', '),
+				[excelFeilds.brand]: brandName,
+				[excelFeilds.size]: size,
+				[excelFeilds.color]: color,
+				[excelFeilds.gender]: gender,
+				[excelFeilds.additionalInfo]: additionalInfo,
+				[excelFeilds.price]: p.base_price || 0,
+				[excelFeilds.discount]: p.base_discount_percentage || 0,
+			});
+			// Style headers
+			sheet.getRow(1).eachCell((cell) => {
+				cell.font = { bold: true, size: 14 };
+				cell.alignment = {
+					wrapText: true,
+					vertical: 'top',
+					horizontal: 'left',
+				};
+				cell.border = {
+					top: { style: 'thin' },
+					left: { style: 'thin' },
+					bottom: { style: 'thin' },
+					right: { style: 'thin' },
+				};
+			});
+
+			// Style all other cells for wrapText
+			sheet.eachRow((row, rowNumber) => {
+				if (rowNumber === 1) return; // skip header
+				row.eachCell((cell) => {
+					cell.alignment = {
+						wrapText: true,
+						vertical: 'top',
+						horizontal: 'left',
+					};
+					cell.border = {
+						top: { style: 'thin' },
+						left: { style: 'thin' },
+						bottom: { style: 'thin' },
+						right: { style: 'thin' },
+					};
+				});
+			});
+		});
+
+		// // return rows;
+
+		// // Create a new workbook and sheet
+		// const wb = XLSX.utils.book_new();
+		// const ws = XLSX.utils.json_to_sheet(rows, { origin: 'A2' }); // leave row 1 for headers styling
+
+		// // Add headers manually (for bold)
+		// const headers = ['S.No', ...Object.values(excelFeilds)];
+		// XLSX.utils.sheet_add_aoa(ws, [headers], { origin: 'A1' });
+
+		// // Apply styling: wrap text
+		// const range = XLSX.utils.decode_range(ws['!ref']);
+		// for (let R = range.s.r; R <= range.e.r; ++R) {
+		// 	for (let C = range.s.c; C <= range.e.c; ++C) {
+		// 		const cellAddress = { r: R, c: C };
+		// 		const cellRef = XLSX.utils.encode_cell(cellAddress);
+		// 		if (!ws[cellRef]) continue;
+
+		// 		ws[cellRef].s = {
+		// 			alignment: {
+		// 				wrapText: true,
+		// 				vertical: 'top',
+		// 				horizontal: 'left',
+		// 			},
+		// 			font: R === 0 ? { bold: true } : {}, // Bold headers
+		// 		};
+		// 	}
+		// }
+
+		// XLSX.utils.book_append_sheet(wb, ws, 'Products');
+
+		// Generate buffer
+		const buffer = await workbook.xlsx.writeBuffer();
+		// return buffer;
+		// 📤 SEND FILE
+		res.setHeader(
+			'Content-Type',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		);
+		res.setHeader(
+			'Content-Disposition',
+			`attachment; filename="products_export_${Date.now()}.xlsx"`
+		);
+
+		return res.send(buffer);
+		res.end();
+	} catch (error) {
+		console.error('EXPORT PRODUCTS ERROR:', error);
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			error.message || 'Error exporting products'
+		);
 	}
 }
 
@@ -821,4 +1176,5 @@ module.exports = {
 	softDeleteProductById,
 	updateProductCategoriesBySku,
 	importProductsFromSheet,
+	exportProducts,
 };
