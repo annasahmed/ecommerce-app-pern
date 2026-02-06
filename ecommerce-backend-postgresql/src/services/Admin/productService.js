@@ -750,7 +750,7 @@ async function importProductsFromSheet(req) {
 			const brandName = product.brand_name || null;
 			// console.log(product, 'product111');
 
-			continue;
+			// continue;
 
 			const categoryIds = await resolveCategoryIds(
 				categoryMap,
