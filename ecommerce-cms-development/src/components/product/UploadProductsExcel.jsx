@@ -300,7 +300,7 @@ const UploadProductsExcel = () => {
 				let totalCreatedProducts = 0;
 				let totalCreatedCategories = 0;
 				let totalCreatedBrands = 0;
-				return;
+				// return;
 				// ------------------ BATCH UPLOAD ------------------
 				const batchSize = 200;
 

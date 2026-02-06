@@ -7,7 +7,7 @@ const TableWrapperWithPagination = ({
 	error,
 	data,
 	children,
-	onPageChange,
+	onPageChange = () => {},
 }) => {
 	return loading ? (
 		<TableLoading row={12} col={6} width={190} height={20} />
