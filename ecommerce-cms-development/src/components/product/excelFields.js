@@ -1,0 +1,17 @@
+export const excelFeilds = {
+	sku: "SKU",
+	title: "Title",
+	excerpt: "Excerpt",
+	description: "Description",
+	slug: "Slug",
+	meta_title: "Meta Title",
+	meta_description: "Meta_Description",
+	categories: "Categories",
+	brand: "Brand",
+	size: "VariantsSize",
+	color: "Variants Color",
+	gender: "Gender",
+	additionalInfo: "Additional info",
+	price: "Price",
+	discount: "Discount",
+};

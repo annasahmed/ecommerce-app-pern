@@ -1,4 +1,4 @@
-import { Table, TableCell, TableHeader } from "@windmill/react-ui";
+import { Button, Table, TableCell, TableHeader } from "@windmill/react-ui";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -17,6 +17,7 @@ import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
 import UploadProductsExcel from "@/components/product/UploadProductsExcel";
+import { Download, FileSpreadsheet } from "lucide-react";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
@@ -48,6 +49,37 @@ const Product = () => {
 		}
 	};
 
+	const downloadProductsExcel = async () => {
+		try {
+			const response = await ProductServices.exportProducts();
+			// Create a URL for the file
+
+			console.log(
+				response,
+				response.file,
+				response.data,
+				"chkking response111",
+			);
+
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement("a");
+			link.href = url;
+
+			// Filename
+			link.setAttribute("download", "products.xlsx");
+
+			// Trigger download
+			document.body.appendChild(link);
+			link.click();
+
+			// Cleanup
+			link.remove();
+			window.URL.revokeObjectURL(url);
+		} catch (err) {
+			console.error("Error downloading Excel:", err);
+		}
+	};
+
 	return (
 		<>
 			<PageTitle>{t("Product")}</PageTitle>
@@ -64,7 +96,21 @@ const Product = () => {
 				// 	}
 				// }}
 			/>
-			<UploadProductsExcel />
+			<div className="mb-4 flex flex-col/ gap-4">
+				<UploadProductsExcel />
+				<Button
+					layout="outline"
+					onClick={downloadProductsExcel}
+					className=" flex gap-2 items-center rounded-md h-12 flex-1 hover:brightness-95 ">
+					<span className="flex gap-2 items-center justify-center text-customBlack">
+						<div className="relative">
+							<Download className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+						</div>
+						Export Products
+					</span>
+				</Button>
+			</div>
+
 			{/* <UploadProductsExcel /> */}
 			<TableWrapperWithPagination
 				loading={loading}

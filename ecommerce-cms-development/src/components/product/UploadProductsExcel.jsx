@@ -4,24 +4,7 @@ import { Button } from "@windmill/react-ui";
 import { Upload, FileSpreadsheet, Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-
-const excelFeilds = {
-	sku: "SKU",
-	title: "Title",
-	excerpt: "Excerpt",
-	description: "Description",
-	slug: "Slug",
-	meta_title: "Meta Title",
-	meta_description: "Meta_Description",
-	categories: "Categories",
-	brand: "Brand",
-	size: "VariantsSize",
-	color: "Variants Color",
-	gender: "Gender",
-	additionalInfo: "Additional info",
-	price: "Price",
-	discount: "Discount",
-};
+import { excelFeilds } from "./excelFields";
 
 const safeStr = (val) =>
 	val !== undefined && val !== null ? String(val).trim() : "";
@@ -164,7 +147,7 @@ const UploadProductsExcel = () => {
 				const data = new Uint8Array(e.target.result);
 				const workbook = XLSX.read(data, { type: "array" });
 				const sheet = workbook.Sheets[workbook.SheetNames[0]];
-				const rows = XLSX.utils.sheet_to_json(sheet);
+				const rows = XLSX.utils.sheet_to_json(sheet)?.splice(0, 100);
 
 				addMessage("info", `Processing ${rows.length} rows from Excel file...`);
 
@@ -188,10 +171,7 @@ const UploadProductsExcel = () => {
 
 					const attributeData = [];
 
-					if (
-						color &&
-						(!color.includes("default") || !color.includes("multi"))
-					) {
+					if (color && !color.includes("default") && !color.includes("multi")) {
 						attributeData.push({
 							attribute_id:
 								filterAttributes.find((v) => v.name?.en === "color")?.id || 7,
@@ -201,7 +181,8 @@ const UploadProductsExcel = () => {
 
 					if (
 						gender &&
-						(!gender.includes("default") || !gender.includes("multi"))
+						!gender.includes("default") &&
+						!gender.includes("multi")
 					) {
 						attributeData.push({
 							attribute_id:
@@ -210,7 +191,7 @@ const UploadProductsExcel = () => {
 						});
 					}
 
-					if (size && (!size.includes("default") || !size.includes("multi"))) {
+					if (size && !size.includes("default") && !size.includes("multi")) {
 						attributeData.push({
 							attribute_id:
 								filterAttributes.find((v) => v.name?.en === "size")?.id || 4,
@@ -353,9 +334,9 @@ const UploadProductsExcel = () => {
 	};
 
 	return (
-		<div>
+		<div className="flex-1">
 			{/* Beautiful Upload Button */}
-			<div className="w-full inline-block mb-4 relative">
+			<div className="w-full inline-block relative">
 				<Button
 					onClick={() => document.getElementById("file-input").click()}
 					// className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-3">
@@ -364,15 +345,12 @@ const UploadProductsExcel = () => {
 					{/* Icon Container */}
 					<div className="relative">
 						<FileSpreadsheet className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-						{/* <div className="absolute -top-1 -right-1">
-							<Upload className="w-3 h-3 animate-bounce" />
-						</div> */}
 					</div>
 					{/* Text */}
 					<div className="flex flex-col items-start">
 						<span className="font-semibold text-base">
 							Import Products{" "}
-							<span className="text-gray-100 text-sm italic">
+							<span className="text-gray-100 text-sm italic font-normal">
 								(supports .xlsx and .xls formats)
 							</span>{" "}
 						</span>

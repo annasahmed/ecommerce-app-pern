@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 // console.log("base url", import.meta.env.VITE_APP_API_BASE_URL);
 
-const instance = axios.create({
+export const instance = axios.create({
 	baseURL: `${import.meta.env.VITE_APP_API_BASE_URL}`,
 	timeout: 50000,
 	headers: {

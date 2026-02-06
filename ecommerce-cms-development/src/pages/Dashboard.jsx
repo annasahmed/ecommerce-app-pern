@@ -1,12 +1,4 @@
-import {
-	Pagination,
-	Table,
-	TableCell,
-	TableContainer,
-	TableFooter,
-	TableHeader,
-	WindmillContext,
-} from "@windmill/react-ui";
+import { WindmillContext } from "@windmill/react-ui";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isToday from "dayjs/plugin/isToday";
@@ -17,20 +9,17 @@ import { FiCheck, FiRefreshCw, FiShoppingCart, FiTruck } from "react-icons/fi";
 import { ImCreditCard, ImStack } from "react-icons/im";
 
 //internal import
-import useAsync from "@/hooks/useAsync";
-import useFilter from "@/hooks/useFilter";
+import ChartCard from "@/components/chart/ChartCard";
 import LineChart from "@/components/chart/LineChart/LineChart";
 import PieChart from "@/components/chart/Pie/PieChart";
+import AnimatedContent from "@/components/common/AnimatedContent";
 import CardItem from "@/components/dashboard/CardItem";
 import CardItemTwo from "@/components/dashboard/CardItemTwo";
-import ChartCard from "@/components/chart/ChartCard";
-import OrderTable from "@/components/order/OrderTable";
-import TableLoading from "@/components/preloader/TableLoading";
-import NotFound from "@/components/table/NotFound";
 import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
+import useAsync from "@/hooks/useAsync";
+import useFilter from "@/hooks/useFilter";
 import OrderServices from "@/services/OrderServices";
-import AnimatedContent from "@/components/common/AnimatedContent";
 
 const Dashboard = () => {
 	const { t } = useTranslation();
@@ -346,7 +335,7 @@ const Dashboard = () => {
 			</AnimatedContent>
 
 			{/* <PageTitle>{t("RecentOrder")}</PageTitle> */}
-{/* 
+			{/* 
 			{loadingRecentOrder ? (
 				<TableLoading row={5} col={4} />
 			) : error ? (

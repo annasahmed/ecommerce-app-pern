@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
 // use lazy for better code splitting
-const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const Attributes = lazy(() => import("@/pages/attribute/Attribute"));
 const ChildAttributes = lazy(() => import("@/pages/ChildAttributes"));
 const Products = lazy(() => import("@/pages/product/Product"));

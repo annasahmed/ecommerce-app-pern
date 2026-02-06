@@ -1,4 +1,4 @@
-import requests from "./httpService";
+import requests, { instance } from "./httpService";
 
 const ProductServices = {
 	getAllProducts: async (query) => {
@@ -27,6 +27,12 @@ const ProductServices = {
 
 	importProducts: async (body) => {
 		return requests.post(`/product/import-products`, body);
+	},
+
+	exportProducts: async () => {
+		return instance.get(`/product/export-products`, {
+			responseType: "blob",
+		});
 	},
 
 	// addAllProduct: async (body) => {

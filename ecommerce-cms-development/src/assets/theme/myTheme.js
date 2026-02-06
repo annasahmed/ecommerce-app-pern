@@ -205,7 +205,7 @@ const myTheme = {
 			disabled: "opacity-50 cursor-not-allowed",
 		},
 		outline: {
-			base: "text-customGray-600 border-customGray-200 border dark:text-customGray-400 focus:outline-none",
+			base: "text-customGray-600 border-customGray-200 border hover:brightness-95 dark:text-customGray-400 focus:outline-none",
 			active:
 				"rounded-lg border bg-customGray-200 border-customGray-200 px-4 w-full mr-3 flex items-center justify-center cursor-pointer h-12",
 			disabled: "opacity-50 cursor-not-allowed bg-customGray-300",

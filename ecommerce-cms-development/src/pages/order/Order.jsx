@@ -66,6 +66,7 @@ const Order = () => {
 							<TableCell>{t("Shipping")}</TableCell>
 							<TableCell>{t("Total")}</TableCell>
 							<TableCell>{t("Status")}</TableCell>
+							<TableCell>{t("Action")}</TableCell>
 						</tr>
 					</TableHeader>
 					<OrderTable

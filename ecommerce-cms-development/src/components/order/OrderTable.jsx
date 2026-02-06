@@ -8,6 +8,7 @@ import EditDeleteButton from "@/components/table/EditDeleteButton";
 import ShowHideButton from "@/components/table/ShowHideButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import { formatDate } from "@/utils/globals";
+import { Eye } from "lucide-react";
 
 const OrderTable = ({
 	data,
@@ -76,8 +77,10 @@ const OrderTable = ({
 							<button
 								onClick={() => {
 									handleUpdate(order.id);
-								}}>
-								View
+								}}
+								className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-700 transition-colors">
+								<Eye className="w-4 h-4" />
+								<span className="text-sm font-medium">View</span>
 							</button>
 							{/* <EditDeleteButton
 								id={order?.id}
