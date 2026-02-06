@@ -1,6 +1,7 @@
 const db = require('../../db/models/index.js');
 const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
+const { Op, json } = require('sequelize');
 
 const attributeService = createBaseService(db.attribute, {
 	name: 'Attribute',
@@ -227,6 +228,23 @@ async function verifyAttributeValues({
 	};
 }
 
+async function getFilterAttributes() {
+	const attributes = await db.attribute
+		.scope({ method: ['active'] })
+		.findAll({
+			where: {
+				[Op.or]: [
+					json('name.en', 'size'),
+					json('name.en', 'gender'),
+					json('name.en', 'color'),
+				],
+			},
+			attributes: ['id', 'name'],
+		});
+
+	return attributes;
+}
+
 module.exports = {
 	getAttributeById: attributeService.getById,
 	createAttribute,
@@ -237,4 +255,5 @@ module.exports = {
 	softDeleteAttributeById,
 	importAttributes,
 	verifyAttributeValues,
+	getFilterAttributes
 };

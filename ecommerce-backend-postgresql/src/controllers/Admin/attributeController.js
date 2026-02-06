@@ -12,6 +12,10 @@ const getAttributes = catchAsync(async (req, res) => {
 	const attributes = await adminAttributeService.getAttributes(req);
 	res.send(attributes);
 });
+const getFilterAttributes = catchAsync(async (req, res) => {
+	const attributes = await adminAttributeService.getFilterAttributes(req);
+	res.send(attributes);
+});
 const createAttribute = catchAsync(async (req, res) => {
 	const attributes = await adminAttributeService.createAttribute(req);
 	res.send(attributes);
@@ -46,4 +50,5 @@ module.exports = {
 	permanentDeleteAttribute,
 	updateAttribute,
 	importAttributes,
+	getFilterAttributes,
 };

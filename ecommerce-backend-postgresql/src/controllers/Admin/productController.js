@@ -52,6 +52,10 @@ const updateProduct = catchAsync(async (req, res) => {
 
 	res.send(product);
 });
+const importProductsFromSheet = catchAsync(async (req, res) => {
+	const results = await adminProductService.importProductsFromSheet(req);
+	res.send(results);
+});
 
 module.exports = {
 	getProductById,
@@ -62,6 +66,7 @@ module.exports = {
 	updateProduct,
 	createBulkProducts,
 	updateProductBySlug,
+	importProductsFromSheet,
 };
 
 const bulkProductData = [

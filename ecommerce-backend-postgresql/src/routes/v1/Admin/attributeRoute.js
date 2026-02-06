@@ -18,6 +18,7 @@ router
 		validate(adminAttributeValidation.createAttribute),
 		adminAttributeController.createAttribute
 	);
+router.route('/filters').get(adminAttributeController.getFilterAttributes);
 
 router
 	.route('/:attributeId')
@@ -36,6 +37,7 @@ router
 		validate(adminAttributeValidation.deleteAttribute),
 		adminAttributeController.softDeleteAttribute
 	);
+
 router
 	.route('/permanent/:attributeId')
 	.delete(

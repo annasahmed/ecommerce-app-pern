@@ -2,6 +2,8 @@ const db = require('../../db/models/index.js');
 const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
 const { Op, where, fn, col } = require('sequelize');
+const { createBrand } = require('./brandService.js');
+const { createCategory } = require('./categoryService.js');
 
 const productService = createBaseService(db.product, {
 	name: 'Product',
@@ -101,7 +103,7 @@ const productService = createBaseService(db.product, {
 // duplicate slug validation missing
 
 // Using userId logic from request
-async function createProduct(req) {
+async function createProduct(req, existingTransaction) {
 	const {
 		categories = [],
 		branches = [],
@@ -114,7 +116,10 @@ async function createProduct(req) {
 		...productData
 	} = req.body;
 
-	const transaction = await db.sequelize.transaction();
+	let transactionCreatedHere = false;
+	const transaction =
+		existingTransaction || (await db.sequelize.transaction());
+	if (!existingTransaction) transactionCreatedHere = true;
 	const userId = commonUtils.getUserId(req);
 
 	try {
@@ -192,15 +197,15 @@ async function createProduct(req) {
 			}
 		}
 
-		await transaction.commit();
+		if (transactionCreatedHere) await transaction.commit();
 		return newProduct;
 	} catch (error) {
-		await transaction.rollback();
+		if (transactionCreatedHere) await transaction.rollback();
 		throw error;
 	}
 }
 
-async function updateProduct(req) {
+async function updateProduct(req, existingTransaction) {
 	const {
 		categories = [],
 		branches = [],
@@ -211,8 +216,10 @@ async function updateProduct(req) {
 		images = [],
 		...productData
 	} = req.body;
-
-	const transaction = await db.sequelize.transaction();
+	let transactionCreatedHere = false;
+	const transaction =
+		existingTransaction || (await db.sequelize.transaction());
+	if (!existingTransaction) transactionCreatedHere = true;
 	const userId = commonUtils.getUserId(req);
 	const productId = req.params.productId;
 
@@ -313,11 +320,13 @@ async function updateProduct(req) {
 			}
 		}
 
-		await transaction.commit();
+		// await transaction.commit();
+		if (transactionCreatedHere) await transaction.commit();
 		return product;
 	} catch (error) {
-		await transaction.rollback();
-		throw error;
+		// await transaction.rollback();
+		if (transactionCreatedHere) await transaction.rollback();
+		// throw err;
 	}
 }
 
@@ -448,7 +457,7 @@ async function updateProductBySlugVendorsAndVariants(req) {
 		// return updated;
 	} catch (error) {
 		await transaction.rollback();
-		throw error;
+		// throw error;
 	}
 }
 
@@ -575,6 +584,234 @@ async function updateProductCategoriesBySku(req) {
 	}
 }
 
+const normalizeName = (str) => {
+	if (!str) return '';
+
+	return str
+		.toLowerCase()
+		.trim()
+		.replace(/&/g, 'and')
+		.replace(/[^a-z0-9\s]/g, '') // remove symbols
+		.replace(/\b(s|es)\b$/g, '') // plural handling
+		.replace(/\s+/g, ' '); // extra spaces
+};
+
+function slugify(text) {
+	return text
+		.toString()
+		.toLowerCase()
+		.trim()
+		.replace(/\s+/g, '-') // Replace spaces with -
+		.replace(/[^\w\-]+/g, '') // Remove all non-word chars
+		.replace(/\-\-+/g, '-') // Replace multiple - with single -
+		.replace(/^-+/, '') // Trim - from start of text
+		.replace(/-+$/, ''); // Trim - from end of text
+}
+
+const resolveCategoryIds = async (
+	categoryMap,
+	categoryNames = [],
+	transaction,
+	createdCategories
+) => {
+	const ids = [];
+
+	for (const name of categoryNames) {
+		if (!name) continue;
+
+		const normalized = normalizeName(name);
+		let category = categoryMap.get(normalized);
+
+		if (!category) {
+			const created = await createCategory(
+				{
+					body: {
+						status: true,
+						translations: [
+							{
+								title: name,
+								slug: slugify(name),
+								language_id: 1,
+							},
+						],
+					},
+				},
+				{ transaction }
+			);
+
+			const categoryId = created.category?.id || created.id;
+			category = { id: categoryId };
+
+			categoryMap.set(normalized, category);
+			createdCategories.push(categoryId);
+		}
+
+		ids.push(category.id);
+	}
+
+	return ids;
+};
+
+const resolveBrandId = async (
+	brandMap,
+	brandName,
+	transaction,
+	createdBrands
+) => {
+	if (!brandName) return null;
+
+	const normalized = normalizeName(brandName);
+	let brand = brandMap.get(normalized);
+
+	if (!brand) {
+		const created = await createBrand(
+			{
+				body: {
+					status: true,
+					translations: [
+						{
+							title: brandName,
+							slug: slugify(brandName),
+							language_id: 1,
+						},
+					],
+				},
+			},
+			{ transaction }
+		);
+
+		const brandId = created.brand?.id || created.id;
+		brand = { id: brandId };
+
+		brandMap.set(normalized, brand);
+		createdBrands.push(brandId);
+	}
+
+	return brand.id;
+};
+
+async function importProductsFromSheet(req) {
+	const { products } = req.body;
+
+	const createdCategories = [];
+	const createdBrands = [];
+	const createdProducts = [];
+	const updatedProducts = [];
+
+	const categories = await db.category_translation.findAll({
+		attributes: ['category_id', 'title'],
+	});
+
+	const brands = await db.brand_translation.findAll({
+		attributes: ['brand_id', 'title'],
+	});
+
+	const categoryMap = new Map();
+	const brandMap = new Map();
+
+	categories.forEach((c) => {
+		categoryMap.set(normalizeName(c.title), {
+			id: c.category_id,
+		});
+	});
+
+	brands.forEach((b) => {
+		brandMap.set(normalizeName(b.title), {
+			id: b.brand_id,
+		});
+	});
+	const existingProducts = await db.product.findAll({
+		include: [
+			{
+				model: db.product_translation,
+				// as: 'translations',
+				attributes: ['title', 'slug'],
+			},
+		],
+	});
+
+	const skuMap = new Map();
+	const titleSlugMap = new Map();
+
+	existingProducts.forEach((p) => {
+		skuMap.set(p.sku, p);
+
+		p.product_translations.forEach((t) => {
+			titleSlugMap.set(t.title.toLowerCase(), p);
+			titleSlugMap.set(t.slug.toLowerCase(), p);
+		});
+	});
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		for (const product of products) {
+			// 🔹 Resolve categories & brand FIRST
+			const categoryNames = product.categories || [];
+			const brandName = product.brand_name || null;
+			// console.log(product, 'product111');
+
+			continue;
+
+			const categoryIds = await resolveCategoryIds(
+				categoryMap,
+				categoryNames,
+				transaction,
+				createdCategories
+			);
+
+			const brandId = await resolveBrandId(
+				brandMap,
+				brandName,
+				transaction,
+				createdBrands
+			);
+			product.categories = categoryIds;
+			product.brand_id = brandId;
+
+			// 🔹 Find existing product
+			let existingProduct =
+				skuMap.get(product.sku) ||
+				titleSlugMap.get(
+					product.translations?.[0]?.title?.toLowerCase()
+				) ||
+				titleSlugMap.get(
+					product.translations?.[0]?.slug?.toLowerCase()
+				);
+
+			if (existingProduct) {
+				await updateProduct(
+					{
+						params: { productId: existingProduct.id },
+						body: product,
+					},
+					transaction
+				);
+
+				updatedProducts.push(existingProduct.id);
+			} else {
+				const created = await createProduct(
+					{ body: product },
+					transaction
+				);
+
+				createdProducts.push(created.id);
+			}
+		}
+
+		await transaction.commit();
+
+		return {
+			createdCategories,
+			createdBrands,
+			createdProducts,
+			updatedProducts,
+		};
+	} catch (error) {
+		await transaction.rollback();
+		// throw error.message || error;
+	}
+}
+
 module.exports = {
 	getProductById: productService.getById,
 	createProduct,
@@ -583,4 +820,5 @@ module.exports = {
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
 	updateProductCategoriesBySku,
+	importProductsFromSheet,
 };

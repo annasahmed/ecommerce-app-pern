@@ -35,12 +35,12 @@ app.use((req, res, next) => {
 	if (req.originalUrl.includes('stripe')) {
 		next();
 	} else {
-		express.json()(req, res, next);
+		express.json({ limit: '50mb' })(req, res, next);
 	}
 });
 
 // parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // sanitize request data
 app.use(xss());
