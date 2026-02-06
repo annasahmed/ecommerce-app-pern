@@ -1,6 +1,7 @@
 import { Button, Card, CardBody, Input } from "@windmill/react-ui";
 import { FiPlus } from "react-icons/fi";
 import AnimatedContent from "../common/AnimatedContent";
+import UploadProductsExcel from "../product/UploadProductsExcel";
 
 const SearchAndFilter = ({
 	onSubmitFilter = () => {},
@@ -8,6 +9,7 @@ const SearchAndFilter = ({
 	buttonText = "",
 	onClick = () => {},
 	showAddButtom = true,
+	showImportButton = false,
 }) => {
 	return (
 		<AnimatedContent>
@@ -54,6 +56,7 @@ const SearchAndFilter = ({
 								</Button>
 							</div>
 						)}
+						{showImportButton && <UploadProductsExcel />}
 					</form>
 				</CardBody>
 			</Card>

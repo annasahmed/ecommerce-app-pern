@@ -16,6 +16,7 @@ import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
+import UploadProductsExcel from "@/components/product/UploadProductsExcel";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
@@ -49,6 +50,7 @@ const Product = () => {
 				buttonText={t("AddProduct")}
 				inputPlaceholder={t("SearchProduct")}
 				onClick={toggleDrawer}
+				showImportButton
 				// onClick={() => {
 				// 	if (serviceId) {
 				// 		history.push(`/product/update/${serviceId}`);
@@ -57,6 +59,7 @@ const Product = () => {
 				// 	}
 				// }}
 			/>
+			{/* <UploadProductsExcel /> */}
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}

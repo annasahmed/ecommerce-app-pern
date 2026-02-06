@@ -2,7 +2,7 @@ import requests from "./httpService";
 
 const ProductServices = {
 	getAllProducts: async () => {
-		return requests.get("/product");
+		return requests.get("/product?limit=100");
 	},
 
 	getProductById: async (id) => {
@@ -23,6 +23,10 @@ const ProductServices = {
 
 	deleteProduct: async (id, body) => {
 		return requests.delete(`/product/${id}`, body);
+	},
+
+	importProducts: async (body) => {
+		return requests.post(`/product/import-products`, body);
 	},
 
 	// addAllProduct: async (body) => {
