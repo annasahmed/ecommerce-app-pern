@@ -59,6 +59,7 @@ const Product = () => {
 				// 	}
 				// }}
 			/>
+			<UploadProductsExcel />
 			{/* <UploadProductsExcel /> */}
 			<TableWrapperWithPagination
 				loading={loading}

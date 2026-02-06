@@ -355,22 +355,27 @@ const UploadProductsExcel = () => {
 	return (
 		<div>
 			{/* Beautiful Upload Button */}
-			<div className="w-full relative inline-block">
+			<div className="w-full inline-block mb-4 relative">
 				<Button
 					onClick={() => document.getElementById("file-input").click()}
 					// className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-3">
-					className="group flex gap-2 rounded-md h-12 w-full">
+					className="group flex gap-2 items-center rounded-md h-12 w-full">
 					{" "}
 					{/* Icon Container */}
 					<div className="relative">
-						<FileSpreadsheet className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+						<FileSpreadsheet className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
 						{/* <div className="absolute -top-1 -right-1">
 							<Upload className="w-3 h-3 animate-bounce" />
 						</div> */}
 					</div>
 					{/* Text */}
 					<div className="flex flex-col items-start">
-						<span className="font-semibold text-sm">Import Products</span>
+						<span className="font-semibold text-base">
+							Import Products{" "}
+							<span className="text-gray-100 text-sm italic">
+								(supports .xlsx and .xls formats)
+							</span>{" "}
+						</span>
 						{/* <span className="text-xs text-blue-100">Upload Excel File</span> */}
 					</div>
 					{/* Package Icon */}
@@ -380,10 +385,6 @@ const UploadProductsExcel = () => {
 				</Button>
 
 				{/* Helper Text */}
-				<p className="absolute right-0/ mt-2 text-xs text-gray-500 flex items-center gap-1">
-					{/* <FileSpreadsheet className="w-3 h-3" /> */}
-					Supports .xlsx and .xls formats
-				</p>
 			</div>
 
 			<input
@@ -445,34 +446,36 @@ const UploadProductsExcel = () => {
 
 						{/* Stats Summary */}
 						{uploadStats && (
-							<div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-								<h3 className="font-semibold text-gray-800 mb-2">
-									Import Summary:
-								</h3>
-								<div className="grid grid-cols-2 gap-2 text-sm">
-									<div>
-										<span className="text-gray-600">Updated Products:</span>
-										<span className="ml-2 font-semibold">
-											{uploadStats.updatedProducts}
-										</span>
-									</div>
-									<div>
-										<span className="text-gray-600">Created Products:</span>
-										<span className="ml-2 font-semibold">
-											{uploadStats.createdProducts}
-										</span>
-									</div>
-									<div>
-										<span className="text-gray-600">Created Categories:</span>
-										<span className="ml-2 font-semibold">
-											{uploadStats.createdCategories}
-										</span>
-									</div>
-									<div>
-										<span className="text-gray-600">Created Brands:</span>
-										<span className="ml-2 font-semibold">
-											{uploadStats.createdBrands}
-										</span>
+							<div className="pl-6 pr-10 rounded-md py-4">
+								<div className="px-6 py-4 bg-gray-50 border rounded-md border-gray-200">
+									<h3 className="font-semibold text-gray-800 mb-2">
+										Import Summary:
+									</h3>
+									<div className="grid grid-cols-2 gap-2 text-sm">
+										<div>
+											<span className="text-gray-600">Updated Products:</span>
+											<span className="ml-2 font-semibold">
+												{uploadStats.updatedProducts}
+											</span>
+										</div>
+										<div>
+											<span className="text-gray-600">Created Products:</span>
+											<span className="ml-2 font-semibold">
+												{uploadStats.createdProducts}
+											</span>
+										</div>
+										<div>
+											<span className="text-gray-600">Created Categories:</span>
+											<span className="ml-2 font-semibold">
+												{uploadStats.createdCategories}
+											</span>
+										</div>
+										<div>
+											<span className="text-gray-600">Created Brands:</span>
+											<span className="ml-2 font-semibold">
+												{uploadStats.createdBrands}
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>

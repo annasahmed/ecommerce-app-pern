@@ -56,7 +56,8 @@ const SearchAndFilter = ({
 								</Button>
 							</div>
 						)}
-						{showImportButton && <UploadProductsExcel />}
+
+						{/* {showImportButton && <UploadProductsExcel />} */}
 					</form>
 				</CardBody>
 			</Card>
