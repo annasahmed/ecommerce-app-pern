@@ -1,8 +1,8 @@
 import requests from "./httpService";
 
 const ProductServices = {
-	getAllProducts: async () => {
-		return requests.get("/product?limit=100");
+	getAllProducts: async (query) => {
+		return requests.get(`/product?${query || ""}`);
 	},
 
 	getProductById: async (id) => {

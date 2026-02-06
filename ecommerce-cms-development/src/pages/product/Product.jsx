@@ -20,11 +20,16 @@ import UploadProductsExcel from "@/components/product/UploadProductsExcel";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
+	const [page, setPage] = useState(1);
+	const limit = 10;
 	const {
 		data: productsData,
 		loading,
 		error,
-	} = useAsync(ProductServices.getAllProducts);
+	} = useAsync(
+		() => ProductServices.getAllProducts(`limit=${limit}&page=${page}`),
+		[page],
+	); // 👈 refetch when page changes
 	const history = useHistory();
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
@@ -64,19 +69,11 @@ const Product = () => {
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={productsData}>
+				data={productsData}
+				onPageChange={setPage}>
 				<Table>
 					<TableHeader>
 						<tr>
-							{/* <TableCell>
-								<CheckBox
-									type="checkbox"
-									name="selectAll"
-									id="selectAll"
-									handleClick={handleSelectAll}
-									isChecked={isCheckAll}
-								/>
-							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							<TableCell>{t("Brand")}</TableCell>
