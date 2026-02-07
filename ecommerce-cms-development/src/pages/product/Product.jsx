@@ -110,7 +110,7 @@ const Product = () => {
 					</span>
 				</Button>
 				<UploadProductsExcel />
-				{/* <BulkUpload /> */}
+				<BulkUpload />
 			</div>
 
 			{/* <UploadProductsExcel /> */}
