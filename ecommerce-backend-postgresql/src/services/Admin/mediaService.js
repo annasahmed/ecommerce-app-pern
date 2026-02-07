@@ -18,8 +18,6 @@ const mediaService = createBaseService(db.media, {
 
 // Using userId logic from request
 async function createMedia(req) {
-	console.log(req.file, 'chkking file');
-
 	const media = await imageService.mediaUpload(req.file);
 	const userId = commonUtils.getUserId(req);
 	return mediaService.create(
@@ -49,44 +47,128 @@ async function permanentDeleteMediaById(req) {
 	return mediaService.permanentDelete(req.params.mediaId, userId);
 }
 
+function extractSlugFromFilename(filename) {
+	const name = filename
+		.replace(/\.[^/.]+$/, '') // remove extension
+		.replace(/\(\d+\)/g, '') // remove (1), (2)
+		.replace(/-\d+$/, '') // remove -1, -2
+		.trim();
+
+	return name;
+}
 async function bulkUploadMedia(req) {
 	const userId = commonUtils.getUserId(req);
-	const results = [];
 	const files = req.files;
-	let index = 0;
-	for (const file of files) {
-		console.log(index, file);
-		index++;
+	const results = [];
 
-		// 1️⃣ Upload file (prepare URL, etc.)
+	for (const file of files) {
+		// 1️⃣ Prepare media
 		const mediaData = await imageService.mediaUpload(file);
 
-		// 2️⃣ Check if media already exists by title or URL
-		let existingMedia = await db.media.findOne({
+		// 2️⃣ Upsert media
+		let media = await db.media.findOne({
 			where: {
 				[Op.or]: [{ title: mediaData.title }, { url: mediaData.url }],
 			},
 		});
 
-		if (existingMedia) {
-			// 3️⃣ Update existing media
-			existingMedia = await existingMedia.update({
+		if (media) {
+			media = await media.update({
 				url: mediaData.url,
 				title: mediaData.title,
 				size: mediaData.size,
 			});
-			results.push({ status: 'updated', media: existingMedia });
 		} else {
-			// 4️⃣ Create new media
-			const newMedia = await createMedia({
-				url: mediaData.url,
-				title: mediaData.title,
-				size: mediaData.size,
-				userId,
-			});
-			results.push({ status: 'added', media: newMedia });
+			media = await mediaService.create(
+				{
+					url: mediaData.url,
+					title: mediaData.title,
+					size: mediaData.size,
+				},
+				userId
+			);
 		}
+
+		// 3️⃣ Extract product slug
+		const productSlug = extractSlugFromFilename(file.originalname);
+
+		let productTranslation = null;
+
+		// 4️⃣ Find product via translation
+		productTranslation = await db.product_translation.findOne({
+			where: {
+				slug: {
+					[Op.iLike]: `${productSlug}`,
+				},
+			},
+			include: [
+				{
+					model: db.product,
+					attributes: ['id', 'thumbnail'],
+				},
+			],
+		});
+
+		// 2️⃣ Fallback: prefix match ONLY if exact not found
+		if (!productTranslation) {
+			const matches = await db.product_translation.findAll({
+				where: {
+					slug: {
+						[Op.iLike]: `${productSlug}%`,
+					},
+				},
+				include: [
+					{
+						model: db.product,
+						attributes: ['id', 'thumbnail'],
+					},
+				],
+				order: [['slug', 'ASC']],
+			});
+			if (matches.length === 1) {
+				productTranslation = matches[0];
+			}
+		}
+
+		if (!productTranslation || !productTranslation.product) {
+			results.push({
+				file: file.originalname,
+				status: 'uploaded_only',
+				reason: 'product_not_found',
+				slug: productSlug,
+			});
+			continue;
+		}
+
+		const product = productTranslation.product;
+
+		// 6️⃣ Set thumbnail only if empty
+		let isThumbnail = false;
+		if (!product.thumbnail) {
+			await product.update({
+				thumbnail: media.id,
+				status: true,
+			});
+			isThumbnail = true;
+		} else {
+			await db.product_to_media.findOrCreate({
+				where: {
+					product_id: product.id,
+					media_id: media.id,
+				},
+			});
+		}
+
+		results.push({
+			file: file.originalname,
+			status: 'attached',
+			product: productTranslation.slug,
+			mediaId: media.id,
+			isThumbnail,
+		});
 	}
+
+	return results;
 }
 
 module.exports = {
