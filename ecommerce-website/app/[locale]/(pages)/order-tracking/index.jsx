@@ -2,6 +2,7 @@
 
 import SpinLoader from "@/app/components/Shared/SpinLoader";
 import OrderService from "@/app/services/OrderService";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -87,6 +88,22 @@ export default function TrackOrderPage() {
 					<div className="flex justify-between items-center flex-wrap gap-3">
 						<h2 className="h3 font-semibold text-gray-800">
 							Order # {order.tracking_id}
+							<p className="text-base font-normal">
+								Tracking Id #{" "}
+								{order.courier_tracking_id ? (
+									<>
+										<Link
+											href={`https://leopardsexpress.com/tracking`}
+											target="_blank"
+											// href={`/order-tracking?id=${order.trackingId}`}
+											className="hover:underline text-blue-400">
+											{order.courier_tracking_id}
+										</Link>
+									</>
+								) : (
+									<>N/A</>
+								)}
+							</p>
 						</h2>
 						<span
 							className={`px-4 py-1 rounded-full text-sm font-bold uppercase p4 tracking-wide shadow-sm ${

@@ -151,7 +151,7 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 									<h2 className="h3 font-semibold text-gray-800">
 										Order # {order.tracking_id}
 										<p className="text-base font-normal">
-											Tracking Id # {order.courier_tracking_id}
+											Tracking Id # {order.courier_tracking_id||"N/A"}
 										</p>
 									</h2>
 									<span
