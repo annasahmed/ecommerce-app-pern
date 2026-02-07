@@ -147,7 +147,7 @@ const UploadProductsExcel = () => {
 				const data = new Uint8Array(e.target.result);
 				const workbook = XLSX.read(data, { type: "array" });
 				const sheet = workbook.Sheets[workbook.SheetNames[0]];
-				const rows = XLSX.utils.sheet_to_json(sheet)?.splice(0, 100);
+				const rows = XLSX.utils.sheet_to_json(sheet);
 
 				addMessage("info", `Processing ${rows.length} rows from Excel file...`);
 
@@ -247,7 +247,7 @@ const UploadProductsExcel = () => {
 							: [],
 						brand_id: safeStr(row[excelFeilds.brand]) || null,
 						is_featured: false,
-						status: false,
+						status: true,
 						thumbnail: null,
 					});
 				});
