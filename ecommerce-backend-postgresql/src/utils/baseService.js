@@ -204,7 +204,8 @@ function createBaseService(model, options = {}) {
 			req,
 			include = [],
 			attributes = [],
-			sort = [['id', 'DESC']]
+			sort = [['id', 'DESC']],
+			isProduct
 		) {
 			const { page: defaultPage, limit: defaultLimit } =
 				config.pagination;
@@ -214,7 +215,10 @@ function createBaseService(model, options = {}) {
 				// limit = defaultLimit,
 				sortBy,
 				sortOrder = 'DESC',
+				search, // search by title only, for now
 			} = req.query;
+			console.log(search, 'chkking search');
+
 			const offset = getOffset(page, limit);
 			const finalSort = sortBy
 				? [[sortBy, sortOrder.toUpperCase()]]
@@ -226,13 +230,13 @@ function createBaseService(model, options = {}) {
 				order: finalSort,
 				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
 				include: [
-					...includes,
+					...(isProduct ? include : includes),
 					...(translationModel
 						? [
 								{
 									model: translationModel,
 									as: 'translations',
-									required: false,
+									required: search ? true : false,
 									attributes: {
 										exclude: [
 											'created_at',
@@ -242,6 +246,13 @@ function createBaseService(model, options = {}) {
 											'id',
 										],
 									},
+									where: search
+										? {
+												title: {
+													[Op.iLike]: `%${search}%`,
+												},
+										  }
+										: {},
 									// where: lang
 									// 	? { '$translations.language_id$': lang }
 									// 	: {},

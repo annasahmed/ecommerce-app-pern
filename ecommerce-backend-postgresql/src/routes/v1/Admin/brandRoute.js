@@ -10,7 +10,7 @@ router
 	.route('/')
 	.get(
 		checkPermission('view_brand'),
-		validate(adminBrandValidation.getBrands),
+		// validate(adminBrandValidation.getBrands),
 		adminBrandController.getBrands
 	)
 	.post(

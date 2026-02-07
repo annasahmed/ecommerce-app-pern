@@ -1167,11 +1167,119 @@ async function exportProducts(req, res) {
 	}
 }
 
+function getProductIncludes(req) {
+	return [
+		{ model: db.media, required: false, as: 'thumbnailImage' },
+		{ model: db.media, required: false, as: 'images' },
+		{
+			model: db.category,
+			required: false,
+			include: [
+				{
+					model: db.category_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'category_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
+		{
+			model: db.product_translation,
+			required: req.query.search ? true : false,
+			where: req.query.search
+				? {
+						title: {
+							[Op.iLike]: `%${req.query.search}%`,
+						},
+				  }
+				: {},
+		},
+		{
+			model: db.usp,
+			required: false,
+			include: [
+				{
+					model: db.usp_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'usp_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
+		{
+			model: db.brand,
+			required: false,
+			include: [
+				{
+					model: db.brand_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'brand_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
+		{ model: db.vendor, required: false },
+		{
+			model: db.product_variant,
+			required: false,
+			include: [
+				{ model: db.media, required: false },
+				{
+					model: db.attribute,
+					required: false,
+					through: {
+						as: 'pva',
+					},
+					attributes: ['id', 'name'],
+				},
+				// {
+				// 	model: db.branch,
+				// 	required: false,
+				// 	through: {
+				// 		as: 'pvb',
+				// 	},
+				// },
+			],
+		},
+	];
+}
+
 module.exports = {
 	getProductById: productService.getById,
 	createProduct,
 	updateProduct,
-	getProducts: (req) => productService.list(req, [], [], [['id', 'DESC']]),
+	getProducts: (req) =>
+		productService.list(
+			req,
+			getProductIncludes(req),
+			[],
+			[['id', 'DESC']],
+			true
+		),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
 	updateProductCategoriesBySku,

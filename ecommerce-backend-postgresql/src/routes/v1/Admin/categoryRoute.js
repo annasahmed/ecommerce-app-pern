@@ -10,7 +10,7 @@ router
 	.route('/')
 	.get(
 		checkPermission('view_category'),
-		validate(adminCategoryValidation.getCategories),
+		// validate(adminCategoryValidation.getCategories),
 		adminCategoryController.getCategories
 	)
 	.post(

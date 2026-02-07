@@ -1,5 +1,5 @@
 const express = require('express');
-const validate = require('../../../middlewares/validate');
+// const validate = require('../../../middlewares/validate');
 const { adminProductController } = require('../../../controllers/Admin');
 const { adminProductValidation } = require('../../../validations/Admin');
 const checkPermission = require('../../../middlewares/checkPermission');
@@ -10,7 +10,7 @@ router
 	.route('/')
 	.get(
 		checkPermission('view_product'),
-		validate(adminProductValidation.getProducts),
+		// validate(adminProductValidation.getProducts),
 		adminProductController.getProducts
 	)
 	.post(
@@ -32,7 +32,7 @@ router
 	.route('/:productId')
 	.get(
 		checkPermission('view_product'),
-		validate(adminProductValidation.getProduct),
+		// validate(adminProductValidation.getProduct),
 		adminProductController.getProductById
 	)
 	.patch(
@@ -42,15 +42,13 @@ router
 	)
 	.delete(
 		checkPermission('delete_product'),
-		validate(adminProductValidation.deleteProduct),
+		// validate(adminProductValidation.deleteProduct),
 		adminProductController.softDeleteProduct
 	);
-router
-	.route('/permanent/:product')
-	.delete(
-		checkPermission('delete_product'),
-		validate(adminProductValidation.deleteProduct),
-		adminProductController.permanentDeleteProduct
-	);
+router.route('/permanent/:product').delete(
+	checkPermission('delete_product'),
+	// validate(adminProductValidation.deleteProduct),
+	adminProductController.permanentDeleteProduct
+);
 
 module.exports = router;
