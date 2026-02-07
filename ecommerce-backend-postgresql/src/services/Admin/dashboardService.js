@@ -72,13 +72,30 @@ async function getOrdersTrend(days = 7) {
 ========================= */
 
 async function getOrderStatusBreakdown() {
+	const ALL_STATUSES = [
+		'pending',
+		'in_progress',
+		'cancelled',
+		'delivered',
+		'return_requested',
+		// 'returned',
+		// 'refunded',
+		// 'exchanged',
+	];
+
 	const rows = await db.order.findAll({
 		attributes: ['status', [fn('COUNT', col('id')), 'count']],
 		group: ['status'],
 		raw: true,
 	});
 
+	// Initialize all with 0
 	const result = {};
+	ALL_STATUSES.forEach((status) => {
+		result[status] = 0;
+	});
+
+	// Override with actual counts
 	rows.forEach((row) => {
 		result[row.status] = Number(row.count);
 	});

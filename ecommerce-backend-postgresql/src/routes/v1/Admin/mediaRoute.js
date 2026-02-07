@@ -22,6 +22,13 @@ router
 	);
 
 router
+	.route('/bulk-upload')
+	.post(
+		upload.array('file', 50),
+		checkPermission('create_media'),
+		adminMediaController.bulkUploadMedia
+	);
+router
 	.route('/:mediaId')
 	.delete(
 		checkPermission('delete_media'),

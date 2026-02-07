@@ -4,6 +4,7 @@ const createBaseService = require('../../utils/baseService.js');
 const { imageService, cloudinaryService } = require('../index.js');
 const ApiError = require('../../utils/ApiError.js');
 const httpStatus = require('http-status');
+const { Op } = require('sequelize');
 
 const mediaService = createBaseService(db.media, {
 	name: 'Media',
@@ -17,6 +18,8 @@ const mediaService = createBaseService(db.media, {
 
 // Using userId logic from request
 async function createMedia(req) {
+	console.log(req.file, 'chkking file');
+
 	const media = await imageService.mediaUpload(req.file);
 	const userId = commonUtils.getUserId(req);
 	return mediaService.create(
@@ -46,9 +49,50 @@ async function permanentDeleteMediaById(req) {
 	return mediaService.permanentDelete(req.params.mediaId, userId);
 }
 
+async function bulkUploadMedia(req) {
+	const userId = commonUtils.getUserId(req);
+	const results = [];
+	const files = req.files;
+	let index = 0;
+	for (const file of files) {
+		console.log(index, file);
+		index++;
+
+		// 1️⃣ Upload file (prepare URL, etc.)
+		const mediaData = await imageService.mediaUpload(file);
+
+		// 2️⃣ Check if media already exists by title or URL
+		let existingMedia = await db.media.findOne({
+			where: {
+				[Op.or]: [{ title: mediaData.title }, { url: mediaData.url }],
+			},
+		});
+
+		if (existingMedia) {
+			// 3️⃣ Update existing media
+			existingMedia = await existingMedia.update({
+				url: mediaData.url,
+				title: mediaData.title,
+				size: mediaData.size,
+			});
+			results.push({ status: 'updated', media: existingMedia });
+		} else {
+			// 4️⃣ Create new media
+			const newMedia = await createMedia({
+				url: mediaData.url,
+				title: mediaData.title,
+				size: mediaData.size,
+				userId,
+			});
+			results.push({ status: 'added', media: newMedia });
+		}
+	}
+}
+
 module.exports = {
 	createMedia,
 	getMedias: (req) => mediaService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteMediaById,
 	softDeleteMediaById,
+	bulkUploadMedia,
 };

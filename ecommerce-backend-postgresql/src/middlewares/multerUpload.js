@@ -1,12 +1,3 @@
-// const multer = require('multer');
-// // const upload = multer({});
-// const upload = multer({
-// 	storage: multer.memoryStorage(),
-// 	limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
-// });
-
-// module.exports = upload;
-
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -20,25 +11,25 @@ if (!fs.existsSync(MAIN_FOLDER)) {
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		let folderPath = MAIN_FOLDER;
+
+		// optional subfolder
 		if (req.body.subFolder) {
 			folderPath = path.join(MAIN_FOLDER, req.body.subFolder);
 			if (!fs.existsSync(folderPath)) {
 				fs.mkdirSync(folderPath, { recursive: true });
 			}
 		}
+
 		cb(null, folderPath);
 	},
+
 	filename: (req, file, cb) => {
-		const nameWithoutExt = file.originalname
-			.replace(/\.[^/.]+$/, '')
-			.replace(/\s+/g, '_');
-		const uniqueName = `${nameWithoutExt}_${Date.now()}${path.extname(
-			file.originalname
-		)}`;
-		cb(null, uniqueName);
+		// keep the original filename as is
+		cb(null, file.originalname);
 	},
 });
 
-const upload = multer({ storage });
+// optional file size limit (5 MB per file)
+const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
 module.exports = upload;

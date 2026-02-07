@@ -14,6 +14,14 @@ const createMedia = catchAsync(async (req, res) => {
 	const medias = await adminMediaService.createMedia(req);
 	res.send(medias);
 });
+const bulkUploadMedia = catchAsync(async (req, res) => {
+	const files = req.files; // multer array upload
+	if (!files || files.length === 0) {
+		throw new ApiError(httpStatus.BAD_REQUEST, 'No files uploaded');
+	}
+	const medias = await adminMediaService.bulkUploadMedia(req);
+	res.send(medias);
+});
 
 const softDeleteMedia = catchAsync(async (req, res) => {
 	await adminMediaService.softDeleteMediaById(req);
@@ -29,4 +37,5 @@ module.exports = {
 	createMedia,
 	softDeleteMedia,
 	permanentDeleteMedia,
+	bulkUploadMedia,
 };
