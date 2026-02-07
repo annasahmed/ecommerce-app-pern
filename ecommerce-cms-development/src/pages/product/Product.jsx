@@ -18,6 +18,7 @@ import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
 import UploadProductsExcel from "@/components/product/UploadProductsExcel";
 import { Download, FileSpreadsheet } from "lucide-react";
+import BulkUpload from "@/components/product/BulkUpload";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
@@ -97,7 +98,6 @@ const Product = () => {
 				// }}
 			/>
 			<div className="mb-4 flex flex-col/ gap-4">
-				<UploadProductsExcel />
 				<Button
 					layout="outline"
 					onClick={downloadProductsExcel}
@@ -109,6 +109,8 @@ const Product = () => {
 						Export Products
 					</span>
 				</Button>
+				<UploadProductsExcel />
+				{/* <BulkUpload /> */}
 			</div>
 
 			{/* <UploadProductsExcel /> */}
