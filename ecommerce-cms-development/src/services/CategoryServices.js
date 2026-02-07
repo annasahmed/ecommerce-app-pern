@@ -1,8 +1,8 @@
 import requests from "./httpService";
 
 const CategoryServices = {
-	getAllCategory: async () => {
-		return requests.get("/category");
+	getAllCategory: async (query) => {
+		return requests.get(`/category${query ? `?${query}` : ""}`);
 	},
 
 	getAllCategoriesForOptions: async (excludeId) => {

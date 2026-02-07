@@ -23,14 +23,18 @@ import BulkUpload from "@/components/product/BulkUpload";
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
 	const [page, setPage] = useState(1);
+	const [filters, setFilters] = useState({});
 	const limit = 10;
 	const {
 		data: productsData,
 		loading,
 		error,
 	} = useAsync(
-		() => ProductServices.getAllProducts(`limit=${limit}&page=${page}`),
-		[page],
+		() =>
+			ProductServices.getAllProducts(
+				`limit=${limit}&page=${page}${filters.search ? `&search=${filters.search}` : ""}`,
+			),
+		[page, filters],
 	); // 👈 refetch when page changes
 	const history = useHistory();
 	const toggleDrawerData = useToggleDrawer();
@@ -54,14 +58,6 @@ const Product = () => {
 		try {
 			const response = await ProductServices.exportProducts();
 			// Create a URL for the file
-
-			console.log(
-				response,
-				response.file,
-				response.data,
-				"chkking response111",
-			);
-
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement("a");
 			link.href = url;
@@ -81,6 +77,11 @@ const Product = () => {
 		}
 	};
 
+	const handleFilter = (values) => {
+		setPage(1);
+		setFilters(values);
+	};
+
 	return (
 		<>
 			<PageTitle>{t("Product")}</PageTitle>
@@ -88,7 +89,7 @@ const Product = () => {
 				buttonText={t("AddProduct")}
 				inputPlaceholder={t("SearchProduct")}
 				onClick={toggleDrawer}
-				showImportButton
+				onSubmitFilter={handleFilter}
 				// onClick={() => {
 				// 	if (serviceId) {
 				// 		history.push(`/product/update/${serviceId}`);

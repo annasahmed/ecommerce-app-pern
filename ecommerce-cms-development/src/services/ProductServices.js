@@ -2,7 +2,7 @@ import requests, { instance } from "./httpService";
 
 const ProductServices = {
 	getAllProducts: async (query) => {
-		return requests.get(`/product?${query || ""}`);
+		return requests.get(`/product${query ? `?${query}` : ""}`);
 	},
 
 	getProductById: async (id) => {

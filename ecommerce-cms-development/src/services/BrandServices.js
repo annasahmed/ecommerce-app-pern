@@ -1,12 +1,12 @@
 import requests from "./httpService";
 
 const BrandServices = {
-	getAllBrand: async () => {
-		return requests.get("/brand");
+	getAllBrand: async (query) => {
+		return requests.get(`/brand${query ? `?${query}` : ""}`);
 	},
 
-	getAllBrands: async () => {
-		return requests.get("/brand");
+	getAllBrands: async (query) => {
+		return requests.get(`/brand${query ? `?${query}` : ""}`);
 	},
 
 	getBrandById: async (id) => {

@@ -18,11 +18,20 @@ import CategoryServices from "@/services/CategoryServices";
 
 const Category = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
+	const [page, setPage] = useState(1);
+	const [filters, setFilters] = useState({});
+	const limit = 10;
 	const {
 		data: categoriesData,
 		loading,
 		error,
-	} = useAsync(CategoryServices.getAllCategory);
+	} = useAsync(
+		() =>
+			CategoryServices.getAllCategory(
+				`limit=${limit}&page=${page}${filters.search ? `&search=${filters.search}` : ""}`,
+			),
+		[page, filters],
+	);
 
 	const { t } = useTranslation();
 	const toggleDrawerData = useToggleDrawer();
@@ -40,6 +49,11 @@ const Category = () => {
 		}
 	};
 
+	const handleFilter = (values) => {
+		setPage(1);
+		setFilters(values);
+	};
+
 	return (
 		<>
 			<PageTitle>{t("Category")}</PageTitle>
@@ -47,11 +61,13 @@ const Category = () => {
 				buttonText={t("AddCategory")}
 				inputPlaceholder={t("SearchCategory")}
 				onClick={toggleDrawer}
+				onSubmitFilter={handleFilter}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={categoriesData}>
+				data={categoriesData}
+				onPageChange={setPage}>
 				<Table>
 					<TableHeader>
 						<tr>

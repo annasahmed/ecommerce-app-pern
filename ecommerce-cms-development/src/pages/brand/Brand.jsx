@@ -18,11 +18,20 @@ import BrandDrawer from "@/components/brand/BrandDrawer";
 
 const Brand = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
+	const [page, setPage] = useState(1);
+	const [filters, setFilters] = useState({});
+	const limit = 10;
 	const {
 		data: brandsData,
 		loading,
 		error,
-	} = useAsync(BrandServices.getAllBrands);
+	} = useAsync(
+		() =>
+			BrandServices.getAllBrands(
+				`limit=${limit}&page=${page}${filters.search ? `&search=${filters.search}` : ""}`,
+			),
+		[page, filters],
+	);
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
@@ -40,18 +49,25 @@ const Brand = () => {
 		}
 	};
 
+	const handleFilter = (values) => {
+		setPage(1);
+		setFilters(values);
+	};
+
 	return (
 		<>
 			<PageTitle>{t("Brand")}</PageTitle>
 			<SearchAndFilter
-				buttonText={t("AddBrand")}
-				inputPlaceholder={t("SearchBrand")}
+				buttonText={t("Add Brand")}
+				inputPlaceholder={t("Search Brand")}
 				onClick={toggleDrawer}
+				onSubmitFilter={handleFilter}
 			/>
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={brandsData}>
+				data={brandsData}
+				onPageChange={setPage}>
 				<Table>
 					<TableHeader>
 						<tr>
@@ -66,7 +82,7 @@ const Brand = () => {
 							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
-							<TableCell>{t("Description")}</TableCell>
+							{/* <TableCell>{t("Description")}</TableCell> */}
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>

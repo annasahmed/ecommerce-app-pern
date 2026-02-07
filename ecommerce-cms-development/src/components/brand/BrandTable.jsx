@@ -50,12 +50,12 @@ const BrandTable = ({
 						<TableCell className="text-sm">
 							{showSelectedLanguageTranslation(brand?.translations, "title")}
 						</TableCell>
-						<TableCell className="text-sm">
+						{/* <TableCell className="text-sm">
 							{showSelectedLanguageTranslation(
 								brand?.translations,
 								"description",
 							)}
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell className="text-center">
 							<ShowHideButton id={brand.id} brand status={brand.status} />
