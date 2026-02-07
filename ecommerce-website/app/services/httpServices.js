@@ -70,9 +70,14 @@ instance.interceptors.response.use(
 					if (window.location.href?.includes("/profile")) {
 						window.location.href = "/";
 					}
-					setTimeout(() => {
-						triggerAuthDrawer();
-					}, 3000);
+					if (
+						window.location.href === "/" ||
+						window.location.href === "/checkout"
+					) {
+						setTimeout(() => {
+							triggerAuthDrawer();
+						}, 3000);
+					}
 				}
 
 				return Promise.reject(refreshError);

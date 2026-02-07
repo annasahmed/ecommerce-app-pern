@@ -51,6 +51,7 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 				status: order.status,
 				tracking_id: order.tracking_id,
 				trackingId: order.tracking_id,
+				courier_tracking_id: order.courier_tracking_id,
 				date: order.created_at,
 				deliveredDate: order.updated_at,
 				items: products.reduce((sum, product) => sum + product.quantity, 0),
@@ -140,8 +141,6 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 				<div className="text-center py-12 text-gray-500">No orders found</div>
 			) : (
 				filteredOrders.map((order) => {
-					console.log(order.images, "chkking order.images");
-
 					return (
 						<div
 							key={order.id}
@@ -151,9 +150,12 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 								<div className="flex justify-between items-center flex-wrap gap-3">
 									<h2 className="h3 font-semibold text-gray-800">
 										Order # {order.tracking_id}
+										<p className="text-base font-normal">
+											Tracking Id # {order.courier_tracking_id}
+										</p>
 									</h2>
 									<span
-										className={`px-4 py-1 rounded-full text-sm font-bold uppercase p5 tracking-wide shadow-sm ${
+										className={`self-start mt-1 px-4 py-1 rounded-full text-sm font-bold uppercase p5 tracking-wide shadow-sm ${
 											order.status === "pending"
 												? "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-300"
 												: order.status === "in_progress"
@@ -168,7 +170,11 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 									</span>
 								</div>
 
-								<button className="text-secondary flex items-center gap-1 font-medium">
+								<button
+									className="text-secondary flex items-center gap-1 font-medium"
+
+									// disabled={!order.courier_tracking_id}
+								>
 									<Link
 										href={`/order/${order.trackingId}`}
 										className="flex items-center gap-1">
@@ -180,13 +186,6 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 							{/* ---------- PRODUCTS ---------- */}
 							<div className="flex gap-6 mb-4 overflow-x-auto pt-6 pb-2">
 								{order.products.map((product, idx) => {
-									console.log(
-										product.image
-											? ENV_VARIABLES.IMAGE_BASE_URL + product.image
-											: null,
-										"chkking product",
-									);
-
 									return (
 										<div
 											key={idx}
@@ -257,12 +256,26 @@ const Orders = ({ setSearchQuery, searchQuery }) => {
 
 							{/* ---------- ACTIONS ---------- */}
 							<div className="flex flex-wrap gap-3">
-								<button className="flex-1 min-w-[150px] bg-secondary text-white py-3 rounded-lg font-medium">
-									<Link
-										href={`/order-tracking?id=${order.trackingId}`}
-										className="">
-										Track
-									</Link>
+								<button
+									className="flex-1 min-w-[150px] bg-secondary disabled:bg-muted text-white py-3 rounded-lg font-medium"
+									// disabled
+									disabled={!order.courier_tracking_id}>
+									{order.courier_tracking_id ? (
+										<Link
+											href={`https://leopardsexpress.com/tracking`}
+											target="_blank"
+											// href={`/order-tracking?id=${order.trackingId}`}
+											className="">
+											Track{" "}
+											{order.courier_tracking_id && (
+												<span className="text-sm italic">
+													({order.courier_tracking_id})
+												</span>
+											)}
+										</Link>
+									) : (
+										<p>Track</p>
+									)}
 								</button>
 
 								<button className="flex-1 min-w-[150px] border py-3 rounded-lg font-medium">
