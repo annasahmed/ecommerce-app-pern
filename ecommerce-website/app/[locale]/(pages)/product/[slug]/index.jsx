@@ -10,6 +10,7 @@ import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
+import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 import { Heart, ShoppingCartIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -19,6 +20,7 @@ export default function ProductDetailsPage() {
 	const { slug } = useParams();
 	const store = useStore();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
+	const { openCartDrawer } = useAuthUIStore();
 
 	const [quantity, setQuantity] = useState(1);
 	const [selectedAttributes, setSelectedAttributes] = useState({});
@@ -129,8 +131,9 @@ export default function ProductDetailsPage() {
 			},
 			quantity,
 		);
+		openCartDrawer();
 
-		toast.success("Added to cart!");
+		// toast.success("Added to cart!");
 	};
 
 	const isFavourite = favourites?.some((f) => f.id === product.id);

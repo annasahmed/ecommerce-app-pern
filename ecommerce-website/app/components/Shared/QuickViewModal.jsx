@@ -18,6 +18,7 @@ import PrimaryButton from "./PrimaryButton";
 import ProductImageSliderWithoutThumbnails from "./ProductImageSliderWithoutThumbnails";
 import SocialShare from "./SocialShare";
 import SpinLoader from "./SpinLoader";
+import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 
 export default function QuickViewModal({ isOpen, onClose, slug }) {
 	const [quantity, setQuantity] = useState(1);
@@ -25,6 +26,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 	const [attributeOptions, setAttributeOptions] = useState({});
 	const store = useStore();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
+	const { openCartDrawer } = useAuthUIStore();
 
 	// Fetch product
 	const { data: product, isLoading } = useFetchReactQuery(
@@ -109,8 +111,9 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 			},
 			quantity,
 		);
+		openCartDrawer();
 
-		toast.success("Added to cart!");
+		// toast.success("Added to cart!");
 	};
 
 	const isFavourite = favourites?.some((f) => f.id === product.id);

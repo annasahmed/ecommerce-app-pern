@@ -13,6 +13,7 @@ import Overlay from "../../Shared/Overlay";
 import PrimaryButton from "../../Shared/PrimaryButton";
 import Ratings from "../../Shared/Ratings";
 import QuickViewModal from "../../Shared/QuickViewModal";
+import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 
 const MOBILE_NAV_DELAY = 500; // ms
 const LONG_PRESS_DURATION = 1; // ms
@@ -30,6 +31,7 @@ const ProductCard = ({ product }) => {
 	const [selectedAttributes, setSelectedAttributes] = useState({});
 	const [attributeOptions, setAttributeOptions] = useState({});
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
+	const { openCartDrawer } = useAuthUIStore();
 
 	const randomRating = useMemo(() => {
 		return Math.floor(Math.random() * 9 + 2) / 2;
@@ -131,8 +133,9 @@ const ProductCard = ({ product }) => {
 			quantity: 1,
 			selectedVariant,
 		});
+		openCartDrawer();
 
-		toast.success("Added to cart!");
+		// toast.success("Added to cart!");
 	};
 
 	const handleFavourite = () => {

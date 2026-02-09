@@ -16,9 +16,16 @@ import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+	// const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 	// const [authDrawerOpen, setAuthDrawerOpen] = useState(false);
-	const { authDrawerOpen, openAuthDrawer, closeAuthDrawer } = useAuthUIStore();
+	const {
+		authDrawerOpen,
+		openAuthDrawer,
+		closeAuthDrawer,
+		cartDrawerOpen,
+		openCartDrawer,
+		closeCartDrawer,
+	} = useAuthUIStore();
 	const [showMobileSearch, setShowMobileSearch] = useState(false);
 
 	const store = useStore();
@@ -171,7 +178,10 @@ const Navbar = () => {
 					open={authDrawerOpen}
 					setOpen={(val) => (val ? openAuthDrawer() : closeAuthDrawer())}
 				/>
-				<CartDrawer open={isCartDrawerOpen} setOpen={setIsCartDrawerOpen} />
+				<CartDrawer
+					open={cartDrawerOpen}
+					setOpen={(val) => (val ? openCartDrawer() : closeCartDrawer())}
+				/>
 				{/* Navigation Menu */}
 				<NavigationMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 			</div>
