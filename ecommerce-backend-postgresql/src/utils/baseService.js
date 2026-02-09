@@ -100,6 +100,8 @@ function createBaseService(model, options = {}) {
 		async update(id, data, userId, incommingTransaction) {
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
+			console.log(toUpdate, 'chkking toUpdate');
+
 			await validations(data);
 
 			if (!translationModel && checkDuplicateSlug && data.slug) {

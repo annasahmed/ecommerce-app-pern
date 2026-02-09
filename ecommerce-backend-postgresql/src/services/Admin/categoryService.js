@@ -141,6 +141,8 @@ async function updateCategory(req) {
 	req.body.parentId = newParentId;
 	req.body.level = newLevel;
 
+	console.log(req.body, 'chkking req.body');
+
 	if (newLevel !== category.level) {
 		const levelDiff = newLevel - category.level;
 		await updateChildrenLevels(categoryId, levelDiff, transaction);
