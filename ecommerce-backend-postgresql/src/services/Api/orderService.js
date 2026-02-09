@@ -110,7 +110,8 @@ async function confirmOrder(req) {
 
 		if (customer.email) {
 			await sendEmail({
-				to: customer.email,
+				to: 'annasahmed1609@gmail.com',
+				// to: customer.email,
 				subject: `Order Confirmation #${orderId}`,
 				html: orderConfirmationCustomerTemplate({
 					orderId,
@@ -125,8 +126,8 @@ async function confirmOrder(req) {
 
 		// send order notification email to admin
 		await sendEmail({
-			// to: 'annasahmed1609@gmail.com',
-			to: 'salmanazeemkhan@gmail.com',
+			to: 'annasahmed1609@gmail.com',
+			// to: 'salmanazeemkhan@gmail.com',
 			// to: 'orders@babiesnbaba.com',
 			subject: `New Order #${orderId}`,
 			html: orderConfirmationAdminTemplate({

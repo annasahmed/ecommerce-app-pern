@@ -327,6 +327,53 @@ async function verifyCategoriesExist(
 	};
 }
 
+const stringSimilarity = require('string-similarity');
+
+function normalizeCategoryTitle(title) {
+	return title
+		.toLowerCase()
+		.replace(/[-_]/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+}
+
+async function findSimilarCategories(threshold = 0.35) {
+	const categories = await db.category_translation.findAll({
+		attributes: ['category_id', 'title'],
+		raw: true,
+	});
+
+	const results = [];
+	const usedPairs = new Set();
+
+	for (let i = 0; i < categories.length; i++) {
+		for (let j = i + 1; j < categories.length; j++) {
+			const title1 = normalizeCategoryTitle(categories[i].title);
+			const title2 = normalizeCategoryTitle(categories[j].title);
+
+			const similarity = stringSimilarity.compareTwoStrings(
+				title1,
+				title2
+			);
+
+			if (similarity >= threshold) {
+				console.log(categories[i], 'chking similar111');
+				const key = `${categories[i].id}-${categories[j].id}`;
+				if (!usedPairs.has(key)) {
+					results.push({
+						category1: categories[i],
+						category2: categories[j],
+						similarity: Number(similarity.toFixed(2)),
+					});
+					usedPairs.add(key);
+				}
+			}
+		}
+	}
+
+	return results;
+}
+
 module.exports = {
 	getCategoryById: categoryService.getById,
 	createCategory,
@@ -358,6 +405,7 @@ module.exports = {
 	getCategoriesForOptions,
 	importCategoriesTitles,
 	verifyCategoriesExist,
+	findSimilarCategories,
 };
 
 async function isCategoryDescendant(

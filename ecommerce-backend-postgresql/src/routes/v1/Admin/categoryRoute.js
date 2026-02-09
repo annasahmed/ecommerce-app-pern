@@ -18,6 +18,7 @@ router
 		validate(adminCategoryValidation.createCategory),
 		adminCategoryController.createCategory
 	);
+router.route('/similar').get(adminCategoryController.findSimilarCategories);
 
 router
 	.route('/options')

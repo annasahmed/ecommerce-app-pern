@@ -75,6 +75,7 @@
 		"pg-hstore": "^2.3.3",
 		"redis": "^4.7.0",
 		"sequelize": "^6.5.0",
+		"string-similarity": "^4.0.4",
 		"stripe": "^18.0.0",
 		"swagger-jsdoc": "^6.0.2",
 		"swagger-ui-express": "^4.1.6",

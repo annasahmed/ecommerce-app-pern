@@ -47,6 +47,10 @@ const updateCategory = catchAsync(async (req, res) => {
 	res.send(category);
 });
 
+const findSimilarCategories = catchAsync(async (req, res) => {
+	const categories = await adminCategoryService.findSimilarCategories(req);
+	res.send(categories);
+});
 const getCategoriesForOptions = catchAsync(async (req, res) => {
 	const categories = await adminCategoryService.getCategoriesForOptions(req);
 	res.send(categories);
@@ -61,6 +65,7 @@ module.exports = {
 	updateCategory,
 	getCategoriesForOptions,
 	importCategories,
+	findSimilarCategories,
 };
 
 const level1Categories = [
