@@ -248,7 +248,7 @@ const UploadProductsExcel = () => {
 						brand_id: safeStr(row[excelFeilds.brand]) || null,
 						is_featured: false,
 						status: true,
-						thumbnail: null,
+						// thumbnail: null,
 					});
 				});
 

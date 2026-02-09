@@ -545,6 +545,9 @@ const OrderDetailsDrawer = ({ id, data }) => {
 											<h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
 												{item.product_title}
 											</h4>
+											<h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+												SKU: {item.product?.sku}
+											</h4>
 
 											{/* Product Attributes */}
 											{item.product_variant?.attributes &&
