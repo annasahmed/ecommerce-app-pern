@@ -35,6 +35,8 @@ const categoryService = createBaseService(db.category, {
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
 		if (data.parentId) toUpdate.parent_id = data.parentId;
+		if (data.parent_id) toUpdate.parent_id = data.parent_id;
+		if (data.level) toUpdate.level = data.level;
 		return toUpdate;
 	},
 	// validations,

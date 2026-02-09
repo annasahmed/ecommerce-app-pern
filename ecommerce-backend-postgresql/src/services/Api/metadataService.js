@@ -306,6 +306,8 @@ async function getNavCategories(req) {
 
 	return categories;
 }
+
+
 async function getBrands(req) {
 	const brands = await db.brand.scope('active').findAll({
 		where: {
