@@ -35,7 +35,13 @@ const ProductTable = ({
 
 			<TableBody>
 				{data?.map((product) => (
-					<TableRow key={product.id}>
+					<TableRow
+						key={product.id}
+						className={
+							product?.categories?.find((v) => v.level === 1)
+								? "bg-red-200"
+								: ""
+						}>
 						{/* <TableCell>
 							<CheckBox
 								type="checkbox"
@@ -60,13 +66,19 @@ const ProductTable = ({
 							/>
 							{product?.product_translations[0]?.title}
 						</TableCell>
+						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
 						<TableCell className="text-sm">
 							{product?.brand?.translations
 								? product?.brand?.translations[0]?.title
 								: "-"}
 						</TableCell>
-
-						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
+						<TableCell className="text-sm">
+							{product?.categories?.length > 0
+								? product.categories
+										.map((cat) => cat.translations[0]?.title)
+										.join(", ")
+								: "-"}
+						</TableCell>
 
 						<TableCell className="text-center">
 							<ShowHideButton id={product.id} product status={product.status} />

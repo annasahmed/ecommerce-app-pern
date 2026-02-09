@@ -125,8 +125,9 @@ const Product = () => {
 						<tr>
 							<TableCell>{t("IdTbl")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
-							<TableCell>{t("Brand")}</TableCell>
 							<TableCell>{t("SKUTbl")}</TableCell>
+							<TableCell>{t("Brand")}</TableCell>
+							<TableCell>{t("Categories")}</TableCell>
 							{/* <TableCell>{t("CategoriesTbl")}</TableCell> */}
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
