@@ -42,8 +42,22 @@ app.use((req, res, next) => {
 // parse urlencoded request body
 app.use(express.urlencoded({ limit: '150mb', extended: true }));
 
+app.use((req, res, next) => {
+	if (req.headers['content-type']?.includes('multipart/form-data')) {
+		return next(); // skip xss-clean for uploads
+	}
+	next();
+});
+
 // sanitize request data
-app.use(xss());
+// app.use(xss());
+
+app.use((req, res, next) => {
+	if (req.headers['content-type']?.includes('multipart/form-data')) {
+		return next();
+	}
+	xss()(req, res, next);
+});
 
 // gzip compression
 app.use(compression());
