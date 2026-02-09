@@ -20,6 +20,10 @@ router
 	);
 
 router
+	.route('/fix-products-thumbnails')
+	.get(adminProductController.fixThumbnailsProducts);
+
+router
 	.route('/import-products')
 	.post(adminProductController.importProductsFromSheet);
 router.route('/export-products').get(adminProductController.exportProducts);

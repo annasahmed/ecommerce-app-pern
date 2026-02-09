@@ -1268,6 +1268,54 @@ function getProductIncludes(req) {
 	];
 }
 
+async function fixThumbnailsProducts(req) {
+	const products = await db.product.findAll({
+		include: [
+			{ model: db.media, required: false, as: 'thumbnailImage' },
+			{ model: db.media, required: false, as: 'images' },
+		],
+	});
+
+	for (const product of products) {
+		if (!product.images || product.images.length === 0) continue;
+
+		// skip if thumbnail already exists
+		if (product.thumbnail) continue;
+
+		const rawImages = product.images.map((v) => v.get({ plain: true }));
+		const firstImage = rawImages[0];
+
+		const transaction = await db.sequelize.transaction();
+
+		try {
+			// remove image from gallery
+			await db.product_to_media.destroy(
+				{
+					where: {
+						product_id: product.id,
+						media_id: firstImage.id,
+					},
+				},
+				{ transaction }
+			);
+
+			// set thumbnail
+			await db.product.update(
+				{ thumbnail: firstImage.id },
+				{
+					where: { id: product.id },
+					transaction,
+				}
+			);
+
+			await transaction.commit();
+		} catch (error) {
+			await transaction.rollback();
+			console.error(`Failed for product ${product.id}`, error);
+		}
+	}
+}
+
 module.exports = {
 	getProductById: productService.getById,
 	createProduct,
@@ -1285,4 +1333,5 @@ module.exports = {
 	updateProductCategoriesBySku,
 	importProductsFromSheet,
 	exportProducts,
+	fixThumbnailsProducts,
 };
