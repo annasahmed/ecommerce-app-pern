@@ -7,7 +7,8 @@ import { ENV_VARIABLES } from "@/app/constants/env_variables";
 
 const CategoriesSection = ({ data = [], isSlider = true }) => {
 	const store = useStore();
-	const slidesData = data.length > 0 ? data : store.content.categories;
+	const slidesData =
+		data.length > 0 ? [...data, ...data] : store.content.categories;
 	// const slidesData =
 	// 	data && data.records.length > 0 ? data.records : store.content.categories;
 
@@ -17,7 +18,7 @@ const CategoriesSection = ({ data = [], isSlider = true }) => {
 				<BaseSlider
 					slides={slidesData}
 					slidesPerView={3}
-					// slidesPerGroup={2}
+					slidesPerGroup={2}
 					// slidesPerView={slidesData?.length > 3 ? 3 : slidesData?.length}
 					// slidesPerView={slidesData?.length > 3 ? 3 : slidesData?.length}
 					spaceBetween={20}
