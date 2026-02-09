@@ -26,6 +26,7 @@ const SearchInput = ({
 	const [suggestions, setSuggestions] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [showDropdown, setShowDropdown] = useState(false);
+	const [inputActive, setInputActive] = useState(false);
 
 	const debounceRef = useRef(null);
 

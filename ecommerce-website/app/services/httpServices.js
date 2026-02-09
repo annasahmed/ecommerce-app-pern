@@ -71,7 +71,7 @@ instance.interceptors.response.use(
 						window.location.href = "/";
 					}
 					if (
-						window.location.href === "/" ||
+						// window.location.href === "/" ||
 						window.location.href === "/checkout"
 					) {
 						setTimeout(() => {

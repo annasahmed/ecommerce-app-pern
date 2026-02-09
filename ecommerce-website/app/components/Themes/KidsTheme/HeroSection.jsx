@@ -13,6 +13,7 @@ const HeroSection = ({ images, autoplay = false }) => {
 			showPagination={false}
 			autoPlay={autoplay}
 			arrowsPosition="inside"
+			speed={800}
 			breakpoints={{
 				768: {
 					showNavigation: true,

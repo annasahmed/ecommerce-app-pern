@@ -17,6 +17,7 @@ const CategoriesSection = ({ data = [], isSlider = true }) => {
 				<BaseSlider
 					slides={slidesData}
 					slidesPerView={3}
+					// slidesPerGroup={2}
 					// slidesPerView={slidesData?.length > 3 ? 3 : slidesData?.length}
 					// slidesPerView={slidesData?.length > 3 ? 3 : slidesData?.length}
 					spaceBetween={20}

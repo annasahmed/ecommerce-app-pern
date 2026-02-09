@@ -54,6 +54,7 @@ const ProductsSlider = ({
 					slides={slidesData}
 					slidesPerView={2}
 					spaceBetween={12}
+					slidesPerGroup={2}
 					showNavigation={false}
 					showPagination={false}
 					breakpoints={{

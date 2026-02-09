@@ -19,6 +19,8 @@ const BaseSlider = ({
 	renderSlide,
 	breakpoints = {},
 	arrowsPosition = "outside",
+	slidesPerGroup = 1,
+	speed = 400,
 }) => {
 	const prevRef = useRef(null);
 	const nextRef = useRef(null);
@@ -53,7 +55,9 @@ const BaseSlider = ({
 				modules={[Navigation, Pagination, Autoplay]}
 				spaceBetween={spaceBetween}
 				slidesPerView={slidesPerView}
-				speed={1500}
+				slidesPerGroup={slidesPerGroup}
+				speed={speed}
+				loopFillGroupWithBlank={true}
 				loop={loop}
 				lazy={`true`}
 				onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance
