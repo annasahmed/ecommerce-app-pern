@@ -701,6 +701,7 @@ async function importProductsFromSheet(req) {
 	const createdBrands = [];
 	const createdProducts = [];
 	const updatedProducts = [];
+	const errorProducts = [];
 
 	const categories = await db.category_translation.findAll({
 		attributes: ['category_id', 'title'],
@@ -790,12 +791,29 @@ async function importProductsFromSheet(req) {
 					},
 					transaction
 				);
-
+				skuMap.set(product.sku, product);
+				titleSlugMap.set(
+					product.translations?.[0]?.title?.toLowerCase(),
+					product
+				);
+				titleSlugMap.set(
+					product.translations?.[0]?.slug?.toLowerCase(),
+					product
+				);
 				updatedProducts.push(existingProduct.id);
 			} else {
 				const created = await createProduct(
 					{ body: product },
 					transaction
+				);
+				skuMap.set(product.sku, product);
+				titleSlugMap.set(
+					product.translations?.[0]?.title?.toLowerCase(),
+					product
+				);
+				titleSlugMap.set(
+					product.translations?.[0]?.slug?.toLowerCase(),
+					product
 				);
 
 				createdProducts.push(created.id);
@@ -811,10 +829,24 @@ async function importProductsFromSheet(req) {
 			updatedProducts,
 		};
 	} catch (error) {
-		console.log(error.message || error, 'chkking error');
+		if (error.name === 'SequelizeUniqueConstraintError') {
+			console.log('UNIQUE CONSTRAINT ERROR');
+
+			console.log(
+				error.errors.map((e) => ({
+					field: e.path,
+					value: e.value,
+					message: e.message,
+				}))
+			);
+
+			console.log('DB fields:', error.fields);
+		} else {
+			console.log(error);
+		}
 
 		await transaction.rollback();
-		// throw error.message || error;
+		throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error);
 	}
 }
 
@@ -1156,10 +1188,10 @@ async function exportProducts(req, res) {
 		res.end();
 	} catch (error) {
 		console.error('EXPORT PRODUCTS ERROR:', error);
-		throw new ApiError(
-			httpStatus.INTERNAL_SERVER_ERROR,
-			error.message || 'Error exporting products'
-		);
+		// throw new ApiError(
+		// 	httpStatus.INTERNAL_SERVER_ERROR,
+		// 	error.message || 'Error exporting products'
+		// );
 	}
 }
 
