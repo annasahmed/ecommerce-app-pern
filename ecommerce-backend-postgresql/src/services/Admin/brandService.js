@@ -8,11 +8,14 @@ const brandService = createBaseService(db.brand, {
 	formatCreateData: (data) => ({
 		icon: data.icon,
 		status: data.status,
+		show_on_homepage: data.show_on_homepage,
 	}),
 	formatUpdateData: (data) => {
 		const toUpdate = {};
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
+		if (data.show_on_homepage !== undefined)
+			toUpdate.show_on_homepage = data.status;
 		return toUpdate;
 	},
 	translationModel: db.brand_translation,

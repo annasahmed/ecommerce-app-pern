@@ -34,6 +34,33 @@ async function softDeleteMediaById(req) {
 	const userId = commonUtils.getUserId(req);
 	return mediaService.softDelete(req.params.mediaId, userId);
 }
+async function softBulkDeleteMediaById(req) {
+	const { startId, endId } = req.query;
+	const deletedByUserId = commonUtils.getUserId(req);
+
+	if (!startId || !endId) {
+		throw new Error('startId and endId are required');
+	}
+
+	const [count] = await db.media.update(
+		{
+			deleted_at: new Date(),
+			deleted_by: deletedByUserId,
+		},
+		{
+			where: {
+				id: {
+					[Op.between]: [Number(startId), Number(endId)],
+				},
+			},
+		}
+	);
+
+	return {
+		success: true,
+		affectedRows: count,
+	};
+}
 async function permanentDeleteMediaById(req) {
 	const userId = commonUtils.getUserId(req);
 	const media = await db.media
@@ -176,5 +203,6 @@ module.exports = {
 	getMedias: (req) => mediaService.list(req, [], [], [['id', 'DESC']]),
 	permanentDeleteMediaById,
 	softDeleteMediaById,
+	softBulkDeleteMediaById,
 	bulkUploadMedia,
 };

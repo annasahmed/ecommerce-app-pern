@@ -1,4 +1,10 @@
-const { baseFields, baseScopes, baseAssociation } = require('./base_model');
+const {
+	baseFields,
+	baseScopes,
+	baseAssociation,
+	mediaField,
+	mediaAssociation,
+} = require('./base_model');
 const modelValidators = require('./model_validators');
 
 module.exports = (sequelize, DataTypes) => {
@@ -11,6 +17,13 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				autoIncrement: true,
 			},
+			icon: { ...mediaField, field: 'icon', as: 'logo' },
+			show_on_homepage: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
+				allowNull: false,
+			},
+
 			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: true,
@@ -46,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE',
 		});
 		baseAssociation(brand, models);
+		mediaAssociation(brand, models, 'icon', 'logo');
 	};
 
 	return brand;

@@ -35,6 +35,12 @@ router
 		validate(adminMediaValidation.deleteMedia),
 		adminMediaController.softDeleteMedia
 	);
+router
+	.route('/bulk-soft-delete/:mediaId')
+	.delete(
+		checkPermission('delete_media'),
+		adminMediaController.softBulkDeleteMediaById
+	);
 
 router
 	.route('/permanent/:mediaId')
