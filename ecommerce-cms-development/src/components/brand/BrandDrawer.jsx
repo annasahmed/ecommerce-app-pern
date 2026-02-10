@@ -14,14 +14,18 @@ import InputAreaField from "../form/fields/InputAreaField";
 import SwitchToggleField from "../form/fields/SwitchToggleField";
 import TranslationFields from "../newComponents/TranslationFields";
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
+import ImageSelectorField from "../form/fields/ImageSelectorField";
 
 const BrandDrawer = ({ id, data }) => {
 	const { t } = useTranslation();
 	const [status, setStatus] = useState(true);
+	const [showOnHomepage, setShowOnHomepage] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resData, setResData] = useState({});
 	const { closeDrawer, setIsUpdate, isDrawerOpen } = useContext(SidebarContext);
 	const { selectedLanguage } = useGlobalSettings();
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 
 	const defaultValues = {
 		translations: [
@@ -51,6 +55,8 @@ const BrandDrawer = ({ id, data }) => {
 			const brandData = {
 				...data,
 				status,
+				show_on_homepage: showOnHomepage,
+				icon: selectedImage,
 			};
 
 			if (id) {
@@ -59,6 +65,10 @@ const BrandDrawer = ({ id, data }) => {
 				setIsSubmitting(false);
 				notifySuccess(res.message);
 				closeDrawer();
+				setStatus(true);
+				setShowOnHomepage(false);
+				setSelectedImage(null);
+				setSelectedImageUrl(null);
 				reset();
 			} else {
 				const res = await BrandServices.addBrand(brandData);
@@ -66,6 +76,10 @@ const BrandDrawer = ({ id, data }) => {
 				setIsSubmitting(false);
 				notifySuccess(res.message);
 				closeDrawer();
+				setStatus(true);
+				setShowOnHomepage(false);
+				setSelectedImage(null);
+				setSelectedImageUrl(null);
 				reset();
 			}
 		} catch (err) {
@@ -75,6 +89,8 @@ const BrandDrawer = ({ id, data }) => {
 	};
 
 	useEffect(() => {
+		setSelectedImage(null);
+		setSelectedImageUrl(null);
 		if (id && isDrawerOpen) {
 			(async () => {
 				try {
@@ -84,6 +100,13 @@ const BrandDrawer = ({ id, data }) => {
 						setValue("translations", res.translations);
 						setValue("slug", res.slug);
 						setStatus(res.status || false);
+						setShowOnHomepage(res.show_on_homepage || false);
+						setSelectedImage(res.icon);
+						setSelectedImageUrl(
+							res.logo.url
+								? import.meta.env.VITE_APP_CLOUDINARY_URL + res.logo.url
+								: null,
+						);
 					}
 				} catch (err) {
 					notifyError(err ? err.response?.data?.message : err.message);
@@ -130,6 +153,18 @@ const BrandDrawer = ({ id, data }) => {
 							errors={errors}
 							register={register}
 							translationFields={translationFields}
+						/>
+						<ImageSelectorField
+							label={t("Brand Logo")}
+							selectedImage={selectedImage}
+							setSelectedImage={setSelectedImage}
+							selectedImageUrl={selectedImageUrl}
+							setSelectedImageUrl={setSelectedImageUrl}
+						/>
+						<SwitchToggleField
+							label={t("Show On Homepage")}
+							handleProcess={setShowOnHomepage}
+							processOption={showOnHomepage}
 						/>
 						<SwitchToggleField
 							label={t("Status")}

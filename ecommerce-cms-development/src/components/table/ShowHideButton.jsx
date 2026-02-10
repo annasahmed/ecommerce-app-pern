@@ -18,7 +18,14 @@ import AppuserServices from "@/services/AppuserServices";
 import CustomerServices from "@/services/CustomerServices";
 import UserServices from "@/services/UserServices";
 
-const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
+const ShowHideButton = ({
+	id,
+	status,
+	category,
+	usp,
+	currencyStatusName,
+	isShowOnHomepage,
+}) => {
 	const location = useLocation();
 	const { setIsUpdate } = useContext(SidebarContext);
 
@@ -55,7 +62,13 @@ const ShowHideButton = ({ id, status, category, usp, currencyStatusName }) => {
 				setIsUpdate(true);
 				notifySuccess(res.message);
 			}
-			if (location.pathname === "/brand") {
+			if (location.pathname === "/brand" && isShowOnHomepage) {
+				const res = await BrandServices.updateStatus(id, {
+					show_on_homepage: newStatus,
+				});
+				setIsUpdate(true);
+				notifySuccess(res.message);
+			} else if (location.pathname === "/brand") {
 				const res = await BrandServices.updateStatus(id, {
 					status: newStatus,
 				});

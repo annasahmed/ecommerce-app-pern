@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
+import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
 //internal import
 
@@ -43,10 +43,29 @@ const BrandTable = ({
 								isChecked={isCheck?.includes(parseInt(brand.id))}
 							/>
 						</TableCell> */}
-
 						<TableCell className="font-semibold uppercase text-xs">
 							{brand?.id}
 						</TableCell>
+						<TableCell>
+							{brand?.logo ? (
+								<Avatar
+									size="large"
+									className="hidden mr-3/ md:block bg-customGray-50 p-1"
+									src={
+										import.meta.env.VITE_APP_CLOUDINARY_URL + brand?.logo?.url
+									}
+									alt={showSelectedLanguageTranslation(brand?.title)}
+								/>
+							) : (
+								<Avatar
+									size="large"
+									src="https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
+									alt="product"
+									className="hidden p-1 mr-2 md:block bg-customGray-50 shadow-none"
+								/>
+							)}
+						</TableCell>
+
 						<TableCell className="text-sm">
 							{showSelectedLanguageTranslation(brand?.translations, "title")}
 						</TableCell>
@@ -57,6 +76,14 @@ const BrandTable = ({
 							)}
 						</TableCell> */}
 
+						<TableCell className="text-center">
+							<ShowHideButton
+								id={brand.id}
+								brand
+								status={brand.show_on_homepage}
+								isShowOnHomepage={true}
+							/>
+						</TableCell>
 						<TableCell className="text-center">
 							<ShowHideButton id={brand.id} brand status={brand.status} />
 						</TableCell>

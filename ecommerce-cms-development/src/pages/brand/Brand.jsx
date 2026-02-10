@@ -81,8 +81,12 @@ const Brand = () => {
 								/>
 							</TableCell> */}
 							<TableCell>{t("IdTbl")}</TableCell>
+							<TableCell>{t("Logo")}</TableCell>
 							<TableCell>{t("NameTbl")}</TableCell>
 							{/* <TableCell>{t("Description")}</TableCell> */}
+							<TableCell className="text-center">
+								{t("Show On Homepage")}
+							</TableCell>
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>
 						</tr>

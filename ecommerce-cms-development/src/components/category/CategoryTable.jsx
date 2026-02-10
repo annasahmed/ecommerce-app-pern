@@ -82,6 +82,14 @@ const CategoryTable = ({
 									"slug",
 								)}
 							</TableCell>
+							<TableCell className="text-sm">
+								{category?.parent?.translations
+									? showSelectedLanguageTranslation(
+											category?.parent?.translations,
+											"title",
+										)
+									: "-"}
+							</TableCell>
 							<TableCell className="text-sm">{category?.level}</TableCell>
 							<TableCell className="text-sm">
 								{category?.is_leaf.toString()}
