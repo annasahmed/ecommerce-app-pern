@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -20,6 +20,9 @@ export default function ProductImageSlider({ images }) {
 	const prevRef = useRef(null);
 	const nextRef = useRef(null);
 	const swiperRef = useRef(null);
+	const uniqueImages = useMemo(() => {
+		return [...new Set(images || [])];
+	}, [images]);
 
 	useEffect(() => {
 		if (swiperRef.current && prevRef.current && nextRef.current) {
@@ -52,7 +55,7 @@ export default function ProductImageSlider({ images }) {
 					thumbs={{ swiper: thumbsSwiper }}
 					modules={[FreeMode, Navigation, Thumbs]}
 					className="mySwiper2 flex-1 mb-2 md:h-[568px]/">
-					{images?.map((v, idx) => {
+					{uniqueImages?.map((v, idx) => {
 						return (
 							<SwiperSlide key={`product-images-${idx}`}>
 								<div className="h-full w-full bg-light/">
@@ -81,7 +84,7 @@ export default function ProductImageSlider({ images }) {
 				}}
 				modules={[FreeMode, Navigation, Thumbs]}
 				className="mySwiper md:min-w-24 md:max-h-95">
-				{images?.map((v, idx) => (
+				{uniqueImages?.map((v, idx) => (
 					<SwiperSlide key={`product-images-${idx}`}>
 						<BaseImage
 							src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}

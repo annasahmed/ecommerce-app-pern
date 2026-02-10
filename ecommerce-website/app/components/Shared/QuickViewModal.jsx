@@ -175,7 +175,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 											</button>
 											{/* Left Section - Image Slider */}
 											<ProductImageSliderWithoutThumbnails
-												images={[...product.images]}
+												images={[product.thumbnail, ...product.images]}
 												discount={product.discount}
 											/>
 

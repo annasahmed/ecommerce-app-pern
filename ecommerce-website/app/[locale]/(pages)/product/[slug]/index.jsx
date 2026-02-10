@@ -11,6 +11,7 @@ import { useStore } from "@/app/providers/StoreProvider";
 import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
 import { useAuthUIStore } from "@/app/store/useAuthUIStore";
+import { cleanHtmlContent } from "@/app/utils/cleanHtmlContent";
 import { Heart, ShoppingCartIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -149,7 +150,7 @@ export default function ProductDetailsPage() {
 			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-6 gap-10 md:gap-10">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
-					images={[...product.images]}
+					images={[product.thumbnail, ...product.images]}
 					discount={product.discount}
 				/>
 
@@ -190,7 +191,7 @@ export default function ProductDetailsPage() {
 
 					{/* Description */}
 					<p className="leading-relaxed mb-6 pb-6 border-b p4 text-sm md:text-base text-[#999999]">
-						{product.excerpt || product.description}
+						{product.excerpt}
 					</p>
 
 					{/* Attributes */}
@@ -320,7 +321,9 @@ export default function ProductDetailsPage() {
 					{activeTab === "description" && product.description && (
 						<div
 							className="leading-relaxed text-sm md:text-base text-[#999999] product-description prose max-w-none"
-							dangerouslySetInnerHTML={{ __html: product.description }}
+							dangerouslySetInnerHTML={{
+								__html: cleanHtmlContent(product.description),
+							}}
 						/>
 					)}
 

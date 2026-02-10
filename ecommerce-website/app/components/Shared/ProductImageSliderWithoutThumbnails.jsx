@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -18,6 +18,10 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 	const prevRef = useRef(null);
 	const nextRef = useRef(null);
 	const swiperRef = useRef(null);
+
+	const uniqueImages = useMemo(() => {
+		return [...new Set(images || [])];
+	}, [images]);
 
 	useEffect(() => {
 		if (swiperRef.current && prevRef.current && nextRef.current) {
@@ -40,7 +44,7 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 				loop
 				modules={[Navigation]}
 				className="mySwiper2 w-full md:!h-fit">
-				{images?.map((v, idx) => {
+				{uniqueImages?.map((v, idx) => {
 					return (
 						<SwiperSlide key={`product-images-${idx}`}>
 							<div className="h-full w-full bg-light/">
