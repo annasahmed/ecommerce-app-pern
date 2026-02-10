@@ -20,7 +20,12 @@ router
 		validate(adminMediaValidation.createMedia),
 		adminMediaController.createMedia
 	);
-
+router
+	.route('/deleteAllProductsMedia')
+	.delete(
+		checkPermission('delete_media'),
+		adminMediaController.deleteAllProductsMedia
+	);
 router
 	.route('/bulk-upload')
 	.post(
@@ -35,12 +40,7 @@ router
 		validate(adminMediaValidation.deleteMedia),
 		adminMediaController.softDeleteMedia
 	);
-router
-	.route('/deleteAllProductsMedia')
-	.delete(
-		checkPermission('delete_media'),
-		adminMediaController.deleteAllProductsMedia
-	);
+
 router
 	.route('/bulk-soft-delete/:mediaId')
 	.delete(
