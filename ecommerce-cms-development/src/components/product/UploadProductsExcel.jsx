@@ -154,6 +154,11 @@ const UploadProductsExcel = () => {
 				const products = [];
 				const allErrors = [];
 
+				// To track duplicates within Excel
+				const seenSKUs = new Map();
+				const seenSlugs = new Map();
+				const seenTitles = new Map();
+
 				rows.forEach((row, index) => {
 					const excelRowNumber = index + 2; // header = row 1
 
@@ -163,6 +168,35 @@ const UploadProductsExcel = () => {
 						allErrors.push(...rowErrors);
 						return;
 					}
+
+					// 🟢 DUPLICATE CHECK WITHIN EXCEL
+					const sku = safeStr(row[excelFeilds.sku]);
+					const slug = safeStr(row[excelFeilds.slug]);
+					const title = safeStr(row[excelFeilds.title]);
+
+					if (seenSKUs.has(sku)) {
+						allErrors.push(
+							`Row ${excelRowNumber}: Duplicate SKU '${sku}' found (also in row ${seenSKUs.get(
+								sku,
+							)})`,
+						);
+					} else if (sku) seenSKUs.set(sku, excelRowNumber);
+
+					if (seenSlugs.has(slug)) {
+						allErrors.push(
+							`Row ${excelRowNumber}: Duplicate Slug '${slug}' found (also in row ${seenSlugs.get(
+								slug,
+							)})`,
+						);
+					} else if (slug) seenSlugs.set(slug, excelRowNumber);
+
+					if (seenTitles.has(title)) {
+						allErrors.push(
+							`Row ${excelRowNumber}: Duplicate Title '${title}' found (also in row ${seenTitles.get(
+								title,
+							)})`,
+						);
+					} else if (title) seenTitles.set(title, excelRowNumber);
 
 					// 🟢 FORMAT VALID ROW
 					const color = safeStr(row[excelFeilds.color])?.toLowerCase();
@@ -255,11 +289,11 @@ const UploadProductsExcel = () => {
 				// ❌ STOP IF ANY ERRORS
 				if (allErrors.length) {
 					console.error("IMPORT ERRORS:", allErrors);
-					allErrors.slice(0, 10).forEach((error) => {
+					allErrors.slice(0, 15).forEach((error) => {
 						addMessage("error", error);
 					});
-					if (allErrors.length > 10) {
-						addMessage("error", `... and ${allErrors.length - 10} more errors`);
+					if (allErrors.length > 15) {
+						addMessage("error", `... and ${allErrors.length - 15} more errors`);
 					}
 					setLoading(false);
 					return;
