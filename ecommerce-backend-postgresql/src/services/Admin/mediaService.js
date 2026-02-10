@@ -199,23 +199,45 @@ async function bulkUploadMedia(req) {
 }
 
 async function deleteAllProductsMedia(req) {
+	const deletedByUserId = commonUtils.getUserId(req);
+
+	// get product thumbnails
 	const products = await db.product.findAll({
 		where: {
-			thumbnail: {
-				[Op.ne]: null,
-			},
+			thumbnail: { [Op.ne]: null },
 		},
+		attributes: ['thumbnail'],
 		raw: true,
 	});
 
 	const thumbnailIds = products.map((v) => v.thumbnail);
 
+	// get product media
 	const productMedia = await db.product_to_media.findAll({
+		attributes: ['media_id'],
 		raw: true,
 	});
+
 	const productMediaIds = productMedia.map((v) => v.media_id);
 
-	const deletedByUserId = commonUtils.getUserId(req);
+	// merge & dedupe ids
+	const mediaIds = [...new Set([...thumbnailIds, ...productMediaIds])];
+
+	if (!mediaIds.length) {
+		return 0;
+	}
+
+	await db.product.update(
+		{
+			thumbnail: null,
+		},
+		{
+			where: {
+				thumbnail: { [Op.ne]: null },
+			},
+		}
+	);
+
 	const [count] = await db.media.update(
 		{
 			deleted_at: new Date(),
@@ -224,14 +246,19 @@ async function deleteAllProductsMedia(req) {
 		{
 			where: {
 				id: {
-					[Op.in]: [productMediaIds, thumbnailIds],
+					[Op.in]: mediaIds,
 				},
+				deleted_at: null, // avoid re-updating already deleted
 			},
 		}
 	);
 
 	return count;
 }
+
+module.exports = {
+	deleteAllProductsMedia,
+};
 
 module.exports = {
 	createMedia,
