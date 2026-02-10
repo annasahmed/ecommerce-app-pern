@@ -149,7 +149,7 @@ export default function ProductDetailsPage() {
 			<section className="container-layout section-layout grid grid-cols-1 md:grid-cols-6 gap-10 md:gap-10">
 				{/* Left Section - Image Slider */}
 				<ProductImageSlider
-					images={[product.thumbnail, ...product.images]}
+					images={[...product.images]}
 					discount={product.discount}
 				/>
 
