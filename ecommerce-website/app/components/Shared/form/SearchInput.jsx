@@ -95,8 +95,14 @@ const SearchInput = ({
 				value={query}
 				readOnly={readOnly}
 				onChange={(e) => setQuery(e.target.value)}
-				onFocus={() => query && setShowDropdown(true)}
+				onFocus={() => {
+					query && setShowDropdown(true);
+					if (!inputActive) {
+						setInputActive(true);
+					}
+				}}
 				onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+				onActive={() => {}}
 				placeholder={placeholder}
 				className={`py-2 pl-3 pr-10 w-full border p4 rounded-full min-h-12
 					focus:outline-none focus:border-primary
@@ -105,7 +111,7 @@ const SearchInput = ({
 			/>
 
 			{/* Suggestions */}
-			{showDropdown && (
+			{inputActive && showDropdown && (
 				<div className="absolute top-full mt-2 pt-2 w-full bg-white rounded-xl shadow-xl border z-50 overflow-hidden">
 					{/* Suggestions */}
 					<div className="max-h-96 overflow-y-auto">
