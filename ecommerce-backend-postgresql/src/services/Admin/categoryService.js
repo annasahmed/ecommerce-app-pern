@@ -141,8 +141,6 @@ async function updateCategory(req) {
 	req.body.parentId = newParentId;
 	req.body.level = newLevel;
 
-	console.log(req.body, 'chkking req.body');
-
 	if (newLevel !== category.level) {
 		const levelDiff = newLevel - category.level;
 		await updateChildrenLevels(categoryId, levelDiff, transaction);
@@ -193,36 +191,12 @@ async function createCategoryTree({ categoryData, parentId = null, userId }) {
 		status: true,
 	});
 
-	// let category = {
-	// 	id: 1,
-	// };
-
-	// console.log(
-	// 	{
-	// 		parent_id: parentId,
-	// 		level: categoryData.level,
-	// 		user_id: userId,
-	// 		status: true,
-	// 	},
-	// 	'chkking category data'
-	// );
-
 	await db.category_translation.create({
 		title: categoryData.title,
 		slug: categoryData.slug,
 		language_id: 1,
 		category_id: category.id,
 	});
-
-	// console.log(
-	// 	{
-	// 		title: categoryData.title,
-	// 		slug: categoryData.slug,
-	// 		language_id: 1,
-	// 		category_id: category.id,
-	// 	},
-	// 	'chkking category_translation data'
-	// );
 
 	if (categoryData.children?.length) {
 		for (const child of categoryData.children) {

@@ -100,8 +100,6 @@ function createBaseService(model, options = {}) {
 		async update(id, data, userId, incommingTransaction) {
 			const toUpdate = formatUpdateData(data);
 			toUpdate.user_id = userId;
-			console.log(toUpdate, 'chkking toUpdate');
-
 			await validations(data);
 
 			if (!translationModel && checkDuplicateSlug && data.slug) {
@@ -219,7 +217,6 @@ function createBaseService(model, options = {}) {
 				sortOrder = 'DESC',
 				search, // search by title only, for now
 			} = req.query;
-			console.log(search, 'chkking search');
 
 			const offset = getOffset(page, limit);
 			const finalSort = sortBy

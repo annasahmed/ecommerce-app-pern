@@ -15,7 +15,7 @@ router
 	)
 	.post(
 		checkPermission('create_brand'),
-		validate(adminBrandValidation.createBrand),
+		// validate(adminBrandValidation.createBrand),
 		adminBrandController.createBrand
 	);
 
@@ -28,7 +28,7 @@ router
 	)
 	.patch(
 		checkPermission('update_brand'),
-		validate(adminBrandValidation.updateBrand),
+		// validate(adminBrandValidation.updateBrand),
 		adminBrandController.updateBrand
 	)
 	.delete(

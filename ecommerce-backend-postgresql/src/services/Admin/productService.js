@@ -691,8 +691,6 @@ const resolveBrandId = async (
 		createdBrands.push(brandId);
 	}
 
-	console.log(brand, brand.id, 'chkking brand');
-
 	return brand.id;
 };
 
@@ -773,8 +771,6 @@ async function importProductsFromSheet(req) {
 			);
 			product.categories = categoryIds;
 			product.brand_id = brandId;
-
-			console.log(product.brand_id, brandId, 'chkking111');
 
 			// 🔹 Find existing product
 			let existingProduct =

@@ -15,9 +15,18 @@ const brandService = createBaseService(db.brand, {
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
 		if (data.show_on_homepage !== undefined)
-			toUpdate.show_on_homepage = data.status;
+			toUpdate.show_on_homepage = data.show_on_homepage;
 		return toUpdate;
 	},
+	includes: [
+		{
+			model: db.media,
+			as: 'logo',
+			// field: 'icon',
+			required: false,
+			attributes: ['url', 'title'],
+		},
+	],
 	translationModel: db.brand_translation,
 	translationForeignKey: 'brand_id',
 });

@@ -15,8 +15,6 @@ function transformOrderResponse(order, lang = 'en') {
 }
 
 function transformOrdersResponse(response, lang = 'en') {
-	console.log(response, 'chkking response11');
-
 	return response.map((order) => {
 		return {
 			...transformOrderResponse(order),

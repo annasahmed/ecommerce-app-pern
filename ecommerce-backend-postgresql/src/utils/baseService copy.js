@@ -55,8 +55,6 @@ function createBaseService(model, options = {}) {
 			const formattedData = formatCreateData(data);
 			formattedData.user_id = userId;
 
-			console.log(formattedData, 'chkking model');
-
 			const entity = await model.create(formattedData);
 			return entity.get({ plain: true });
 		},

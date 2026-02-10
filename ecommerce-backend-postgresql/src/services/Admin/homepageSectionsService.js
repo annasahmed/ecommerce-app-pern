@@ -27,8 +27,6 @@ async function getHomepageSections(req) {
 	});
 
 	// return sections
-	console.log(sections, "chkking sections");
-	
 	if (!sections.length) return [];
 	const mediaIds = new Set();
 	for (const section of sections) {

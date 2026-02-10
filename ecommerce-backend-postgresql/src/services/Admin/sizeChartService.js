@@ -25,8 +25,6 @@ const sizeChartService = createBaseService(db.size_chart, {
 // Using userId logic from request
 async function createSizeChart(req) {
 	const userId = commonUtils.getUserId(req);
-	console.log(req.body, 'chkking reqbody');
-
 	return sizeChartService.create(req.body, userId);
 }
 

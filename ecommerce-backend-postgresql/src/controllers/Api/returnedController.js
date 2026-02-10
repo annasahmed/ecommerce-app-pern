@@ -29,8 +29,6 @@ const createReturnRequest = catchAsync(async (req, res) => {
 	// Verify access token
 	const payload = await verifyToken(accessToken);
 
-	console.log(req.files, 'chkking files');
-
 	if (req.files?.video && req.files?.video.length > 0) {
 		const uploadedVideo = await mediaUpload(req.files?.video[0]);
 		req.body.video = uploadedVideo.url;
