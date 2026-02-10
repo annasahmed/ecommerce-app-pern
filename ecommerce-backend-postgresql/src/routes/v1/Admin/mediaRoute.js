@@ -36,6 +36,12 @@ router
 		adminMediaController.softDeleteMedia
 	);
 router
+	.route('/deleteAllProductsMedia')
+	.delete(
+		checkPermission('delete_media'),
+		adminMediaController.deleteAllProductsMedia
+	);
+router
 	.route('/bulk-soft-delete/:mediaId')
 	.delete(
 		checkPermission('delete_media'),

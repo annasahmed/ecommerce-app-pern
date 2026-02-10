@@ -198,6 +198,41 @@ async function bulkUploadMedia(req) {
 	return results;
 }
 
+async function deleteAllProductsMedia(req) {
+	const products = await db.product.findAll({
+		where: {
+			thumbnail: {
+				[Op.ne]: null,
+			},
+		},
+		raw: true,
+	});
+
+	const thumbnailIds = products.map((v) => v.thumbnail);
+
+	const productMedia = await db.product_to_media.findAll({
+		raw: true,
+	});
+	const productMediaIds = productMedia.map((v) => v.media_id);
+
+	const deletedByUserId = commonUtils.getUserId(req);
+	const [count] = await db.media.update(
+		{
+			deleted_at: new Date(),
+			deleted_by: deletedByUserId,
+		},
+		{
+			where: {
+				id: {
+					[Op.in]: [productMediaIds, thumbnailIds],
+				},
+			},
+		}
+	);
+
+	return count;
+}
+
 module.exports = {
 	createMedia,
 	getMedias: (req) => mediaService.list(req, [], [], [['id', 'DESC']]),
@@ -205,4 +240,5 @@ module.exports = {
 	softDeleteMediaById,
 	softBulkDeleteMediaById,
 	bulkUploadMedia,
+	deleteAllProductsMedia,
 };

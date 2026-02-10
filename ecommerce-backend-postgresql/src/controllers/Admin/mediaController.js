@@ -31,6 +31,10 @@ const softBulkDeleteMediaById = catchAsync(async (req, res) => {
 	const data = await adminMediaService.softBulkDeleteMediaById(req);
 	res.send({ data, success: true });
 });
+const deleteAllProductsMedia = catchAsync(async (req, res) => {
+	const data = await adminMediaService.deleteAllProductsMedia(req);
+	res.send({ data, success: true });
+});
 const permanentDeleteMedia = catchAsync(async (req, res) => {
 	await adminMediaService.permanentDeleteMediaById(req);
 	res.send({ success: true });
@@ -43,4 +47,5 @@ module.exports = {
 	permanentDeleteMedia,
 	bulkUploadMedia,
 	softBulkDeleteMediaById,
+	deleteAllProductsMedia,
 };
