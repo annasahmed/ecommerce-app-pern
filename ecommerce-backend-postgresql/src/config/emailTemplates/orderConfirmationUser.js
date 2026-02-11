@@ -11,6 +11,7 @@ const orderConfirmationCustomerTemplate = ({
 			(item) => `
 			<tr style="border-bottom:1px solid #eee;">
 				<td style="padding:10px 0;">${item.title}</td>
+				<td style="padding:10px 0;">${item.sku || '-'}</td>
 				<td style="padding:10px 0;" align="center">${item.quantity}</td>
 				<td style="padding:10px 0;" align="right">Rs ${item.finalPrice}</td>
 			</tr>
@@ -54,6 +55,7 @@ const orderConfirmationCustomerTemplate = ({
 							<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
 								<tr style="border-bottom:2px solid #5DABEA;">
 									<th align="left" style="padding:8px 0;">Item</th>
+									<th align="left" style="padding:8px 0;">Sku</th>
 									<th align="center" style="padding:8px 0;">Qty</th>
 									<th align="right" style="padding:8px 0;">Price</th>
 								</tr>
