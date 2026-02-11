@@ -74,7 +74,7 @@ module.exports = {
 	env: envVars.NODE_ENV,
 	port: envVars.PORT,
 	pagination: {
-		limit: 100,
+		limit: 20,
 		page: 1,
 	},
 	jwt: {

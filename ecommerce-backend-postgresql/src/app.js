@@ -26,7 +26,15 @@ if (config.env !== 'test') {
 }
 
 // use this middlware to show images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(
+	'/uploads',
+	express.static(path.join(__dirname, 'uploads'), {
+		setHeaders: (res, path) => {
+			res.set('X-Served-By', 'NodeJS');
+		},
+	})
+);
 // set security HTTP headers
 app.use(helmet());
 
