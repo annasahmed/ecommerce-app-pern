@@ -6,7 +6,7 @@ const TestPage = () => {
 		<div>
 			<Image
 				src={
-					"https://api.babiesnbaba.com/uploads/baby-feeder-cover-welcome-to-the-world-red-little-home%20(2).jpg"
+					"https://api.babiesnbaba.com/uploads/baby-feeder-cover-welcome-to-the-world-red-little-home (2).jpg"
 				}
 				width={600}
 				height={600}
