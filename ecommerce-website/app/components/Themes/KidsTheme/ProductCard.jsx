@@ -125,6 +125,7 @@ const ProductCard = ({ product }) => {
 		addToCart({
 			id: product.id,
 			title: product.title,
+			sku: product.sku,
 			slug: product.slug,
 			thumbnail: product.thumbnail,
 			base_price: product.base_price || product.price,

@@ -65,8 +65,13 @@ export default function CartDrawer({ open, setOpen }) {
 									/>
 
 									<div className="flex-1">
-										<p className="p3 font-medium line-clamp-1">{item.title}</p>
+										<p className="p3 font-medium line-clamp-1 capitalize">
+											{item.title?.toLowerCase()}
+										</p>
 
+										<p className="p3 font-medium line-clamp-1">
+											SKU: {item.sku || "-"}
+										</p>
 										<div className="flex items-center gap-2 mt-1">
 											<BasePrice
 												price={discountedPrice}

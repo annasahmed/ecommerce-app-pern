@@ -35,7 +35,8 @@ const OrderDetails = () => {
 				title: item.product_title,
 				price: item.price,
 				quantity: item.quantity,
-				image: item.product?.images?.[0] || item.product?.thumbnail || "",
+				image: item.product?.thumbnail || item.product?.images?.[0] || "",
+				sku: item.product.sku,
 			};
 		} else {
 			productMap[productId].quantity += item.quantity;
@@ -116,7 +117,10 @@ const OrderDetails = () => {
 							/>
 
 							<div className="flex-1">
-								<p className="font-medium">{product.title}</p>
+								<p className="font-medium capitalize">
+									{product.title?.toLowerCase()}
+								</p>
+								<p className="p5 text-gray-500">SKU: {product.sku}</p>
 								<p className="p5 text-gray-500">Qty: {product.quantity}</p>
 							</div>
 

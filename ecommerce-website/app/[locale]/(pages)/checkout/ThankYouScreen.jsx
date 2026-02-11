@@ -22,6 +22,7 @@ function ThankYouScreen({ order, paymentLabelMap }) {
 					<div key={item.id} className="flex justify-between">
 						<div>
 							<p className="font-medium">{item.title}</p>
+							<p className="text-sm text-gray-500">Sku: {item.sku||'-'}</p>
 							<p className="text-sm text-gray-500">Qty: {item.quantity}</p>
 						</div>
 						<BasePrice price={item.finalPrice} />

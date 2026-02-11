@@ -227,7 +227,7 @@ export default function CheckoutPage() {
 								<input
 									type="email"
 									name="email"
-									placeholder="Email or mobile phone number"
+									placeholder="Email"
 									className="w-full border rounded-md p-3"
 									required
 									value={formData.email}
@@ -551,7 +551,10 @@ export default function CheckoutPage() {
 										</div>
 
 										<div className="flex-1">
-											<p className="p4 font-bold">{item.title}</p>
+											<p className="p4 font-bold capitalize">
+												{item.title?.toLowerCase()}
+											</p>
+											<p className="p5 text-gray-500">Sku: {item.sku || "-"}</p>
 											<p className="p5 text-gray-500">Qty: {item.quantity}</p>
 										</div>
 										<BasePrice

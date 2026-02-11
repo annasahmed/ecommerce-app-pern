@@ -138,7 +138,7 @@ const Navbar = () => {
 							<button
 								// href="/cart"
 								onClick={() => {
-									setIsCartDrawerOpen(true);
+									openCartDrawer();
 								}}
 								className="relative">
 								<ShoppingCartIcon className="cursor-pointer hover:text-primary transition stroke-1" />
