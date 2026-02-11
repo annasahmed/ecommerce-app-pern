@@ -102,7 +102,6 @@ const SearchInput = ({
 					}
 				}}
 				onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-				onActive={() => {}}
 				placeholder={placeholder}
 				className={`py-2 pl-3 pr-10 w-full border p4 rounded-full min-h-12
 					focus:outline-none focus:border-primary

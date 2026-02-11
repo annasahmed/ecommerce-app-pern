@@ -116,7 +116,7 @@ const Footer = () => {
 												className={`${item.className || "w-4 h-4 mt-0.5"}`}
 											/>
 
-											<p className={`${item.className ? "" : "flex"} gap-1`}>
+											<div className={`${item.className ? "" : "flex"} gap-1`}>
 												<h4 className="font-noraml p5">{item.label}:</h4>{" "}
 												{item.link ? (
 													<a href={item.link} className="hover:underline">
@@ -125,7 +125,7 @@ const Footer = () => {
 												) : (
 													item.value
 												)}
-											</p>
+											</div>
 										</div>
 									);
 								})}
@@ -161,7 +161,7 @@ const Footer = () => {
 					</div>
 				</section>
 
-				<p className="pb-10 pt-12 max-md:pb-6 max-md:pt-8 p5 text-sm md:text-base flex justify-center items-center">
+				<div className="pb-10 pt-12 max-md:pb-6 max-md:pt-8 p5 text-sm md:text-base flex justify-center items-center">
 					{/* <section className="min-w-[150px] flex-1 md:flex-none lg:flex-1"> */}
 					<ul className="flex flex-col/ gap-3 max-md:gap-2 text-2xl max-md:text-lg flex-wrap justify-center items-center text-primary">
 						{SOCIAL_CONFIG.map(({ key, icon: Icon, label }) => {
@@ -190,7 +190,7 @@ const Footer = () => {
 						})}
 					</ul>
 					{/* </section> */}
-				</p>
+				</div>
 
 				{/* Divider */}
 				<div className="w-full h-[1px] rounded-full bg-light opacity-30 max-md:mt-0" />

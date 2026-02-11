@@ -8,27 +8,36 @@ import {
 	useCallback,
 } from "react";
 import requests from "../services/httpServices";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	// Load user on mount (check if still logged in via cookie)
+	const fetchUser = async () => {
+		try {
+			const data = await requests.get("/auth/me"); // backend returns user info
+			setUser(data.user);
+			localStorage.setItem("auth_user", JSON.stringify(data.user));
+		} catch (error) {
+			setUser(null);
+			// localStorage.removeItem("auth_user");
+		} finally {
+			setLoading(false);
+		}
+	};
 	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const data = await requests.get("/auth/me"); // backend returns user info
-				setUser(data.user);
-			} catch (error) {
-				setUser(null);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchUser();
+		if (typeof window === "undefined") return;
+		const storedUser = localStorage?.getItem("auth_user");
+		if (storedUser) {
+			setUser(JSON.parse(storedUser));
+			setLoading(false);
+		} else {
+			fetchUser();
+		}
 	}, []);
 
 	// update user function
@@ -37,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 			.patch("/profile", data)
 			.then((res) => {
 				setUser(res);
+				localStorage.setItem("auth_user", JSON.stringify(res));
 				toast.success("Profile updated successfully");
 				return res;
 			})
@@ -51,6 +61,7 @@ export const AuthProvider = ({ children }) => {
 			.patch("/auth/change-password", data)
 			.then((res) => {
 				setUser(res);
+				localStorage.setItem("auth_user", JSON.stringify(res));
 				toast.success("Password updated successfully");
 				return res;
 			})
@@ -67,6 +78,7 @@ export const AuthProvider = ({ children }) => {
 			.post("/auth/login", { email, password })
 			.then((res) => {
 				setUser(res.user);
+				localStorage.setItem("auth_user", JSON.stringify(res.user));
 				return res.user;
 			})
 			.catch((err) => {
@@ -86,6 +98,7 @@ export const AuthProvider = ({ children }) => {
 			})
 			.then((res) => {
 				setUser(res.user);
+				localStorage.setItem("auth_user", JSON.stringify(res.user));
 				return res.user;
 			})
 			.catch((err) => {
@@ -113,6 +126,7 @@ export const AuthProvider = ({ children }) => {
 			console.error("Logout failed", e);
 		} finally {
 			setUser(null);
+			localStorage.removeItem("auth_user");
 		}
 	}, []);
 

@@ -20,9 +20,7 @@ const ReturnedService = {
 			});
 			return data;
 		} catch (err) {
-			// console.log(err, err.message);
 			throw new Error(err.message || err);
-			console.error("API error:", err);
 		}
 	},
 	// requestReturn: async (formData) => {

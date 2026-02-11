@@ -57,7 +57,7 @@ const BaseSlider = ({
 				slidesPerView={slidesPerView}
 				slidesPerGroup={slidesPerGroup}
 				speed={speed}
-				loopFillGroupWithBlank={true}
+				// loopFillGroupWithBlank={true}
 				loop={loop}
 				lazy={`true`}
 				onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance

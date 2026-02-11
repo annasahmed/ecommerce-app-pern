@@ -48,9 +48,11 @@ const ProductServices = {
 		// const dataModule  = await import(`./${themeName}/data.js`);
 		return dataModule.latestProducts;
 	},
-	getLatestProducts: async (themeName = "KidsTheme") => {
+	getLatestProducts: async (themeName = "KidsTheme", limit) => {
 		try {
-			const data = await requests.get("/product?sort=latest");
+			const data = await requests.get(
+				`/product?sort=latest${limit ? `&limit=${limit}` : ""}`,
+			);
 			if (data && data.records?.length > 0) {
 				return data;
 			}

@@ -13,8 +13,6 @@ const Reviews = () => {
 		["myReviews"],
 	);
 
-	console.log(myReviews, "chkking my reviews");
-
 	if (isLoading) {
 		return (
 			<div className="py-10 text-center">

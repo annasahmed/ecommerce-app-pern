@@ -14,13 +14,14 @@ const BaseImage = ({
 	const isNetworkImage =
 		typeof validSrc === "string" ? validSrc.startsWith("http") : false;
 	return isNetworkImage ? (
-		<img
+		<Image
 			src={validSrc}
-			width={width}
-			height={height}
+			width={600}
+			height={600}
 			sizes={sizes}
 			className={className}
 			alt={alt}
+			unoptimized
 			{...props}
 		/>
 	) : (

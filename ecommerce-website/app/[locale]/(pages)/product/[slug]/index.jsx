@@ -38,7 +38,7 @@ export default function ProductDetailsPage() {
 	// Fetch latest products (optional)
 	const { data: latestProducts, isLoading: latestProductsLoading } =
 		useFetchReactQuery(
-			() => ProductServices.getLatestProducts(store.themeName),
+			() => ProductServices.getLatestProducts(store.themeName, 10),
 			["latestProducts", store.themeName],
 			{ enabled: !!store.themeName },
 		);
@@ -354,7 +354,7 @@ export default function ProductDetailsPage() {
 				<ProductsSlider
 					productsData={
 						latestProducts?.records?.length > 0
-							? latestProducts.records.slice(0, 5)
+							? latestProducts.records
 							: store.content.allProducts.slice(7, 12)
 					}
 					isSlider={"onlyMobile"}

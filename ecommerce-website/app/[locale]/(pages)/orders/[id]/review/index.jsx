@@ -98,7 +98,6 @@ const WriteReview = () => {
 			})
 			.catch((err) => {
 				toast.error("Error saving review, please try again later!");
-				console.log(err.message || err);
 			});
 		// router.push("/orders");
 	};

@@ -59,8 +59,6 @@ const Profile = () => {
 	};
 
 	const handleSubmit = async (e) => {
-		console.log(formData, "chkking hanle submit111");
-
 		e.preventDefault();
 
 		try {
