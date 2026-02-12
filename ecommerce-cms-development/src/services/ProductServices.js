@@ -4,6 +4,9 @@ const ProductServices = {
 	getAllProducts: async (query) => {
 		return requests.get(`/product${query ? `?${query}` : ""}`);
 	},
+	getAllProductTitles: async () => {
+		return requests.get(`/product/only-titles`);
+	},
 
 	getProductById: async (id) => {
 		return requests.get(`/product/${id}`);

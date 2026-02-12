@@ -123,6 +123,7 @@ const UploadProductsExcel = () => {
 			});
 	}, []);
 
+
 	const addMessage = (type, text) => {
 		setMessages((prev) => [...prev, { type, text, id: Date.now() }]);
 	};
@@ -131,6 +132,33 @@ const UploadProductsExcel = () => {
 		setMessages([]);
 		setUploadStats(null);
 		setLoading(false);
+	};
+
+	const parseMultiValues = (value) => {
+		if (!value) return [];
+		return value
+			.split(",")
+			.map((v) => v.trim())
+			.filter(Boolean);
+	};
+
+	const parseSizesWithSku = (value) => {
+		if (!value) return [];
+
+		return value
+			.split(",")
+			.map((item) => {
+				const trimmed = item.trim();
+				const match = trimmed.match(/^([^(]+)(?:\(([^)]+)\))?$/);
+
+				if (!match) return null;
+
+				return {
+					size: match[1].trim(),
+					sku: match[2] ? match[2].trim() : null,
+				};
+			})
+			.filter(Boolean);
 	};
 
 	const parseExcelAndUpload = async (file) => {
@@ -199,43 +227,115 @@ const UploadProductsExcel = () => {
 					} else if (title) seenTitles.set(title, excelRowNumber);
 
 					// 🟢 FORMAT VALID ROW
-					const color = safeStr(row[excelFeilds.color])?.toLowerCase();
-					const gender = safeStr(row[excelFeilds.gender])?.toLowerCase();
-					const size = safeStr(row[excelFeilds.size])?.toLowerCase();
-
-					const attributeData = [];
-
-					if (color && !color.includes("default") && !color.includes("multi")) {
-						attributeData.push({
-							attribute_id:
-								filterAttributes.find((v) => v.name?.en === "color")?.id || 7,
-							value: { en: color },
-						});
-					}
-
-					if (
-						gender &&
-						!gender.includes("default") &&
-						!gender.includes("multi")
-					) {
-						attributeData.push({
-							attribute_id:
-								filterAttributes.find((v) => v.name?.en === "gender")?.id || 5,
-							value: { en: gender },
-						});
-					}
-
-					if (size && !size.includes("default") && !size.includes("multi")) {
-						attributeData.push({
-							attribute_id:
-								filterAttributes.find((v) => v.name?.en === "size")?.id || 4,
-							value: { en: size },
-						});
-					}
+					// const color = safeStr(row[excelFeilds.color])?.toLowerCase();
+					// const gender = safeStr(row[excelFeilds.gender])?.toLowerCase();
+					// const size = safeStr(row[excelFeilds.size])?.toLowerCase();
+					const productSku = safeStr(row[excelFeilds.sku]);
 
 					const parsedDiscount = parsePercentToNumber(
 						safeStr(row[excelFeilds.discount]),
 					);
+
+					const gender = safeStr(row[excelFeilds.gender])?.toLowerCase();
+					const colors = parseMultiValues(
+						safeStr(row[excelFeilds.color])?.toLowerCase(),
+					);
+					const sizes = parseSizesWithSku(safeStr(row[excelFeilds.size]));
+					// If missing, fallback
+					if (!colors.length) colors.push(null);
+					if (!sizes.length) sizes.push({ size: null, sku: null });
+
+					const sizeAttrId =
+						filterAttributes.find((v) => v.name?.en === "size")?.id || 8;
+					const genderAttrId =
+						filterAttributes.find((v) => v.name?.en === "gender")?.id || 9;
+					const colorAttrId =
+						filterAttributes.find((v) => v.name?.en === "color")?.id || 7;
+
+					const variants = [];
+
+					sizes.forEach((sizeObj) => {
+						colors.forEach((color) => {
+							const attributeData = [];
+
+							// ✅ SIZE FIRST
+							if (sizeObj?.size) {
+								attributeData.push({
+									attribute_id: sizeAttrId,
+									value: {
+										en: sizeObj.size,
+										type: "baby", // as required
+									},
+								});
+							}
+
+							// ✅ GENDER SECOND
+							if (gender) {
+								attributeData.push({
+									attribute_id: genderAttrId,
+									value: {
+										en: gender,
+									},
+								});
+							}
+
+							// ✅ COLOR THIRD
+							if (color) {
+								attributeData.push({
+									attribute_id: colorAttrId,
+									value: {
+										en: color,
+									},
+								});
+							}
+
+							variants.push({
+								sku: sizeObj?.sku || productSku,
+								branch_data: [
+									{
+										branch_id: 1,
+										cost_price: toNumber(safeStr(row[excelFeilds.price])),
+										stock: 100,
+										low_stock: 100,
+										reorder_quantity: 100,
+										sale_price: toNumber(safeStr(row[excelFeilds.price])),
+										discount_percentage: parsedDiscount,
+									},
+								],
+								attribute_data: attributeData,
+							});
+						});
+					});
+
+					// const attributeData = [];
+
+					// if (color && !color.includes("default") && !color.includes("multi")) {
+					// 	attributeData.push({
+					// 		attribute_id:
+					// 			filterAttributes.find((v) => v.name?.en === "color")?.id || 7,
+					// 		value: { en: color },
+					// 	});
+					// }
+
+					// if (
+					// 	gender &&
+					// 	!gender.includes("default") &&
+					// 	!gender.includes("multi")
+					// ) {
+					// 	attributeData.push({
+					// 		attribute_id:
+					// 			filterAttributes.find((v) => v.name?.en === "gender")?.id || 5,
+					// 		value: { en: gender },
+					// 	});
+					// }
+
+					// if (size && !size.includes("default") && !size.includes("multi")) {
+					// 	attributeData.push({
+					// 		attribute_id:
+					// 			filterAttributes.find((v) => v.name?.en === "size")?.id || 4,
+					// 		value: { en: size },
+					// 	});
+					// }
 
 					products.push({
 						sku: safeStr(row[excelFeilds.sku]),
@@ -256,23 +356,24 @@ const UploadProductsExcel = () => {
 								language_id: 1,
 							},
 						],
-						variants: [
-							{
-								sku: "SKU-1",
-								branch_data: [
-									{
-										branch_id: 1,
-										cost_price: toNumber(safeStr(row[excelFeilds.price])),
-										stock: 100,
-										low_stock: 100,
-										reorder_quantity: 100,
-										sale_price: toNumber(safeStr(row[excelFeilds.price])),
-										discount_percentage: parsedDiscount,
-									},
-								],
-								attribute_data: attributeData,
-							},
-						],
+						variants,
+						// variants: [
+						// 	{
+						// 		sku: "SKU-1",
+						// 		branch_data: [
+						// 			{
+						// 				branch_id: 1,
+						// 				cost_price: toNumber(safeStr(row[excelFeilds.price])),
+						// 				stock: 100,
+						// 				low_stock: 100,
+						// 				reorder_quantity: 100,
+						// 				sale_price: toNumber(safeStr(row[excelFeilds.price])),
+						// 				discount_percentage: parsedDiscount,
+						// 			},
+						// 		],
+						// 		attribute_data: attributeData,
+						// 	},
+						// ],
 						categories: row[excelFeilds.categories]
 							? row[excelFeilds.categories]
 									.split(",")

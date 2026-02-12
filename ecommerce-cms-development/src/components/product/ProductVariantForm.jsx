@@ -4,6 +4,7 @@ import AttributeServices from "@/services/AttributeServices";
 import { useEffect, useState } from "react";
 import InputMultipleSelectField from "../form/fields/InputMultipleSelectField";
 import VariantTable from "./VariantTable";
+import ProductServices from "@/services/ProductServices";
 
 const tempShowingTranslateValue = (data) => {
 	if (!data) return "";
@@ -97,6 +98,7 @@ const ProductVariantForm = ({
 	finalVariants,
 	setFinalVariants,
 	resetKey,
+	sku,
 }) => {
 	const { showingTranslateValue } = useUtilsFunction();
 	const { settings } = useGlobalSettings();
@@ -105,9 +107,12 @@ const ProductVariantForm = ({
 	const [selectedVariants, setSelectedVariants] = useState([]);
 	const [defaultVariants, setDefaultVariants] = useState([]);
 	const [generatedVariants, setGeneratedVariants] = useState([]);
+	
 
 	useEffect(() => {
-		AttributeServices.getAllAttributes().then((v) => setAttribtes(v.records));
+		AttributeServices.getActiveAttributes().then((v) =>
+			setAttribtes(v.records),
+		);
 	}, []);
 
 	const handleDeleteVariant = (idx) => {
@@ -162,7 +167,7 @@ const ProductVariantForm = ({
 
 	useEffect(() => {
 		if (selectedVariants.length > 0) {
-			setGeneratedVariants(generateVariants(selectedVariants));
+			setGeneratedVariants(generateVariants(selectedVariants, sku));
 		}
 	}, [selectedVariants]);
 
@@ -173,63 +178,114 @@ const ProductVariantForm = ({
 		setGeneratedVariants([]);
 	}, [resetKey]);
 
+	console.log(selectedVariants, "chkking selectedVariants111");
+
 	return (
 		<section className="flex flex-col gap-8">
 			{/* Variants Section */}
 			<section className="w-full relative p-6 rounded-lg border">
 				<h3 className="font-semibold text-2xl h3 mb-4">Product Attributes</h3>
-				<div className="grid grid-cols-2 gap-x-16 gap-y-6 items-end mt-8">
-					{attributes?.slice(2)?.map((v, i) => {
+				<div className="grid grid-cols-1 gap-x-16 gap-y-6 items-end mt-8">
+					{attributes?.map((v, i) => {
+						const isSizeAttribute = v.name?.en?.toLowerCase() === "size";
+
+						// Find currently selected values for this attribute
+						const selectedForThisAttr =
+							selectedVariants.find((variant) => variant.id === v.id)?.values ||
+							[];
 						// remove showingTranslateValue with all v.name later
 						return (
-							<InputMultipleSelectField
-								key={v.id}
-								label={`Select available ${showingTranslateValue(v.name)}:`}
-								inputPlaceholder={`Select available ${showingTranslateValue(
-									v.name,
-								)}`}
-								options={v.values?.map((pCat) => ({
-									id: pCat,
-									name: showingTranslateValue(pCat),
-								}))}
-								defaultSelected={v.values
-									?.map((pCat) => ({
+							<>
+								<InputMultipleSelectField
+									key={v.id}
+									label={`Select available ${showingTranslateValue(v.name)}:`}
+									inputPlaceholder={`Select available ${showingTranslateValue(
+										v.name,
+									)}`}
+									options={v.values?.map((pCat) => ({
 										id: pCat,
 										name: showingTranslateValue(pCat),
-									}))
-									.filter((opt) => {
-										return defaultVariants
-											.find((dv) => dv.id === v.id)
-											?.values?.map((val) => val.en?.toLowerCase())
-											.includes(opt.name.toLowerCase());
-									})}
-								onChange={(selectedList) => {
-									setSelectedVariants((prev) => {
-										const foundIndex = prev.findIndex(
-											(variant) => variant.id === v.id,
-										);
-										if (foundIndex !== -1) {
-											const updated = [...prev];
-											updated[foundIndex] = {
-												...updated[foundIndex],
-												values: selectedList.map((v) => v.id),
-											};
-											return updated;
-										} else {
-											return [
-												...prev,
-												{
-													id: v.id,
-													name: showingTranslateValue(v.name),
+									}))}
+									defaultSelected={v.values
+										?.map((pCat) => ({
+											id: pCat,
+											name: showingTranslateValue(pCat),
+										}))
+										.filter((opt) => {
+											return defaultVariants
+												.find((dv) => dv.id === v.id)
+												?.values?.map((val) => val.en?.toLowerCase())
+												.includes(opt.name.toLowerCase());
+										})}
+									onChange={(selectedList) => {
+										setSelectedVariants((prev) => {
+											const foundIndex = prev.findIndex(
+												(variant) => variant.id === v.id,
+											);
+											if (foundIndex !== -1) {
+												const updated = [...prev];
+												updated[foundIndex] = {
+													...updated[foundIndex],
 													values: selectedList.map((v) => v.id),
-												},
-											];
-										}
-									});
-								}}
-								isHandleChange={false}
-								isVertical
-							/>
+												};
+												return updated;
+											} else {
+												return [
+													...prev,
+													{
+														id: v.id,
+														name: showingTranslateValue(v.name),
+														values: selectedList.map((v) => v.id),
+													},
+												];
+											}
+										});
+									}}
+									isHandleChange={false}
+									isVertical
+								/>
+								{/* SKU inputs if size attribute has more than 1 selected value */}
+								{isSizeAttribute && selectedForThisAttr.length > 1 && (
+									<div className="mt-2 flex flex-col gap-2">
+										<p className="font-semibold">Enter SKUs for each size:</p>
+										{selectedForThisAttr.map((sizeValue, idx) => (
+											<div
+												className="flex items-end gap-2"
+												key={sizeValue.en || sizeValue}>
+												<label
+													htmlFor={`sku-${sizeValue.en || sizeValue}`}
+													className="capitalize mb-2">
+													{`sku-${sizeValue.en || sizeValue}`}:
+												</label>
+												<input
+													type="text"
+													placeholder={`SKU for ${sizeValue.en || sizeValue}`}
+													className="border p-2 rounded w-1/2"
+													id={`sku-${sizeValue.en || sizeValue}`}
+													// value={
+													// 	selectedVariants.find((v) => v.id === v.id)
+													// 		?.valuesWithSKU?.[sizeValue.en || sizeValue] || ""
+													// }
+													onChange={(e) => {
+														setSelectedVariants((prev) =>
+															prev.map((attr) => {
+																if (attr.id !== v.id) return attr;
+																return {
+																	...attr,
+																	valuesWithSKU: {
+																		...(attr.valuesWithSKU || {}),
+																		[sizeValue.en || sizeValue]: e.target.value,
+																	},
+																};
+															}),
+														);
+													}}
+												/>
+											</div>
+										))}
+									</div>
+								)}
+							</>
 						);
 					})}
 				</div>
@@ -266,6 +322,7 @@ export function generateVariants(
 			id: attr.id,
 			name: attr.name,
 			value: v,
+			sku: attr.valuesWithSKU?.[v[selectedLanguage]] || null, // user-entered SKU
 		})),
 	);
 	// Cartesian product helper
@@ -278,7 +335,8 @@ export function generateVariants(
 				.map((c) => `${c.name}: ${c.value[selectedLanguage]}`)
 				.join(", "),
 			combo,
-			sku: `${baseSKU}-${idx + 1}`,
+			sku: combo[0]?.sku || baseSKU || `${baseSKU}-${idx + 1}`,
+			// sku: `${baseSKU}-${idx + 1}222`,
 		};
 	});
 }

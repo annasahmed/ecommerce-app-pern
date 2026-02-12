@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import AttributeServices from "@/services/AttributeServices";
 import { generateVariants } from "./ProductVariantForm";
 import VariantTable from "./VariantTable";
+import InputSelectField from "../form/fields/InputSelectField";
+import ProductServices from "@/services/ProductServices";
 
 const ProductInfoForm = ({
 	variantFields,
@@ -27,6 +29,7 @@ const ProductInfoForm = ({
 	setValue,
 	selectedUsps,
 	selectedCategories,
+	similarProducts,
 	selectedVendors,
 	selectedThumbnail,
 	setSelectedThumbnail,
@@ -60,6 +63,17 @@ const ProductInfoForm = ({
 	const [generatedVariants, setGeneratedVariants] = useState([]);
 
 	const [attributes, setAttribtes] = useState([]);
+	const [productTitles, setProductTitles] = useState([]);
+
+	useEffect(() => {
+		ProductServices.getAllProductTitles()
+			.then((res) => {
+				setProductTitles(res);
+			})
+			.catch((err) => {
+				addMessage("error", `Error fetching products: ${err.message || err}`);
+			});
+	}, []);
 
 	useEffect(() => {
 		AttributeServices.getAllAttributes().then((v) => setAttribtes(v.records));
@@ -112,6 +126,19 @@ const ProductInfoForm = ({
 						defaultSelected={selectedCategories}
 						isVertical
 					/>
+					<InputMultipleSelectField
+						label={t("Select Related Products")}
+						inputName="similarProducts"
+						inputPlaceholder={t("Select Related Products")}
+						options={productTitles?.map((pCat) => ({
+							id: pCat.product_id,
+							name: pCat.title,
+						}))}
+						setValue={setValue}
+						errorName={errors.similarProducts}
+						defaultSelected={similarProducts}
+						isVertical
+					/>
 					{/* <InputMultipleSelectField
 						label={t("SelectUsp")}
 						inputName="usps"
@@ -128,9 +155,27 @@ const ProductInfoForm = ({
 						defaultSelected={selectedUsps}
 						isVertical
 					/> */}
-					<InputMultipleSelectField
+
+					<InputSelectField
 						label={t("Select Brand")}
-						inputName="vendors"
+						register={register}
+						inputLabel={t("Select Brand")}
+						required={false}
+						inputName="brand_id"
+						inputPlaceholder={t("Select Brand")}
+						options={vendors?.map((pCat, index) => {
+							return (
+								<option value={pCat.id} key={index}>
+									{showSelectedLanguageTranslation(pCat.translations, "title")}
+								</option>
+							);
+						})}
+						errorName={errors.brand_id}
+						isVertical
+					/>
+					{/* <InputSelectField
+						label={t("Select Brand")}
+						inputName="brand_id"
 						inputPlaceholder={t("Select Brand")}
 						// options={vendors?.map((pCat) => ({
 						// 	id: pCat.id,
@@ -143,9 +188,8 @@ const ProductInfoForm = ({
 						}))}
 						setValue={setValue}
 						errorName={errors.vendors}
-						defaultSelected={selectedVendors}
-						isVertical
-					/>
+						// defaultSelected={selectedVendors}
+					/> */}
 					<div></div>
 
 					<InputAreaField

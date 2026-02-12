@@ -82,6 +82,7 @@ const ProductDrawer = ({ id, data }) => {
 	const [vendors, setVendors] = useState([]);
 	const [selectedUsps, setSelectedUsps] = useState([]);
 	const [selectedCategories, setSelectedCategories] = useState([]);
+	const [similarProducts, setSimilarProducts] = useState([]);
 	const [selectedVendors, setSelectedVendors] = useState([]);
 	const [branches, setBranches] = useState([]);
 	const [languages, setLanguages] = useState([]);
@@ -131,6 +132,7 @@ const ProductDrawer = ({ id, data }) => {
 
 	const formDefaultValues = {
 		sku: null,
+		brand_id: null,
 		meta_title: null,
 		meta_description: null,
 		base_price: null,
@@ -183,6 +185,7 @@ const ProductDrawer = ({ id, data }) => {
 
 	const basePrice = watch("base_price");
 	const baseDiscount = watch("base_discount_percentage");
+	const sku = watch("sku");
 
 	useEffect(() => {
 		setDefaultValues((prev) => ({
@@ -204,6 +207,7 @@ const ProductDrawer = ({ id, data }) => {
 
 	const resetStates = () => {
 		setSelectedCategories([]);
+		setSimilarProducts([]);
 		setSelectedUsps([]);
 		setSelectedVendors([]);
 		setSelectedThumbnail(null);
@@ -232,6 +236,9 @@ const ProductDrawer = ({ id, data }) => {
 				thumbnail: selectedThumbnail,
 				images: selectedImages,
 			};
+
+			// setIsSubmitting(false);
+			// return;
 
 			if (id) {
 				const res = await ProductServices.updateProduct(id, productData);
@@ -341,6 +348,15 @@ const ProductDrawer = ({ id, data }) => {
 								),
 							})),
 						);
+						// setSimilarProducts(
+						// 	res.similarProducts?.map((cat) => ({
+						// 		id: cat.id,
+						// 		name: showSelectedLanguageTranslation(
+						// 			cat.translations,
+						// 			"title",
+						// 		),
+						// 	})),
+						// );
 						setSelectedUsps(
 							res.usps?.map((cat) => ({
 								id: cat.id,
@@ -376,6 +392,7 @@ const ProductDrawer = ({ id, data }) => {
 						// ✅ Reset form values
 						reset({
 							sku: res.sku || null,
+							brand_id: res.brand_id || null,
 							base_price: res.base_price || null,
 							base_discount_percentage: res.base_discount_percentage || null,
 							meta_title: res.meta_title || null,
@@ -509,6 +526,7 @@ const ProductDrawer = ({ id, data }) => {
 									setValue={setValue}
 									selectedUsps={selectedUsps}
 									selectedCategories={selectedCategories}
+									similarProducts={similarProducts}
 									selectedVendors={selectedVendors}
 									selectedThumbnail={selectedThumbnail}
 									setSelectedThumbnail={setSelectedThumbnail}
@@ -538,6 +556,7 @@ const ProductDrawer = ({ id, data }) => {
 									finalVariants={finalVariants}
 									setFinalVariants={setFinalVariants}
 									resetKey={resetKey}
+									sku={sku}
 								/>
 							</>
 						) : null}

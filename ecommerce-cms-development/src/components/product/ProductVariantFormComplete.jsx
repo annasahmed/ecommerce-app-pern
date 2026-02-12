@@ -539,3 +539,150 @@ export function generateVariants(
 		};
 	});
 }
+
+const product = {
+	obj: [
+		{
+			sku: "101317",
+			meta_title: "KIDZO BABY NIGHT SUITS FLORAL PRINT BROWN 12-18M | kidzo",
+			meta_description:
+				"Kidzo Floral Brown Night Suit 12-18M. Cozy and stylish floral print sleepwear for a peaceful night.",
+			base_price: 1810,
+			base_discount_percentage: null,
+			images: [],
+			translations: [
+				{
+					title: "KIDZO BABY NIGHT SUITS FLORAL PRINT BROWN",
+					slug: "kidzo-baby-night-suits-floral-print-brown",
+					excerpt:
+						"Sweet brown floral print night suit by Kidzo, perfect for a cozy 12-18M sleep.",
+					description:
+						"<p>This 12-18M brown floral print night suit by Kidzo is made from soft, breathable fabric for a restful sleep. The two-piece set features a comfortable waistband and a relaxed fit, ensuring your toddler stays snug all night long.\r\nKey Features</p>\n<p><strong>Key Features</strong></p>\n<ul>\n  <li>Floral Print, Brown, 12-18M</li>\n</ul>",
+					language_id: 1,
+				},
+			],
+			variants: [
+				{
+					sku: "101317",
+					branch_data: [
+						{
+							branch_id: 1,
+							cost_price: 1810,
+							stock: 100,
+							low_stock: 100,
+							reorder_quantity: 100,
+							sale_price: 1810,
+							discount_percentage: null,
+						},
+					],
+					attribute_data: [
+						{
+							attribute_id: 8,
+							value: {
+								en: "12-18m",
+								type: "baby",
+							},
+						},
+						{
+							attribute_id: 7,
+							value: {
+								en: "pink",
+							},
+						},
+					],
+				},
+				{
+					sku: "101318",
+					branch_data: [
+						{
+							branch_id: 1,
+							cost_price: 1810,
+							stock: 100,
+							low_stock: 100,
+							reorder_quantity: 100,
+							sale_price: 1810,
+							discount_percentage: null,
+						},
+					],
+					attribute_data: [
+						{
+							attribute_id: 8,
+							value: {
+								en: "18-24m",
+								type: "baby",
+							},
+						},
+						{
+							attribute_id: 7,
+							value: {
+								en: "pink",
+							},
+						},
+					],
+				},
+				{
+					sku: "101321",
+					branch_data: [
+						{
+							branch_id: 1,
+							cost_price: 1810,
+							stock: 100,
+							low_stock: 100,
+							reorder_quantity: 100,
+							sale_price: 1810,
+							discount_percentage: null,
+						},
+					],
+					attribute_data: [
+						{
+							attribute_id: 8,
+							value: {
+								en: "2-3y",
+								type: "baby",
+							},
+						},
+						{
+							attribute_id: 7,
+							value: {
+								en: "pink",
+							},
+						},
+					],
+				},
+				{
+					sku: "101320",
+					branch_data: [
+						{
+							branch_id: 1,
+							cost_price: 1810,
+							stock: 100,
+							low_stock: 100,
+							reorder_quantity: 100,
+							sale_price: 1810,
+							discount_percentage: null,
+						},
+					],
+					attribute_data: [
+						{
+							attribute_id: 8,
+							value: {
+								en: "3-4y",
+								type: "baby",
+							},
+						},
+						{
+							attribute_id: 7,
+							value: {
+								en: "pink",
+							},
+						},
+					],
+				},
+			],
+			categories: ["Nightsuit"],
+			brand_id: "Kidzo",
+			is_featured: false,
+			status: true,
+		},
+	],
+};

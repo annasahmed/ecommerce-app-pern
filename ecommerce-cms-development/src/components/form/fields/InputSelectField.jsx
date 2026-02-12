@@ -25,12 +25,12 @@ const InputSelectField = ({
 			<LabelArea label={label} required={required} />
 			<div className="col-span-8 sm:col-span-4">
 				<Select
-					defaultValue={defaultValue}
+					// defaultValue={defaultValue}
 					name={inputName}
 					{...register(`${inputName}`, {
 						required: required ? `${inputLabel} is required!` : false,
 					})}>
-					<option value="" disabled hidden>
+					<option value="" hidden>
 						{inputPlaceholder}
 					</option>
 					{options}

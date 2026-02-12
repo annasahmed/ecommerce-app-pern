@@ -8,6 +8,9 @@ const AttributeServices = {
 	getAllAttributes: async () => {
 		return requests.get("/attribute");
 	},
+	getActiveAttributes: async () => {
+		return requests.get("/attribute?status=true");
+	},
 	getFilterAttributes: async () => {
 		return requests.get("/attribute/filters");
 	},
