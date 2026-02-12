@@ -77,7 +77,7 @@ const Profile = () => {
 
 	return (
 		<>
-			<div className="bg-white rounded-lg p-6">
+			<div className="bg-white rounded-lg p-6 mb-4 border-2 border-secondary">
 				<h2 className="text-2xl font-semibold mb-6">Personal Information</h2>
 				<Comp onSubmit={handleSubmit}>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -239,7 +239,7 @@ const Profile = () => {
 					</div> */}
 				</div>
 			</div>
-			<div className="space-y-4">
+			<div className="space-y-4 mt-4">
 				{user?.addresses?.length > 0 ? (
 					user.addresses.map((address) => {
 						return (

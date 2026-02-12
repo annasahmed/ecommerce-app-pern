@@ -21,7 +21,7 @@ const PopularCatTabs = ({ title, tabs, productsPerTab }) => {
 				categoryId: activeTab?.id,
 				limit: productsPerTab || 10,
 			}),
-		["popularCatProducts", activeTab?.id, productsPerTab],
+		["popularCatProducts", activeTab?.id || "", productsPerTab],
 		{ enabled: !!activeTab?.id },
 	);
 

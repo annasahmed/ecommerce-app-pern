@@ -39,6 +39,8 @@ const ProductServices = {
 
 			if (data && data.records?.length > 0) {
 				return data;
+			} else {
+				return null;
 			}
 		} catch (err) {
 			console.error("API error:", err);

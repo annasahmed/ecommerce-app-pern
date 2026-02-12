@@ -69,7 +69,7 @@ const Footer = () => {
 			<div className="container-layout">
 				{/* Top Section */}
 				<section className="section-layout-top flex flex-wrap justify-between gap-10 md:gap-16 lg:flex-nowrap">
-					<div className="grid grid-cols-5 max-md:grid-cols-2 justify-between gap-10 max-md:gap-x-6 max-md:gap-y-8 w-full">
+					<div className="grid grid-cols-4 max-md:grid-cols-2 justify-between gap-10 max-md:gap-x-6 max-md:gap-y-8 w-full">
 						<div className=" min-w-[150px]/ flex-1 col-span-2 max-md:col-span-2 md:pr-20">
 							<Logo
 								src={footerContent.logo}
@@ -143,7 +143,7 @@ const Footer = () => {
 									{sect.links?.map((link, index) => (
 										<li
 											key={index}
-											className={`p4 text-sm md:text-base ${
+											className={`p4 text-sm md:text-base hover:underline ${
 												link.text.includes("@") ? "lowercase" : "capitalize"
 											}`}>
 											{link.link ? (

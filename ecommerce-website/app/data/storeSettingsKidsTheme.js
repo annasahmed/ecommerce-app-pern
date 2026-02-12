@@ -114,15 +114,6 @@ export const storeSettingsKidsTheme = {
 				// 	],
 				// },
 				{
-					title: "Company",
-					links: [
-						{
-							text: "about us",
-							link: "/about-us",
-						},
-					],
-				},
-				{
 					title: "Customers",
 					links: [
 						{
@@ -150,6 +141,10 @@ export const storeSettingsKidsTheme = {
 				{
 					title: "Support",
 					links: [
+						{
+							text: "about us",
+							link: "/about-us",
+						},
 						{
 							text: "contact us",
 							link: "/contact-us",
