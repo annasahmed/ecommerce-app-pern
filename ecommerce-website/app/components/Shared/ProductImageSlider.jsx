@@ -90,7 +90,7 @@ export default function ProductImageSlider({ images }) {
 							src={v ? ENV_VARIABLES.IMAGE_BASE_URL + v : null}
 							width={500}
 							height={500}
-							className="w-full h-auto max-h-30 object-cover cursor-pointer active:border border-dark"
+							className="w-full h-auto max-h-30 object-cover cursor-pointer border"
 						/>
 					</SwiperSlide>
 				))}

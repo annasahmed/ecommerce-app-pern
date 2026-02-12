@@ -1,4 +1,5 @@
 "use client";
+import BaseImage from "@/app/components/BaseComponents/BaseImage";
 import BasePrice from "@/app/components/BaseComponents/BasePrice";
 import Loader from "@/app/components/Shared/Loader";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
@@ -6,6 +7,7 @@ import ProductImageSlider from "@/app/components/Shared/ProductImageSlider";
 import Ratings from "@/app/components/Shared/Ratings";
 import SocialShare from "@/app/components/Shared/SocialShare";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 import { useFetchReactQuery } from "@/app/hooks/useFetchReactQuery";
 import { useStore } from "@/app/providers/StoreProvider";
 import ProductServices from "@/app/services/ProductServices";
@@ -13,6 +15,7 @@ import { useCartStore } from "@/app/store/cartStore";
 import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 import { cleanHtmlContent } from "@/app/utils/cleanHtmlContent";
 import { Heart, ShoppingCartIcon } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
@@ -27,6 +30,7 @@ export default function ProductDetailsPage() {
 	const [selectedAttributes, setSelectedAttributes] = useState({});
 	const [attributeOptions, setAttributeOptions] = useState({});
 	const [activeTab, setActiveTab] = useState("description");
+	const [selectedVariant, setSelectedVariant] = useState(null);
 
 	// Fetch product
 	const { data: product, isLoading } = useFetchReactQuery(
@@ -72,6 +76,20 @@ export default function ProductDetailsPage() {
 		});
 		setSelectedAttributes(defaults);
 	}, [product]);
+	const findSelectedVariant = () => {
+		if (!product?.variants || !selectedAttributes) return null;
+
+		return product.variants.find((variant) =>
+			variant.attributes?.every(
+				(attr) => selectedAttributes[attr.name] === attr.value,
+			),
+		);
+	};
+	useEffect(() => {
+		const selectedVariant = findSelectedVariant();
+		setSelectedVariant(selectedVariant);
+	}, [selectedAttributes]);
+
 	const randomRating = useMemo(() => {
 		return Math.floor(Math.random() * 9 + 2) / 2;
 	}, [product]);
@@ -93,16 +111,6 @@ export default function ProductDetailsPage() {
 		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
 
-	const findSelectedVariant = () => {
-		if (!product?.variants || !selectedAttributes) return null;
-
-		return product.variants.find((variant) =>
-			variant.attributes?.every(
-				(attr) => selectedAttributes[attr.name] === attr.value,
-			),
-		);
-	};
-
 	const handleAddToCart = () => {
 		const selectedVariant = findSelectedVariant();
 
@@ -122,7 +130,7 @@ export default function ProductDetailsPage() {
 			{
 				id: product.id,
 				title: product.title,
-				sku: product.sku,
+				sku: selectedVariant.sku || product.sku,
 				slug: product.slug,
 				thumbnail: product.thumbnail,
 				base_price: product.base_price || product.price,
@@ -271,11 +279,41 @@ export default function ProductDetailsPage() {
 							/>
 						</button>
 					</div>
+					{product.similarProducts?.length > 0 ? (
+						<div className="items-end gap-3 max-md:gap-1 mb-6 pb-6 border-b">
+							<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
+								<span className="font-medium">Choose Style:</span>
+							</div>
+							<div className="flex gap-4">
+								{product.similarProducts?.map((prd) => {
+									return (
+										<Link
+											href={`/product/${prd.slug}`}
+											className="flex flex-col gap-2 border rounded-sm max-w-24 p-2">
+											<BaseImage
+												src={
+													prd.thumbnail
+														? ENV_VARIABLES.IMAGE_BASE_URL + prd.thumbnail
+														: null
+												}
+												alt={prd.title}
+												className="w-20 h-20 object-cover rounded-sm"
+											/>
+											<h5 className="flex-1 h7 font-normal line-clamp-1 capitalize text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
+												{prd.title.toLowerCase()}
+											</h5>
+										</Link>
+									);
+								})}
+							</div>
+						</div>
+					) : null}
 
 					{/* SKU & Categories */}
 					<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
 						<p>
-							<span className="font-medium">SKU:</span> {product.sku}
+							<span className="font-medium">SKU:</span>{" "}
+							{selectedVariant?.sku || product.sku}
 						</p>
 						{product.categories?.length > 0 && (
 							<p className="capitalize">

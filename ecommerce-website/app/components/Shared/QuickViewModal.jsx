@@ -27,6 +27,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 	const store = useStore();
 	const { addToCart, toggleFavourite, favourites } = useCartStore();
 	const { openCartDrawer } = useAuthUIStore();
+	const [selectedVariant, setSelectedVariant] = useState(null);
 
 	// Fetch product
 	const { data: product, isLoading } = useFetchReactQuery(
@@ -65,13 +66,6 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		setSelectedAttributes(defaults);
 	}, [product]);
 
-	if (!isOpen || !product) return null;
-
-	const discountedPrice = (
-		(product.base_price || product.price) *
-		(1 - (product.discount || product.base_discount_percentage) / 100)
-	).toFixed(2);
-
 	const findSelectedVariant = () => {
 		if (!product?.variants || !selectedAttributes) return null;
 
@@ -81,6 +75,18 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 			),
 		);
 	};
+
+	useEffect(() => {
+		const selectedVariant = findSelectedVariant();
+		setSelectedVariant(selectedVariant);
+	}, [selectedAttributes]);
+
+	if (!isOpen || !product) return null;
+
+	const discountedPrice = (
+		(product.base_price || product.price) *
+		(1 - (product.discount || product.base_discount_percentage) / 100)
+	).toFixed(2);
 
 	const handleAddToCart = () => {
 		const selectedVariant = findSelectedVariant();
@@ -101,7 +107,8 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 			{
 				id: product.id,
 				title: product.title,
-				sku: product.sku,
+				// sku: product.sku,
+				sku: selectedVariant.sku || product.sku,
 				slug: product.slug,
 				thumbnail: product.thumbnail,
 				base_price: product.base_price || product.price,
