@@ -216,6 +216,7 @@ function createBaseService(model, options = {}) {
 				sortBy,
 				sortOrder = 'DESC',
 				search, // search by title only, for now
+				status,
 			} = req.query;
 
 			const offset = getOffset(page, limit);
@@ -227,6 +228,11 @@ function createBaseService(model, options = {}) {
 				offset,
 				limit,
 				order: finalSort,
+				where: status
+					? {
+							status,
+					  }
+					: {},
 				// order: [[...sort, sortBy, sortOrder.toUpperCase()]],
 				include: [
 					...(isProduct ? include : includes),

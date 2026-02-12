@@ -431,6 +431,25 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 			},
 		],
 	},
+	{
+		model: db.product.scope('active'),
+		as: 'similar_products',
+		attributes: ['id'],
+		required: false,
+		include: [
+			{
+				model: db.media,
+				required: false,
+				as: 'thumbnailImage',
+				attributes: ['url', 'title', 'size'],
+			},
+			{
+				model: db.product_translation,
+				required: false,
+				attributes: ['title', 'slug'],
+			},
+		],
+	},
 
 	// {
 	// 	model: db.product_variant,

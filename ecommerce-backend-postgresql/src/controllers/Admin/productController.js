@@ -12,6 +12,10 @@ const getProducts = catchAsync(async (req, res) => {
 	const products = await adminProductService.getProducts(req);
 	res.send(products);
 });
+const getProductTitlesOnly = catchAsync(async (req, res) => {
+	const products = await adminProductService.getProductTitlesOnly(req);
+	res.send(products);
+});
 const createProduct = catchAsync(async (req, res) => {
 	const products = await adminProductService.createProduct(req);
 	res.status(httpStatus.CREATED).send(products);
@@ -77,4 +81,5 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	fixThumbnailsProducts,
+	getProductTitlesOnly,
 };

@@ -10,7 +10,7 @@ router
 	.route('/')
 	.get(
 		checkPermission('view_attribute'),
-		validate(adminAttributeValidation.getAttributes),
+		// validate(adminAttributeValidation.getAttributes),
 		adminAttributeController.getAttributes
 	)
 	.post(

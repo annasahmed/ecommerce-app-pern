@@ -105,6 +105,12 @@ const productService = createBaseService(db.product, {
 	],
 });
 
+async function getProductTitlesOnly(req) {
+	return await db.product_translation.findAll({
+		attributes: ['product_id', 'title'],
+	});
+}
+
 // duplicate slug validation missing
 
 // Using userId logic from request
@@ -118,6 +124,7 @@ async function createProduct(req, existingTransaction) {
 		variants = [],
 		images = [],
 		attribute_data = [],
+		similarProducts = [],
 		...productData
 	} = req.body;
 
@@ -162,6 +169,30 @@ async function createProduct(req, existingTransaction) {
 		if (usps.length > 0) await newProduct.setUsps(usps, { transaction });
 		if (vendors.length > 0 && newProduct.setVendors)
 			await newProduct.setVendors(vendors, { transaction });
+
+		if (similarProducts.length > 0) {
+			const bulkData = [];
+
+			for (const sim of similarProducts) {
+				const similarId = typeof sim === 'object' ? sim.id : sim;
+				if (similarId === newProduct.id) continue;
+
+				// Both directions
+				bulkData.push({
+					product_id: newProduct.id,
+					similar_product_id: similarId,
+				});
+				bulkData.push({
+					product_id: similarId,
+					similar_product_id: newProduct.id,
+				});
+			}
+
+			await db.similar_product.bulkCreate(bulkData, {
+				ignoreDuplicates: true,
+				transaction,
+			});
+		}
 
 		// Product variants with branch data
 		for (const variant of variants) {
@@ -219,6 +250,7 @@ async function updateProduct(req, existingTransaction) {
 		translations = [],
 		variants = [],
 		images = [],
+		similarProducts = [],
 		...productData
 	} = req.body;
 	let transactionCreatedHere = false;
@@ -262,6 +294,61 @@ async function updateProduct(req, existingTransaction) {
 			await product.setBranches(branches, { transaction });
 		if (usps?.length) await product.setUsps(usps, { transaction });
 		if (vendors?.length) await product.setVendors(vendors, { transaction });
+
+		// handle similar products
+		// 2️⃣ Update similar products
+		console.log(similarProducts);
+
+		if (similarProducts.length > 0) {
+			const bulkData = [];
+
+			for (const sim of similarProducts) {
+				const similarId = typeof sim === 'object' ? sim.id : sim;
+				if (similarId === productId) continue; // skip self
+
+				// Both directions
+				bulkData.push({
+					product_id: productId,
+					similar_product_id: similarId,
+				});
+				bulkData.push({
+					product_id: similarId,
+					similar_product_id: productId,
+				});
+			}
+
+			// Delete old similar products for this product (both directions)
+			await db.similar_product.destroy({
+				where: {
+					[Op.or]: [
+						{ product_id: productId },
+						{ similar_product_id: productId },
+					],
+				},
+				transaction,
+			});
+
+			console.log(bulkData);
+
+			// Insert new similar products
+			if (bulkData.length) {
+				await db.similar_product.bulkCreate(bulkData, {
+					ignoreDuplicates: true,
+					transaction,
+				});
+			}
+		} else {
+			// If similarProducts is empty, remove all old similar products
+			// await db.similar_product.destroy({
+			// 	where: {
+			// 		[Op.or]: [
+			// 			{ product_id: productId },
+			// 			{ similar_product_id: productId },
+			// 		],
+			// 	},
+			// 	transaction,
+			// });
+		}
 
 		// Handle variants
 		// For simplicity, remove old variants and re-add (you can do smarter diffing later)
@@ -1362,4 +1449,5 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	fixThumbnailsProducts,
+	getProductTitlesOnly,
 };

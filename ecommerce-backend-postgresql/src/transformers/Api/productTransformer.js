@@ -91,6 +91,15 @@ function transformProduct(product, lang, multipleProducts = false) {
 			...(product.thumbnailImage ? [product.thumbnailImage.url] : []),
 			...product.images?.map((v) => v.url),
 		],
+		similarProducts: product.similar_products?.map((v) => {
+			const t = extractTranslation(v.product_translations, lang);
+			return {
+				id: v.id,
+				thumbnail: v.thumbnailImage?.url || null,
+				title: t.title,
+				slug: t.slug,
+			};
+		}),
 
 		categories: (product.categories || []).map((cat) =>
 			transformCategory(cat, lang)

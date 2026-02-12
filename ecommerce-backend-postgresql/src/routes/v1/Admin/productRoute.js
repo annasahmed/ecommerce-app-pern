@@ -22,6 +22,7 @@ router
 router
 	.route('/fix-products-thumbnails')
 	.get(adminProductController.fixThumbnailsProducts);
+router.route('/only-titles').get(adminProductController.getProductTitlesOnly);
 
 router
 	.route('/import-products')

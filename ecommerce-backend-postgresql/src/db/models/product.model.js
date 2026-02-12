@@ -138,6 +138,13 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'product_id',
 			otherKey: 'attribute_id',
 		});
+		product.belongsToMany(models.product, {
+			as: 'similar_products',
+			through: models.similar_product,
+			foreignKey: 'product_id',
+			otherKey: 'similar_product_id',
+		});
+
 		product.hasMany(models.product_variant);
 		// product.hasMany(models.product_translation);
 		product.hasMany(models.product_translation, {
