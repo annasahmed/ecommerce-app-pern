@@ -112,7 +112,6 @@ async function getProductTitlesOnly(req) {
 }
 
 // duplicate slug validation missing
-
 // Using userId logic from request
 async function createProduct(req, existingTransaction) {
 	const {
@@ -297,8 +296,6 @@ async function updateProduct(req, existingTransaction) {
 
 		// handle similar products
 		// 2️⃣ Update similar products
-		console.log(similarProducts);
-
 		if (similarProducts.length > 0) {
 			const bulkData = [];
 
@@ -327,8 +324,6 @@ async function updateProduct(req, existingTransaction) {
 				},
 				transaction,
 			});
-
-			console.log(bulkData);
 
 			// Insert new similar products
 			if (bulkData.length) {
@@ -426,255 +421,108 @@ async function softDeleteProductById(req) {
 	return productService.softDelete(req.params.productId, userId);
 }
 
-// for import only
-
-// vendors and variants
-async function updateProductBySlugVendorsAndVariants(req) {
-	const { sku, vendor, variants = [] } = req.body;
-
-	// if (!sku || !description) {
-	// 	throw new Error('sku and description are required');
-	// }
-
-	const transaction = await db.sequelize.transaction();
-
-	try {
-		const product = await db.product.findOne({
-			where: { sku },
-			transaction,
-		});
-
-		if (!product) {
-			missing.push(sku);
-			await transaction.rollback();
-			return null;
-		}
-
-		console.log('updating sku', sku);
-
-		if (vendor && vendor.length > 0) {
-			const vendorName = await db.vendor.findOne({
-				attributes: ['id', 'name'],
-				where: db.Sequelize.where(
-					db.Sequelize.fn(
-						'LOWER',
-						db.Sequelize.literal(`name ->> '${'en'}'`)
-					),
-					vendor.toLowerCase() // <-- the value you are searching
-				),
-			});
-
-			if (vendorName) {
-				await product.setVendors([vendorName.id], { transaction });
-			}
-		}
-		const oldVariants = await db.product_variant.findAll({
-			where: { product_id: product.id },
-			transaction,
-		});
-		const oldVariantIds = oldVariants.map((v) => v.id);
-
-		if (oldVariantIds.length > 0) {
-			await db.product_variant_to_branch.destroy({
-				where: { product_variant_id: oldVariantIds },
-				transaction,
-			});
-			await db.product_variant_to_attribute.destroy({
-				where: { product_variant_id: oldVariantIds },
-				transaction,
-			});
-			await db.product_variant.destroy({
-				where: { id: oldVariantIds },
-				transaction,
-			});
-		}
-		for (const variant of variants) {
-			const {
-				branch_data = [],
-				attribute_data = [],
-				...variantData
-			} = variant;
-
-			const newVariant = await db.product_variant.create(
-				{
-					...variantData,
-					product_id: product.id,
-				},
-				{ transaction }
-			);
-
-			if (attribute_data.length > 0) {
-				const attributeEntries = attribute_data.map((entry) => ({
-					...entry,
-					product_variant_id: newVariant.id,
-				}));
-				await db.product_variant_to_attribute.bulkCreate(
-					attributeEntries,
-					{
-						transaction,
-					}
-				);
-			}
-			if (branch_data.length > 0) {
-				const branchEntries = branch_data.map((entry) => ({
-					...entry,
-					branch_id: 1,
-					cost_price: product.base_price,
-					stock: 100,
-					low_stock: 100,
-					reorder_quantity: 100,
-					sale_price: product.base_price,
-					discount_percentage: product.base_discount_percentage,
-					product_variant_id: newVariant.id,
-				}));
-				await db.product_variant_to_branch.bulkCreate(branchEntries, {
-					transaction,
-				});
-			}
-		}
-
-		console.log('updating complete sku', sku);
-		updated.push(sku);
-
-		await transaction.commit();
-		console.log(
-			updated,
-			missing,
-			updated.length,
-			missing.length,
-			'final update'
-		);
-
-		// return updated;
-	} catch (error) {
-		await transaction.rollback();
-		// throw error;
-	}
-}
-
-// only tranlsations
-async function updateProductBySlug(req) {
-	const { sku, title, slug, excerpt, description } = req.body;
-
-	// if (!sku || !description) {
-	// 	throw new Error('sku and description are required');
-	// }
-
-	const transaction = await db.sequelize.transaction();
-
-	try {
-		const product = await db.product.findOne({
-			where: { sku },
+function getProductIncludes(req) {
+	return [
+		{ model: db.media, required: false, as: 'thumbnailImage' },
+		{ model: db.media, required: false, as: 'images' },
+		{
+			model: db.category,
+			required: false,
 			include: [
 				{
-					model: db.product_translation,
+					model: db.category_translation,
+					as: 'translations',
 					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'category_id',
+							'language_id',
+							'id',
+						],
+					},
 				},
 			],
-			transaction,
-		});
-
-		if (!product) {
-			missing.push(sku);
-			await transaction.rollback();
-			return null;
-		}
-		if (product.product_translations.length === 0) {
-			console.log('updating sku', sku);
-			const translationsWithProductId = [
+		},
+		{
+			model: db.product_translation,
+			required: req.query.search ? true : false,
+			where: req.query.search
+				? {
+						title: {
+							[Op.iLike]: `%${req.query.search}%`,
+						},
+				  }
+				: {},
+		},
+		{
+			model: db.usp,
+			required: false,
+			include: [
 				{
-					title,
-					slug,
-					excerpt,
-					description,
-					language_id: 1,
+					model: db.usp_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'usp_id',
+							'language_id',
+							'id',
+						],
+					},
 				},
-			].map((t) => ({
-				...t,
-				product_id: product.id,
-			}));
-			await db.product_translation.bulkCreate(translationsWithProductId, {
-				transaction,
-			});
-			console.log('updating complete sku', sku);
-			updated.push(sku);
-		}
-
-		await transaction.commit();
-		console.log(
-			updated,
-			missing,
-			updated.length,
-			missing.length,
-			'final update'
-		);
-
-		// return updated;
-	} catch (error) {
-		await transaction.rollback();
-		throw error;
-	}
+			],
+		},
+		{
+			model: db.brand,
+			required: false,
+			include: [
+				{
+					model: db.brand_translation,
+					as: 'translations',
+					required: false,
+					attributes: {
+						exclude: [
+							'created_at',
+							'updated_at',
+							'brand_id',
+							'language_id',
+							'id',
+						],
+					},
+				},
+			],
+		},
+		{ model: db.vendor, required: false },
+		{
+			model: db.product_variant,
+			required: false,
+			include: [
+				{ model: db.media, required: false },
+				{
+					model: db.attribute,
+					required: false,
+					through: {
+						as: 'pva',
+					},
+					attributes: ['id', 'name'],
+				},
+				// {
+				// 	model: db.branch,
+				// 	required: false,
+				// 	through: {
+				// 		as: 'pvb',
+				// 	},
+				// },
+			],
+		},
+	];
 }
 
-async function updateProductCategoriesBySku(req) {
-	const updated = [];
-	const missing = [];
-
-	const { sku, categories = [] } = req.body;
-
-	const transaction = await db.sequelize.transaction();
-
-	try {
-		const product = await db.product.findOne({
-			where: { sku },
-			transaction,
-		});
-
-		if (!product) {
-			missing.push(sku);
-			await transaction.rollback();
-			return { updated, missing };
-		}
-		console.log('updating categories for sku', sku);
-		if (Array.isArray(categories) && categories.length > 0) {
-			// normalize + dedupe remove duplicates
-			const normalizedCategories = [
-				...new Set(categories.map((c) => c.trim().toLowerCase())),
-			];
-
-			const cats = await db.category_translation.findAll({
-				attributes: ['category_id'],
-				where: {
-					language_id: 1,
-					[Op.and]: [
-						where(fn('LOWER', col('title')), {
-							[Op.in]: normalizedCategories,
-						}),
-					],
-				},
-				raw: true,
-			});
-
-			const categoryIds = cats.map((c) => c.category_id);
-
-			// IMPORTANT: pass IDs, not translations
-			await product.setCategories(categoryIds, { transaction });
-			console.log('updated categories for sku', sku);
-		}
-
-		await transaction.commit();
-		updated.push(sku);
-
-		return {
-			updated,
-			missing,
-		};
-	} catch (error) {
-		await transaction.rollback();
-		throw error;
-	}
-}
-
+// import and export utils and services
 const normalizeName = (str) => {
 	if (!str) return '';
 
@@ -840,10 +688,6 @@ async function importProductsFromSheet(req) {
 			// 🔹 Resolve categories & brand FIRST
 			const categoryNames = product.categories || [];
 			const brandName = product.brand_id || null;
-			// console.log(product, 'product111');
-
-			// continue;
-
 			const categoryIds = await resolveCategoryIds(
 				categoryMap,
 				categoryNames,
@@ -916,44 +760,11 @@ async function importProductsFromSheet(req) {
 			updatedProducts,
 		};
 	} catch (error) {
-		if (error.name === 'SequelizeUniqueConstraintError') {
-			console.log('UNIQUE CONSTRAINT ERROR');
-
-			console.log(
-				error.errors.map((e) => ({
-					field: e.path,
-					value: e.value,
-					message: e.message,
-				}))
-			);
-
-			console.log('DB fields:', error.fields);
-		} else {
-			console.log(error);
-		}
-
 		await transaction.rollback();
 		throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error);
 	}
 }
 
-const excelFeilds = {
-	sku: 'SKU',
-	title: 'Title',
-	excerpt: 'Excerpt',
-	description: 'Description',
-	slug: 'Slug',
-	meta_title: 'Meta Title',
-	meta_description: 'Meta_Description',
-	categories: 'Categories',
-	brand: 'Brand',
-	size: 'VariantsSize',
-	color: 'Variants Color',
-	gender: 'Gender',
-	additionalInfo: 'Additional info',
-	price: 'Price',
-	discount: 'Discount',
-};
 function splitDescription(html) {
 	if (!html) return { description: '', additionalInfo: '' };
 
@@ -986,6 +797,11 @@ function splitDescription(html) {
 }
 async function exportProducts(req, res) {
 	const filterAttributes = await getFilterAttributes();
+	console.log(
+		filterAttributes?.map((v) => v.get({ plain: true })),
+		'chking fileterattr'
+	);
+
 	try {
 		const products = await db.product.findAll({
 			include: [
@@ -1076,7 +892,7 @@ async function exportProducts(req, res) {
 					],
 				},
 			],
-			// limit: 10,
+			limit: 1,
 		});
 		const workbook = new ExcelJS.Workbook();
 		const sheet = workbook.addWorksheet('Products');
@@ -1141,28 +957,40 @@ async function exportProducts(req, res) {
 
 			// Attributes from first variant
 			const variant = p.product_variants?.[0] || {};
+			const colorId =
+				filterAttributes.find((v) => v.name?.en === 'color')?.id || 7;
+			const genderId =
+				filterAttributes.find((v) => v.name?.en === 'gender')?.id || 5;
+			const sizeId =
+				filterAttributes.find((v) => v.name?.en === 'size')?.id || 4;
+
 			const color =
-				variant.attributes?.find(
-					(a) =>
-						a.id ===
-							filterAttributes.find((v) => v.name?.en === 'color')
-								?.id || 7
-				)?.pva?.value?.en || '';
+				variant.attributes?.find((a) => a.id === colorId)?.pva?.value
+					?.en || '';
 			const gender =
-				variant.attributes?.find(
-					(a) =>
-						a.id ===
-							filterAttributes.find(
-								(v) => v.name?.en === 'gender'
-							)?.id || 5
-				)?.pva?.value?.en || '';
+				variant.attributes?.find((a) => a.id === genderId)?.pva?.value
+					?.en || '';
 			const size =
-				variant.attributes?.find(
-					(a) =>
-						a.id ===
-							filterAttributes.find((v) => v.name?.en === 'size')
-								?.id || 4
-				)?.pva?.value?.en || '';
+				variant.attributes?.find((a) => a.id === sizeId)?.pva?.value
+					?.en || '';
+
+			console.log(
+				{
+					size,
+					color,
+					gender,
+					// variant: variant.toJSON(),
+					// sizeId: filterAttributes.find((v) => v.name?.en === 'size')
+					// 	?.id,
+					// genderId: filterAttributes.find(
+					// 	(v) => v.name?.en === 'gender'
+					// )?.id,
+					// colorId: filterAttributes.find(
+					// 	(v) => v.name?.en === 'color'
+					// )?.id,
+				},
+				{ depth: null }
+			);
 
 			// Additional info (from USP)
 			// const additionalInfo =
@@ -1260,6 +1088,7 @@ async function exportProducts(req, res) {
 
 		// Generate buffer
 		const buffer = await workbook.xlsx.writeBuffer();
+		return res.send('sucessfull');
 		// return buffer;
 		// 📤 SEND FILE
 		res.setHeader(
@@ -1282,153 +1111,8 @@ async function exportProducts(req, res) {
 	}
 }
 
-function getProductIncludes(req) {
-	return [
-		{ model: db.media, required: false, as: 'thumbnailImage' },
-		{ model: db.media, required: false, as: 'images' },
-		{
-			model: db.category,
-			required: false,
-			include: [
-				{
-					model: db.category_translation,
-					as: 'translations',
-					required: false,
-					attributes: {
-						exclude: [
-							'created_at',
-							'updated_at',
-							'category_id',
-							'language_id',
-							'id',
-						],
-					},
-				},
-			],
-		},
-		{
-			model: db.product_translation,
-			required: req.query.search ? true : false,
-			where: req.query.search
-				? {
-						title: {
-							[Op.iLike]: `%${req.query.search}%`,
-						},
-				  }
-				: {},
-		},
-		{
-			model: db.usp,
-			required: false,
-			include: [
-				{
-					model: db.usp_translation,
-					as: 'translations',
-					required: false,
-					attributes: {
-						exclude: [
-							'created_at',
-							'updated_at',
-							'usp_id',
-							'language_id',
-							'id',
-						],
-					},
-				},
-			],
-		},
-		{
-			model: db.brand,
-			required: false,
-			include: [
-				{
-					model: db.brand_translation,
-					as: 'translations',
-					required: false,
-					attributes: {
-						exclude: [
-							'created_at',
-							'updated_at',
-							'brand_id',
-							'language_id',
-							'id',
-						],
-					},
-				},
-			],
-		},
-		{ model: db.vendor, required: false },
-		{
-			model: db.product_variant,
-			required: false,
-			include: [
-				{ model: db.media, required: false },
-				{
-					model: db.attribute,
-					required: false,
-					through: {
-						as: 'pva',
-					},
-					attributes: ['id', 'name'],
-				},
-				// {
-				// 	model: db.branch,
-				// 	required: false,
-				// 	through: {
-				// 		as: 'pvb',
-				// 	},
-				// },
-			],
-		},
-	];
-}
-
-async function fixThumbnailsProducts(req) {
-	const products = await db.product.findAll({
-		include: [
-			{ model: db.media, required: false, as: 'thumbnailImage' },
-			{ model: db.media, required: false, as: 'images' },
-		],
-	});
-
-	for (const product of products) {
-		if (!product.images || product.images.length === 0) continue;
-
-		// skip if thumbnail already exists
-		if (product.thumbnail) continue;
-
-		const rawImages = product.images.map((v) => v.get({ plain: true }));
-		const firstImage = rawImages[0];
-
-		const transaction = await db.sequelize.transaction();
-
-		try {
-			// remove image from gallery
-			await db.product_to_media.destroy(
-				{
-					where: {
-						product_id: product.id,
-						media_id: firstImage.id,
-					},
-				},
-				{ transaction }
-			);
-
-			// set thumbnail
-			await db.product.update(
-				{ thumbnail: firstImage.id },
-				{
-					where: { id: product.id },
-					transaction,
-				}
-			);
-
-			await transaction.commit();
-		} catch (error) {
-			await transaction.rollback();
-			console.error(`Failed for product ${product.id}`, error);
-		}
-	}
+async function fixVariants(params) {
+	const products = await db.product.findAll({});
 }
 
 module.exports = {
@@ -1445,9 +1129,25 @@ module.exports = {
 		),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
-	updateProductCategoriesBySku,
 	importProductsFromSheet,
 	exportProducts,
-	fixThumbnailsProducts,
 	getProductTitlesOnly,
+};
+
+const excelFeilds = {
+	sku: 'SKU',
+	title: 'Title',
+	excerpt: 'Excerpt',
+	description: 'Description',
+	slug: 'Slug',
+	meta_title: 'Meta Title',
+	meta_description: 'Meta_Description',
+	categories: 'Categories',
+	brand: 'Brand',
+	size: 'VariantsSize',
+	color: 'Variants Color',
+	gender: 'Gender',
+	additionalInfo: 'Additional info',
+	price: 'Price',
+	discount: 'Discount',
 };

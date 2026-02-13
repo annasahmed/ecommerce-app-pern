@@ -19,19 +19,13 @@ router
 		adminProductController.createProduct
 	);
 
-router
-	.route('/fix-products-thumbnails')
-	.get(adminProductController.fixThumbnailsProducts);
 router.route('/only-titles').get(adminProductController.getProductTitlesOnly);
 
 router
 	.route('/import-products')
 	.post(adminProductController.importProductsFromSheet);
+
 router.route('/export-products').get(adminProductController.exportProducts);
-// router.route('/bulk-products').post(adminProductController.createBulkProducts);
-// router
-// 	.route('/update-bulk-products')
-// 	.patch(adminProductController.updateProductBySlug);
 
 router
 	.route('/:productId')
@@ -50,6 +44,7 @@ router
 		// validate(adminProductValidation.deleteProduct),
 		adminProductController.softDeleteProduct
 	);
+
 router.route('/permanent/:product').delete(
 	checkPermission('delete_product'),
 	// validate(adminProductValidation.deleteProduct),
