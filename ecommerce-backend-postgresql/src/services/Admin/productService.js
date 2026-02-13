@@ -970,7 +970,6 @@ async function exportProducts(req, res) {
 				variant.attributes?.find((a) => a.id === sizeId)?.pva?.value
 					?.en || '';
 
-
 			// Additional info (from USP)
 			// const additionalInfo =
 			// 	p.usps
@@ -1067,7 +1066,7 @@ async function exportProducts(req, res) {
 
 		// Generate buffer
 		const buffer = await workbook.xlsx.writeBuffer();
-		return res.send('sucessfull');
+		// return res.send('sucessfull');
 		// return buffer;
 		// 📤 SEND FILE
 		res.setHeader(
