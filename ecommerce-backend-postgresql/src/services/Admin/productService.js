@@ -797,10 +797,6 @@ function splitDescription(html) {
 }
 async function exportProducts(req, res) {
 	const filterAttributes = await getFilterAttributes();
-	console.log(
-		filterAttributes?.map((v) => v.get({ plain: true })),
-		'chking fileterattr'
-	);
 
 	try {
 		const products = await db.product.findAll({
@@ -892,7 +888,7 @@ async function exportProducts(req, res) {
 					],
 				},
 			],
-			limit: 1,
+			// limit: 1,
 		});
 		const workbook = new ExcelJS.Workbook();
 		const sheet = workbook.addWorksheet('Products');
@@ -974,23 +970,6 @@ async function exportProducts(req, res) {
 				variant.attributes?.find((a) => a.id === sizeId)?.pva?.value
 					?.en || '';
 
-			console.log(
-				{
-					size,
-					color,
-					gender,
-					// variant: variant.toJSON(),
-					// sizeId: filterAttributes.find((v) => v.name?.en === 'size')
-					// 	?.id,
-					// genderId: filterAttributes.find(
-					// 	(v) => v.name?.en === 'gender'
-					// )?.id,
-					// colorId: filterAttributes.find(
-					// 	(v) => v.name?.en === 'color'
-					// )?.id,
-				},
-				{ depth: null }
-			);
 
 			// Additional info (from USP)
 			// const additionalInfo =
