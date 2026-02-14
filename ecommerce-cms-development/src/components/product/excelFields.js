@@ -14,4 +14,5 @@ export const excelFeilds = {
 	additionalInfo: "Additional info",
 	price: "Price",
 	discount: "Discount",
+	similar_products: "similar_products",
 };

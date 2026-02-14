@@ -123,7 +123,6 @@ const UploadProductsExcel = () => {
 			});
 	}, []);
 
-
 	const addMessage = (type, text) => {
 		setMessages((prev) => [...prev, { type, text, id: Date.now() }]);
 	};
@@ -381,6 +380,12 @@ const UploadProductsExcel = () => {
 									.filter(Boolean)
 							: [],
 						brand_id: safeStr(row[excelFeilds.brand]) || null,
+						similarProductsSku: row[excelFeilds.similar_products]
+							? row[excelFeilds.similar_products]
+									.split(",")
+									.map((sku) => sku.trim())
+									.filter(Boolean)
+							: [],
 						is_featured: false,
 						status: true,
 						// thumbnail: null,

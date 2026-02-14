@@ -18,6 +18,7 @@ import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
 import { Download } from "lucide-react";
+import ExcelProcessor from "@/components/product/ExcelUpload";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
@@ -109,6 +110,7 @@ const Product = () => {
 						Export Products
 					</span>
 				</Button>
+				{/* <ExcelProcessor /> */}
 				<UploadProductsExcel />
 				<BulkUpload />
 			</div>

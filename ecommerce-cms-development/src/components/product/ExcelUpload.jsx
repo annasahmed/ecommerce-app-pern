@@ -15,104 +15,42 @@ const ExcelProcessor = () => {
 
 			const jsonData = XLSX.utils.sheet_to_json(sheet);
 
-			const combinedData = combineRows(jsonData);
-			const finalData = addSimilarProductsColumn(combinedData);
+			const updatedData = addSimilarProducts(jsonData);
 
-			exportToExcel(finalData);
+			exportToExcel(updatedData);
 		};
 
 		reader.readAsArrayBuffer(file);
 	};
 
-	const combineRows = (rows) => {
-		const grouped = {};
-		const finalRows = [];
-
-		const isInvalidSize = (size) => {
-			if (size === null || size === undefined) return true;
-
-			const value = String(size).trim().toLowerCase();
-			return value === "-" || value === "null" || value === "";
-		};
-
-		rows.forEach((row) => {
-			const { SKU, Title, VariantsSize } = row;
-
-			// 🚨 Safe invalid check
-			if (isInvalidSize(VariantsSize)) {
-				finalRows.push(row);
-				return;
-			}
-
-			const sizeStr = String(VariantsSize).trim();
-
-			// Remove size from title safely
-			const baseTitle = String(Title).replace(sizeStr, "").trim();
-
-			if (!grouped[baseTitle]) {
-				grouped[baseTitle] = {
-					...row,
-					SKU: SKU,
-					Title: baseTitle,
-					VariantsSize: [],
-				};
-			}
-
-			grouped[baseTitle].VariantsSize.push(`${sizeStr}(${SKU})`);
+	const addSimilarProducts = (products) => {
+		// Step 1: Create a base title (remove color from title)
+		const processed = products.map((product) => {
+			const color = product["Variants Color"];
+			const baseTitle = product.Title.replace(
+				new RegExp(color, "i"),
+				"",
+			).trim();
+			return { ...product, baseTitle };
 		});
 
-		const mergedProducts = Object.values(grouped).map((item) => ({
-			...item,
-			VariantsSize: item.VariantsSize.join(", "),
-		}));
-
-		return [...mergedProducts, ...finalRows];
-	};
-	const addSimilarProductsColumn = (rows) => {
-		const grouped = {};
-
-		rows.forEach((row) => {
-			const { Title, SKU, ["Variants Color"]: color } = row;
-
-			// Remove color from title safely
-			let baseTitle = Title;
-
-			if (color) {
-				baseTitle = Title.replace(new RegExp(color, "i"), "").trim();
-			}
-
-			if (!grouped[baseTitle]) {
-				grouped[baseTitle] = [];
-			}
-
-			grouped[baseTitle].push(row);
+		// Step 2: Group by baseTitle
+		const groups = {};
+		processed.forEach((p) => {
+			if (!groups[p.baseTitle]) groups[p.baseTitle] = [];
+			groups[p.baseTitle].push(p);
 		});
 
-		// Add similar_products column
-		return rows.map((row) => {
-			const { Title, SKU, ["Variants Color"]: color } = row;
-
-			let baseTitle = Title;
-			if (color) {
-				baseTitle = Title.replace(new RegExp(color, "i"), "").trim();
-			}
-
-			const group = grouped[baseTitle];
-
-			if (group.length <= 1) {
-				return { ...row, similar_products: "" };
-			}
-
-			const similarSkus = group
-				.filter((item) => item.SKU !== SKU)
-				.map((item) => item.SKU)
+		// Step 3: Add similar_products column
+		const result = processed.map((p) => {
+			const similarSkus = groups[p.baseTitle]
+				.filter((x) => x.SKU !== p.SKU)
+				.map((x) => x.SKU)
 				.join(",");
-
-			return {
-				...row,
-				similar_products: similarSkus,
-			};
+			return { ...p, similar_products: similarSkus || "" }; // keep other columns as-is
 		});
+
+		return result;
 	};
 
 	const exportToExcel = (data) => {
@@ -129,7 +67,7 @@ const ExcelProcessor = () => {
 			type: "application/octet-stream",
 		});
 
-		saveAs(blob, "combined_products.xlsx");
+		saveAs(blob, "updated_similar_products.xlsx");
 	};
 
 	return (
