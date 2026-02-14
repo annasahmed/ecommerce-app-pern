@@ -20,6 +20,9 @@ router
 	);
 
 router.route('/only-titles').get(adminProductController.getProductTitlesOnly);
+router
+	.route('/delete-all')
+	.delete(adminProductController.deleteAllProductsPermanently);
 
 router
 	.route('/import-products')

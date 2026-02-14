@@ -41,6 +41,11 @@ const exportProducts = catchAsync(async (req, res) => {
 	await adminProductService.exportProducts(req, res);
 });
 
+const deleteAllProductsPermanently = catchAsync(async (req, res) => {
+	await adminProductService.deleteAllProductsPermanently(req, res);
+	res.send({ message: 'All products deleted successfully' });
+});
+
 module.exports = {
 	getProductById,
 	getProducts,
@@ -51,4 +56,5 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
+	deleteAllProductsPermanently,
 };

@@ -1089,8 +1089,62 @@ async function exportProducts(req, res) {
 	}
 }
 
+async function deleteAllProductsPermanently(req) {
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		await db.product_translation.destroy({
+			where: {},
+			truncate: true,
+			cascade: true,
+			restartIdentity: true,
+			transaction,
+		});
+
+		await db.product_variant.destroy({
+			where: {},
+			truncate: true,
+			cascade: true,
+			restartIdentity: true,
+			transaction,
+		});
+
+		await db.product.destroy({
+			where: {},
+			truncate: true,
+			cascade: true,
+			restartIdentity: true,
+			transaction,
+		});
+
+		await transaction.commit();
+		return { success: true };
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
+}
+
 async function fixVariants(params) {
-	const products = await db.product.findAll({});
+	const products = await db.product.findAll({
+		include: [
+			{ model: db.product_translation, required: false },
+			{
+				model: db.product_variant,
+				required: false,
+				include: [
+					{
+						model: db.attribute,
+						required: false,
+						through: {
+							as: 'pva',
+						},
+						attributes: ['id', 'name'],
+					},
+				],
+			},
+		],
+	});
 }
 
 module.exports = {
@@ -1110,6 +1164,7 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
+	deleteAllProductsPermanently,
 };
 
 const excelFeilds = {
