@@ -300,6 +300,7 @@ async function updateProduct(req, existingTransaction) {
 			const bulkData = [];
 
 			for (const sim of similarProducts) {
+				// it accepts both [1,2,3,4] or [{id:1},{id:2},{id:3},{id:4}]
 				const similarId = typeof sim === 'object' ? sim.id : sim;
 				if (similarId === productId) continue; // skip self
 
@@ -713,6 +714,12 @@ async function importProductsFromSheet(req) {
 				titleSlugMap.get(
 					product.translations?.[0]?.slug?.toLowerCase()
 				);
+
+			const similarProductIds = (product.similarProductsSku || [])
+				.map((sku) => skuMap.get(sku)?.id) // get product ID
+				.filter(Boolean); // remove undefined (SKUs not found)
+
+			product.similarProducts = similarProductIds; // assign to payload
 
 			if (existingProduct) {
 				await updateProduct(
@@ -1142,8 +1149,25 @@ async function deleteAllProductsPermanently(req) {
 	}
 }
 
+async function getProductById(productId) {
+	const product = await productService.getById(productId);
+	product.similar_products = await db.similar_product.findAll({
+		where: {
+			[Op.or]: [
+				{
+					product_id: product.id,
+				},
+				{
+					similar_product_id: product.id,
+				},
+			],
+		},
+	});
+	return product;
+}
+
 module.exports = {
-	getProductById: productService.getById,
+	getProductById,
 	createProduct,
 	updateProduct,
 	getProducts: (req) =>
