@@ -142,6 +142,7 @@ const Notifications = () => {
 	};
 
 	useEffect(() => {
+		return;
 		(async () => {
 			try {
 				const res = await NotificationServices.getAllNotification();

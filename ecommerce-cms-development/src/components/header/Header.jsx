@@ -95,6 +95,7 @@ const Header = () => {
 
 	//handle get notifications
 	const handleGetAllNotifications = async () => {
+		return;
 		try {
 			const res = await NotificationServices.getAllNotification();
 			setData(res?.notifications);

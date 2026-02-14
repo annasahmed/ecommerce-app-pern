@@ -5,20 +5,19 @@ import { useHistory } from "react-router-dom";
 
 //internal import
 
-import ProductDrawer from "@/components/product/ProductDrawer";
-import ProductTable from "@/components/product/ProductTable";
 import MainDrawer from "@/components/drawer/MainDrawer";
-import CheckBox from "@/components/form/others/CheckBox";
 import SearchAndFilter from "@/components/newComponents/SearchAndFilter";
 import TableWrapperWithPagination from "@/components/newComponents/TableWrapperWithPagination";
+import BulkUpload from "@/components/product/BulkUpload";
+import ProductDrawer from "@/components/product/ProductDrawer";
+import ProductTable from "@/components/product/ProductTable";
+import UploadProductsExcel from "@/components/product/UploadProductsExcel";
 import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
 import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
-import UploadProductsExcel from "@/components/product/UploadProductsExcel";
-import { Download, FileSpreadsheet } from "lucide-react";
-import BulkUpload from "@/components/product/BulkUpload";
+import { Download } from "lucide-react";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
