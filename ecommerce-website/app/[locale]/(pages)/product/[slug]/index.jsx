@@ -284,12 +284,12 @@ export default function ProductDetailsPage() {
 							<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
 								<span className="font-medium mb-3">Choose Style:</span>
 							</div>
-							<div className="flex gap-4 overflow-x-auto">
+							<div className="flex gap-4 overflow-x-auto pb-2">
 								{product.similarProducts?.map((prd) => {
 									return (
 										<Link
 											href={`/product/${prd.slug}`}
-											className="flex flex-col items-center gap-2 border hover:border-secondary transition-all rounded-sm max-w-32">
+											className="flex flex-col items-center gap-2 border hover:border-secondary transition-all rounded-sm min-w-32 max-w-32">
 											<BaseImage
 												src={
 													prd.thumbnail
@@ -299,6 +299,9 @@ export default function ProductDetailsPage() {
 												alt={prd.title}
 												className="w-full max-h-32 object-cover rounded-t-sm mx-auto border-b"
 											/>
+											{/* <h5 className="px-2 flex-1 h7 font-normal line-clamp-3 capitalize text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
+												{prd.id}
+											</h5> */}
 											<h5 className="px-2 flex-1 h7 font-normal line-clamp-3 capitalize text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
 												{prd.title.toLowerCase()}
 											</h5>
