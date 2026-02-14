@@ -888,7 +888,7 @@ async function exportProducts(req, res) {
 					],
 				},
 			],
-			// limit: 1,
+			// limit: 10,
 		});
 		const workbook = new ExcelJS.Workbook();
 		const sheet = workbook.addWorksheet('Products');
@@ -960,15 +960,32 @@ async function exportProducts(req, res) {
 			const sizeId =
 				filterAttributes.find((v) => v.name?.en === 'size')?.id || 4;
 
+			// Color (from first variant)
+			const firstVariant = p.product_variants?.[0] || {};
+
 			const color =
-				variant.attributes?.find((a) => a.id === colorId)?.pva?.value
-					?.en || '';
+				firstVariant.attributes?.find((a) => a.id === colorId)?.pva
+					?.value?.en || '';
+
 			const gender =
-				variant.attributes?.find((a) => a.id === genderId)?.pva?.value
-					?.en || '';
-			const size =
-				variant.attributes?.find((a) => a.id === sizeId)?.pva?.value
-					?.en || '';
+				firstVariant.attributes?.find((a) => a.id === genderId)?.pva
+					?.value?.en || '';
+
+			// ✅ NEW SIZE LOGIC
+			const sizeValues =
+				p.product_variants
+					?.map((variant) => {
+						const sizeValue =
+							variant.attributes?.find((a) => a.id === sizeId)
+								?.pva?.value?.en || '';
+
+						if (!sizeValue) return null;
+
+						return `${sizeValue}(${variant.sku})`;
+					})
+					.filter(Boolean) || [];
+
+			const size = sizeValues.join(', ');
 
 			// Additional info (from USP)
 			// const additionalInfo =
@@ -1123,28 +1140,6 @@ async function deleteAllProductsPermanently(req) {
 		await transaction.rollback();
 		throw error;
 	}
-}
-
-async function fixVariants(params) {
-	const products = await db.product.findAll({
-		include: [
-			{ model: db.product_translation, required: false },
-			{
-				model: db.product_variant,
-				required: false,
-				include: [
-					{
-						model: db.attribute,
-						required: false,
-						through: {
-							as: 'pva',
-						},
-						attributes: ['id', 'name'],
-					},
-				],
-			},
-		],
-	});
 }
 
 module.exports = {
