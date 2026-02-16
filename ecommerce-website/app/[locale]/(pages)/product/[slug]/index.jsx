@@ -299,10 +299,11 @@ export default function ProductDetailsPage() {
 								<span className="font-medium mb-3">Choose Style:</span>
 							</div>
 							<div className="flex gap-4 overflow-x-auto pb-2">
-								{product.similarProducts?.map((prd) => {
+								{product.similarProducts?.map((prd, idx) => {
 									return (
 										<Link
 											href={`/product/${prd.slug}`}
+											key={idx}
 											className="flex flex-col items-center gap-2 border hover:border-secondary transition-all rounded-sm min-w-32 max-w-32">
 											<BaseImage
 												src={
