@@ -18,12 +18,13 @@ import useAsync from "@/hooks/useAsync";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
 import { Download } from "lucide-react";
-import ExcelProcessor from "@/components/product/ExcelUpload";
+import { toast } from "react-toastify";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState({});
+	const [exportLoading, setExportLoading] = useState(false);
 	const limit = 10;
 	const {
 		data: productsData,
@@ -55,7 +56,9 @@ const Product = () => {
 	};
 
 	const downloadProductsExcel = async () => {
+		setExportLoading(true);
 		try {
+			toast.info("Preparing your download, you will notified once it's ready.");
 			const response = await ProductServices.exportProducts();
 			// Create a URL for the file
 			const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -74,6 +77,8 @@ const Product = () => {
 			window.URL.revokeObjectURL(url);
 		} catch (err) {
 			console.error("Error downloading Excel:", err);
+		} finally {
+			setExportLoading(false);
 		}
 	};
 
@@ -102,12 +107,17 @@ const Product = () => {
 				<Button
 					layout="outline"
 					onClick={downloadProductsExcel}
+					disabled={exportLoading}
 					className=" flex gap-2 items-center rounded-md h-12 flex-1 hover:brightness-95 ">
 					<span className="flex gap-2 items-center justify-center text-customBlack">
 						<div className="relative">
 							<Download className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
 						</div>
-						Export Products
+						{exportLoading ? (
+							<span className="animate-pulse">Exporting...</span>
+						) : (
+							<span>Export Products</span>
+						)}
 					</span>
 				</Button>
 				{/* <ExcelProcessor /> */}
