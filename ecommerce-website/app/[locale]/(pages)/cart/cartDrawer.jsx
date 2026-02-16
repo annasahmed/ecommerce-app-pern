@@ -61,15 +61,15 @@ export default function CartDrawer({ open, setOpen }) {
 										alt={item.title}
 										width={64}
 										height={64}
-										className="w-16 h-16 rounded object-contain"
+										className="w-20 h-20 rounded object-contain"
 									/>
 
 									<div className="flex-1">
-										<p className="p3 font-medium line-clamp-1 capitalize">
+										<p className="p5 font-medium line-clamp-1  capitalize">
 											{item.title?.toLowerCase()}
 										</p>
 
-										<p className="p3 font-medium line-clamp-1">
+										<p className="p6 text-headingLight font-normal line-clamp-1">
 											SKU: {item.sku || "-"}
 										</p>
 										<div className="flex items-center gap-2 mt-1">

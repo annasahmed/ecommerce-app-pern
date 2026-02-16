@@ -87,13 +87,16 @@ export default function CartPage() {
 										alt={item.title}
 										width={120}
 										height={120}
-										className="w-16 h-16 rounded-md object-contain"
+										className="w-32 h-32 rounded-md object-contain"
 									/>
 
 									<div className="flex-1 text-center sm:text-left">
-										<h5 className="flex-1 h7 font-normal line-clamp-1 capitalize text-headingLight hover:text-secondary cursor-pointer transition-colors duration-300">
+										<h5 className="flex-1 h7 font-normal line-clamp-1 capitalize text-heading hover:text-secondary cursor-pointer transition-colors duration-300">
 											{item.title}
 										</h5>
+										<p className="p6 text-headingLight font-normal line-clamp-1">
+											SKU: {item.sku || "-"}
+										</p>
 										<h6 className="flex font-normal gap-1 h7">
 											{item.base_discount_percentage > 0 && (
 												<BasePrice
