@@ -50,7 +50,8 @@ function transformVariant(variant, lang, multipleProducts = false) {
 		id: variant.id,
 		sku: variant.sku,
 		image: variant.medium ? variant.medium.url : null,
-		stock: branches[0]?.stock || 200,
+		stock: branches[0]?.stock,
+		// stock: branches[0]?.stock || 200,
 
 		attributes: multipleProducts
 			? (variant.product_variant_to_attributes || []).map((a) => {
