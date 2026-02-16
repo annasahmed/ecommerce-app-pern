@@ -540,6 +540,13 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 				},
 				attributes: ['id', 'name'],
 			},
+			{
+				model: db.branch,
+				required: false,
+				through: {
+					as: 'pvb',
+				},
+			},
 			// {
 			// 	model: db.branch,
 			// 	required: false,
