@@ -901,7 +901,7 @@ async function exportProducts(req, res) {
 					required: false,
 				},
 			],
-			limit: 10,
+			// limit: 10,
 		});
 		const workbook = new ExcelJS.Workbook();
 		const sheet = workbook.addWorksheet('Products');
