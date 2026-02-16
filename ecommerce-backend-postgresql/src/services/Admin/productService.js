@@ -894,6 +894,12 @@ async function exportProducts(req, res) {
 						// },
 					],
 				},
+				{
+					model: db.product,
+					as: 'similar_products',
+					attributes: ['id', 'sku'],
+					required: false,
+				},
 			],
 			// limit: 10,
 		});
@@ -945,6 +951,11 @@ async function exportProducts(req, res) {
 				key: excelFeilds.discount,
 				width: 12,
 			},
+			{
+				header: excelFeilds.similar_products,
+				key: excelFeilds.similar_products,
+				width: 12,
+			},
 		];
 		// const workbook = new ExcelJS.Workbook();
 		// const worksheet = workbook.addWorksheet('Products');
@@ -958,8 +969,9 @@ async function exportProducts(req, res) {
 					?.map((c) => c.translations?.[0]?.title || '')
 					.filter(Boolean) || [];
 
+			// console.log(p.similar_products?.map((p) => p.sku).join(', ') || '');
+
 			// Attributes from first variant
-			const variant = p.product_variants?.[0] || {};
 			const colorId =
 				filterAttributes.find((v) => v.name?.en === 'color')?.id || 7;
 			const genderId =
@@ -1021,6 +1033,8 @@ async function exportProducts(req, res) {
 				[excelFeilds.additionalInfo]: additionalInfo,
 				[excelFeilds.price]: p.base_price || 0,
 				[excelFeilds.discount]: p.base_discount_percentage || 0,
+				[excelFeilds.similar_products]:
+					p.similar_products?.map((p) => p.sku).join(', ') || '',
 			});
 			// Style headers
 			sheet.getRow(1).eachCell((cell) => {
@@ -1056,6 +1070,8 @@ async function exportProducts(req, res) {
 				});
 			});
 		});
+
+		// return res.send('sucessfull');
 
 		// // return rows;
 
@@ -1202,4 +1218,5 @@ const excelFeilds = {
 	additionalInfo: 'Additional info',
 	price: 'Price',
 	discount: 'Discount',
+	similar_products: 'similar_products',
 };
