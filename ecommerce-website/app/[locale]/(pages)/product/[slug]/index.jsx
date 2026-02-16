@@ -14,6 +14,7 @@ import ProductServices from "@/app/services/ProductServices";
 import { useCartStore } from "@/app/store/cartStore";
 import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 import { cleanHtmlContent } from "@/app/utils/cleanHtmlContent";
+import { trackEvent } from "@/app/utils/trackEvent";
 import { Heart, ShoppingCartIcon } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -50,6 +51,19 @@ export default function ProductDetailsPage() {
 	// Build attribute options when product loads
 	useEffect(() => {
 		if (!product) return;
+
+		const discountedPrice = (
+			(product.base_price || product.price) *
+			(1 - (product.discount || product.base_discount_percentage) / 100)
+		).toFixed(2);
+
+		trackEvent("PageView", {
+			content_ids: [product.id],
+			content_name: product.title,
+			sku: product.sku,
+			value: discountedPrice,
+			currency: "PKR",
+		});
 
 		const attributeMap = {};
 		product.variants?.forEach((variant) => {

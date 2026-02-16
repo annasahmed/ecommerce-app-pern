@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import BaseImage from "../../BaseComponents/BaseImage";
 import BasePrice from "../../BaseComponents/BasePrice";
 import { MoveRight } from "lucide-react";
+import { trackEvent } from "@/app/utils/trackEvent";
 
 const SearchInput = ({
 	name = "search",
@@ -69,6 +70,9 @@ const SearchInput = ({
 			params.set("search", query);
 			router.replace(`${pathname}?${params.toString()}`);
 		}
+		trackEvent("Search", {
+			search_string: query.trim(),
+		});
 
 		setShowDropdown(false);
 	};

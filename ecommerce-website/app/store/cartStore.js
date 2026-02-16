@@ -1,6 +1,7 @@
 // store/cartStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { trackEvent } from "../utils/trackEvent";
 
 export const useCartStore = create(
 	persist(
@@ -24,6 +25,14 @@ export const useCartStore = create(
 					updatedCart = [...cart, { ...product, quantity }];
 				}
 				set({ cart: updatedCart });
+				trackEvent("AddToCart", {
+					content_ids: [product.id],
+					content_name: product.title,
+					sku: product.sku,
+					quantity: quantity,
+					value: product.base_price || product.price,
+					currency: "PKR",
+				});
 			},
 
 			removeFromCart: (id) => {

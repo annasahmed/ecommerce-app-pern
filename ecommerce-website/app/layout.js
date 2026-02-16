@@ -152,7 +152,7 @@ export async function generateMetadata() {
 			title: meta.ogTitle || meta.title || defaultMetaTags.title,
 			description:
 				meta.ogDescription || meta.description || defaultMetaTags.description,
-			images: meta.ogImage ? [meta.ogImage] : [],
+			images: meta.ogImage ? [meta.ogImage] : [store.content.logo],
 		},
 		twitter: {
 			card: "summary_large_image",
@@ -161,7 +161,7 @@ export async function generateMetadata() {
 				meta.twitterDescription ||
 				meta.description ||
 				defaultMetaTags.description,
-			images: meta.twitterImage ? [meta.twitterImage] : [],
+			images: meta.twitterImage ? [meta.twitterImage] : [store.content.logo],
 		},
 		icons: {
 			icon: store.favicon || "/favicon.ico", // fallback

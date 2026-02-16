@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartStore } from "@/app/store/cartStore";
 import BasePrice from "@/app/components/BaseComponents/BasePrice";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import OrderService from "@/app/services/OrderService";
 import ThankYouScreen from "./ThankYouScreen";
 import SpinLoader from "@/app/components/Shared/SpinLoader";
+import { trackEvent } from "@/app/utils/trackEvent";
 
 export default function CheckoutPage() {
 	const { cart, clearCart } = useCartStore();
@@ -100,6 +101,28 @@ export default function CheckoutPage() {
 
 	const discount = voucher ? 0 : 0; // extend later
 	const total = subtotal + shipping - discount;
+
+	useEffect(() => {
+		trackEvent("InitiateCheckout", {
+			value: total,
+			shipping: shipping,
+			currency: "PKR",
+			contents: cart.map((item) => ({
+				id: item.id,
+				title: item.title,
+				sku: item.sku,
+				quantity: item.quantity,
+				price: item.base_price || item.price,
+			})),
+			items: cart.map((item) => ({
+				item_id: item.id,
+				item_name: item.title,
+				sku: item.sku,
+				quantity: item.quantity,
+				price: item.base_price || item.price,
+			})),
+		});
+	}, []);
 
 	// ------------------ HANDLERS ------------------
 	const handleChange = (e) => {
@@ -194,6 +217,32 @@ export default function CheckoutPage() {
 			.finally(() => {
 				setLoading(false);
 			});
+
+		trackEvent("Purchase", {
+			value: orderPayload.summary.total,
+			currency: "PKR",
+			content_ids: orderPayload.items.map((i) => i.id),
+			contents: orderPayload.items.map((i) => ({
+				id: i.id,
+				title: i.title,
+				sku: i.sku,
+				quantity: i.quantity,
+				price: i.price || i.base_price,
+			})),
+			items: orderPayload.items.map((i) => ({
+				item_id: i.id,
+				item_name: i.title,
+				quantity: i.quantity,
+				price: i.price || i.base_price,
+			})),
+		});
+
+		if (formData.paymentMethod !== "cod") {
+			trackEvent("AddPaymentInfo", {
+				value: orderPayload.summary.total,
+				currency: "PKR",
+			});
+		}
 	};
 	const paymentLabelMap = {
 		cod: "Cash on Delivery (COD)",
