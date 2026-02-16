@@ -1,41 +1,54 @@
-import React from "react";
-import ProductDetailsPage from ".";
 import Layout from "@/app/components/Shared/layout/Layout";
-import requests from "@/app/services/httpServices";
-import { ENV_VARIABLES } from "@/app/constants/env_variables";
+import { instanceWithoutCredentials } from "@/app/services/httpServices";
+import ProductDetailsPage from "./ProductDetailsPage";
 
-// export async function generateMetadata({ params }) {
-// 	const { slug } = params;
-// 	const data = await requests.get(`/product/${slug}`);
+export async function generateMetadata({ params }) {
+	const { slug } = await params;
+	console.log("Product data slug:", slug);
 
-// 	console.log("Product data for metadata:", data);
+	try {
+		// Get the full response object first
+		const response = await instanceWithoutCredentials.get(`/product/${slug}`);
 
-// 	const title = data.title;
-// 	const image = data.thumbnail
-// 		? [`${ENV_VARIABLES.IMAGE_BASE_URL}${data.thumbnail}`]
-// 		: [];
-// 	const description = data.excerpt;
+		// Then extract data from response
+		const data = response.data;
 
-// 	return {
-// 		openGraph: {
-// 			images: image,
-// 			title,
-// 			description,
-// 		},
-// 		twitter: {
-// 			images: image,
-// 			title,
-// 			description,
-// 		},
-// 	};
-// }
+		console.log("Product data for metadata:", data);
 
-const Products = () => {
-	return (
-		<Layout>
-			<ProductDetailsPage />
-		</Layout>
-	);
-};
+		const title = data.title || "Default Title";
+		const image = data.thumbnail
+			? [`https://api.babiesnbaba.com${data.thumbnail}`]
+			: [];
+		const description = data.excerpt || "Default description";
+
+		return {
+			title,
+			description,
+			openGraph: {
+				images: image,
+				title,
+				description,
+			},
+			twitter: {
+				images: image,
+				title,
+				description,
+			},
+		};
+	} catch (error) {
+		console.error("Error fetching product metadata:", error);
+
+		return {
+			title: "Product Not Found",
+			description: "Product details",
+		};
+	}
+}
+
+const Products = () => (
+	<Layout>
+		<ProductDetailsPage />
+	</Layout>
+);
 
 export default Products;

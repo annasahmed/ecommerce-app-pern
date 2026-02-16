@@ -1,4 +1,5 @@
 import axios from "axios";
+import https from "https";
 import { triggerAuthDrawer } from "../store/authEvents";
 
 const instance = axios.create({
@@ -9,6 +10,19 @@ const instance = axios.create({
 		"Content-Type": "application/json",
 	},
 	withCredentials: true, // 🔥 required for HttpOnly refresh cookie
+});
+const instanceWithoutCredentials = axios.create({
+	baseURL: "https://api.babiesnbaba.com/v1/website",
+	timeout: 50000,
+	headers: {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+	},
+	withCredentials: false, // 🔥 required for HttpOnly refresh cookie
+	// Add this for development only
+	httpsAgent: new https.Agent({
+		rejectUnauthorized: false,
+	}),
 });
 
 /* ================================
@@ -107,5 +121,7 @@ const requests = {
 	patch: (url, body, config) => instance.patch(url, body, config),
 	delete: (url, config) => instance.delete(url, config),
 };
+
+export { instance, instanceWithoutCredentials };
 
 export default requests;
