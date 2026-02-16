@@ -139,8 +139,8 @@ const Product = () => {
 							<TableCell>{t("SKUTbl")}</TableCell>
 							<TableCell>{t("Brand")}</TableCell>
 							<TableCell>{t("Categories")}</TableCell>
-							<TableCell>{t("Stock")}</TableCell>
-							<TableCell>{t("Low Stock")}</TableCell>
+							<TableCell>{t("Remaining Stock")}</TableCell>
+							<TableCell>{t("Stock Threshold")}</TableCell>
 							{/* <TableCell>{t("CategoriesTbl")}</TableCell> */}
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>
 							<TableCell className="text-right">{t("ActionsTbl")}</TableCell>

@@ -64,7 +64,13 @@ const ProductTable = ({
 								alt="thumbnail"
 								className="w-8 object-contain"
 							/>
-							{product?.product_translations[0]?.title}
+							<p>
+								{product?.product_translations[0]?.title}
+								<br />
+								<span className="text-xs italic">
+									{product?.product_translations[0]?.slug}
+								</span>
+							</p>
 						</TableCell>
 						<TableCell className="text-sm">{product?.sku || "-"}</TableCell>
 						<TableCell className="text-sm">
@@ -84,8 +90,23 @@ const ProductTable = ({
 							product.product_variants.length === 0
 								? "No variant found"
 								: product.product_variants.length === 1
-									? (product.product_variants[0]?.branches?.[0]?.pvb?.stock ??
-										0)
+									? (() => {
+											const stock =
+												product.product_variants[0]?.branches?.[0]?.pvb
+													?.stock ?? 0;
+											const lowStock =
+												product.product_variants[0]?.branches?.[0]?.pvb
+													?.low_stock ?? 0;
+											const isLow = stock < lowStock;
+
+											return (
+												<span
+													className={isLow ? "text-red-600 font-medium" : ""}>
+													{stock}
+													{isLow && " (Low)"}
+												</span>
+											);
+										})()
 									: product.product_variants
 											.map((variant) => {
 												const size = variant.attributes?.find(
@@ -93,12 +114,26 @@ const ProductTable = ({
 												)?.pva?.value?.en;
 
 												const stock = variant.branches?.[0]?.pvb?.stock ?? 0;
+												const lowStock =
+													variant.branches?.[0]?.pvb?.low_stock ?? 0;
 
-												return size && size !== "-"
-													? `${size}(${stock})`
-													: stock;
+												const isLow = stock < lowStock;
+
+												const content = (
+													<span
+														className={isLow ? "text-red-600 font-medium" : ""}>
+														{size && size !== "-" ? `${size}(${stock})` : stock}
+														{isLow && " Low"}
+													</span>
+												);
+
+												return content;
 											})
-											.join(", ")}
+											.reduce((prev, curr, index) => [
+												prev,
+												<span key={index}>, </span>,
+												curr,
+											])}
 						</TableCell>
 						<TableCell className="text-sm max-w-32 whitespace-break-spaces">
 							{!product?.product_variants ||
