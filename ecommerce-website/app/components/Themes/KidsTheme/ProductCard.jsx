@@ -340,7 +340,7 @@ const ProductCard = ({ product }) => {
 						<BasePrice className="text-secondary" price={discountedPrice} />
 					</h6>
 
-					<Ratings rating={product.rating || randomRating} />
+					<Ratings rating={product.avg_rating || randomRating} />
 
 					<div className="flex flex-col gap-0.5">
 						<PrimaryButton

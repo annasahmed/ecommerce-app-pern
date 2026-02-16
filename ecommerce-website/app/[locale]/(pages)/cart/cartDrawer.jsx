@@ -61,7 +61,7 @@ export default function CartDrawer({ open, setOpen }) {
 										alt={item.title}
 										width={64}
 										height={64}
-										className="rounded object-contain"
+										className="w-16 h-16 rounded object-contain"
 									/>
 
 									<div className="flex-1">

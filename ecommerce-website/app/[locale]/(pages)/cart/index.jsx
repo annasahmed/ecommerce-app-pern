@@ -79,15 +79,15 @@ export default function CartPage() {
 													? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
 													: ENV_VARIABLES.IMAGE_BASE_URL + "/" + item.thumbnail
 												: item.images?.length > 0
-												? typeof item.images[0] === "string"
-													? ENV_VARIABLES.IMAGE_BASE_URL + item.images[0]
-													: item.images[0]
-												: item.image || null
+													? typeof item.images[0] === "string"
+														? ENV_VARIABLES.IMAGE_BASE_URL + item.images[0]
+														: item.images[0]
+													: item.image || null
 										}
 										alt={item.title}
 										width={120}
 										height={120}
-										className="rounded-md object-contain"
+										className="w-16 h-16 rounded-md object-contain"
 									/>
 
 									<div className="flex-1 text-center sm:text-left">
