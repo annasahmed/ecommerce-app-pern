@@ -277,6 +277,13 @@ const getProducts = async (req) => {
 								},
 							],
 						},
+						{
+							model: db.branch,
+							required: false,
+							through: {
+								as: 'pvb',
+							},
+						},
 					],
 				},
 				// {

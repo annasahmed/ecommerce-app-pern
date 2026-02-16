@@ -159,6 +159,24 @@ const UploadProductsExcel = () => {
 			})
 			.filter(Boolean);
 	};
+	// const parseStockWithSku = (value) => {
+	// 	if (!value) return [];
+
+	// 	return value
+	// 		.split(",")
+	// 		.map((item) => {
+	// 			const trimmed = item.trim();
+	// 			const match = trimmed.match(/^([^(]+)(?:\(([^)]+)\))?$/);
+
+	// 			if (!match) return null;
+
+	// 			return {
+	// 				size: match[1].trim(),
+	// 				sku: match[2] ? match[2].trim() : null,
+	// 			};
+	// 		})
+	// 		.filter(Boolean);
+	// };
 
 	const parseExcelAndUpload = async (file) => {
 		if (!file) return;
@@ -240,6 +258,15 @@ const UploadProductsExcel = () => {
 						safeStr(row[excelFeilds.color])?.toLowerCase(),
 					);
 					const sizes = parseSizesWithSku(safeStr(row[excelFeilds.size]));
+					const stock = parseSizesWithSku(
+						safeStr(row[excelFeilds.remaining_stock]),
+					);
+					const stockThreshold = parseSizesWithSku(
+						safeStr(row[excelFeilds.stock_threshold]),
+					);
+
+					console.log({ stock, stockThreshold }, "chkking stocksss");
+
 					// If missing, fallback
 					if (!colors.length) colors.push(null);
 					if (!sizes.length) sizes.push({ size: null, sku: null });
@@ -294,8 +321,14 @@ const UploadProductsExcel = () => {
 									{
 										branch_id: 1,
 										cost_price: toNumber(safeStr(row[excelFeilds.price])),
-										stock: 100,
-										low_stock: 100,
+										stock:
+											stock.find(
+												(v) => v.size === sizeObj?.sku || v.size === productSku,
+											)?.sku || 100,
+										low_stock:
+											stockThreshold.find(
+												(v) => v.size === sizeObj?.sku || v.size === productSku,
+											)?.sku || 100,
 										reorder_quantity: 100,
 										sale_price: toNumber(safeStr(row[excelFeilds.price])),
 										discount_percentage: parsedDiscount,

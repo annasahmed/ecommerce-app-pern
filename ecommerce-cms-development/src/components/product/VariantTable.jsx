@@ -52,27 +52,26 @@ export default function VariantTable({
 		setVariants((prev) => prev.filter((_, i) => i !== idx));
 		if (onDelete) onDelete(idx);
 	};
-	return null;
+	// return null;
 	return (
 		<Table className="w-full overflow-x-auto">
 			<TableHeader>
 				<tr>
 					<TableCell className="w-12 text-xs px-2">Variant Name</TableCell>
 					<TableCell className="w-12 text-xs px-2">SKU</TableCell>
-					<TableCell className="w-12 text-xs px-2">Cost Price</TableCell>
-					<TableCell className="w-12 text-xs px-2">Sale Price</TableCell>
-					<TableCell className="w-12 text-xs px-2">Stock</TableCell>
-					<TableCell className="w-12 text-xs px-2">Low Stock</TableCell>
-					<TableCell className="w-12 text-xs px-2">Reorder Qty</TableCell>
+					<TableCell className="w-12 text-xs px-2">Price</TableCell>
+					<TableCell className="w-12 text-xs px-2">Remaining Stock</TableCell>
+					<TableCell className="w-12 text-xs px-2">Stock Threshold</TableCell>
+					{/* <TableCell className="w-12 text-xs px-2">Reorder Qty</TableCell> */}
 					<TableCell className="w-12 text-xs px-2">Discount %</TableCell>
-					<TableCell className="w-12 text-xs px-2">Image</TableCell>
+					{/* <TableCell className="w-12 text-xs px-2">Image</TableCell> */}
 					<TableCell className="w-12 text-xs px-2">Delete</TableCell>
 				</tr>
 			</TableHeader>
 			<TableBody>
 				{variants.map((variant, idx) => (
 					<TableRow key={idx} className="text-xs">
-						<TableCell>{variant?.name}</TableCell>
+						<TableCell>{getDisplayString(variant?.name)}</TableCell>
 
 						<TableCell>
 							<input
@@ -82,14 +81,14 @@ export default function VariantTable({
 								className="border p-1 rounded w-24 text-xs"
 							/>
 						</TableCell>
-						<TableCell>
+						{/* <TableCell>
 							<input
 								type="number"
 								value={variant.costPrice || ""}
 								onChange={(e) => handleChange(idx, "costPrice", e.target.value)}
 								className="border p-1 rounded w-12"
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell>
 							<input
@@ -103,7 +102,7 @@ export default function VariantTable({
 						<TableCell>
 							<input
 								type="number"
-								value={variant.stock || ""}
+								value={variant.stock === 0 ? 0 : variant.stock || ""}
 								onChange={(e) => handleChange(idx, "stock", e.target.value)}
 								className="border p-1 rounded w-12"
 							/>
@@ -112,13 +111,13 @@ export default function VariantTable({
 						<TableCell>
 							<input
 								type="number"
-								value={variant.lowStock || ""}
+								value={variant.lowStock === 0 ? 0 : variant.lowStock || ""}
 								onChange={(e) => handleChange(idx, "lowStock", e.target.value)}
 								className="border p-1 rounded w-12"
 							/>
 						</TableCell>
 
-						<TableCell>
+						{/* <TableCell>
 							<input
 								type="number"
 								value={variant.reorderQty || ""}
@@ -127,7 +126,7 @@ export default function VariantTable({
 								}
 								className="border p-1 rounded w-12"
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell>
 							<input
@@ -138,7 +137,7 @@ export default function VariantTable({
 							/>
 						</TableCell>
 
-						<TableCell>
+						{/* <TableCell>
 							<ImageSelectorField
 								label={"image"}
 								selectedImage={variant.imageId}
@@ -154,7 +153,7 @@ export default function VariantTable({
 								isSmall
 								className="border p-1 w-40 rounded"
 							/>
-						</TableCell>
+						</TableCell> */}
 
 						<TableCell>
 							<button
@@ -169,4 +168,19 @@ export default function VariantTable({
 			</TableBody>
 		</Table>
 	);
+}
+function getDisplayString(str) {
+	if (!str) return "";
+
+	if (str.includes("size:")) {
+		// extract only size:value
+		const sizePart = str
+			.split(",")
+			.find((part) => part.trim().startsWith("size:"));
+
+		return sizePart ? sizePart.trim() : str;
+	}
+
+	// if size not present, return full string
+	return str;
 }

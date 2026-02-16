@@ -79,7 +79,49 @@ const ProductTable = ({
 										.join(", ")
 								: "-"}
 						</TableCell>
+						<TableCell className="text-sm max-w-32 whitespace-break-spaces">
+							{!product?.product_variants ||
+							product.product_variants.length === 0
+								? "No variant found"
+								: product.product_variants.length === 1
+									? (product.product_variants[0]?.branches?.[0]?.pvb?.stock ??
+										0)
+									: product.product_variants
+											.map((variant) => {
+												const size = variant.attributes?.find(
+													(attr) => attr.name?.en === "size",
+												)?.pva?.value?.en;
 
+												const stock = variant.branches?.[0]?.pvb?.stock ?? 0;
+
+												return size && size !== "-"
+													? `${size}(${stock})`
+													: stock;
+											})
+											.join(", ")}
+						</TableCell>
+						<TableCell className="text-sm max-w-32 whitespace-break-spaces">
+							{!product?.product_variants ||
+							product.product_variants.length === 0
+								? "No variant found"
+								: product.product_variants.length === 1
+									? (product.product_variants[0]?.branches?.[0]?.pvb
+											?.low_stock ?? 0)
+									: product.product_variants
+											.map((variant) => {
+												const size = variant.attributes?.find(
+													(attr) => attr.name?.en === "size",
+												)?.pva?.value?.en;
+
+												const low_stock =
+													variant.branches?.[0]?.pvb?.low_stock ?? 0;
+
+												return size && size !== "-"
+													? `${size}(${low_stock})`
+													: low_stock;
+											})
+											.join(", ")}
+						</TableCell>
 						<TableCell className="text-center">
 							<ShowHideButton id={product.id} product status={product.status} />
 						</TableCell>

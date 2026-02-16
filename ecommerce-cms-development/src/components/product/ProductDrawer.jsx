@@ -187,6 +187,9 @@ const ProductDrawer = ({ id, data }) => {
 	const baseDiscount = watch("base_discount_percentage");
 	const sku = watch("sku");
 
+	console.log(sku, "chkking sku111");
+	
+
 	useEffect(() => {
 		setDefaultValues((prev) => ({
 			...prev,

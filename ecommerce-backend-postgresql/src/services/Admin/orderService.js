@@ -3,7 +3,7 @@ const config = require('../../config/config');
 const db = require('../../db/models');
 const ApiError = require('../../utils/ApiError');
 const { getOffset } = require('../../utils/query');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 async function getOrderById(req) {
 	const { orderId } = req.params;
@@ -129,19 +129,95 @@ async function updateOrderId(req) {
 }
 async function updateOrderStatus(req) {
 	const { orderId } = req.params;
-	const updatedOrder = await db.order.update(
-		{
-			status: req.body.status,
-		},
-		{
-			where: {
-				id: orderId,
-			},
+	const { status: newStatus } = req.body;
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		// 1️⃣ Get current order with lock
+		const order = await db.order.findByPk(orderId, {
+			transaction,
+			lock: transaction.LOCK.UPDATE,
+		});
+
+		if (!order) {
+			throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
 		}
-	);
-	if (!updatedOrder[0])
-		throw new ApiError(httpStatus.NOT_FOUND, `Order not found`);
-	return { success: true };
+
+		const oldStatus = order.status;
+
+		// 2️⃣ Deduct stock ONLY when pending → in_progress
+		if (oldStatus === 'pending' && newStatus === 'in_progress') {
+			const orderItems = await db.order_item.findAll({
+				where: { order_id: orderId },
+				transaction,
+				lock: transaction.LOCK.UPDATE,
+			});
+
+			// group quantities by variant
+			const variantQtyMap = {};
+
+			for (const item of orderItems) {
+				if (!item.product_variant_id) {
+					throw new ApiError(
+						httpStatus.BAD_REQUEST,
+						`Variant missing for order item ${item.id}`
+					);
+				}
+
+				variantQtyMap[item.product_variant_id] =
+					(variantQtyMap[item.product_variant_id] || 0) +
+					item.quantity;
+			}
+
+			const variantIds = Object.keys(variantQtyMap);
+
+			// get stock rows with lock
+			const stockRows = await db.product_variant_to_branch.findAll({
+				where: {
+					product_variant_id: {
+						[Op.in]: variantIds,
+					},
+				},
+				transaction,
+				lock: transaction.LOCK.UPDATE,
+			});
+
+			for (const stockRow of stockRows) {
+				const requiredQty = variantQtyMap[stockRow.product_variant_id];
+
+				// check stock availability
+				if (stockRow.stock < requiredQty) {
+					throw new ApiError(
+						httpStatus.BAD_REQUEST,
+						`Insufficient stock for variant ${stockRow.product_variant_id}`
+					);
+				}
+
+				// deduct stock
+				stockRow.stock -= requiredQty;
+
+				await stockRow.save({ transaction });
+			}
+		}
+
+		// 3️⃣ Update order status
+		order.status = newStatus;
+		await order.save({ transaction });
+
+		await transaction.commit();
+
+		return {
+			success: true,
+			message: `Order status updated from ${oldStatus} → ${newStatus}`,
+		};
+	} catch (error) {
+		await transaction.rollback();
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			error.message || 'Failed to update order status'
+		);
+	}
 }
 
 module.exports = {

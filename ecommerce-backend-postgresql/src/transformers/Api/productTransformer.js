@@ -36,20 +36,22 @@ function transformVendor(vendor, lang) {
 
 function transformVariant(variant, lang, multipleProducts = false) {
 	// return variant;
+	const branches = (variant.branches || []).map((b) => ({
+		// name: extractLangField(b.name, lang),
+		// address: extractLangField(b.address, lang),
+		// country: extractLangField(b.country, lang),
+		// cost_price: b.pvb?.cost_price,
+		// sale_price: b.pvb?.sale_price,
+		stock: b.pvb?.stock,
+		// low_stock: b.pvb?.low_stock,
+		// discount_percentage: b.pvb?.discount_percentage,
+	}));
 	return {
 		id: variant.id,
 		sku: variant.sku,
 		image: variant.medium ? variant.medium.url : null,
-		// branches: (variant.branches || []).map((b) => ({
-		// 	name: extractLangField(b.name, lang),
-		// 	address: extractLangField(b.address, lang),
-		// 	country: extractLangField(b.country, lang),
-		// 	cost_price: b.pvb?.cost_price,
-		// 	sale_price: b.pvb?.sale_price,
-		// 	stock: b.pvb?.stock,
-		// 	low_stock: b.pvb?.low_stock,
-		// 	discount_percentage: b.pvb?.discount_percentage,
-		// })),
+		stock: branches[0]?.stock || 0,
+
 		attributes: multipleProducts
 			? (variant.product_variant_to_attributes || []).map((a) => {
 					return {

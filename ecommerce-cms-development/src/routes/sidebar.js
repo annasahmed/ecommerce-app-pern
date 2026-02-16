@@ -34,11 +34,11 @@ const sidebar = [
 				path: "/categories",
 				name: "Categories",
 			},
-			{
-				icon: FiSlack,
-				path: "/usp",
-				name: "Usps",
-			},
+			// {
+			// 	icon: FiSlack,
+			// 	path: "/usp",
+			// 	name: "Usps",
+			// },
 			{
 				icon: FiSlack,
 				path: "/brand",

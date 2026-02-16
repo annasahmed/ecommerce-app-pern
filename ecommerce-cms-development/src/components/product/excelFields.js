@@ -15,4 +15,6 @@ export const excelFeilds = {
 	price: "Price",
 	discount: "Discount",
 	similar_products: "similar_products",
+	remaining_stock: "Remaining Stock",
+	stock_threshold: "Stock Threshold",
 };

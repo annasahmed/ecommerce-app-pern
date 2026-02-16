@@ -15,6 +15,8 @@ const tempShowingTranslateValue = (data) => {
 };
 
 function transformProductForEdit(product = [], settings) {
+	console.log(product, "chkking product111");
+
 	if (!product.length) {
 		return { variantDetails: [], defaultValues: {}, attributes: [] };
 	}
@@ -108,8 +110,6 @@ const ProductVariantForm = ({
 	const [defaultVariants, setDefaultVariants] = useState([]);
 	const [generatedVariants, setGeneratedVariants] = useState([]);
 
-	console.log(generatedVariants, "chkking generatedVariants");
-
 	useEffect(() => {
 		AttributeServices.getActiveAttributes().then((v) =>
 			setAttribtes(v.records),
@@ -126,8 +126,6 @@ const ProductVariantForm = ({
 
 	useEffect(() => {
 		const tempArr = finalVariants?.map((v) => {
-			console.log(v, "chkking vvv");
-
 			return {
 				sku: v.sku,
 				image: v.imageId,
@@ -135,9 +133,9 @@ const ProductVariantForm = ({
 					{
 						branch_id: settings.defaultBranchId,
 						cost_price: v.costPrice ? parseFloat(v.costPrice) : null,
-						stock: v.stock ? parseInt(v.stock) : null,
-						low_stock: v.lowStock ? parseInt(v.lowStock) : null,
-						reorder_quantity: v.reorderQty ? parseInt(v.reorderQty) : null,
+						stock: 100,
+						low_stock: 100,
+						reorder_quantity: 100,
 						// stock: v.stock ? parseInt(v.stock) : null,
 						// low_stock: v.lowStock ? parseInt(v.lowStock) : null,
 						// reorder_quantity: v.reorderQty ? parseInt(v.reorderQty) : null,
@@ -168,6 +166,8 @@ const ProductVariantForm = ({
 		});
 	}, [productVariants]);
 
+	console.log(selectedVariants, "chking selected variants");
+
 	useEffect(() => {
 		if (selectedVariants.length > 0) {
 			setGeneratedVariants(generateVariants(selectedVariants, sku));
@@ -180,11 +180,6 @@ const ProductVariantForm = ({
 		setDefaultVariants([]);
 		setGeneratedVariants([]);
 	}, [resetKey]);
-
-	console.log(
-		{ selectedVariants, generatedVariants },
-		"chkkin generatedVariants",
-	);
 
 	return (
 		<section className="flex flex-col gap-8">
@@ -252,7 +247,7 @@ const ProductVariantForm = ({
 									isVertical
 								/>
 								{/* SKU inputs if size attribute has more than 1 selected value */}
-								{/* {isSizeAttribute && selectedForThisAttr.length > 1 && (
+								{isSizeAttribute && selectedForThisAttr.length > 1 && (
 									<div className="mt-2 flex flex-col gap-2">
 										<p className="font-semibold">Enter SKUs for each size:</p>
 										{selectedForThisAttr.map((sizeValue, idx) => (
@@ -291,7 +286,7 @@ const ProductVariantForm = ({
 											</div>
 										))}
 									</div>
-								)} */}
+								)}
 							</>
 						);
 					})}
@@ -323,9 +318,6 @@ export function generateVariants(
 	selectedLanguage = "en",
 ) {
 	if (!selectedVariants || selectedVariants.length === 0) return [];
-	selectedVariants = selectedVariants.filter(
-		(v) => v.values && v.values.length > 0,
-	); // filter out attributes with no selected values
 
 	const attributes = selectedVariants.map((attr) =>
 		attr.values.map((v) => ({
@@ -345,10 +337,7 @@ export function generateVariants(
 				.map((c) => `${c.name}: ${c.value[selectedLanguage]}`)
 				.join(", "),
 			combo,
-			sku:
-				combo.filter((c) => c.sku)[0]?.sku ||
-				baseSKU ||
-				`${baseSKU || "SKU"}-${idx + 1}`,
+			sku: combo[0]?.sku || baseSKU || `${baseSKU}-${idx + 1}`,
 			// sku: `${baseSKU}-${idx + 1}222`,
 		};
 	});

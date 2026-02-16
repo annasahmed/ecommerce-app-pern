@@ -93,13 +93,13 @@ const productService = createBaseService(db.product, {
 					},
 					attributes: ['id', 'name'],
 				},
-				// {
-				// 	model: db.branch,
-				// 	required: false,
-				// 	through: {
-				// 		as: 'pvb',
-				// 	},
-				// },
+				{
+					model: db.branch,
+					required: false,
+					through: {
+						as: 'pvb',
+					},
+				},
 			],
 		},
 	],
@@ -425,7 +425,6 @@ async function softDeleteProductById(req) {
 function getProductIncludes(req) {
 	return [
 		{ model: db.media, required: false, as: 'thumbnailImage' },
-		{ model: db.media, required: false, as: 'images' },
 		{
 			model: db.category,
 			required: false,
@@ -458,26 +457,6 @@ function getProductIncludes(req) {
 				: {},
 		},
 		{
-			model: db.usp,
-			required: false,
-			include: [
-				{
-					model: db.usp_translation,
-					as: 'translations',
-					required: false,
-					attributes: {
-						exclude: [
-							'created_at',
-							'updated_at',
-							'usp_id',
-							'language_id',
-							'id',
-						],
-					},
-				},
-			],
-		},
-		{
 			model: db.brand,
 			required: false,
 			include: [
@@ -497,12 +476,10 @@ function getProductIncludes(req) {
 				},
 			],
 		},
-		{ model: db.vendor, required: false },
 		{
 			model: db.product_variant,
 			required: false,
 			include: [
-				{ model: db.media, required: false },
 				{
 					model: db.attribute,
 					required: false,
@@ -511,15 +488,38 @@ function getProductIncludes(req) {
 					},
 					attributes: ['id', 'name'],
 				},
-				// {
-				// 	model: db.branch,
-				// 	required: false,
-				// 	through: {
-				// 		as: 'pvb',
-				// 	},
-				// },
+				{
+					model: db.branch,
+					required: false,
+					through: {
+						as: 'pvb',
+					},
+				},
 			],
 		},
+		// { model: db.vendor, required: false },
+		// {
+		// 	model: db.product_variant,
+		// 	required: false,
+		// 	include: [
+		// 		{ model: db.media, required: false },
+		// 		{
+		// 			model: db.attribute,
+		// 			required: false,
+		// 			through: {
+		// 				as: 'pva',
+		// 			},
+		// 			attributes: ['id', 'name'],
+		// 		},
+		// 		// {
+		// 		// 	model: db.branch,
+		// 		// 	required: false,
+		// 		// 	through: {
+		// 		// 		as: 'pvb',
+		// 		// 	},
+		// 		// },
+		// 	],
+		// },
 	];
 }
 
@@ -885,13 +885,13 @@ async function exportProducts(req, res) {
 							},
 							attributes: ['id', 'name'],
 						},
-						// {
-						// 	model: db.branch,
-						// 	required: false,
-						// 	through: {
-						// 		as: 'pvb',
-						// 	},
-						// },
+						{
+							model: db.branch,
+							required: false,
+							through: {
+								as: 'pvb',
+							},
+						},
 					],
 				},
 				{
@@ -901,7 +901,7 @@ async function exportProducts(req, res) {
 					required: false,
 				},
 			],
-			// limit: 10,
+			limit: 10,
 		});
 		const workbook = new ExcelJS.Workbook();
 		const sheet = workbook.addWorksheet('Products');
@@ -956,6 +956,16 @@ async function exportProducts(req, res) {
 				key: excelFeilds.similar_products,
 				width: 12,
 			},
+			{
+				header: excelFeilds.remaining_stock,
+				key: excelFeilds.remaining_stock,
+				width: 12,
+			},
+			{
+				header: excelFeilds.stock_threshold,
+				key: excelFeilds.stock_threshold,
+				width: 12,
+			},
 		];
 		// const workbook = new ExcelJS.Workbook();
 		// const worksheet = workbook.addWorksheet('Products');
@@ -1006,6 +1016,27 @@ async function exportProducts(req, res) {
 
 			const size = sizeValues.join(', ');
 
+			const inventoryDataStock = p.product_variants
+				.map((variant) => {
+					const sku = variant.sku;
+					const stock = variant.branches?.[0]?.pvb?.stock ?? 0;
+					return `${sku}(${stock})`;
+				})
+				.join(', ');
+			const inventoryDataLowStock = p.product_variants
+				.map((variant) => {
+					const sku = variant.sku;
+					const stock = variant.branches?.[0]?.pvb?.stock ?? 0;
+					return `${sku}(${stock})`;
+				})
+				.join(', ');
+
+			console.log(
+				inventoryDataStock,
+				inventoryDataLowStock,
+				'chkking inventoryData'
+			);
+
 			// Additional info (from USP)
 			// const additionalInfo =
 			// 	p.usps
@@ -1035,6 +1066,9 @@ async function exportProducts(req, res) {
 				[excelFeilds.discount]: p.base_discount_percentage || 0,
 				[excelFeilds.similar_products]:
 					p.similar_products?.map((p) => p.sku).join(', ') || '',
+				// inventoryData: inventoryData,
+				[excelFeilds.remaining_stock]: inventoryDataStock,
+				[excelFeilds.stock_threshold]: inventoryDataLowStock,
 			});
 			// Style headers
 			sheet.getRow(1).eachCell((cell) => {
@@ -1219,4 +1253,6 @@ const excelFeilds = {
 	price: 'Price',
 	discount: 'Discount',
 	similar_products: 'similar_products',
+	remaining_stock: 'Remaining Stock',
+	stock_threshold: 'Stock Threshold',
 };
