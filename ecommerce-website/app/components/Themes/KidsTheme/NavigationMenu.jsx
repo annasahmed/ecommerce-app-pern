@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 	const store = useStore();
-	const [activeMenu, setActiveMenu] = useState(3);
+	const [activeMenu, setActiveMenu] = useState(null);
 	const [openIndex, setOpenIndex] = useState(null);
 	const { data: navCategories, isLoading } = useFetchReactQuery(
 		() => MetadataService.getNavCategories(),
@@ -103,26 +103,28 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 									<ul className="flex">
 										{item.children.filter((cat) => cat.children?.length > 0)
 											?.length > 0 ? (
-											item.children.filter((cat) => cat.children?.length > 0).map((cat, i) => (
-												<li key={i} className="px-4 flex-1 min-w-40">
-													<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">
-														{cat.title}
-													</h3>
+											item.children
+												.filter((cat) => cat.children?.length > 0)
+												.map((cat, i) => (
+													<li key={i} className="px-4 flex-1 min-w-40">
+														<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">
+															{cat.title}
+														</h3>
 
-													<ul className="space-y-1">
-														{cat.children?.map((subCat, idx) => (
-															<li
-																key={idx}
-																className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
-																<BaseLink
-																	href={`/products?category=${subCat.slug}`}>
-																	{subCat.title}
-																</BaseLink>
-															</li>
-														))}
-													</ul>
-												</li>
-											))
+														<ul className="space-y-1">
+															{cat.children?.map((subCat, idx) => (
+																<li
+																	key={idx}
+																	className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
+																	<BaseLink
+																		href={`/products?category=${subCat.slug}`}>
+																		{subCat.title}
+																	</BaseLink>
+																</li>
+															))}
+														</ul>
+													</li>
+												))
 										) : (
 											<li className="px-4 flex-1 min-w-40">
 												<h3 className="font-normal h7 uppercase text-primary border-b border-border-color whitespace-nowrap pb-1 mb-4">

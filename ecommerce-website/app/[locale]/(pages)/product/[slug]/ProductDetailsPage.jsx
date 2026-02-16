@@ -115,6 +115,9 @@ export default function ProductDetailsPage() {
 				Product Not Found
 			</h1>
 		);
+	const isOutOfStock =
+		product.variants?.filter((v) => v.stock === 0).length ===
+		product.variants?.length;
 
 	const handleSelectAttribute = (name, value) => {
 		setSelectedAttributes((prev) => ({ ...prev, [name]: value }));
@@ -181,6 +184,21 @@ export default function ProductDetailsPage() {
 				<div className="flex flex-col md:col-span-3">
 					<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
 						{product.title?.toLowerCase()}
+						{isOutOfStock && (
+							<span
+								className="
+					inline-flex items-center
+					px-2.5 pb-0.5 pt-1
+					rounded-full
+					text-sm font-semibold
+					bg-red-50 text-red-600
+					border border-red-200
+					uppercase tracking-wide
+					leading-none ml-4
+				">
+								Out of Stock
+							</span>
+						)}
 					</h1>
 
 					{/* Rating */}
@@ -274,9 +292,10 @@ export default function ProductDetailsPage() {
 						<PrimaryButton
 							className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
 							onClick={handleAddToCart}
-							isSmall>
+							isSmall
+							disabled={isOutOfStock}>
 							<ShoppingCartIcon style={{ width: "20px" }} />
-							Add to Cart
+							{isOutOfStock ? "Out of Stock" : "Add To Cart"}
 						</PrimaryButton>
 
 						<button

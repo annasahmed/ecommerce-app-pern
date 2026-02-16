@@ -175,6 +175,10 @@ const ProductCard = ({ product }) => {
 		setSelectedAttributes(defaults);
 	}, [product]);
 
+	const isOutOfStock =
+		product.variants?.filter((v) => v.stock === 0).length ===
+		product.variants?.length;
+
 	if (!product) return null;
 
 	return (
@@ -300,6 +304,20 @@ const ProductCard = ({ product }) => {
 							<p className="max-md:leading-2.5!">OFF</p>
 						</div>
 					)}
+					{/* Out of Stock Badge */}
+					{isOutOfStock && (
+						<div
+							className="
+			absolute inset-0 z-30
+			bg-black/50
+			flex items-center justify-center
+			text-white font-semibold text-sm md:text-base
+			rounded-t-md
+			select-none
+		">
+							OUT OF STOCK
+						</div>
+					)}
 				</div>
 
 				{/* Product Info */}
@@ -327,6 +345,7 @@ const ProductCard = ({ product }) => {
 					<div className="flex flex-col gap-0.5">
 						<PrimaryButton
 							isSmall
+							disabled={isOutOfStock}
 							onClick={() => {
 								handleAddToCart();
 							}}
@@ -334,7 +353,7 @@ const ProductCard = ({ product }) => {
 							justifyContent="justify-between"
 							hoverBgColor="bg-secondary"
 							borderColor="bg-secondary">
-							Add To Cart{" "}
+							{isOutOfStock ? "Out of Stock" : "Add To Cart"}
 							<ShoppingCartIcon
 								style={{
 									width: "20px",

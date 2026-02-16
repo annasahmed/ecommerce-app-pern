@@ -8,6 +8,7 @@ const PrimaryButton = ({
 	isSmall = false,
 	onClick = () => {},
 	link,
+	disabled = false,
 
 	// 🎨 Styling props
 	bgColor = "bg-primary",
@@ -16,7 +17,7 @@ const PrimaryButton = ({
 	hoverTextColor = "text-light",
 	borderColor = "border-primary",
 	rounded = "rounded-full",
-	justifyContent='justify-center'
+	justifyContent = "justify-center",
 }) => {
 	const router = useRouter();
 
@@ -27,6 +28,7 @@ const PrimaryButton = ({
 				if (link) router.push(link);
 				else onClick();
 			}}
+			disabled={disabled}
 			className={`
 				group
 				relative

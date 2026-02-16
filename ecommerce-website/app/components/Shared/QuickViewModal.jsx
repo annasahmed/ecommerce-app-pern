@@ -100,6 +100,9 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		(product.base_price || product.price) *
 		(1 - (product.discount || product.base_discount_percentage) / 100)
 	).toFixed(2);
+	const isOutOfStock =
+		product.variants?.filter((v) => v.stock === 0).length ===
+		product.variants?.length;
 
 	const handleAddToCart = () => {
 		const selectedVariant = findSelectedVariant();
@@ -204,6 +207,21 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 											<div className="max-md:mt-4 px-4 pt-2 flex flex-col md:overflow-y-auto md:h-[calc(100%-32px)] max-md:h-full md:w-1/2 md:absolute top-5 right-0">
 												<h1 className="h4 capitalize text-title-color font-medium mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
 													{product.title?.toLowerCase()}
+													{isOutOfStock && (
+														<span
+															className="
+					inline-flex items-center
+					px-2.5 pb-0.5 pt-1
+					rounded-full
+					text-sm font-semibold
+					bg-red-50 text-red-600
+					border border-red-200
+					uppercase tracking-wide
+					leading-none ml-4
+				">
+															Out of Stock
+														</span>
+													)}
 												</h1>
 
 												{/* Price */}
@@ -295,12 +313,13 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 													<PrimaryButton
 														className="min-w-40 flex items-center justify-center gap-2 rounded-full bg-transparent border border-primary text-primary"
 														onClick={handleAddToCart}
-														isSmall>
+														isSmall
+														disabled={isOutOfStock}>
 														<ShoppingCartIcon
 															className="cursor-pointer hover:text-primary transition"
 															style={{ width: "20px" }}
 														/>
-														Add to Cart
+														{isOutOfStock ? "Out of Stock" : "Add To Cart"}
 													</PrimaryButton>
 													<button
 														title="Add to Favorites"
