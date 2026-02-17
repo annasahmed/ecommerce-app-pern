@@ -25,6 +25,14 @@ router
 	.delete(adminProductController.deleteAllProductsPermanently);
 
 router
+	.route('/update-all-inventories')
+	.patch(adminProductController.updateAllInventories);
+
+router
+	.route('/remove-invalid-attributes-values')
+	.patch(adminProductController.removeInvalidAttributesValues);
+
+router
 	.route('/import-products')
 	.post(adminProductController.importProductsFromSheet);
 

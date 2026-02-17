@@ -45,6 +45,18 @@ const deleteAllProductsPermanently = catchAsync(async (req, res) => {
 	await adminProductService.deleteAllProductsPermanently(req, res);
 	res.send({ message: 'All products deleted successfully' });
 });
+const updateAllInventories = catchAsync(async (req, res) => {
+	const updatedRows = await adminProductService.updateAllInventories();
+	res.send({ updatedRows, message: 'All inventories updated successfully' });
+});
+const removeInvalidAttributesValues = catchAsync(async (req, res) => {
+	const updatedRows =
+		await adminProductService.removeInvalidAttributesValues();
+	res.send({
+		updatedRows,
+		message: 'Invalid attributes values removed successfully',
+	});
+});
 
 module.exports = {
 	getProductById,
@@ -57,4 +69,6 @@ module.exports = {
 	exportProducts,
 	getProductTitlesOnly,
 	deleteAllProductsPermanently,
+	updateAllInventories,
+	removeInvalidAttributesValues,
 };
