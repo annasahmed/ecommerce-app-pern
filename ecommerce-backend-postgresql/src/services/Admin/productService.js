@@ -1,7 +1,7 @@
 const db = require('../../db/models/index.js');
 const commonUtils = require('../../utils/commonUtils.js');
 const createBaseService = require('../../utils/baseService.js');
-const { Op, where, fn, col, literal } = require('sequelize');
+const { Op } = require('sequelize');
 const { createBrand } = require('./brandService.js');
 const { createCategory } = require('./categoryService.js');
 const ExcelJS = require('exceljs');
@@ -1176,42 +1176,6 @@ async function exportProducts(req, res) {
 	}
 }
 
-async function deleteAllProductsPermanently(req) {
-	const transaction = await db.sequelize.transaction();
-
-	try {
-		await db.product_translation.destroy({
-			where: {},
-			truncate: true,
-			cascade: true,
-			restartIdentity: true,
-			transaction,
-		});
-
-		await db.product_variant.destroy({
-			where: {},
-			truncate: true,
-			cascade: true,
-			restartIdentity: true,
-			transaction,
-		});
-
-		await db.product.destroy({
-			where: {},
-			truncate: true,
-			cascade: true,
-			restartIdentity: true,
-			transaction,
-		});
-
-		await transaction.commit();
-		return { success: true };
-	} catch (error) {
-		await transaction.rollback();
-		throw error;
-	}
-}
-
 async function getProductById(productId) {
 	const product = await productService.getById(productId);
 	product.similar_products = await db.similar_product.findAll({
@@ -1227,45 +1191,6 @@ async function getProductById(productId) {
 		},
 	});
 	return product;
-}
-
-async function updateAllInventories() {
-	const transaction = await db.sequelize.transaction();
-
-	try {
-		const [updatedCount] = await db.product_variant_to_branch.update(
-			{
-				stock: 100,
-				low_stock: 10,
-				reorder_quantity: 100,
-			},
-			{
-				where: {}, // ⚠ updates ALL rows
-				transaction,
-			}
-		);
-
-		await transaction.commit();
-
-		return {
-			success: true,
-			message: `${updatedCount} inventory records updated successfully`,
-		};
-	} catch (error) {
-		await transaction.rollback();
-		throw new ApiError(
-			httpStatus.INTERNAL_SERVER_ERROR,
-			error.message || 'Error updating inventories'
-		);
-	}
-}
-
-async function removeInvalidAttributesValues() {
-	const deletedCount = await db.product_variant_to_attribute.destroy({
-		where: literal(`value->>'en' = '-'`),
-	});
-
-	return deletedCount;
 }
 
 module.exports = {
@@ -1285,9 +1210,6 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
-	deleteAllProductsPermanently,
-	updateAllInventories,
-	removeInvalidAttributesValues,
 };
 
 const excelFeilds = {

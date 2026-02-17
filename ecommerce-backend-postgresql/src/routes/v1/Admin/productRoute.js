@@ -20,17 +20,6 @@ router
 	);
 
 router.route('/only-titles').get(adminProductController.getProductTitlesOnly);
-router
-	.route('/delete-all')
-	.delete(adminProductController.deleteAllProductsPermanently);
-
-router
-	.route('/update-all-inventories')
-	.patch(adminProductController.updateAllInventories);
-
-router
-	.route('/remove-invalid-attributes-values')
-	.patch(adminProductController.removeInvalidAttributesValues);
 
 router
 	.route('/import-products')

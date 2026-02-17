@@ -352,6 +352,54 @@ async function findSimilarCategories(threshold = 0.35) {
 	return results;
 }
 
+const slugify = require('slugify');
+
+function cleanSlug(slug) {
+	if (!slug) return slug;
+
+	return slugify(slug, {
+		lower: true,
+		strict: true, // removes special characters
+		trim: true,
+	});
+}
+
+async function fixSlugsCategories() {
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const categories = await db.category_translation.findAll({
+			attributes: ['id', 'slug'],
+			transaction,
+		});
+
+		for (const category of categories) {
+			const cleanedSlug = cleanSlug(category.slug);
+
+			// only update if changed
+			if (cleanedSlug !== category.slug) {
+				await db.category_translation.update(
+					{ slug: cleanedSlug },
+					{
+						where: { id: category.id },
+						transaction,
+					}
+				);
+			}
+		}
+
+		await transaction.commit();
+
+		console.log('Slugs cleaned successfully');
+	} catch (error) {
+		await transaction.rollback();
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			'Failed to clean category slugs'
+		);
+	}
+}
+
 module.exports = {
 	getCategoryById: categoryService.getById,
 	createCategory,
@@ -384,6 +432,7 @@ module.exports = {
 	importCategoriesTitles,
 	verifyCategoriesExist,
 	findSimilarCategories,
+	fixSlugsCategories,
 };
 
 async function isCategoryDescendant(

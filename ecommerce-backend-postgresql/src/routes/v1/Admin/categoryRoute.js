@@ -19,6 +19,7 @@ router
 		adminCategoryController.createCategory
 	);
 router.route('/similar').get(adminCategoryController.findSimilarCategories);
+router.route('/fix-slugs').patch(adminCategoryController.fixSlugsCategories);
 
 router
 	.route('/options')
