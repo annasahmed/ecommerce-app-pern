@@ -12,7 +12,7 @@ export default function Loader({ cols = 4 }) {
 			aria-live="polite"
 			className="min-h-screen w-full bg-gray-50 /dark:bg-gray-900 text-gray-900 /dark:text-gray-100">
 			{/* Top bar / nav */}
-			<header className="w-full border-b border-gray-200 /dark:border-gray-800 bg-white /dark:bg-gray-900 sticky top-0 z-40">
+			{/* <header className="w-full border-b border-gray-200 /dark:border-gray-800 bg-white /dark:bg-gray-900 sticky top-0 z-40">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="h-16 flex items-center justify-between">
 						<div className="flex items-center gap-4">
@@ -30,7 +30,7 @@ export default function Loader({ cols = 4 }) {
 						</div>
 					</div>
 				</div>
-			</header>
+			</header> */}
 
 			{/* Hero */}
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">

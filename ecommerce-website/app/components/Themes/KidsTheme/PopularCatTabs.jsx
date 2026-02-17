@@ -7,6 +7,7 @@ import Loader from "../../Shared/Loader";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
 import SectionTitle from "../../Shared/SectionTitle";
+import SpinLoader from "../../Shared/SpinLoader";
 
 const PopularCatTabs = ({ title, tabs, productsPerTab }) => {
 	const store = useStore();
@@ -35,7 +36,7 @@ const PopularCatTabs = ({ title, tabs, productsPerTab }) => {
 				tabs={popularTabs.map((tab) => ({
 					label: tab.title,
 					content: () => {
-						if (isLoading && activeTab?.id === tab.id) return <Loader />;
+						if (isLoading && activeTab?.id === tab.id) return <SpinLoader />;
 
 						const products = data?.records || [];
 						if (products.length === 0) {

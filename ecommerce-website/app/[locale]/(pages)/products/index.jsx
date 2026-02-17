@@ -10,6 +10,8 @@ import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 
 import { useStore } from "@/app/providers/StoreProvider";
 import ProductServices from "@/app/services/ProductServices";
+import MobileFilterDrawer from "@/app/components/Shared/MobileFilterDrawer";
+import { SlidersHorizontal } from "lucide-react";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -19,6 +21,7 @@ const ProductsPage = () => {
 	const paramsBrand = searchParams.get("brand");
 	const paramsSearch = searchParams.get("search");
 	const store = useStore();
+	const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
 	const [selectedFilters, setSelectedFilters] = useState({
 		categories: [],
@@ -89,7 +92,17 @@ const ProductsPage = () => {
 	return (
 		<main>
 			<section className="container-layout section-layout">
+				{/* Mobile Filter Button */}
+				<div className="md:hidden flex justify-between items-center mb-4">
+					<button
+						onClick={() => setMobileFilterOpen(true)}
+						className="flex items-center gap-2 px-4 py-2 border rounded-lg bg-white shadow-sm">
+						<SlidersHorizontal size={18} />
+						Filters
+					</button>
+				</div>
 				<section className="grid md:grid-cols-4 gap-10 relative">
+					{/* Desktop Sidebar */}
 					<aside className="md:col-span-1 max-md:hidden bg-light">
 						<div className="sticky/ top-46/">
 							<FilterSidebar
@@ -152,6 +165,19 @@ const ProductsPage = () => {
 					</section>
 				</section>
 			</section>
+
+			{/* Mobile Drawer */}
+			{mobileFilterOpen && (
+				<MobileFilterDrawer
+					onClose={() => setMobileFilterOpen(false)}
+					selectedFilters={selectedFilters}
+					setSelectedFilters={setSelectedFilters}
+					paramsCategory={paramsCategory}
+					paramsBrand={paramsBrand}
+					defaultFilters={defaultFilters}
+					setDefaultFilters={setDefaultFilters}
+				/>
+			)}
 
 			{/* <div className="w-full h-px bg-border-color" />
 

@@ -19,7 +19,7 @@ const Section = ({ title, children, defaultOpen = true }) => {
 				{open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
 			</div>
 			{open && (
-				<div className="mt-3 space-y-0 max-h-[240px] overflow-y-auto hide-scrollbar">
+				<div className="mt-3 max-md:mt-1.5 space-y-0 max-h-[240px] max-md:max-h-[180px] overflow-y-auto hide-scrollbar">
 					{children}
 				</div>
 			)}
@@ -128,8 +128,8 @@ export default function FilterSidebar({
 
 	return (
 		// <aside className="overflow-y-scroll md:max-h-[150vh] hide-scrollbar/ max-md:hidden">
-		<aside className="max-md:hidden">
-			<h4 className="h4 font-bold border-b pb-1">Filter</h4>
+		<aside className="max-md:hidden/">
+			<h4 className="h4 font-bold border-b pb-1 max-md:hidden">Filters</h4>
 			{isLoading ? (
 				<p className="py-4 p4">Loading filters...</p>
 			) : (
@@ -262,7 +262,7 @@ export default function FilterSidebar({
 								<button
 									key={`size-${size}-${idx}`}
 									className={`
-				relative px-4 py-2 rounded-lg font-medium p5
+				relative px-4 py-2 max-md:px-2.5 max-md:py-1.5 rounded-lg max-md:rounded-sm font-medium p5 max-md:!text-sm uppercase
 				transition-all duration-200 
 				border-2 
 				${
@@ -282,25 +282,25 @@ export default function FilterSidebar({
 
 					{/* Color */}
 					<Section title="Color">
-						<div className="flex/ flex-wrap/ grid grid-cols-6 gap-1.5 mt-1">
+						<div className="flex/ flex-wrap/ grid grid-cols-6 gap-1.5 max-md:gap-y-2 mt-1">
 							{filterData.colors?.map(({ name, color }, idx) => (
 								<div
 									key={`color-${name}-${idx}`}
 									onClick={() => setSingleFilter("color", name)}
-									className="group flex flex-col items-center gap-2 cursor-pointer">
+									className="group flex flex-col items-center gap-2 max-md:gap-1 cursor-pointer">
 									{/* Color Circle */}
 									<div
 										className={`
-			relative w-6.5 h-6.5 rounded-full 
-			transition-all duration-200
-			border-2 
-			${
-				selectedFilters.color === name
-					? "border-secondary  scale-110"
-					: "border-gray-300 dark:border-gray-600 group-hover:border-secondary/60 group-hover:scale-110 "
-			}
-			${color}
-		`}>
+										relative w-6.5 h-6.5 rounded-full 
+										transition-all duration-200
+										border-2 
+										${
+											selectedFilters.color === name
+												? "border-secondary  scale-110"
+												: "border-gray-300 dark:border-gray-600 group-hover:border-secondary/60 group-hover:scale-110 "
+										}
+										${color}
+									`}>
 										{/* Checkmark Icon */}
 										{selectedFilters.color === name && (
 											<Check
@@ -314,7 +314,7 @@ export default function FilterSidebar({
 									{/* Color Name Label */}
 									<span
 										className={`
-			text-xs text-center font-medium capitalize transition-colors duration-200
+			text-xs max-md:text-[10px] text-center font-medium capitalize transition-colors duration-200
 			${
 				selectedFilters.color === name
 					? "text-secondary"
