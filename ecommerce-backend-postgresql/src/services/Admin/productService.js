@@ -1193,6 +1193,36 @@ async function getProductById(productId) {
 	return product;
 }
 
+async function removeSoftDeletedItemsPermanently(req) {
+	// List of model names to clean
+	const modelsToClean = [
+		'media',
+		'category',
+		'product',
+		'product_variant_to_branch',
+		'attribute',
+	];
+
+	for (const modelName of modelsToClean) {
+		const model = db[modelName];
+		if (!model) {
+			console.log(`Model not found: ${modelName}`);
+			continue;
+		}
+
+		const deletedCount = await model.destroy({
+			where: {
+				deleted_at: {
+					[Op.ne]: null, // deleted_at is not null
+				},
+			},
+			force: true, // permanently delete
+		});
+
+		console.log(`Removed ${deletedCount} items from ${modelName}`);
+	}
+}
+
 module.exports = {
 	getProductById,
 	createProduct,
@@ -1210,6 +1240,7 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
+	removeSoftDeletedItemsPermanently,
 };
 
 const excelFeilds = {

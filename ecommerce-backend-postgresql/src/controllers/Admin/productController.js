@@ -40,6 +40,12 @@ const importProductsFromSheet = catchAsync(async (req, res) => {
 const exportProducts = catchAsync(async (req, res) => {
 	await adminProductService.exportProducts(req, res);
 });
+const removeSoftDeletedItemsPermanently = catchAsync(async (req, res) => {
+	const results = await adminProductService.removeSoftDeletedItemsPermanently(
+		req
+	);
+	res.send(results);
+});
 
 module.exports = {
 	getProductById,
@@ -51,4 +57,5 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
+	removeSoftDeletedItemsPermanently
 };

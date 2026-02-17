@@ -26,6 +26,9 @@ router
 	.post(adminProductController.importProductsFromSheet);
 
 router.route('/export-products').get(adminProductController.exportProducts);
+router
+	.route('/remove-soft-deleted-items')
+	.delete(adminProductController.removeSoftDeletedItemsPermanently);
 
 router
 	.route('/:productId')

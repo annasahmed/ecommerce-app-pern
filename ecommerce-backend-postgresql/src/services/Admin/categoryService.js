@@ -354,45 +354,97 @@ async function findSimilarCategories(threshold = 0.35) {
 
 const slugify = require('slugify');
 
+// Clean existing slug
 function cleanSlug(slug) {
-	if (!slug) return slug;
+	if (!slug) return null;
 
-	return slugify(slug, {
-		lower: true,
-		strict: true, // removes special characters
-		trim: true,
-	});
+	const cleaned = slug
+		.toString()
+		.trim()
+		.replace(/[\s_]+/g, '-') // spaces → dash
+		.replace(/[^\w\-]+/g, '') // remove special chars
+		.replace(/\-\-+/g, '-') // remove double dashes
+		.replace(/^-+/, '') // trim leading dash
+		.replace(/-+$/, '') // trim trailing dash
+		.toLowerCase();
+
+	return cleaned || null;
+}
+
+// Generate slug from title
+function generateSlugFromTitle(title) {
+	if (!title) return null;
+	return slugify(title, { lower: true, strict: true, trim: true });
 }
 
 async function fixSlugsCategories() {
-	const transaction = await db.sequelize.transaction();
-
 	try {
+		// Load all categories
 		const categories = await db.category_translation.findAll({
-			attributes: ['id', 'slug'],
-			transaction,
+			attributes: ['id', 'slug', 'title', 'language_id'],
 		});
 
 		for (const category of categories) {
-			const cleanedSlug = cleanSlug(category.slug);
+			if (!category.slug) continue;
 
-			// only update if changed
-			if (cleanedSlug !== category.slug) {
-				await db.category_translation.update(
-					{ slug: cleanedSlug },
-					{
-						where: { id: category.id },
-						transaction,
+			let newSlug = cleanSlug(category.slug);
+			if (!newSlug) continue;
+
+			let updated = false;
+			let attempt = 0;
+
+			while (!updated) {
+				// Each row in its own transaction
+				const t = await db.sequelize.transaction();
+
+				try {
+					await db.category_translation.update(
+						{ slug: newSlug },
+						{ where: { id: category.id }, transaction: t }
+					);
+
+					await t.commit();
+					updated = true; // success
+					console.log(`Updated ID ${category.id} slug → ${newSlug}`);
+				} catch (error) {
+					await t.rollback();
+
+					if (error.name === 'SequelizeUniqueConstraintError') {
+						attempt++;
+
+						if (attempt === 1) {
+							// Retry 1: generate from title
+							newSlug = generateSlugFromTitle(category.title);
+							console.log(
+								`Duplicate slug detected, retrying with title slug for ID ${category.id} → ${newSlug}`
+							);
+						} else {
+							// Retry 2+: append random suffix
+							const randomSuffix = Math.floor(
+								Math.random() * 10000
+							);
+							newSlug = `${generateSlugFromTitle(
+								category.title
+							)}-${randomSuffix}`;
+							console.log(
+								`Still duplicate, appending random suffix for ID ${category.id} → ${newSlug}`
+							);
+						}
+					} else {
+						// Other errors
+						console.error(
+							`Failed to update slug for ID ${category.id}:`,
+							error.message
+						);
+						break; // skip this row
 					}
-				);
+				}
 			}
 		}
 
-		await transaction.commit();
-
-		console.log('Slugs cleaned successfully');
+		console.log('✅ All category slugs cleaned and fixed.');
 	} catch (error) {
-		await transaction.rollback();
+		console.error('Fatal error fixing slugs:', error);
 		throw new ApiError(
 			httpStatus.INTERNAL_SERVER_ERROR,
 			'Failed to clean category slugs'
