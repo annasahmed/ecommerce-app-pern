@@ -26,9 +26,6 @@ router
 	.post(adminProductController.importProductsFromSheet);
 
 router.route('/export-products').get(adminProductController.exportProducts);
-router
-	.route('/fix-slugs-report')
-	.get(adminProductController.fixSlugsProductTranslationAndReport);
 
 router
 	.route('/:productId')

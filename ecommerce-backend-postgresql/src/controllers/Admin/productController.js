@@ -40,9 +40,6 @@ const importProductsFromSheet = catchAsync(async (req, res) => {
 const exportProducts = catchAsync(async (req, res) => {
 	await adminProductService.exportProducts(req, res);
 });
-const fixSlugsProductTranslationAndReport = catchAsync(async (req, res) => {
-	await adminProductService.fixSlugsProductTranslationAndReport(req, res);
-});
 
 module.exports = {
 	getProductById,
@@ -54,5 +51,4 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
-	fixSlugsProductTranslationAndReport,
 };

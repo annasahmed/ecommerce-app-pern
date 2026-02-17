@@ -376,3 +376,129 @@ async function removeSoftDeletedItemsPermanently(req) {
 		console.log(`Removed ${deletedCount} items from ${modelName}`);
 	}
 }
+
+// Helper functions
+function cleanSlug(slug) {
+	if (!slug) return null;
+
+	const cleaned = slug
+		.toString()
+		.trim()
+		.replace(/[\s_]+/g, '-') // spaces → dash
+		.replace(/[^\w\-]+/g, '') // remove special chars
+		.replace(/\-\-+/g, '-') // remove double dashes
+		.replace(/^-+/, '') // trim leading dash
+		.replace(/-+$/, '') // trim trailing dash
+		.toLowerCase();
+
+	return cleaned || null;
+}
+
+function generateSlugFromTitle(title) {
+	if (!title) return null;
+	return slugify(title, { lower: true, strict: true, trim: true });
+}
+
+async function fixSlugsProductTranslationAndReport(req, res) {
+	const report = [];
+
+	try {
+		const products = await db.product_translation.findAll({
+			attributes: ['id', 'slug', 'title', 'language_id'],
+		});
+
+		for (const product of products) {
+			if (!product.slug) continue;
+
+			const oldSlug = product.slug;
+			let newSlug = generateSlugFromTitle(product.title);
+			// let newSlug = cleanSlug(oldSlug);
+			if (!newSlug) continue;
+
+			let updated = false;
+			let attempt = 0;
+
+			while (!updated) {
+				const t = await db.sequelize.transaction();
+				try {
+					await db.product_translation.update(
+						{ slug: newSlug },
+						{ where: { id: product.id }, transaction: t }
+					);
+					await t.commit();
+					updated = true;
+
+					// Add to report only if changed
+					if (oldSlug !== newSlug) {
+						report.push({
+							id: product.id,
+							language_id: product.language_id,
+							title: product.title,
+							oldSlug,
+							newSlug,
+						});
+					}
+				} catch (error) {
+					await t.rollback();
+
+					if (error.name === 'SequelizeUniqueConstraintError') {
+						attempt++;
+						if (attempt === 1) {
+							newSlug = generateSlugFromTitle(product.title);
+						} else {
+							const randomSuffix = Math.floor(
+								Math.random() * 10000
+							);
+							newSlug = `${generateSlugFromTitle(
+								product.title
+							)}-${randomSuffix}`;
+						}
+					} else {
+						console.error(
+							`Failed to update slug for ID ${product.id}:`,
+							error.message
+						);
+						break; // skip this row
+					}
+				}
+			}
+		}
+
+		// Generate Excel
+		const workbook = new ExcelJS.Workbook();
+		const sheet = workbook.addWorksheet('Product Slug Report');
+
+		// Header
+		sheet.columns = [
+			{ header: 'Product ID', key: 'id', width: 15 },
+			{ header: 'Language ID', key: 'language_id', width: 15 },
+			{ header: 'Title', key: 'title', width: 30 },
+			{ header: 'Old Slug', key: 'oldSlug', width: 30 },
+			{ header: 'New Slug', key: 'newSlug', width: 30 },
+		];
+
+		// Add rows
+		report.forEach((r) => sheet.addRow(r));
+
+		// Write Excel to buffer
+		const buffer = await workbook.xlsx.writeBuffer();
+
+		// Send as download
+		res.setHeader(
+			'Content-Type',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		);
+		res.setHeader(
+			'Content-Disposition',
+			`attachment; filename="product_slug_report_${Date.now()}.xlsx"`
+		);
+
+		return res.send(buffer);
+	} catch (error) {
+		console.error('Error fixing product slugs:', error);
+		return res.status(500).json({
+			message: 'Failed to clean product slugs',
+			error: error.message,
+		});
+	}
+}
