@@ -18,6 +18,7 @@ const PrimaryButton = ({
 	borderColor = "border-primary",
 	rounded = "rounded-full",
 	justifyContent = "justify-center",
+	style = {},
 }) => {
 	const router = useRouter();
 
@@ -28,6 +29,7 @@ const PrimaryButton = ({
 				if (link) router.push(link);
 				else onClick();
 			}}
+			style={style}
 			disabled={disabled}
 			className={`
 				group
@@ -59,6 +61,7 @@ const PrimaryButton = ({
 
 			{/* Content */}
 			<span
+				style={style}
 				className={`
 					relative
 					z-10

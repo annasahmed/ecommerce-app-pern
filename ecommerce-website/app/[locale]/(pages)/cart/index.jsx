@@ -12,6 +12,8 @@ import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 export default function CartPage() {
 	const { cart, removeFromCart, addToCart, clearCart } = useCartStore();
 
+	console.log(cart, "chkking cart111");
+
 	// Update quantity handler
 	const updateQuantity = (product, type) => {
 		if (type === "increase") {
@@ -91,8 +93,17 @@ export default function CartPage() {
 									/>
 
 									<div className="flex-1 text-center sm:text-left">
-										<h5 className="flex-1 h7 font-normal line-clamp-1 capitalize text-heading hover:text-secondary cursor-pointer transition-colors duration-300">
+										<h5 className="flex-1 h7 font-normal line-clamp-2 capitalize text-heading hover:text-secondary cursor-pointer transition-colors duration-300">
 											{item.title}
+											<br />
+											<span className="text-headingLight">
+												{" "}
+												{item.selectedVariant?.attributes?.find(
+													(attr) => attr.name.toLowerCase() === "size",
+												)?.value
+													? `Size: (${item.selectedVariant.attributes.find((attr) => attr.name.toLowerCase() === "size").value})`
+													: ""}
+											</span>
 										</h5>
 										<p className="p6 text-headingLight font-normal line-clamp-1">
 											SKU: {item.sku || "-"}
@@ -100,7 +111,7 @@ export default function CartPage() {
 										<h6 className="flex font-normal gap-1 h7">
 											{item.base_discount_percentage > 0 && (
 												<BasePrice
-													className="text-muted line-through"
+													className="text-headingLight line-through"
 													price={item.base_price}
 												/>
 											)}
@@ -134,7 +145,7 @@ export default function CartPage() {
 
 									{/* Remove */}
 									<button
-										onClick={() => removeItem(item.id)}
+										onClick={() => removeItem(item)}
 										className="text-muted hover:text-red-600 transition">
 										<Trash2 size={18} />
 									</button>
@@ -172,7 +183,9 @@ export default function CartPage() {
 
 						<PrimaryButton
 							link={"/products"}
-							className="w-full mt-3 flex items-center justify-center gap-2">
+							textColor={"text-light"}
+							style={{ color: "#fff" }}
+							className="w-full mt-3 flex bg-primary text-white items-center justify-center gap-2">
 							<ArrowLeft size={18} />
 							Continue Shopping
 						</PrimaryButton>

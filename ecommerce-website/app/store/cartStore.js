@@ -12,18 +12,49 @@ export const useCartStore = create(
 			// --- CART ---
 			addToCart: (product, quantity = 1) => {
 				const cart = get().cart;
-				const existing = cart.find((item) => item.id === product.id);
+				console.log(product, "chkking product");
+
+				const existing = cart.find((item) => {
+					if (item.selectedVariant) {
+						return (
+							item.id === product.id &&
+							item.selectedVariant.id === product.selectedVariant.id
+						);
+					} else {
+						return item.sku === product.sku;
+					}
+					// return item.id === product.id;
+				});
+				// const existing = cart.find((item) => item.id === product.id);
 
 				let updatedCart;
 				if (existing) {
-					updatedCart = cart.map((item) =>
-						item.id === product.id
-							? { ...item, quantity: item.quantity + quantity }
-							: item,
-					);
+					updatedCart = cart.map((item) => {
+						if (item.selectedVariant) {
+							// For items with variants, match both product ID and variant ID
+							return item.id === product.id &&
+								item.selectedVariant.id === product.selectedVariant.id
+								? { ...item, quantity: item.quantity + quantity }
+								: item;
+						} else {
+							// For items without variants, match by SKU
+							return item.sku === product.sku
+								? { ...item, quantity: item.quantity + quantity }
+								: item;
+						}
+					});
 				} else {
 					updatedCart = [...cart, { ...product, quantity }];
 				}
+				// if (existing) {
+				// 	updatedCart = cart.map((item) => {
+				// 		return item.id === product.id
+				// 			? { ...item, quantity: item.quantity + quantity }
+				// 			: item;
+				// 	});
+				// } else {
+				// 	updatedCart = [...cart, { ...product, quantity }];
+				// }
 				set({ cart: updatedCart });
 				trackEvent("AddToCart", {
 					content_ids: [product.id],
@@ -35,8 +66,25 @@ export const useCartStore = create(
 				});
 			},
 
-			removeFromCart: (id) => {
-				set({ cart: get().cart.filter((item) => item.id !== id) });
+			// removeFromCart: (id) => {
+			// 	set({ cart: get().cart.filter((item) => item.id !== id) });
+			// },
+
+			removeFromCart: (product) => {
+				set({
+					cart: get().cart.filter((item) => {
+						if (item.selectedVariant && product.selectedVariant) {
+							// Remove only if both product ID and variant ID match
+							return !(
+								item.id === product.id &&
+								item.selectedVariant.id === product.selectedVariant.id
+							);
+						} else {
+							// Remove by SKU for products without variants
+							return item.sku !== product.sku;
+						}
+					}),
+				});
 			},
 
 			clearCart: () => set({ cart: [] }),
