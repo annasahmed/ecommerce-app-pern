@@ -25,6 +25,7 @@ const Product = () => {
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState({});
 	const [exportLoading, setExportLoading] = useState(false);
+	const [stockSortOrder, setStockSortOrder] = useState(null);
 	const limit = 10;
 	const {
 		data: productsData,
@@ -33,9 +34,14 @@ const Product = () => {
 	} = useAsync(
 		() =>
 			ProductServices.getAllProducts(
-				`limit=${limit}&page=${page}${filters.search ? `&search=${filters.search}` : ""}`,
+				`limit=${limit}&page=${page}${
+					filters.search ? `&search=${filters.search}` : ""
+				}${stockSortOrder ? `&sortBy=stock&sortOrder=${stockSortOrder}` : ""}`,
 			),
-		[page, filters],
+		// ProductServices.getAllProducts(
+		// 	`limit=${limit}&page=${page}${filters.search ? `&search=${filters.search}` : ""}`,
+		// ),
+		[page, filters, stockSortOrder],
 	); // 👈 refetch when page changes
 	const history = useHistory();
 	const toggleDrawerData = useToggleDrawer();
@@ -85,6 +91,17 @@ const Product = () => {
 	const handleFilter = (values) => {
 		setPage(1);
 		setFilters(values);
+	};
+	const handleStockSort = () => {
+		setPage(1);
+
+		if (!stockSortOrder) {
+			setStockSortOrder("ASC");
+		} else if (stockSortOrder === "ASC") {
+			setStockSortOrder("DESC");
+		} else {
+			setStockSortOrder(null);
+		}
 	};
 
 	return (
@@ -139,7 +156,25 @@ const Product = () => {
 							<TableCell>{t("SKUTbl")}</TableCell>
 							<TableCell>{t("Brand")}</TableCell>
 							<TableCell>{t("Categories")}</TableCell>
-							<TableCell>{t("Remaining Stock")}</TableCell>
+							<TableCell>
+								{" "}
+								<div className="flex items-center gap-2">
+									<span>{t("Remaining Stock")}</span>
+
+									<button
+										onClick={handleStockSort}
+										className="hover:bg-gray-200 p-1 rounded"
+										title="Sort by stock">
+										{stockSortOrder === "ASC" ? (
+											<span>▲</span>
+										) : stockSortOrder === "DESC" ? (
+											<span>▼</span>
+										) : (
+											<span>⇅</span>
+										)}
+									</button>
+								</div>
+							</TableCell>
 							<TableCell>{t("Stock Threshold")}</TableCell>
 							{/* <TableCell>{t("CategoriesTbl")}</TableCell> */}
 							<TableCell className="text-center">{t("PublishedTbl")}</TableCell>

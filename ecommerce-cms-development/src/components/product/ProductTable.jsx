@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
+import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
 //internal import
 
@@ -7,6 +7,7 @@ import DeleteModal from "@/components/modal/DeleteModal";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
 import ShowHideButton from "@/components/table/ShowHideButton";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
+import noImage from "@/assets/img/no-image.png";
 
 const ProductTable = ({
 	data,
@@ -42,28 +43,28 @@ const ProductTable = ({
 								? "bg-red-200"
 								: ""
 						}>
-						{/* <TableCell>
-							<CheckBox
-								type="checkbox"
-								name="product"
-								id={parseInt(product.id)}
-								handleClick={handleClick}
-								isChecked={isCheck?.includes(parseInt(product.id))}
-							/>
-						</TableCell> */}
-
 						<TableCell className="font-semibold uppercase text-xs">
 							{product?.id}
 						</TableCell>
-						<TableCell className="text-sm flex items-center gap-4">
-							<img
-								src={
-									import.meta.env.VITE_APP_CLOUDINARY_URL +
-									product?.thumbnailImage?.url
-								}
-								alt="thumbnail"
-								className="w-8 object-contain"
-							/>
+						<TableCell className="text-sm flex items-center gap-4 max-w-74 whitespace-break-spaces">
+							{product?.thumbnailImage?.url ? (
+								<Avatar
+									size="large"
+									className="hidden md:block bg-customGray-50 p-1"
+									src={
+										import.meta.env.VITE_APP_CLOUDINARY_URL +
+										product?.thumbnailImage?.url
+									}
+									alt={product?.product_translations[0]?.title}
+								/>
+							) : (
+								<Avatar
+									size="large"
+									src="https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
+									alt="product"
+									className="hidden p-1 md:block bg-customGray-50 shadow-none"
+								/>
+							)}
 							<p>
 								{product?.product_translations[0]?.title}
 								<br />
@@ -135,7 +136,7 @@ const ProductTable = ({
 												curr,
 											])}
 						</TableCell>
-						<TableCell className="text-sm max-w-32 whitespace-break-spaces">
+						<TableCell className="text-sm max-w-24 whitespace-break-spaces">
 							{!product?.product_variants ||
 							product.product_variants.length === 0
 								? "No variant found"
