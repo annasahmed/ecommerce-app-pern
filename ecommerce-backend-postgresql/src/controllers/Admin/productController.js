@@ -40,11 +40,8 @@ const importProductsFromSheet = catchAsync(async (req, res) => {
 const exportProducts = catchAsync(async (req, res) => {
 	await adminProductService.exportProducts(req, res);
 });
-const removeSoftDeletedItemsPermanently = catchAsync(async (req, res) => {
-	const results = await adminProductService.removeSoftDeletedItemsPermanently(
-		req
-	);
-	res.send(results);
+const fixSlugsProductTranslationAndReport = catchAsync(async (req, res) => {
+	await adminProductService.fixSlugsProductTranslationAndReport(req, res);
 });
 
 module.exports = {
@@ -57,5 +54,5 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
-	removeSoftDeletedItemsPermanently
+	fixSlugsProductTranslationAndReport,
 };

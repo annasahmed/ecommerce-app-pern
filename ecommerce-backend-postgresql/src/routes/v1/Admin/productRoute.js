@@ -27,8 +27,8 @@ router
 
 router.route('/export-products').get(adminProductController.exportProducts);
 router
-	.route('/remove-soft-deleted-items')
-	.delete(adminProductController.removeSoftDeletedItemsPermanently);
+	.route('/fix-slugs-report')
+	.get(adminProductController.fixSlugsProductTranslationAndReport);
 
 router
 	.route('/:productId')

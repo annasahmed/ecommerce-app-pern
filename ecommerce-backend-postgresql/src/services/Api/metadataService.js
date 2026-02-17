@@ -300,13 +300,32 @@ async function getNavCategories(req) {
 				include: [translationInclude(req)],
 			},
 		],
-		order: [['id', 'ASC']],
+		// ✅ ORDER EVERYTHING
+		order: [
+			['id', 'ASC'], // parent
+
+			// level 2 children by title
+			[
+				{ model: db.category, as: 'children' },
+				{ model: db.category_translation, as: 'translations' },
+				'title',
+				'ASC',
+			],
+
+			// level 3 children by title
+			[
+				{ model: db.category, as: 'children' },
+				{ model: db.category, as: 'children' },
+				{ model: db.category_translation, as: 'translations' },
+				'title',
+				'ASC',
+			],
+		],
 		limit: 9,
 	});
 
 	return categories;
 }
-
 
 async function getBrands(req) {
 	const brands = await db.brand.scope('active').findAll({
