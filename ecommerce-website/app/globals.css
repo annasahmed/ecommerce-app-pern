@@ -230,3 +230,45 @@ img {
 		transform: translateY(-4px);
 	}
 }
+
+/* Thin custom scrollbar */
+.thin-scrollbar::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* .thin-scrollbar::-webkit-scrollbar-track {
+	background: #8c929d;
+} */
+.thin-scrollbar::-webkit-scrollbar-track {
+	background: #f3f4f6; /* gray-100 */
+	border-radius: 9999px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+	background: #d1d5db; /* gray-300 */
+	border-radius: 9999px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af; /* gray-400 */
+}
+
+/* Firefox */
+/* .thin-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #d1d5db transparent;
+} */
+.thin-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #d1d5db #f3f4f6; /* thumb track */
+}
+.thin-scrollbar::-webkit-scrollbar-button {
+	display: none !important;
+}
+
+.thin-scrollbar::-webkit-scrollbar-button:start:decrement,
+.thin-scrollbar::-webkit-scrollbar-button:end:increment {
+	display: none;
+	height: 0;
+	width: 0;
+}

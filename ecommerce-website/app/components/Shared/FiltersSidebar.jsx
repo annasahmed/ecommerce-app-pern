@@ -19,7 +19,7 @@ const Section = ({ title, children, defaultOpen = true }) => {
 				{open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
 			</div>
 			{open && (
-				<div className="mt-3 max-md:mt-1.5 space-y-0 max-h-[240px] max-md:max-h-[180px] overflow-y-auto hide-scrollbar">
+				<div className="mt-3 max-md:mt-1.5 space-y-0 max-h-[240px] max-md:max-h-[180px] overflow-y-auto thin-scrollbar">
 					{children}
 				</div>
 			)}
