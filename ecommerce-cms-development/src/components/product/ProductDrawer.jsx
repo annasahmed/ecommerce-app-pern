@@ -188,7 +188,6 @@ const ProductDrawer = ({ id, data }) => {
 	const sku = watch("sku");
 
 	console.log(sku, "chkking sku111");
-	
 
 	useEffect(() => {
 		setDefaultValues((prev) => ({
@@ -351,15 +350,12 @@ const ProductDrawer = ({ id, data }) => {
 								),
 							})),
 						);
-						// setSimilarProducts(
-						// 	res.similarProducts?.map((cat) => ({
-						// 		id: cat.id,
-						// 		name: showSelectedLanguageTranslation(
-						// 			cat.translations,
-						// 			"title",
-						// 		),
-						// 	})),
-						// );
+						setSimilarProducts(
+							res.similar_products?.map((cat) => ({
+								id: cat.id,
+								name: cat.product_translations[0]?.title,
+							})),
+						);
 						setSelectedUsps(
 							res.usps?.map((cat) => ({
 								id: cat.id,
