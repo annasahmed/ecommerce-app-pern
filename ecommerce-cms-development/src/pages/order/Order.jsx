@@ -18,11 +18,21 @@ import OrderServices from "@/services/OrderServices";
 const Order = () => {
 	const { toggleDrawer, lang, setIsUpdate, isDrawerOpen } =
 		useContext(SidebarContext);
+	const [page, setPage] = useState(1);
+	const [filters, setFilters] = useState({});
+	const limit = 10;
 	const {
 		data: ordersData,
 		loading,
 		error,
-	} = useAsync(OrderServices.getAllOrders);
+	} = useAsync(
+		() =>
+			OrderServices.getAllOrders(
+				`limit=${limit}&page=${page}${filters.search ? `&search=${filters.search}` : ""}`,
+			),
+		[page, filters],
+	);
+
 	const toggleDrawerData = useToggleDrawer();
 	const { serviceId } = toggleDrawerData;
 
@@ -37,6 +47,10 @@ const Order = () => {
 
 	// react hooks
 	const [isCheck, setIsCheck] = useState([]);
+	const handleFilter = (values) => {
+		setPage(1);
+		setFilters(values);
+	};
 
 	return (
 		<>
@@ -46,12 +60,14 @@ const Order = () => {
 				inputPlaceholder={t("Search Order")}
 				onClick={toggleDrawer}
 				showAddButtom={false}
+				onSubmitFilter={handleFilter}
 			/>
 
 			<TableWrapperWithPagination
 				loading={loading}
 				error={error}
-				data={ordersData}>
+				data={ordersData}
+				onPageChange={setPage}>
 				<Table>
 					<TableHeader>
 						<tr>

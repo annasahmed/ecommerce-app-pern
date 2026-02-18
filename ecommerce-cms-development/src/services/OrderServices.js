@@ -1,12 +1,14 @@
 import requests from "./httpService";
 
 const OrderServices = {
-	getAllOrder: async () => {
+	getAllOrder: async (query) => {
+		return requests.get(`/order${query ? `?${query}` : ""}`);
 		return requests.get("/order");
 	},
 
-	getAllOrders: async () => {
-		return requests.get("/order");
+	getAllOrders: async (query) => {
+		return requests.get(`/order${query ? `?${query}` : ""}`);
+		return requests.get("/order?limit=10");
 	},
 
 	getOrderById: async (id) => {
