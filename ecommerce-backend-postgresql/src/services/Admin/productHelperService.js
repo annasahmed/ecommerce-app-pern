@@ -502,3 +502,89 @@ async function fixSlugsProductTranslationAndReport(req, res) {
 		});
 	}
 }
+async function fixSimilarProducts() {
+	console.log('Fixing similar_product groups...');
+
+	// Step 1: Get all relations
+	const relations = await db.sequelize.query(
+		`SELECT product_id, similar_product_id FROM similar_product`,
+		{ type: QueryTypes.SELECT }
+	);
+
+	// Step 2: Build graph in memory
+	const graph = {};
+
+	for (const row of relations) {
+		const { product_id, similar_product_id } = row;
+
+		if (!graph[product_id]) graph[product_id] = new Set();
+		if (!graph[similar_product_id]) graph[similar_product_id] = new Set();
+
+		graph[product_id].add(similar_product_id);
+		graph[similar_product_id].add(product_id); // make undirected
+	}
+
+	// Step 3: Find connected components
+	const visited = new Set();
+	const groups = [];
+
+	for (const node in graph) {
+		if (visited.has(node)) continue;
+
+		const stack = [node];
+		const group = [];
+
+		while (stack.length) {
+			const current = stack.pop();
+
+			if (visited.has(current)) continue;
+			visited.add(current);
+
+			group.push(Number(current));
+
+			for (const neighbor of graph[current]) {
+				if (!visited.has(neighbor.toString())) {
+					stack.push(neighbor);
+				}
+			}
+		}
+
+		groups.push(group);
+	}
+
+	console.log('Groups found:', groups);
+
+	// Step 4: Generate full combinations
+	const inserts = [];
+
+	for (const group of groups) {
+		for (let i = 0; i < group.length; i++) {
+			for (let j = i + 1; j < group.length; j++) {
+				inserts.push({
+					product_id: group[i],
+					similar_product_id: group[j],
+				});
+				inserts.push({
+					product_id: group[j],
+					similar_product_id: group[i],
+				});
+			}
+		}
+	}
+
+	// Step 5: Insert missing pairs safely
+	for (const pair of inserts) {
+		await db.sequelize.query(
+			`
+      INSERT INTO similar_product (product_id, similar_product_id)
+      VALUES (:product_id, :similar_product_id)
+      ON CONFLICT (product_id, similar_product_id) DO NOTHING
+      `,
+			{
+				replacements: pair,
+			}
+		);
+	}
+
+	console.log('similar_product table fixed successfully ✅');
+}
