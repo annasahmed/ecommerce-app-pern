@@ -50,7 +50,7 @@ const ProductTable = ({
 							{product?.thumbnailImage?.url ? (
 								<Avatar
 									size="large"
-									className="hidden md:block bg-customGray-50 p-1"
+									className="hidden md:block bg-customGray-50 p-1 object-contain min-w-16"
 									src={
 										import.meta.env.VITE_APP_CLOUDINARY_URL +
 										product?.thumbnailImage?.url
@@ -62,10 +62,10 @@ const ProductTable = ({
 									size="large"
 									src="https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
 									alt="product"
-									className="hidden p-1 md:block bg-customGray-50 shadow-none"
+									className="hidden p-1 md:block bg-customGray-50 shadow-none object-contain min-w-16"
 								/>
 							)}
-							<p>
+							<p className="flex-[5]">
 								{product?.product_translations[0]?.title}
 								<br />
 								<span className="text-xs italic">

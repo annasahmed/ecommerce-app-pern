@@ -29,10 +29,13 @@ const InputSelectField = ({
 					name={inputName}
 					{...register(`${inputName}`, {
 						required: required ? `${inputLabel} is required!` : false,
+						setValueAs: (value) => {
+							console.log(value, value === "", "chkking vlaue111");
+
+							return value === "" ? null : value;
+						},
 					})}>
-					<option value="" hidden>
-						{inputPlaceholder}
-					</option>
+					<option value="">{inputPlaceholder || "None"}</option>
 					{options}
 				</Select>
 				<Error errorName={errorName} />
