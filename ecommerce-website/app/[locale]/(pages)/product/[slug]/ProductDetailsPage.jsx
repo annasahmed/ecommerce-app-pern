@@ -317,7 +317,7 @@ export default function ProductDetailsPage() {
 							<div className="flex flex-wrap items-center gap-3 mb-6/ p4 text-sm md:text-base">
 								<span className="font-medium mb-3">Choose Style:</span>
 							</div>
-							<div className="flex gap-4 overflow-x-auto pb-2">
+							<div className="flex gap-4 overflow-x-auto thin-scrollbar pb-2">
 								{product.similarProducts?.map((prd, idx) => {
 									return (
 										<Link
