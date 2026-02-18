@@ -646,6 +646,18 @@ const resolveBrandId = async (
 	return brand.id;
 };
 
+const getProductByIdForImport = async (id) => {
+	return await db.product.findByPk(id, {
+		include: [
+			{
+				model: db.product_translation,
+				// as: 'translations',
+				attributes: ['title', 'slug'],
+			},
+		],
+	});
+};
+
 async function importProductsFromSheet(req) {
 	const { products } = req.body;
 
@@ -731,28 +743,32 @@ async function importProductsFromSheet(req) {
 					product.translations?.[0]?.slug?.toLowerCase()
 				);
 
-			const similarProductIds = (product.similarProductsSku || [])
-				.map((sku) => skuMap.get(sku)?.id) // get product ID
-				.filter(Boolean); // remove undefined (SKUs not found)
+			const similarProductIds = (product.similarProductsSku || []).map(
+				(sku) => skuMap.get(sku)?.id
+			); // get product ID
+			// .filter(Boolean); // remove undefined (SKUs not found)
 
 			product.similarProducts = similarProductIds; // assign to payload
 
 			if (existingProduct) {
-				await updateProduct(
+				const updatedProduct = await updateProduct(
 					{
 						params: { productId: existingProduct.id },
 						body: product,
 					},
 					transaction
 				);
-				skuMap.set(product.sku, product);
+				const freshProduct = await getProductByIdForImport(
+					updatedProduct.id
+				);
+				skuMap.set(product.sku, freshProduct);
 				titleSlugMap.set(
 					product.translations?.[0]?.title?.toLowerCase(),
-					product
+					freshProduct
 				);
 				titleSlugMap.set(
 					product.translations?.[0]?.slug?.toLowerCase(),
-					product
+					freshProduct
 				);
 				updatedProducts.push(existingProduct.id);
 			} else {
@@ -760,14 +776,15 @@ async function importProductsFromSheet(req) {
 					{ body: product },
 					transaction
 				);
-				skuMap.set(product.sku, product);
+				const freshProduct = await getProductByIdForImport(created.id);
+				skuMap.set(product.sku, freshProduct);
 				titleSlugMap.set(
 					product.translations?.[0]?.title?.toLowerCase(),
-					product
+					freshProduct
 				);
 				titleSlugMap.set(
 					product.translations?.[0]?.slug?.toLowerCase(),
-					product
+					freshProduct
 				);
 
 				createdProducts.push(created.id);
@@ -995,8 +1012,6 @@ async function exportProducts(req, res) {
 					?.map((c) => c.translations?.[0]?.title || '')
 					.filter(Boolean) || [];
 
-			// console.log(p.similar_products?.map((p) => p.sku).join(', ') || '');
-
 			// Attributes from first variant
 			const colorId =
 				filterAttributes.find((v) => v.name?.en === 'color')?.id || 7;
@@ -1175,18 +1190,6 @@ async function exportProducts(req, res) {
 
 async function getProductById(productId) {
 	const product = await productService.getById(productId);
-	product.similar_products = await db.similar_product.findAll({
-		where: {
-			[Op.or]: [
-				{
-					product_id: product.id,
-				},
-				{
-					similar_product_id: product.id,
-				},
-			],
-		},
-	});
 	return product;
 }
 
