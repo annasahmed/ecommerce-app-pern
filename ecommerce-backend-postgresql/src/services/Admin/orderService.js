@@ -52,12 +52,13 @@ async function getAllOrders(req) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const {
 		page = defaultPage,
-		limit = 1000,
+		limit = defaultLimit,
 		status,
 		trackingId,
 		paymentMethod,
 		startDate,
 		endDate,
+		search,
 	} = req.query;
 	const offset = getOffset(page, limit);
 
@@ -84,6 +85,33 @@ async function getAllOrders(req) {
 		whereCondition.created_at = {
 			[Op.lte]: new Date(endDate),
 		};
+	}
+	/**
+	 * 🔎 SEARCH LOGIC
+	 */
+	if (search) {
+		whereCondition[Op.or] = [
+			// search by tracking id
+			{
+				tracking_id: {
+					[Op.iLike]: `%${search}%`,
+				},
+			},
+
+			// search guest name
+			{
+				guest_first_name: {
+					[Op.iLike]: `%${search}%`,
+				},
+			},
+
+			// search logged in user name
+			{
+				'$user.name$': {
+					[Op.iLike]: `%${search}%`,
+				},
+			},
+		];
 	}
 
 	const orders = await db.order.findAndCountAll({
