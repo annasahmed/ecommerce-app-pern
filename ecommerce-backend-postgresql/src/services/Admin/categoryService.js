@@ -34,8 +34,8 @@ const categoryService = createBaseService(db.category, {
 		const toUpdate = {};
 		if (data.icon) toUpdate.icon = data.icon;
 		if (data.status !== undefined) toUpdate.status = data.status;
-		if (data.parentId) toUpdate.parent_id = data.parentId;
-		if (data.parent_id) toUpdate.parent_id = data.parent_id;
+		if (data.parentId !== undefined) toUpdate.parent_id = data.parentId;
+		if (data.parent_id !== undefined) toUpdate.parent_id = data.parent_id;
 		if (data.level) toUpdate.level = data.level;
 		return toUpdate;
 	},
@@ -226,7 +226,6 @@ async function importCategoriesTitles(req) {
 	const updated = [];
 	const userId = commonUtils.getUserId(req);
 	const { title, slug } = req.body;
-	console.log('importing categorie', title);
 	if (!title || !slug) {
 		return null;
 		// throw new ApiError(httpStatus.BAD_REQUEST, `Title is required`);
@@ -256,8 +255,6 @@ async function importCategoriesTitles(req) {
 				{ transaction }
 			);
 			updated.push(title);
-			console.log(updated, 'updatedCat');
-
 			transaction.commit();
 			return createdCategory;
 		} catch (error) {
@@ -335,7 +332,6 @@ async function findSimilarCategories(threshold = 0.35) {
 			);
 
 			if (similarity >= threshold) {
-				console.log(categories[i], 'chking similar111');
 				const key = `${categories[i].id}-${categories[j].id}`;
 				if (!usedPairs.has(key)) {
 					results.push({
