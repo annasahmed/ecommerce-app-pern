@@ -87,7 +87,7 @@ export default function Loader({ cols = 4 }) {
 				</div>
 
 				{/* footer */}
-				<footer className="mt-12 border-t border-gray-200 /dark:border-gray-800 pt-8">
+				{/* <footer className="mt-12 border-t border-gray-200 /dark:border-gray-800 pt-8">
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 						<div>
 							<div className="w-32 h-4 rounded bg-gray-200 /dark:bg-gray-700 animate-pulse mb-3" />
@@ -125,7 +125,7 @@ export default function Loader({ cols = 4 }) {
 						<div className="w-40 h-4 rounded bg-gray-200 /dark:bg-gray-700 animate-pulse" />
 						<div className="w-24 h-4 rounded bg-gray-200 /dark:bg-gray-700 animate-pulse" />
 					</div>
-				</footer>
+				</footer> */}
 			</div>
 		</div>
 	);

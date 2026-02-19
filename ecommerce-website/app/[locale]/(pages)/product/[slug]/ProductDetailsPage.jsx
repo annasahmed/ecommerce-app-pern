@@ -107,6 +107,15 @@ export default function ProductDetailsPage() {
 	const randomRating = useMemo(() => {
 		return Math.floor(Math.random() * 9 + 2) / 2;
 	}, [product]);
+	const discountedPrice = useMemo(() => {
+		if (!product) return null;
+		const price =
+			selectedVariant?.price ?? (product.base_price || product.price);
+		const discount =
+			selectedVariant?.discount_percentage ??
+			(product.discount || product.base_discount_percentage);
+		return (price * (1 - discount / 100)).toFixed(2);
+	}, [product, selectedVariant]);
 
 	if (isLoading || latestProductsLoading) return <Loader />;
 	if (!product)
@@ -123,10 +132,7 @@ export default function ProductDetailsPage() {
 		setSelectedAttributes((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const discountedPrice = (
-		(product.base_price || product.price) *
-		(1 - (product.discount || product.base_discount_percentage) / 100)
-	).toFixed(2);
+	// {selectedVariant?.sku || product.sku}
 
 	const handleAddToCart = () => {
 		const selectedVariant = findSelectedVariant();
@@ -178,6 +184,7 @@ export default function ProductDetailsPage() {
 				<ProductImageSlider
 					images={[product.thumbnail, ...product.images]}
 					discount={product.discount}
+					selectedVariant={selectedVariant}
 				/>
 
 				{/* Right Section - Product Info */}
@@ -213,19 +220,29 @@ export default function ProductDetailsPage() {
 
 					{/* Price */}
 					<div className="flex items-center gap-3 mb-5 flex-wrap">
-						{(product.discount || product.base_discount_percentage) > 0 && (
+						{(selectedVariant?.discount_percentage ||
+							product.discount ||
+							product.base_discount_percentage) > 0 && (
 							<BasePrice
 								className="text-muted h5 line-through text-sm md:text-base"
-								price={product.base_price || product.price}
+								price={
+									selectedVariant?.price || product.base_price || product.price
+								}
 							/>
 						)}
 						<BasePrice
 							className="h3 font-bold text-secondary text-xl md:text-2xl"
 							price={discountedPrice}
 						/>
-						{(product.discount || product.base_discount_percentage) > 0 && (
+						{(selectedVariant?.discount_percentage ||
+							product.discount ||
+							product.base_discount_percentage) > 0 && (
 							<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
-								SAVE {product.discount || product.base_discount_percentage}%
+								SAVE{" "}
+								{selectedVariant?.discount_percentage ||
+									product.discount ||
+									product.base_discount_percentage}
+								%
 							</p>
 						)}
 					</div>

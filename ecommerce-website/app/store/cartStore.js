@@ -12,7 +12,6 @@ export const useCartStore = create(
 			// --- CART ---
 			addToCart: (product, quantity = 1) => {
 				const cart = get().cart;
-				console.log(product, "chkking product");
 
 				const existing = cart.find((item) => {
 					if (item.selectedVariant) {
@@ -61,7 +60,7 @@ export const useCartStore = create(
 					content_name: product.title,
 					sku: product.sku,
 					quantity: quantity,
-					value: product.base_price || product.price,
+					value: product.selectedVariant?.price || product.base_price,
 					currency: "PKR",
 				});
 			},

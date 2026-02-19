@@ -89,8 +89,8 @@ export default function CheckoutPage() {
 	// ------------------ CALCULATIONS ------------------
 	const subtotal = cart.reduce((acc, item) => {
 		const price =
-			(item.base_price || item.price) *
-			(1 - (item.base_discount_percentage || 0) / 100);
+			(item.selectedVariant?.price || 0) *
+			(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 
 		return acc + price * item.quantity;
 	}, 0);
@@ -112,14 +112,14 @@ export default function CheckoutPage() {
 				title: item.title,
 				sku: item.sku,
 				quantity: item.quantity,
-				price: item.base_price || item.price,
+				price: item.selectedVariant?.price || 0,
 			})),
 			items: cart.map((item) => ({
 				item_id: item.id,
 				item_name: item.title,
 				sku: item.sku,
 				quantity: item.quantity,
-				price: item.base_price || item.price,
+				price: item.selectedVariant?.price || 0,
 			})),
 		});
 	}, []);
@@ -157,8 +157,8 @@ export default function CheckoutPage() {
 			billingAddress: formData.billingSameAsShipping ? null : billingAddress,
 			items: cart.map((item) => {
 				const unitPrice =
-					(item.base_price || item.price) *
-					(1 - (item.base_discount_percentage || 0) / 100);
+					(item.selectedVariant?.price || 0) *
+					(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 
 				return {
 					...item,
@@ -227,13 +227,13 @@ export default function CheckoutPage() {
 				title: i.title,
 				sku: i.sku,
 				quantity: i.quantity,
-				price: i.price || i.base_price,
+				price: i.selectedVariant?.price || 0,
 			})),
 			items: orderPayload.items.map((i) => ({
 				item_id: i.id,
 				item_name: i.title,
 				quantity: i.quantity,
-				price: i.price || i.base_price,
+				price: i.selectedVariant?.price || 0,
 			})),
 		});
 
@@ -586,9 +586,12 @@ export default function CheckoutPage() {
 										<div className="relative">
 											<BaseImage
 												src={
-													item.thumbnail
-														? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
-														: null
+													item?.selectedVariant?.image
+														? ENV_VARIABLES.IMAGE_BASE_URL +
+															item.selectedVariant.image
+														: item.thumbnail
+															? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+															: ENV_VARIABLES.IMAGE_BASE_URL + item.images?.[0]
 												}
 												width={64}
 												height={64}
@@ -608,8 +611,10 @@ export default function CheckoutPage() {
 										</div>
 										<BasePrice
 											price={(
-												(item.base_price || item.price) *
-												(1 - (item.base_discount_percentage || 0) / 100) *
+												(item.selectedVariant?.price || 0) *
+												(1 -
+													(item.selectedVariant?.discount_percentage || 0) /
+														100) *
 												item.quantity
 											).toFixed(2)}
 										/>

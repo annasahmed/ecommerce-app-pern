@@ -36,13 +36,13 @@ export default function CartPage() {
 	const getSubtotal = () =>
 		cart.reduce((acc, item) => {
 			const discountedPrice =
-				(item.base_price || item.price) *
-				(1 - (item.base_discount_percentage || 0) / 100);
+				(item.selectedVariant?.price || 0) *
+				(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 			const price = discountedPrice ?? 0;
 			return acc + price * item.quantity;
 		}, 0);
 
-	const shipping = 10; // fixed for now — you can replace later
+	const shipping = 0; // fixed for now — you can replace later
 	const subtotal = getSubtotal();
 	const total = subtotal + shipping;
 
@@ -66,8 +66,8 @@ export default function CartPage() {
 					<div className="lg:col-span-2 space-y-6">
 						{cart.map((item) => {
 							const discountedPrice =
-								(item.base_price || item.price) *
-								(1 - (item.base_discount_percentage || 0) / 100);
+								(item.selectedVariant?.price || 0) *
+								(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 							const price = discountedPrice ?? 0;
 							const subtotal = price * item.quantity;
 							return (
@@ -76,15 +76,12 @@ export default function CartPage() {
 									className="flex flex-col sm:flex-row items-center gap-6 max-md:gap-4 border p-4 rounded-lg">
 									<BaseImage
 										src={
-											item.thumbnail
-												? item.thumbnail.startsWith("/")
+											item?.selectedVariant?.image
+												? ENV_VARIABLES.IMAGE_BASE_URL +
+													item.selectedVariant.image
+												: item.thumbnail
 													? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
-													: ENV_VARIABLES.IMAGE_BASE_URL + "/" + item.thumbnail
-												: item.images?.length > 0
-													? typeof item.images[0] === "string"
-														? ENV_VARIABLES.IMAGE_BASE_URL + item.images[0]
-														: item.images[0]
-													: item.image || null
+													: ENV_VARIABLES.IMAGE_BASE_URL + item.images?.[0]
 										}
 										alt={item.title}
 										width={120}
@@ -109,10 +106,10 @@ export default function CartPage() {
 											SKU: {item.sku || "-"}
 										</p>
 										<h6 className="flex font-normal gap-1 h7">
-											{item.base_discount_percentage > 0 && (
+											{item.selectedVariant?.discount_percentage > 0 && (
 												<BasePrice
 													className="text-headingLight line-through"
-													price={item.base_price}
+													price={item.selectedVariant?.price || 0}
 												/>
 											)}
 											<BasePrice
@@ -162,10 +159,10 @@ export default function CartPage() {
 							<span>Subtotal</span>
 							<BasePrice price={subtotal} />
 						</div>
-						<div className="flex justify-between mb-2">
+						{/* <div className="flex justify-between mb-2">
 							<span>Shipping</span>
 							<BasePrice price={shipping} />
-						</div>
+						</div> */}
 
 						<hr className="my-3" />
 

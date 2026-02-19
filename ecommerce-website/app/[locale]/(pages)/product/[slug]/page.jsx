@@ -1,11 +1,10 @@
 import Layout from "@/app/components/Shared/layout/Layout";
 import { instanceWithoutCredentials } from "@/app/services/httpServices";
 import ProductDetailsPage from "./ProductDetailsPage";
+import { ENV_VARIABLES } from "@/app/constants/env_variables";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
-	console.log("Product data slug:", slug);
-
 	try {
 		// Get the full response object first
 		const response = await instanceWithoutCredentials.get(`/product/${slug}`);
@@ -13,11 +12,9 @@ export async function generateMetadata({ params }) {
 		// Then extract data from response
 		const data = response.data;
 
-		console.log("Product data for metadata:", data);
-
 		const title = data.title || "Default Title";
 		const image = data.thumbnail
-			? [`https://api.babiesnbaba.com${data.thumbnail}`]
+			? [`${ENV_VARIABLES.IMAGE_BASE_URL}${data.thumbnail}`]
 			: [];
 		const description = data.excerpt || "Default description";
 
@@ -37,7 +34,7 @@ export async function generateMetadata({ params }) {
 		};
 	} catch (error) {
 		console.error("Error fetching product metadata:", error);
-
+		return null;
 		return {
 			title: "Product Not Found",
 			description: "Product details",

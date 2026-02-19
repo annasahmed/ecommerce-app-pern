@@ -19,8 +19,8 @@ export default function CartDrawer({ open, setOpen }) {
 
 	const subtotal = cart.reduce((acc, item) => {
 		const discountedPrice =
-			(item.base_price || item.price) *
-			(1 - (item.base_discount_percentage || 0) / 100);
+			(item.selectedVariant?.price || 0) *
+			(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 
 		return acc + discountedPrice * item.quantity;
 	}, 0);
@@ -45,8 +45,8 @@ export default function CartDrawer({ open, setOpen }) {
 					) : (
 						cart.map((item) => {
 							const discountedPrice =
-								(item.base_price || item.price) *
-								(1 - (item.base_discount_percentage || 0) / 100);
+								(item.selectedVariant?.price || 0) *
+								(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 
 							return (
 								<div
@@ -54,9 +54,12 @@ export default function CartDrawer({ open, setOpen }) {
 									className="flex items-center gap-4 border-b pb-4">
 									<BaseImage
 										src={
-											item.thumbnail
-												? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
-												: item.images?.[0]
+											item?.selectedVariant?.image
+												? ENV_VARIABLES.IMAGE_BASE_URL +
+													item.selectedVariant.image
+												: item.thumbnail
+													? ENV_VARIABLES.IMAGE_BASE_URL + item.thumbnail
+													: ENV_VARIABLES.IMAGE_BASE_URL + item.images?.[0]
 										}
 										alt={item.title}
 										width={64}
@@ -77,9 +80,9 @@ export default function CartDrawer({ open, setOpen }) {
 												price={discountedPrice}
 												className="text-secondary"
 											/>
-											{item.base_discount_percentage > 0 && (
+											{item.selectedVariant?.discount_percentage > 0 && (
 												<BasePrice
-													price={item.base_price}
+													price={item.selectedVariant?.price || 0}
 													className="text-muted line-through p5"
 												/>
 											)}

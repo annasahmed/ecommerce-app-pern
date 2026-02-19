@@ -12,7 +12,7 @@ const instance = axios.create({
 	withCredentials: true, // 🔥 required for HttpOnly refresh cookie
 });
 const instanceWithoutCredentials = axios.create({
-	baseURL: "https://api.babiesnbaba.com/v1/website",
+	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 	timeout: 50000,
 	headers: {
 		Accept: "application/json",

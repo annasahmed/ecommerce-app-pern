@@ -15,7 +15,7 @@ import BaseImage from "../BaseComponents/BaseImage";
 import SideZoomImage from "./ImageZoom";
 import SliderArrows from "../BaseComponents/SliderArrows";
 
-export default function ProductImageSlider({ images }) {
+export default function ProductImageSlider({ images, selectedVariant }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 	const prevRef = useRef(null);
 	const nextRef = useRef(null);
@@ -23,6 +23,20 @@ export default function ProductImageSlider({ images }) {
 	const uniqueImages = useMemo(() => {
 		return [...new Set(images || [])];
 	}, [images]);
+
+	const variantImage = selectedVariant?.image;
+	useEffect(() => {
+		if (!swiperRef.current) return;
+		if (!variantImage) {
+			swiperRef.current.slideToLoop(0);
+		}
+		const index = uniqueImages.findIndex((img) => img === variantImage);
+
+		if (index !== -1) {
+			// because loop is enabled
+			swiperRef.current.slideToLoop(index);
+		}
+	}, [variantImage, uniqueImages]);
 
 	useEffect(() => {
 		if (swiperRef.current && prevRef.current && nextRef.current) {

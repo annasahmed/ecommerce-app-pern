@@ -14,7 +14,10 @@ import { Navigation } from "swiper/modules";
 import BaseImage from "../BaseComponents/BaseImage";
 import SliderArrows from "../BaseComponents/SliderArrows";
 
-export default function ProductImageSliderWithoutThumbnails({ images }) {
+export default function ProductImageSliderWithoutThumbnails({
+	images,
+	selectedVariant,
+}) {
 	const prevRef = useRef(null);
 	const nextRef = useRef(null);
 	const swiperRef = useRef(null);
@@ -22,6 +25,21 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 	const uniqueImages = useMemo(() => {
 		return [...new Set(images || [])];
 	}, [images]);
+
+	const variantImage = selectedVariant?.image;
+
+	useEffect(() => {
+		if (!swiperRef.current) return;
+		if (!variantImage) {
+			swiperRef.current.slideToLoop(0);
+		}
+		const index = uniqueImages.findIndex((img) => img === variantImage);
+
+		if (index !== -1) {
+			// because loop is enabled
+			swiperRef.current.slideToLoop(index);
+		}
+	}, [variantImage, uniqueImages]);
 
 	useEffect(() => {
 		if (swiperRef.current && prevRef.current && nextRef.current) {
@@ -35,7 +53,7 @@ export default function ProductImageSliderWithoutThumbnails({ images }) {
 		}
 	}, []);
 	return (
-		<section className="relative md:flex md:w-1/2 md:shrink-0 md:!h-fit md:rounded-l-2xl max-md:rounded-t-2xl overflow-hidden">
+		<section className="relative md:flex md:w-1/2 md:shrink-0 md:!h-fit md:rounded-l-2xl max-md:rounded-t-2xl overflow-hidden min-h-[300px] items-center">
 			<Swiper
 				spaceBetween={0}
 				onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ save swiper instance

@@ -11,7 +11,7 @@ import {
 	TransitionChild,
 } from "@headlessui/react";
 import { Heart, ShoppingCartIcon, X } from "lucide-react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import BasePrice from "../BaseComponents/BasePrice";
 import PrimaryButton from "./PrimaryButton";
@@ -36,14 +36,22 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 		["productDetails", store.themeName, slug],
 		{ enabled: isOpen },
 	);
-
+	const discountedPrice = useMemo(() => {
+		if (!product) return null;
+		const price =
+			selectedVariant?.price ?? (product.base_price || product.price);
+		const discount =
+			selectedVariant?.discount_percentage ??
+			(product.discount || product.base_discount_percentage);
+		return (price * (1 - discount / 100)).toFixed(2);
+	}, [product, selectedVariant]);
 	// Build attribute options when product loads
 	useEffect(() => {
 		if (!product) return;
-		const discountedPrice = (
-			(product.base_price || product.price) *
-			(1 - (product.discount || product.base_discount_percentage) / 100)
-		).toFixed(2);
+		// const discountedPrice = (
+		// 	(product.base_price || product.price) *
+		// 	(1 - (product.discount || product.base_discount_percentage) / 100)
+		// ).toFixed(2);
 
 		trackEvent("ViewContent", {
 			content_ids: [product.id],
@@ -96,10 +104,6 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 
 	if (!isOpen || !product) return null;
 
-	const discountedPrice = (
-		(product.base_price || product.price) *
-		(1 - (product.discount || product.base_discount_percentage) / 100)
-	).toFixed(2);
 	const isOutOfStock =
 		product.variants?.filter((v) => v.stock === 0).length ===
 		product.variants?.length;
@@ -201,6 +205,7 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 											<ProductImageSliderWithoutThumbnails
 												images={[product.thumbnail, ...product.images]}
 												discount={product.discount}
+												selectedVariant={selectedVariant}
 											/>
 
 											{/* Right Section - Product Info */}
@@ -226,22 +231,29 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 
 												{/* Price */}
 												<div className="flex items-center gap-3 mb-3 flex-wrap">
-													{(product.discount ||
+													{(selectedVariant?.discount_percentage ||
+														product.discount ||
 														product.base_discount_percentage) > 0 && (
 														<BasePrice
 															className="text-muted h5 line-through text-sm md:text-base"
-															price={product.base_price || product.price}
+															price={
+																selectedVariant?.price ||
+																product.base_price ||
+																product.price
+															}
 														/>
 													)}
 													<BasePrice
 														className="h3 font-bold text-secondary text-xl md:text-2xl"
 														price={discountedPrice}
 													/>
-													{(product.discount ||
+													{(selectedVariant?.discount_percentage ||
+														product.discount ||
 														product.base_discount_percentage) > 0 && (
 														<p className="p5 konnect-font text-light bg-primary px-2 pt-1 pb-0.5 rounded-sm flex justify-center items-center">
 															SAVE{" "}
-															{product.discount ||
+															{selectedVariant?.discount_percentage ||
+																product.discount ||
 																product.base_discount_percentage}
 															%
 														</p>
@@ -336,6 +348,10 @@ export default function QuickViewModal({ isOpen, onClose, slug }) {
 
 												{/* SKU and Categories */}
 												<div className="mb-4 p4 text-[#999999] space-y-1 text-sm md:text-base">
+													<p>
+														<span className="font-medium">SKU:</span>{" "}
+														{selectedVariant?.sku || product.sku}
+													</p>
 													{/* Attributes */}
 													{Object.entries(attributeOptions).map(
 														([name, values]) => (
