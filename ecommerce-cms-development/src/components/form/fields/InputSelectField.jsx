@@ -30,8 +30,6 @@ const InputSelectField = ({
 					{...register(`${inputName}`, {
 						required: required ? `${inputLabel} is required!` : false,
 						setValueAs: (value) => {
-							console.log(value, value === "", "chkking vlaue111");
-
 							return value === "" ? null : value;
 						},
 					})}>

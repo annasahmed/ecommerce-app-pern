@@ -137,7 +137,7 @@ export default function VariantTable({
 							/>
 						</TableCell>
 
-						{/* <TableCell>
+						<TableCell>
 							<ImageSelectorField
 								label={"image"}
 								selectedImage={variant.imageId}
@@ -153,7 +153,7 @@ export default function VariantTable({
 								isSmall
 								className="border p-1 w-40 rounded"
 							/>
-						</TableCell> */}
+						</TableCell>
 
 						<TableCell>
 							<button
