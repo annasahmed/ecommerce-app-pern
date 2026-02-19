@@ -531,7 +531,7 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 		model: db.product_variant,
 		required: false,
 		include: [
-			// { model: db.media, required: false },
+			{ model: db.media, required: false },
 			{
 				model: db.attribute,
 				required: false,

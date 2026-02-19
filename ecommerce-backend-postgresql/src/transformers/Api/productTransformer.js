@@ -43,14 +43,17 @@ function transformVariant(variant, lang, multipleProducts = false) {
 		// cost_price: b.pvb?.cost_price,
 		// sale_price: b.pvb?.sale_price,
 		stock: b.pvb?.stock,
+		sale_price: b.pvb?.sale_price,
 		// low_stock: b.pvb?.low_stock,
-		// discount_percentage: b.pvb?.discount_percentage,
+		discount_percentage: b.pvb?.discount_percentage,
 	}));
 	return {
 		id: variant.id,
 		sku: variant.sku,
 		image: variant.medium ? variant.medium.url : null,
 		stock: branches[0]?.stock,
+		price: branches[0]?.sale_price,
+		discount_percentage: branches[0]?.discount_percentage,
 		// stock: branches[0]?.stock || 200,
 
 		attributes: multipleProducts
