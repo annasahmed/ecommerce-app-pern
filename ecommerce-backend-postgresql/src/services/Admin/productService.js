@@ -1252,6 +1252,33 @@ async function getProducts(req) {
 	};
 }
 
+async function importVariantPricesFromSheet(req) {
+	const { products } = req.body;
+	// Similar logic to importProductsFromSheet but only for variants and prices
+	// You can implement this based on your specific requirements
+	const updatedVariants = [];
+	// console.log(products, 'chkking products');
+	// return;
+
+	for (const product of products) {
+		const existingProductVariant = await db.product_variant.findOne({
+			where: { sku: product.sku },
+		});
+		if (existingProductVariant) {
+			await db.product_variant_to_branch.update(
+				{
+					sale_price: product.price,
+					cost_price: product.price,
+				},
+				{
+					where: { product_variant_id: existingProductVariant.id },
+				}
+			);
+			updatedVariants.push(existingProductVariant.id);
+		}
+	}
+}
+
 module.exports = {
 	getProductById,
 	createProduct,
@@ -1270,6 +1297,7 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
+	importVariantPricesFromSheet,
 };
 
 const excelFeilds = {
