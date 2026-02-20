@@ -265,8 +265,6 @@ const UploadProductsExcel = () => {
 						safeStr(row[excelFeilds.stock_threshold]),
 					);
 
-					console.log({ stock, stockThreshold }, "chkking stocksss");
-
 					// If missing, fallback
 					if (!colors.length) colors.push(null);
 					if (!sizes.length) sizes.push({ size: null, sku: null });

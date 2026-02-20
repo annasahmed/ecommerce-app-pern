@@ -31,6 +31,9 @@ const ProductServices = {
 	importProducts: async (body) => {
 		return requests.post(`/product/import-products`, body);
 	},
+	importProductPrices: async (body) => {
+		return requests.post(`/product/import-variant-prices`, body);
+	},
 
 	exportProducts: async () => {
 		return instance.get(`/product/export-products`, {

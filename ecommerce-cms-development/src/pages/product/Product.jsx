@@ -19,6 +19,7 @@ import useToggleDrawer from "@/hooks/useToggleDrawer";
 import ProductServices from "@/services/ProductServices";
 import { Download } from "lucide-react";
 import { toast } from "react-toastify";
+import UploadProductsPriceExcel from "@/components/product/UploadProductsPricesExcel";
 
 const Product = () => {
 	const { toggleDrawer, lang } = useContext(SidebarContext);
@@ -138,6 +139,7 @@ const Product = () => {
 					</span>
 				</Button>
 				{/* <ExcelProcessor /> */}
+				{/* <UploadProductsPriceExcel /> */}
 				<UploadProductsExcel />
 				<BulkUpload />
 			</div>
