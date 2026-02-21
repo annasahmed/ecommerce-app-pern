@@ -5,6 +5,8 @@ const { imageService, cloudinaryService } = require('../index.js');
 const ApiError = require('../../utils/ApiError.js');
 const httpStatus = require('http-status');
 const { Op } = require('sequelize');
+const { getOffset } = require('../../utils/query.js');
+const config = require('../../config/config.js');
 
 const mediaService = createBaseService(db.media, {
 	name: 'Media',
@@ -256,13 +258,47 @@ async function deleteAllProductsMedia(req) {
 	return count;
 }
 
+const getMedias = async (req) => {
+	const { page: defaultPage, limit: defaultLimit } = config.pagination;
+	const { page = defaultPage, limit = defaultLimit, id } = req.query;
+
+	const offset = getOffset(page, limit);
+	const finalSort = [['id', 'DESC']];
+
+	// Normalize ids (can be single or multiple)
+	let whereCondition = {};
+
+	if (id) {
+		const idsArray = Array.isArray(id) ? id : [id];
+
+		whereCondition.id = {
+			[Op.in]: idsArray,
+		};
+	}
+
+	const data = await db.media.findAndCountAll({
+		where: { ...whereCondition, deleted_at: null },
+		offset,
+		limit,
+		order: finalSort,
+		distinct: true,
+		col: 'id',
+	});
+
+	return {
+		total: data.count,
+		records: data.rows,
+		limit,
+		page,
+	};
+};
 module.exports = {
 	deleteAllProductsMedia,
 };
 
 module.exports = {
 	createMedia,
-	getMedias: (req) => mediaService.list(req, [], [], [['id', 'DESC']]),
+	getMedias,
 	permanentDeleteMediaById,
 	softDeleteMediaById,
 	softBulkDeleteMediaById,

@@ -11,7 +11,7 @@ router
 	.route('/')
 	.get(
 		checkPermission('view_media'),
-		validate(adminMediaValidation.getMedias),
+		// validate(adminMediaValidation.getMedias),
 		adminMediaController.getMedias
 	)
 	.post(
