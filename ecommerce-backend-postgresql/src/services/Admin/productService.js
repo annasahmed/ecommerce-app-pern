@@ -429,7 +429,7 @@ async function updateProduct(req, existingTransaction) {
 	} catch (error) {
 		// await transaction.rollback();
 		if (transactionCreatedHere) await transaction.rollback();
-		// throw err;
+		throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error);
 	}
 }
 
@@ -758,6 +758,12 @@ async function importProductsFromSheet(req) {
 					},
 					transaction
 				);
+				console.log(
+					existingProduct,
+					updatedProduct,
+					'chkking updated product111'
+				);
+
 				const freshProduct = await getProductByIdForImport(
 					updatedProduct.id
 				);
@@ -1061,6 +1067,13 @@ async function exportProducts(req, res) {
 					return `${sku}(${stock})`;
 				})
 				.join(', ');
+			const pricesData = p.product_variants
+				.map((variant) => {
+					const sku = variant.sku;
+					const stock = variant.branches?.[0]?.pvb?.sale_price ?? 0;
+					return `${sku}(${stock})`;
+				})
+				.join(', ');
 
 			// Additional info (from USP)
 			// const additionalInfo =
@@ -1087,7 +1100,7 @@ async function exportProducts(req, res) {
 				[excelFeilds.color]: color,
 				[excelFeilds.gender]: gender,
 				[excelFeilds.additionalInfo]: additionalInfo,
-				[excelFeilds.price]: p.base_price || 0,
+				[excelFeilds.price]: pricesData,
 				[excelFeilds.discount]: p.base_discount_percentage || 0,
 				[excelFeilds.similar_products]:
 					p.similar_products?.map((p) => p.sku).join(', ') || '',
