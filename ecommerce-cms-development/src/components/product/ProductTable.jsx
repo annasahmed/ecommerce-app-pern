@@ -39,6 +39,7 @@ const ProductTable = ({
 					<TableRow
 						key={product.id}
 						className={
+							product?.categories?.find((v) => !v.is_leaf) ||
 							product?.categories?.find((v) => v.level === 1)
 								? "bg-red-200"
 								: ""

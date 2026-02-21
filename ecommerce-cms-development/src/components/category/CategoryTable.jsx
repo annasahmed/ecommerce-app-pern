@@ -93,6 +93,7 @@ const CategoryTable = ({
 							<TableCell className="text-sm">{category?.level}</TableCell>
 							<TableCell className="text-sm">
 								{category?.is_leaf.toString()}
+								{/* {category?.is_leaf1.toString()} */}
 							</TableCell>
 
 							<TableCell className="text-center">
