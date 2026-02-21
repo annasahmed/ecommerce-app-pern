@@ -13,6 +13,7 @@ export default function VariantTable({
 	onDelete,
 	onUpdate,
 	generatedVariants,
+	variantImagesOptions,
 }) {
 	const [variants, setVariants] = useState([]);
 
@@ -64,7 +65,7 @@ export default function VariantTable({
 					<TableCell className="w-12 text-xs px-2">Stock Threshold</TableCell>
 					{/* <TableCell className="w-12 text-xs px-2">Reorder Qty</TableCell> */}
 					<TableCell className="w-12 text-xs px-2">Discount %</TableCell>
-					{/* <TableCell className="w-12 text-xs px-2">Image</TableCell> */}
+					<TableCell className="w-12 text-xs px-2">Image</TableCell>
 					<TableCell className="w-12 text-xs px-2">Delete</TableCell>
 				</tr>
 			</TableHeader>
@@ -152,6 +153,8 @@ export default function VariantTable({
 								// className="col-span-2"
 								isSmall
 								className="border p-1 w-40 rounded"
+								isVariantImage={true}
+								variantImages={variantImagesOptions}
 							/>
 						</TableCell>
 

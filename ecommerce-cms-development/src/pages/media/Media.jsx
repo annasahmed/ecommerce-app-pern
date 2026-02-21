@@ -30,6 +30,8 @@ const Media = ({
 	setSelectedImageUrl,
 	onClose,
 	isUnderModal = false,
+	isVariantImage = false,
+	variantImages = [],
 }) => {
 	const { title, serviceId, handleModalOpen } = useToggleDrawer();
 	const [previewImage, setPreviewImage] = useState(null);
@@ -37,11 +39,25 @@ const Media = ({
 	const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 	const [hoveredImage, setHoveredImage] = useState(null);
 
+	console.log(variantImages, "chkking variantImages");
+
 	const {
 		data: mediaData,
 		loading,
 		error,
-	} = useAsync(MediaServices.getAllMedia);
+	} = useAsync(() => {
+		if (!isVariantImage) {
+			return MediaServices.getAllMedia();
+		}
+
+		if (!variantImages || variantImages.length === 0) {
+			return Promise.resolve({ records: [] });
+		}
+
+		const query = variantImages.map((id) => `id=${id}`).join("&");
+
+		return MediaServices.getAllMedia(`${query}`);
+	});
 
 	const { t } = useTranslation();
 

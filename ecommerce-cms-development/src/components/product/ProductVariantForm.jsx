@@ -99,6 +99,7 @@ const ProductVariantForm = ({
 	setFinalVariants,
 	resetKey,
 	sku,
+	variantImagesOptions,
 }) => {
 	const { showingTranslateValue } = useUtilsFunction();
 	const { settings } = useGlobalSettings();
@@ -306,6 +307,7 @@ const ProductVariantForm = ({
 							onDelete={handleDeleteVariant}
 							onUpdate={handleVariantsUpdate}
 							generatedVariants={generatedVariants} // 🔑 so parent always has final values
+							variantImagesOptions={variantImagesOptions}
 						/>
 					</div>
 				)}

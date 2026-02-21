@@ -18,6 +18,8 @@ const ImageSelector = ({
 	isMultipleSelect = false,
 	isSmall,
 	imageDimensions,
+	isVariantImage = false,
+	variantImages = [],
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { t } = useTranslation();
@@ -97,6 +99,8 @@ const ImageSelector = ({
 						setSelectedImageUrl={setSelectedImageUrl}
 						onClose={() => setIsOpen(false)}
 						isUnderModal={true}
+						isVariantImage={isVariantImage}
+						variantImages={variantImages}
 					/>
 				</ModalBody>
 				<ModalFooter>

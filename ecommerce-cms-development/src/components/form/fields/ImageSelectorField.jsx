@@ -14,6 +14,8 @@ const ImageSelectorField = ({
 	isSmall = false,
 	isMultipleSelect = false,
 	imageDimensions,
+	isVariantImage = false,
+	variantImages = [],
 }) => {
 	return (
 		<div
@@ -32,6 +34,8 @@ const ImageSelectorField = ({
 					isSmall={isSmall}
 					isMultipleSelect={isMultipleSelect}
 					imageDimensions={imageDimensions}
+					isVariantImage={isVariantImage}
+					variantImages={variantImages}
 				/>
 			</div>
 		</div>

@@ -1,8 +1,8 @@
 import requests from "./httpService";
 
 const MediaServices = {
-	getAllMedia: async () => {
-		return requests.get("/media?limit=1000");
+	getAllMedia: async (query) => {
+		return requests.get(`/media?limit=1000${query ? `&${query}` : ""}`);
 	},
 
 	addMedia: async (body) => {

@@ -50,6 +50,7 @@ const ProductInfoForm = ({
 
 	defaultValues,
 	setDefaultValues,
+	setVariantImagesOptions,
 }) => {
 	const { t } = useTranslation();
 	const { showingTranslateValue, showSelectedLanguageTranslation } =
@@ -84,6 +85,29 @@ const ProductInfoForm = ({
 			setGeneratedVariants(generateVariants(selectedVariants));
 		}
 	}, [selectedVariants]);
+
+	useEffect(() => {
+		if (!selectedThumbnail && (!selectedImages || selectedImages.length === 0))
+			return;
+
+		setVariantImagesOptions((prev) => {
+			const newImages = [];
+
+			if (selectedThumbnail) {
+				newImages.push(selectedThumbnail);
+			}
+
+			if (selectedImages && selectedImages.length > 0) {
+				newImages.push(...selectedImages);
+			}
+
+			// Merge previous + new
+			const merged = [...prev, ...newImages];
+
+			// Remove duplicates
+			return [...new Set(merged)];
+		});
+	}, [selectedThumbnail, selectedImages]);
 
 	return (
 		<div className="flex-grow scrollbar-hide flex flex-col gap-8 w-full max-h-full">

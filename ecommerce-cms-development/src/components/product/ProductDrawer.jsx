@@ -119,6 +119,7 @@ const ProductDrawer = ({ id, data }) => {
 		useUtilsFunction();
 
 	const [variantsToSend, setVariantsToSend] = useState([]);
+	const [variantImagesOptions, setVariantImagesOptions] = useState([]);
 
 	const steps = [
 		{ id: 1, title: "Product Information", show: true },
@@ -546,6 +547,7 @@ const ProductDrawer = ({ id, data }) => {
 									setHasVariants={setHasVariants}
 									defaultValues={defaultValues}
 									setDefaultValues={setDefaultValues}
+									setVariantImagesOptions={setVariantImagesOptions}
 								/>
 								<ProductVariantForm
 									productVariants={productVariants}
@@ -556,6 +558,7 @@ const ProductDrawer = ({ id, data }) => {
 									setFinalVariants={setFinalVariants}
 									resetKey={resetKey}
 									sku={sku}
+									variantImagesOptions={variantImagesOptions}
 								/>
 							</>
 						) : null}
