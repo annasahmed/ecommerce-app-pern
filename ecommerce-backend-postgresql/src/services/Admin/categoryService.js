@@ -96,6 +96,7 @@ async function updateCategory(req) {
 		throw new ApiError(httpStatus.NOT_FOUND, `Category does not exists`);
 	let newLevel = category.level;
 	const transaction = await db.sequelize.transaction();
+	let oldParentId = category.parent_id;
 	if (newParentId !== undefined && newParentId !== category.parent_id) {
 		// 1️⃣ Parent cannot be self
 		if (newParentId === categoryId) {
@@ -136,6 +137,26 @@ async function updateCategory(req) {
 		} else {
 			// Moved to root
 			newLevel = 1;
+		}
+		// 🔹 Update old parent is_leaf
+		if (oldParentId) {
+			const siblingCount = await db.category.count({
+				where: { parent_id: oldParentId },
+				transaction,
+			});
+			if (siblingCount <= 1) {
+				await db.category.update(
+					{ is_leaf: true },
+					{ where: { id: oldParentId }, transaction }
+				);
+			}
+		}
+		// 🔹 Update new parent is_leaf
+		if (newParentId) {
+			await db.category.update(
+				{ is_leaf: false },
+				{ where: { id: newParentId }, transaction }
+			);
 		}
 	}
 	req.body.parentId = newParentId;
