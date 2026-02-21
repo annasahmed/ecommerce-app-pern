@@ -461,15 +461,16 @@ module.exports = {
 				'id',
 				'level',
 				'status',
+				'is_leaf',
 				// 🔹 isLeaf = no children exist
-				[
-					db.sequelize.literal(`(
-					SELECT COUNT(*)
-					FROM category AS child
-					WHERE child.parent_id = category.id
-				) = 0`),
-					'is_leaf',
-				],
+				// [
+				// 	db.sequelize.literal(`(
+				// 	SELECT COUNT(*)
+				// 	FROM category AS child
+				// 	WHERE child.parent_id = category.id
+				// ) = 0`),
+				// 	'is_leaf',
+				// ],
 				'created_at',
 			],
 			[['id', 'DESC']]

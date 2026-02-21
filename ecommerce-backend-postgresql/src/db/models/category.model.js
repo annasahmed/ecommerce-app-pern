@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'RESTRICT',
 				onUpdate: 'CASCADE',
 			},
+			is_leaf: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: true, // temporary default
+			},
 
 			// 🔹 Optional but VERY useful
 			level: {
