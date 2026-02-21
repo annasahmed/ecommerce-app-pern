@@ -6,107 +6,159 @@ import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { excelFeilds } from "./excelFields";
 
-const safeStr = (val) =>
-	val !== undefined && val !== null ? String(val).trim() : "";
+const UploadProductsExcel = () => {
+	const safeStr = (val) =>
+		val !== undefined && val !== null ? String(val).trim() : "";
 
-const toNumber = (val, def = null) =>
-	val !== undefined && val !== null && val !== "" && !isNaN(Number(val))
-		? Number(val)
-		: def;
+	const toNumber = (val, def = null) =>
+		val !== undefined && val !== null && val !== "" && !isNaN(Number(val))
+			? Number(val)
+			: def;
 
-// ---------- VALIDATION HELPERS ----------
-const isEmpty = (val) =>
-	val === undefined || val === null || String(val).trim() === "";
+	// ---------- VALIDATION HELPERS ----------
+	const isEmpty = (val) =>
+		val === undefined || val === null || String(val).trim() === "";
 
-const isValidFloat = (val) =>
-	val !== undefined && val !== null && val !== "" && !isNaN(Number(val));
+	const isValidFloat = (val) =>
+		val !== undefined && val !== null && val !== "" && !isNaN(Number(val));
 
-const isValidFloatOrNull = (val) =>
-	val === undefined || val === null || val === "" || !isNaN(Number(val));
+	const isValidFloatOrNull = (val) =>
+		val === undefined || val === null || val === "" || !isNaN(Number(val));
+	const parseSizesWithSku = (value) => {
+		if (!value) return [];
 
-// ---------- ROW VALIDATOR ----------
-const validateRow = (row, excelRowNumber) => {
-	const errors = [];
+		return value
+			.split(",")
+			.map((item) => {
+				const trimmed = item.trim();
+				const match = trimmed.match(/^([^(]+)(?:\(([^)]+)\))?$/);
 
-	// Required string fields
-	const requiredFields = [
-		{ key: excelFeilds.sku, name: "sku" },
-		{ key: excelFeilds.meta_title, name: "meta_title" },
-		{ key: excelFeilds.meta_description, name: "meta_description" },
-		{ key: excelFeilds.title, name: "title" },
-		{ key: excelFeilds.excerpt, name: "excerpt" },
-		{ key: excelFeilds.slug, name: "slug" },
-	];
+				if (!match) return null;
 
-	requiredFields.forEach((field) => {
-		if (isEmpty(row[field.key])) {
+				return {
+					size: match[1].trim(),
+					sku: match[2] ? match[2].trim() : null,
+				};
+			})
+			.filter(Boolean);
+	};
+
+	const parsePrice = (val) => {
+		const priceWithSku = parseSizesWithSku(safeStr(val));
+		const price = priceWithSku[0]?.sku;
+		console.log(priceWithSku, "chkking price sku");
+
+		return {
+			price,
+			priceWithSku: priceWithSku,
+		};
+	};
+
+	// ---------- ROW VALIDATOR ----------
+	const validateRow = (row, excelRowNumber) => {
+		const errors = [];
+
+		// Required string fields
+		const requiredFields = [
+			{ key: excelFeilds.sku, name: "sku" },
+			{ key: excelFeilds.meta_title, name: "meta_title" },
+			{ key: excelFeilds.meta_description, name: "meta_description" },
+			{ key: excelFeilds.title, name: "title" },
+			{ key: excelFeilds.excerpt, name: "excerpt" },
+			{ key: excelFeilds.slug, name: "slug" },
+		];
+
+		requiredFields.forEach((field) => {
+			if (isEmpty(row[field.key])) {
+				errors.push(
+					`Row ${excelRowNumber}: Required field '${field.name}' is missing`,
+				);
+			}
+		});
+
+		// Required FLOAT fields
+		if (!isValidFloat(parsePrice(row[excelFeilds.price]).price)) {
+			errors.push(`Row ${excelRowNumber}: price must be a valid number`);
+		}
+		const parsedDiscount = parsePercentToNumber(
+			safeStr(row[excelFeilds.discount]),
+		);
+		if (safeStr(row[excelFeilds.discount]) && parsedDiscount === null) {
 			errors.push(
-				`Row ${excelRowNumber}: Required field '${field.name}' is missing`,
+				`Row ${excelRowNumber}: discount must be a number or percentage (e.g. 20 or 20%)`,
 			);
 		}
-	});
+		console.log(parsedDiscount, "chkking parse");
 
-	// Required FLOAT fields
-	if (!isValidFloat(safeStr(row[excelFeilds.price]))) {
-		errors.push(`Row ${excelRowNumber}: price must be a valid number`);
-	}
-	const parsedDiscount = parsePercentToNumber(
-		safeStr(row[excelFeilds.discount]),
-	);
-	if (safeStr(row[excelFeilds.discount]) && parsedDiscount === null) {
-		errors.push(
-			`Row ${excelRowNumber}: discount must be a number or percentage (e.g. 20 or 20%)`,
-		);
-	}
-	if (parsedDiscount !== null && (parsedDiscount < 0 || parsedDiscount > 100)) {
-		errors.push(`Row ${excelRowNumber}: discount must be between 0 and 100`);
-	}
-
-	return errors;
-};
-
-const buildHtmlDescription = (description, additionalInfo) => {
-	let html = "";
-
-	// Main description paragraph
-	if (description && description.trim()) {
-		html += `<p>${description.trim()}</p>\n`;
-	}
-
-	// Bullet points from "Additional info"
-	if (additionalInfo && additionalInfo.trim()) {
-		const lines = additionalInfo
-			.split("\n")
-			.map((line) => line.replace("•", "").trim())
-			.filter(Boolean);
-
-		if (lines.length) {
-			html += "<p><strong>Key Features</strong></p>\n";
-			html += "<ul>\n";
-			lines.forEach((line) => {
-				html += `  <li>${line}</li>\n`;
-			});
-			html += "</ul>";
+		if (
+			parsedDiscount !== null &&
+			(parsedDiscount < 0 || parsedDiscount > 100)
+		) {
+			errors.push(`Row ${excelRowNumber}: discount must be between 0 and 100`);
 		}
-	}
 
-	return html.trim();
-};
+		return errors;
+	};
 
-const parsePercentToNumber = (val) => {
-	if (val === undefined || val === null || val === "") return null;
+	const buildHtmlDescription = (description, additionalInfo) => {
+		let html = "";
 
-	// If already a number (Excel sometimes does this)
-	if (typeof val === "number") return val;
+		// Main description paragraph
+		if (description && description.trim()) {
+			html += `<p>${description.trim()}</p>\n`;
+		}
 
-	const cleaned = String(val).replace("%", "").trim();
+		// Bullet points from "Additional info"
+		if (additionalInfo && additionalInfo.trim()) {
+			const lines = additionalInfo
+				.split("\n")
+				.map((line) => line.replace("•", "").trim())
+				.filter(Boolean);
 
-	const num = Number(cleaned);
+			if (lines.length) {
+				html += "<p><strong>Key Features</strong></p>\n";
+				html += "<ul>\n";
+				lines.forEach((line) => {
+					html += `  <li>${line}</li>\n`;
+				});
+				html += "</ul>";
+			}
+		}
 
-	return isNaN(num) ? null : num * 100;
-};
+		return html.trim();
+	};
 
-const UploadProductsExcel = () => {
+	// const parsePercentToNumber = (val) => {
+	// 	if (val === undefined || val === null || val === "") return null;
+
+	// 	// If already a number (Excel sometimes does this)
+	// 	if (typeof val === "number") return val;
+
+	// 	const cleaned = String(val).replace("%", "").trim();
+
+	// 	const num = Number(cleaned);
+
+	// 	return isNaN(num) ? null : num * 100;
+	// };
+
+	const parsePercentToNumber = (val) => {
+		if (val === undefined || val === null || val === "") return null;
+
+		// If Excel formatted percentage (0.1 meaning 10%)
+		if (typeof val === "number") {
+			// If value is between 0 and 1 → treat as percentage
+			if (val > 0 && val < 1) {
+				return val * 100;
+			}
+			return val; // already normal number like 10
+		}
+
+		const cleaned = String(val).replace("%", "").trim();
+		const num = Number(cleaned);
+
+		return isNaN(num) ? null : num;
+	};
+
 	const [loading, setLoading] = useState(false);
 	const [filterAttributes, setFilterAttributes] = useState([]);
 	const [showModal, setShowModal] = useState(false);
@@ -141,24 +193,6 @@ const UploadProductsExcel = () => {
 			.filter(Boolean);
 	};
 
-	const parseSizesWithSku = (value) => {
-		if (!value) return [];
-
-		return value
-			.split(",")
-			.map((item) => {
-				const trimmed = item.trim();
-				const match = trimmed.match(/^([^(]+)(?:\(([^)]+)\))?$/);
-
-				if (!match) return null;
-
-				return {
-					size: match[1].trim(),
-					sku: match[2] ? match[2].trim() : null,
-				};
-			})
-			.filter(Boolean);
-	};
 	// const parseStockWithSku = (value) => {
 	// 	if (!value) return [];
 
@@ -264,6 +298,7 @@ const UploadProductsExcel = () => {
 					const stockThreshold = parseSizesWithSku(
 						safeStr(row[excelFeilds.stock_threshold]),
 					);
+					const price = parsePrice(row[excelFeilds.price])?.priceWithSku;
 
 					// If missing, fallback
 					if (!colors.length) colors.push(null);
@@ -318,7 +353,9 @@ const UploadProductsExcel = () => {
 								branch_data: [
 									{
 										branch_id: 1,
-										cost_price: toNumber(safeStr(row[excelFeilds.price])),
+										cost_price: price.find(
+											(v) => v.size === sizeObj?.sku || v.size === productSku,
+										)?.sku,
 										stock:
 											stock.find(
 												(v) => v.size === sizeObj?.sku || v.size === productSku,
@@ -328,7 +365,9 @@ const UploadProductsExcel = () => {
 												(v) => v.size === sizeObj?.sku || v.size === productSku,
 											)?.sku || 100,
 										reorder_quantity: 100,
-										sale_price: toNumber(safeStr(row[excelFeilds.price])),
+										sale_price: price.find(
+											(v) => v.size === sizeObj?.sku || v.size === productSku,
+										)?.sku,
 										discount_percentage: parsedDiscount,
 									},
 								],
@@ -371,7 +410,7 @@ const UploadProductsExcel = () => {
 						sku: safeStr(row[excelFeilds.sku]),
 						meta_title: safeStr(row[excelFeilds.meta_title]),
 						meta_description: safeStr(row[excelFeilds.meta_description]),
-						base_price: toNumber(safeStr(row[excelFeilds.price])),
+						base_price: toNumber(parsePrice(row[excelFeilds.price]).price),
 						base_discount_percentage: parsedDiscount,
 						images: [],
 						translations: [
