@@ -451,7 +451,7 @@ const UploadProductsExcel = () => {
 							: [],
 						brand_id: safeStr(row[excelFeilds.brand]) || null,
 						similarProductsSku: row[excelFeilds.similar_products]
-							? row[excelFeilds.similar_products]
+							? `${row[excelFeilds.similar_products]}`
 									.split(",")
 									.map((sku) => sku.trim())
 									.filter(Boolean)
