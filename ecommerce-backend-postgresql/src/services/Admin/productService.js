@@ -743,10 +743,11 @@ async function importProductsFromSheet(req) {
 					product.translations?.[0]?.slug?.toLowerCase()
 				);
 
-			const similarProductIds = (product.similarProductsSku || []).map(
-				(sku) => skuMap.get(sku)?.id
-			); // get product ID
-			// .filter(Boolean); // remove undefined (SKUs not found)
+			const similarProductIds = (product.similarProductsSku || [])
+				.map((sku) => skuMap.get(sku)?.id)
+				.filter(Boolean); // get product ID
+
+			// // remove undefined (SKUs not found)
 
 			product.similarProducts = similarProductIds; // assign to payload
 
@@ -757,11 +758,6 @@ async function importProductsFromSheet(req) {
 						body: product,
 					},
 					transaction
-				);
-				console.log(
-					existingProduct,
-					updatedProduct,
-					'chkking updated product111'
 				);
 
 				const freshProduct = await getProductByIdForImport(
