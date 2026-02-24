@@ -2,12 +2,12 @@ import requests from "./httpService";
 
 const LanguageServices = {
 	getAllLanguages: async () => {
-		return null;
+		// return null;
 		return requests.get("/language");
 	},
 
 	getShowingLanguage: async () => {
-		return null;
+		// return null;
 		return requests.get("/language");
 	},
 

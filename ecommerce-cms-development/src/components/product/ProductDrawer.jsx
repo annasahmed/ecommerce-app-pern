@@ -457,6 +457,8 @@ const ProductDrawer = ({ id, data }) => {
 		});
 	}, []);
 
+	console.log(branches, "chkking branches in drawer");
+
 	return (
 		<>
 			<DrawerHeader

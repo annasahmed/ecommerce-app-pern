@@ -43,39 +43,50 @@ instance.interceptors.request.use(function (config) {
 	};
 });
 
-// instance.interceptors.response.use(
-// 	(response) => response,
-// 	async (error) => {
-// 		const originalRequest = error.config;
+instance.interceptors.response.use(
+	(response) => response,
+	async (error) => {
+		const originalRequest = error.config;
+		const ignoreUrls = [
+			"/auth/refresh",
+			"/auth/login",
+			"/auth/register",
+			"/branch",
+			"/language",
+		];
 
-// 		if (error.response?.status === 401 && !originalRequest._retry) {
-// 			originalRequest._retry = true;
+		if (ignoreUrls.some((url) => originalRequest.url.includes(url))) {
+			return Promise.reject(error);
+		}
 
-// 			try {
-// 				const res = await axios.post(
-// 					"/v1/admin/auth/refresh",
-// 					{},
-// 					{ withCredentials: true },
-// 				);
+		if (error.response?.status === 401 && !originalRequest._retry) {
+			originalRequest._retry = true;
 
-// 				Cookies.set("tokens", JSON.stringify(res.data), {
-// 					expires: 0.5,
-// 					sameSite: "None",
-// 					secure: true,
-// 				});
-// 				// setAccessToken(res.data.accessToken);
+			try {
+				const res = await axios.post(
+					"/auth/refresh",
+					{},
+					{ withCredentials: true },
+				);
 
-// 				originalRequest.headers.Authorization = `Bearer ${res.data?.access?.token}`;
+				Cookies.set("tokens", JSON.stringify(res.data), {
+					expires: 0.5,
+					sameSite: "None",
+					secure: true,
+				});
+				// setAccessToken(res.data.accessToken);
 
-// 				return instance(originalRequest);
-// 			} catch (err) {
-// 				window.location.href = "/login";
-// 			}
-// 		}
+				originalRequest.headers.Authorization = `Bearer ${res.data?.access?.token}`;
 
-// 		return Promise.reject(error);
-// 	},
-// );
+				return instance(originalRequest);
+			} catch (err) {
+				window.location.href = "/login";
+			}
+		}
+
+		return Promise.reject(error);
+	},
+);
 
 const responseBody = (response) => response.data;
 

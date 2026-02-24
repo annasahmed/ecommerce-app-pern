@@ -62,14 +62,15 @@ export const GlobalSettingsProvider = ({ children }) => {
 
 			setLanguages(data);
 		};
+
 		const fetchBranches = async () => {
 			const data = await BranchServices.getAllBranches();
 			// Ensure selected language is valid
 
 			setBranches(data.records);
 		};
-		// fetchBranches();
-		// fetchLanguages();
+		fetchBranches();
+		fetchLanguages();
 	}, []);
 
 	return (
