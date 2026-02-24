@@ -68,8 +68,8 @@ export const GlobalSettingsProvider = ({ children }) => {
 
 			setBranches(data.records);
 		};
-		fetchBranches();
-		fetchLanguages();
+		// fetchBranches();
+		// fetchLanguages();
 	}, []);
 
 	return (

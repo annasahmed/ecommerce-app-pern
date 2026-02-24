@@ -23,6 +23,7 @@ const SidebarContent = () => {
 	const handleLogOut = () => {
 		dispatch({ type: "USER_LOGOUT" });
 		Cookies.remove("adminInfo");
+		Cookies.remove("tokens");
 	};
 
 	const updatedSidebar = sidebar

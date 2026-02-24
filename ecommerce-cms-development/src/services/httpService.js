@@ -20,6 +20,10 @@ instance.interceptors.request.use(function (config) {
 	if (Cookies.get("adminInfo")) {
 		adminInfo = JSON.parse(Cookies.get("adminInfo"));
 	}
+	let tokens;
+	if (Cookies.get("tokens")) {
+		tokens = JSON.parse(Cookies.get("tokens"));
+	}
 
 	let company;
 
@@ -33,11 +37,45 @@ instance.interceptors.request.use(function (config) {
 	return {
 		...config,
 		headers: {
-			authorization: adminInfo ? `Bearer ${adminInfo.token}` : null,
+			authorization: tokens ? `Bearer ${tokens?.access?.token}` : null,
 			company: company ? company : null,
 		},
 	};
 });
+
+// instance.interceptors.response.use(
+// 	(response) => response,
+// 	async (error) => {
+// 		const originalRequest = error.config;
+
+// 		if (error.response?.status === 401 && !originalRequest._retry) {
+// 			originalRequest._retry = true;
+
+// 			try {
+// 				const res = await axios.post(
+// 					"/v1/admin/auth/refresh",
+// 					{},
+// 					{ withCredentials: true },
+// 				);
+
+// 				Cookies.set("tokens", JSON.stringify(res.data), {
+// 					expires: 0.5,
+// 					sameSite: "None",
+// 					secure: true,
+// 				});
+// 				// setAccessToken(res.data.accessToken);
+
+// 				originalRequest.headers.Authorization = `Bearer ${res.data?.access?.token}`;
+
+// 				return instance(originalRequest);
+// 			} catch (err) {
+// 				window.location.href = "/login";
+// 			}
+// 		}
+
+// 		return Promise.reject(error);
+// 	},
+// );
 
 const responseBody = (response) => response.data;
 
