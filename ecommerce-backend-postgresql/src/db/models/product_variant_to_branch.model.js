@@ -39,12 +39,12 @@ module.exports = (sequelize, DataTypes) => {
 			stock: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
-				defaultValue: 0,
+				defaultValue: 100,
 			},
 			low_stock: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
-				defaultValue: 0,
+				defaultValue: 10,
 			},
 			reorder_quantity: {
 				type: DataTypes.INTEGER,
