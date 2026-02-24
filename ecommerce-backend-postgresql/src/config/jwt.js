@@ -7,6 +7,7 @@ const { tokenTypes } = require('./tokens.js');
 async function isRevoked(req, token) {
 	try {
 		const jwtToken = req.headers.authorization?.split(' ')[1];
+		// const jwtToken = req.cookies.accessToken || req.cookies.refreshToken;
 		if (!jwtToken) return true;
 
 		const isRefreshRoute = req.originalUrl.includes('/refresh');
@@ -33,6 +34,24 @@ async function isRevoked(req, token) {
 	}
 }
 
+// function jwt() {
+// 	const { secret } = config.jwt;
+
+// 	return expressJwt({
+// 		secret,
+// 		algorithms: ['HS256'],
+// 		isRevoked,
+// 		getToken: function (req) {
+// 			console.log(req.cookies, 'chkking access token');
+
+// 			return (
+// 				req.cookies?.accessToken || req.cookies?.refreshToken || null
+// 			);
+// 		},
+// 	}).unless({
+// 		path: [/\/v[1-9](\d)*\/(auth|admin\/auth|docs|delete|website)(\/.*)?$/],
+// 	});
+// }
 function jwt() {
 	const { secret } = config.jwt;
 
@@ -45,7 +64,7 @@ function jwt() {
 		},
 	}).unless({
 		path: [
-			/\/v[1-9](\d)*\/(auth|admin\/auth|docs|delete)\/.*/, // Public routes
+			/\/v[1-9](\d)*\/(auth|admin\/auth|docs|delete|website)\/.*/, // Public routes
 		],
 	});
 }

@@ -20,6 +20,9 @@ router
 	);
 router.route('/similar').get(adminCategoryController.findSimilarCategories);
 router.route('/fix-slugs').patch(adminCategoryController.fixSlugsCategories);
+router
+	.route('/restore-soft-delete')
+	.patch(adminCategoryController.restoreSoftDeleteCategories);
 
 router
 	.route('/options')

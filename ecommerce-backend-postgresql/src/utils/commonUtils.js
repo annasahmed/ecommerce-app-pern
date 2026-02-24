@@ -4,9 +4,10 @@ const { literal } = require('sequelize');
 const db = require('../db/models');
 
 const getUserId = (req) => {
-	return 1;
 	const userId = req?.user?.id;
+
 	if (!userId) {
+		// return 1;
 		throw new ApiError(httpStatus.BAD_REQUEST, 'User Id is required');
 	}
 };

@@ -10,5 +10,10 @@ router.post(
 	validate(adminAuthValidation.login),
 	adminAuthController.login
 );
+router.post(
+	'/refresh',
+	// validate(adminAuthValidation.refresh),
+	adminAuthController.refreshAccessToken
+);
 
 module.exports = router;

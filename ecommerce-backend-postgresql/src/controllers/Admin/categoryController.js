@@ -51,6 +51,12 @@ const findSimilarCategories = catchAsync(async (req, res) => {
 	const categories = await adminCategoryService.findSimilarCategories(req);
 	res.send(categories);
 });
+const restoreSoftDeleteCategories = catchAsync(async (req, res) => {
+	const categories = await adminCategoryService.restoreSoftDeleteCategories(
+		req
+	);
+	res.send(categories);
+});
 const getCategoriesForOptions = catchAsync(async (req, res) => {
 	const categories = await adminCategoryService.getCategoriesForOptions(req);
 	res.send(categories);
@@ -71,6 +77,7 @@ module.exports = {
 	importCategories,
 	findSimilarCategories,
 	fixSlugsCategories,
+	restoreSoftDeleteCategories,
 };
 
 const level1Categories = [

@@ -469,6 +469,38 @@ async function fixSlugsCategories() {
 	}
 }
 
+async function restoreSoftDeleteCategories() {
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const startDate = new Date('2026-02-24T00:00:00.000Z');
+		const endDate = new Date('2026-02-25T00:00:00.000Z');
+
+		await db.category.update(
+			{ deleted_at: null, deleted_by: null },
+			{
+				where: {
+					deleted_at: {
+						[Op.gte]: startDate,
+						[Op.lt]: endDate,
+					},
+				},
+				transaction,
+			}
+		);
+
+		await transaction.commit();
+		console.log('Categories deleted on 2026-02-24 restored successfully.');
+	} catch (error) {
+		await transaction.rollback();
+		console.error('Error restoring categories:', error);
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			'Failed to restore selected categories'
+		);
+	}
+}
+
 module.exports = {
 	getCategoryById: categoryService.getById,
 	createCategory,
@@ -503,6 +535,7 @@ module.exports = {
 	verifyCategoriesExist,
 	findSimilarCategories,
 	fixSlugsCategories,
+	restoreSoftDeleteCategories,
 };
 
 async function isCategoryDescendant(
