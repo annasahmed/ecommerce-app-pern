@@ -353,21 +353,14 @@ const UploadProductsExcel = () => {
 								branch_data: [
 									{
 										branch_id: 1,
-										cost_price: price.find(
-											(v) => v.size === sizeObj?.sku || v.size === productSku,
-										)?.sku,
+										cost_price: price.find((v) => v.size === sizeObj?.sku)?.sku,
 										stock:
-											stock.find(
-												(v) => v.size === sizeObj?.sku || v.size === productSku,
-											)?.sku || 100,
+											stock.find((v) => v.size === sizeObj?.sku)?.sku || 100,
 										low_stock:
-											stockThreshold.find(
-												(v) => v.size === sizeObj?.sku || v.size === productSku,
-											)?.sku || 100,
+											stockThreshold.find((v) => v.size === sizeObj?.sku)
+												?.sku || 100,
 										reorder_quantity: 100,
-										sale_price: price.find(
-											(v) => v.size === sizeObj?.sku || v.size === productSku,
-										)?.sku,
+										sale_price: price.find((v) => v.size === sizeObj?.sku)?.sku,
 										discount_percentage: parsedDiscount,
 									},
 								],
@@ -494,7 +487,6 @@ const UploadProductsExcel = () => {
 				// return;
 				// ------------------ BATCH UPLOAD ------------------
 				const batchSize = 200;
-
 				for (let i = 0; i < products.length; i += batchSize) {
 					const batch = products.slice(i, i + batchSize);
 					const start = i + 1;
