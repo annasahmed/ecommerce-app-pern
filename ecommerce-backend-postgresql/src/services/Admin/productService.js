@@ -1376,7 +1376,7 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
-	importVariantDiscountFromSheet,
+	importVariantPricesFromSheet,
 };
 
 const excelFeilds = {

@@ -38,9 +38,7 @@ const importProductsFromSheet = catchAsync(async (req, res) => {
 	res.send(results);
 });
 const importVariantPricesFromSheet = catchAsync(async (req, res) => {
-	const results = await adminProductService.importVariantDiscountFromSheet(
-		req
-	);
+	const results = await adminProductService.importVariantPricesFromSheet(req);
 	res.send(results);
 });
 const exportProducts = catchAsync(async (req, res) => {
