@@ -139,7 +139,7 @@ const Product = () => {
 					</span>
 				</Button>
 				{/* <ExcelProcessor /> */}
-				{/* <UploadProductsPriceExcel /> */}
+				<UploadProductsPriceExcel />
 				<UploadProductsExcel />
 				<BulkUpload />
 			</div>
