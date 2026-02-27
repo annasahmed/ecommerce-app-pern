@@ -97,7 +97,9 @@ export default function FilterSidebar({
 	useEffect(() => {
 		if (!data) return;
 
-		const newDefaults = {};
+		const newDefaults = {
+			_timestamp: Date.now(),
+		};
 
 		if (data?.selectedCategory?.id)
 			newDefaults.categories = data.selectedCategory.id;

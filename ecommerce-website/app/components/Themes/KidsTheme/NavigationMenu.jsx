@@ -114,10 +114,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 
 															<ul className="space-y-1">
 																{cat.children?.map((subCat, idx) => (
-																	<li
-																		key={idx}
-																		className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
+																	<li key={idx}>
 																		<BaseLink
+																			className="capitalize transition-colors text-primary hover:text-secondary"
 																			href={`/products?category=${subCat.slug}`}>
 																			{subCat.title}
 																		</BaseLink>
@@ -138,10 +137,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 															{item.children
 																.filter((cat) => cat.children?.length === 0)
 																?.map((subCat, idx) => (
-																	<li
-																		key={idx}
-																		className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
+																	<li key={idx}>
 																		<BaseLink
+																			className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors"
 																			href={`/products?category=${subCat.slug}`}>
 																			{subCat.title}
 																		</BaseLink>
@@ -159,10 +157,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 
 												<ul className="space-y-1">
 													{item.children?.map((subCat, idx) => (
-														<li
-															key={idx}
-															className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
+														<li key={idx}>
 															<BaseLink
+																className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors"
 																href={`/products?category=${subCat.slug}`}>
 																{subCat.title}
 															</BaseLink>
@@ -178,10 +175,11 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 
 											<ul className="space-y-1">
 												{brands?.map((brand, idx) => (
-													<li
-														key={idx}
-														className="text-primary hover:text-secondary cursor-pointer capitalize transition-colors">
-														<BaseLink href={`/products?brand=${brand.slug}`}>
+													<li key={idx}>
+														<BaseLink
+															href={`/products?brand=${brand.slug}`}
+															className="text-primary hover:text-secondary
+															cursor-pointer capitalize transition-colors">
 															{brand.title}
 														</BaseLink>
 													</li>
@@ -251,9 +249,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 
 												<ul className="space-y-2 pl-8">
 													{cat.children?.map((subCat, idx) => (
-														<li
-															key={idx}
-															className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
+														<li key={idx}>
 															<Link href={`/products?category=${subCat.slug}`}>
 																{subCat.title}
 															</Link>
@@ -270,10 +266,10 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 
 											<ul className="space-y-2 pl-8">
 												{item.children?.map((subCat, idx) => (
-													<li
-														key={idx}
-														className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
-														<Link href={`/products?category=${subCat.slug}`}>
+													<li key={idx}>
+														<Link
+															href={`/products?category=${subCat.slug}`}
+															className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
 															{subCat.title}
 														</Link>
 													</li>
@@ -288,10 +284,10 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 
 										<ul className="space-y-2 pl-8">
 											{brands?.map((brand, idx) => (
-												<li
-													key={idx}
-													className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
-													<Link href={`/products?brand=${brand.slug}`}>
+												<li key={idx}>
+													<Link
+														href={`/products?brand=${brand.slug}`}
+														className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
 														{brand.title}
 													</Link>
 												</li>

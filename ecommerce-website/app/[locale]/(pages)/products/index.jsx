@@ -1,16 +1,16 @@
 "use client";
 
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 import FilterSidebar from "@/app/components/Shared/FiltersSidebar";
 import SpinLoader from "@/app/components/Shared/SpinLoader";
 import ProductsSlider from "@/app/components/Themes/KidsTheme/ProductsSlider";
 
+import MobileFilterDrawer from "@/app/components/Shared/MobileFilterDrawer";
 import { useStore } from "@/app/providers/StoreProvider";
 import ProductServices from "@/app/services/ProductServices";
-import MobileFilterDrawer from "@/app/components/Shared/MobileFilterDrawer";
 import { SlidersHorizontal } from "lucide-react";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -33,35 +33,53 @@ const ProductsPage = () => {
 
 	const [defaultFilters, setDefaultFilters] = useState(null);
 	const loaderRef = useRef(null);
-
+	const category = paramsCategory || "";
+	const brand = paramsBrand || "";
+	const search = paramsSearch || "";
+	const queryClient = useQueryClient();
+	useEffect(() => {
+		if (paramsCategory) {
+			queryClient.removeQueries({ queryKey: ["filteredProducts"] });
+		}
+	}, [paramsCategory, queryClient]);
 	/* ============================
 	   Infinite Query Setup
 	============================ */
-	const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
-		useInfiniteQuery({
-			queryKey: [
-				"filteredProducts",
-				JSON.stringify(selectedFilters),
-				JSON.stringify(defaultFilters || {}),
-				paramsSearch || "",
-			],
-			queryFn: ({ pageParam = 1 }) =>
-				ProductServices.getFilteredProducts({
-					filters: selectedFilters,
-					defaultFilters,
-					search: paramsSearch,
-					page: pageParam,
-					limit: PRODUCTS_PER_PAGE,
-				}),
-			getNextPageParam: (lastPage, allPages) => {
-				const currentPage = allPages.length;
-				const totalPages = Math.ceil(lastPage.total / PRODUCTS_PER_PAGE);
-				return currentPage < totalPages ? currentPage + 1 : undefined;
-			},
-			enabled: !!store.themeName && defaultFilters !== null,
-			staleTime: 1000 * 60 * 5, // 5 minutes
-			refetchOnWindowFocus: false,
-		});
+	const {
+		data,
+		isLoading,
+		isFetching,
+		isFetchingNextPage,
+		hasNextPage,
+		fetchNextPage,
+	} = useInfiniteQuery({
+		queryKey: [
+			"filteredProducts",
+			selectedFilters,
+			defaultFilters,
+			// JSON.stringify(selectedFilters),
+			// JSON.stringify(defaultFilters || {}),
+			search,
+			category, // Add this!
+			brand,
+		],
+		queryFn: ({ pageParam = 1 }) =>
+			ProductServices.getFilteredProducts({
+				filters: selectedFilters,
+				defaultFilters,
+				search: paramsSearch,
+				page: pageParam,
+				limit: PRODUCTS_PER_PAGE,
+			}),
+		getNextPageParam: (lastPage, allPages) => {
+			const currentPage = allPages.length;
+			const totalPages = Math.ceil(lastPage.total / PRODUCTS_PER_PAGE);
+			return currentPage < totalPages ? currentPage + 1 : undefined;
+		},
+		enabled: !!store.themeName && defaultFilters !== null,
+		staleTime: 1000 * 60 * 5, // 5 minutes
+		refetchOnWindowFocus: false,
+	});
 
 	/* ============================
 	   Flatten products from all pages
@@ -87,7 +105,7 @@ const ProductsPage = () => {
 		observer.observe(loaderRef.current);
 
 		return () => observer.disconnect();
-	}, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+	}, [isFetchingNextPage, hasNextPage, fetchNextPage, loaderRef]);
 
 	return (
 		<main>
@@ -119,11 +137,11 @@ const ProductsPage = () => {
 					<section className="md:col-span-3">
 						<h4 className="h4 font-bold mb-4 border-b pb-1">
 							Results
-							{data?.pages[0]?.total > 0 && (
+							{/* {data?.pages[0]?.total > 0 && (
 								<span className="text-muted ml-2 text-sm font-normal">
 									(Showing {products.length} of {data.pages[0].total})
 								</span>
-							)}
+							)} */}
 						</h4>
 
 						{isLoading ? (
