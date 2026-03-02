@@ -21,6 +21,29 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
+const cleanKeyFeaturesText = (html) => {
+	if (!html) return html;
+
+	// 1️⃣ Remove repeated plain Key Features text
+	html = html.replace(/Key Features(\s*Key Features)*/gi, "");
+
+	// 2️⃣ Remove empty strong tags
+	html = html.replace(/<strong>\s*<\/strong>/gi, "");
+
+	// 3️⃣ Remove empty paragraphs
+	html = html.replace(/<p>\s*<\/p>/gi, "");
+
+	// 4️⃣ If UL exists and no strong Key Features exists → add it
+	if (
+		html.includes("<ul>") &&
+		!html.includes("<strong>Key Features</strong>")
+	) {
+		html = html.replace(/<ul>/, "<p><strong>Key Features</strong></p><ul>");
+	}
+
+	return html.trim();
+};
+
 export default function ProductDetailsPage() {
 	const { slug } = useParams();
 	const store = useStore();
@@ -415,7 +438,9 @@ export default function ProductDetailsPage() {
 						<div
 							className="leading-relaxed text-sm md:text-base text-[#999999] product-description prose max-w-none"
 							dangerouslySetInnerHTML={{
-								__html: cleanHtmlContent(product.description),
+								__html: cleanKeyFeaturesText(
+									cleanHtmlContent(product.description),
+								),
 							}}
 						/>
 					)}
