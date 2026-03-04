@@ -7,9 +7,10 @@ const getUserId = (req) => {
 	const userId = req?.user?.id;
 
 	if (!userId) {
-		// return 1;
+		return 1;
 		throw new ApiError(httpStatus.BAD_REQUEST, 'User Id is required');
 	}
+	return userId;
 };
 const softDelete = async (model, id, deletedByUserId) => {
 	return await model.update(

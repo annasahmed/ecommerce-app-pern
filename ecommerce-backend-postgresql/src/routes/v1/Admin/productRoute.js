@@ -24,11 +24,11 @@ router.route('/only-titles').get(adminProductController.getProductTitlesOnly);
 router
 	.route('/import-products')
 	.post(adminProductController.importProductsFromSheet);
-router
-	.route('/import-variant-prices')
-	.post(adminProductController.importVariantPricesFromSheet);
 
 router.route('/export-products').get(adminProductController.exportProducts);
+router
+	.route('/clean-description-products')
+	.get(adminProductController.cleanDescriptionProducts);
 
 router
 	.route('/:productId')

@@ -588,3 +588,100 @@ async function fixSimilarProducts() {
 
 	console.log('similar_product table fixed successfully ✅');
 }
+
+async function importVariantPricesFromSheet(req) {
+	const { products } = req.body;
+	// Similar logic to importProductsFromSheet but only for variants and prices
+	// You can implement this based on your specific requirements
+	const updatedVariants = [];
+	// console.log(products, 'chkking products');
+	// return;
+
+	for (const product of products) {
+		const existingProductVariant = await db.product_variant.findOne({
+			where: { sku: product.sku },
+		});
+		if (existingProductVariant) {
+			await db.product_variant_to_branch.update(
+				{
+					sale_price: product.price,
+					cost_price: product.price,
+				},
+				{
+					where: { product_variant_id: existingProductVariant.id },
+				}
+			);
+			updatedVariants.push(existingProductVariant.id);
+		}
+	}
+}
+
+async function importVariantDiscountFromSheet(req) {
+	const { products } = req.body;
+
+	if (!products || !Array.isArray(products)) {
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid products data');
+	}
+
+	const transaction = await db.sequelize.transaction();
+	const updatedVariants = [];
+
+	try {
+		const skus = products.map((p) => p.sku);
+
+		// Fetch all variants at once
+		const variants = await db.product_variant.findAll({
+			where: { sku: { [Op.in]: skus } },
+			transaction,
+		});
+
+		// Fetch all products at once
+		const mainProducts = await db.product.findAll({
+			where: { sku: { [Op.in]: skus } },
+			transaction,
+		});
+
+		const variantMap = new Map(variants.map((v) => [v.sku, v]));
+
+		const productMap = new Map(mainProducts.map((p) => [p.sku, p]));
+
+		for (const product of products) {
+			const variant = variantMap.get(product.sku);
+			const mainProduct = productMap.get(product.sku);
+
+			if (!product.discount && product.discount !== 0) continue;
+
+			if (variant) {
+				await db.product_variant_to_branch.update(
+					{ discount_percentage: product.discount },
+					{
+						where: { product_variant_id: variant.id },
+						transaction,
+					}
+				);
+
+				updatedVariants.push(variant.id);
+			}
+
+			if (mainProduct) {
+				await mainProduct.update(
+					{ base_discount_percentage: product.discount },
+					{ transaction }
+				);
+			}
+		}
+
+		await transaction.commit();
+
+		return {
+			success: true,
+			updatedVariants,
+		};
+	} catch (error) {
+		await transaction.rollback();
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			error.message || 'Error importing variant discounts'
+		);
+	}
+}

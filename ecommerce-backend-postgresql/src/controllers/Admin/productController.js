@@ -37,10 +37,11 @@ const importProductsFromSheet = catchAsync(async (req, res) => {
 	const results = await adminProductService.importProductsFromSheet(req);
 	res.send(results);
 });
-const importVariantPricesFromSheet = catchAsync(async (req, res) => {
-	const results = await adminProductService.importVariantPricesFromSheet(req);
+const cleanDescriptionProducts = catchAsync(async (req, res) => {
+	const results = await adminProductService.cleanDescriptionProducts(req);
 	res.send(results);
 });
+
 const exportProducts = catchAsync(async (req, res) => {
 	await adminProductService.exportProducts(req, res);
 });
@@ -55,5 +56,5 @@ module.exports = {
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
-	importVariantPricesFromSheet,
+	cleanDescriptionProducts,
 };

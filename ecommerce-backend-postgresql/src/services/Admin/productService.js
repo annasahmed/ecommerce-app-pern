@@ -1260,101 +1260,58 @@ async function getProducts(req) {
 		page: page,
 	};
 }
+const cleanKeyFeaturesText = (html) => {
+	if (!html) return html;
 
-async function importVariantPricesFromSheet(req) {
-	const { products } = req.body;
-	// Similar logic to importProductsFromSheet but only for variants and prices
-	// You can implement this based on your specific requirements
-	const updatedVariants = [];
-	// console.log(products, 'chkking products');
-	// return;
+	// 1️⃣ Remove repeated plain Key Features text
+	html = html.replace(/Key Features(\s*Key Features)*/gi, '');
 
-	for (const product of products) {
-		const existingProductVariant = await db.product_variant.findOne({
-			where: { sku: product.sku },
-		});
-		if (existingProductVariant) {
-			await db.product_variant_to_branch.update(
-				{
-					sale_price: product.price,
-					cost_price: product.price,
-				},
-				{
-					where: { product_variant_id: existingProductVariant.id },
-				}
-			);
-			updatedVariants.push(existingProductVariant.id);
-		}
-	}
-}
+	// 2️⃣ Remove empty strong tags
+	html = html.replace(/<strong>\s*<\/strong>/gi, '');
 
-async function importVariantDiscountFromSheet(req) {
-	const { products } = req.body;
+	// 3️⃣ Remove empty paragraphs
+	html = html.replace(/<p>\s*<\/p>/gi, '');
 
-	if (!products || !Array.isArray(products)) {
-		throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid products data');
+	// 4️⃣ If UL exists and no strong Key Features exists → add it
+	if (
+		html.includes('<ul>') &&
+		!html.includes('<strong>Key Features</strong>')
+	) {
+		html = html.replace(/<ul>/, '<p><strong>Key Features</strong></p><ul>');
 	}
 
+	return html.trim();
+};
+
+async function cleanDescriptionProducts(req) {
 	const transaction = await db.sequelize.transaction();
-	const updatedVariants = [];
 
 	try {
-		const skus = products.map((p) => p.sku);
-
-		// Fetch all variants at once
-		const variants = await db.product_variant.findAll({
-			where: { sku: { [Op.in]: skus } },
+		const products = await db.product_translation.findAll({
+			where: {
+				description: {
+					[Op.ne]: null,
+				},
+			},
 			transaction,
 		});
 
-		// Fetch all products at once
-		const mainProducts = await db.product.findAll({
-			where: { sku: { [Op.in]: skus } },
-			transaction,
-		});
-
-		const variantMap = new Map(variants.map((v) => [v.sku, v]));
-
-		const productMap = new Map(mainProducts.map((p) => [p.sku, p]));
+		console.log(`Found ${products.length} products`);
 
 		for (const product of products) {
-			const variant = variantMap.get(product.sku);
-			const mainProduct = productMap.get(product.sku);
+			const cleaned = cleanKeyFeaturesText(product.description);
 
-			if (!product.discount && product.discount !== 0) continue;
-
-			if (variant) {
-				await db.product_variant_to_branch.update(
-					{ discount_percentage: product.discount },
-					{
-						where: { product_variant_id: variant.id },
-						transaction,
-					}
-				);
-
-				updatedVariants.push(variant.id);
-			}
-
-			if (mainProduct) {
-				await mainProduct.update(
-					{ base_discount_percentage: product.discount },
-					{ transaction }
-				);
+			if (cleaned !== product.description) {
+				await product.update({ description: cleaned }, { transaction });
+				console.log(`Updated Product ID: ${product.id}`);
 			}
 		}
 
 		await transaction.commit();
-
-		return {
-			success: true,
-			updatedVariants,
-		};
+		console.log('✅ All descriptions cleaned successfully.');
 	} catch (error) {
 		await transaction.rollback();
-		throw new ApiError(
-			httpStatus.INTERNAL_SERVER_ERROR,
-			error.message || 'Error importing variant discounts'
-		);
+		console.error('❌ Error cleaning descriptions:', error);
 	}
 }
 
@@ -1363,20 +1320,12 @@ module.exports = {
 	createProduct,
 	updateProduct,
 	getProducts,
-	// getProducts: (req) =>
-	// 	productService.list(
-	// 		req,
-	// 		getProductIncludes(req),
-	// 		[],
-	// 		[['id', 'DESC']],
-	// 		true
-	// 	),
 	permanentDeleteProductById: productService.permanentDelete,
 	softDeleteProductById,
 	importProductsFromSheet,
 	exportProducts,
 	getProductTitlesOnly,
-	importVariantPricesFromSheet,
+	cleanDescriptionProducts,
 };
 
 const excelFeilds = {
