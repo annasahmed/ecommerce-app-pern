@@ -12,8 +12,6 @@ import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 export default function CartPage() {
 	const { cart, removeFromCart, addToCart, clearCart } = useCartStore();
 
-	console.log(cart, "chkking cart111");
-
 	// Update quantity handler
 	const updateQuantity = (product, type) => {
 		if (type === "increase") {
@@ -54,7 +52,7 @@ export default function CartPage() {
 				<div className="text-center py-5 text-muted/">
 					<h3 className="h3">Your cart is empty.</h3>
 					<PrimaryButton
-						className="mt-6 mx-auto bg-primary text-light flex items-center gap-2"
+						className="mt-6 mx-auto bg-primary text-white flex items-center gap-2"
 						link={"/"}>
 						<ArrowLeft size={18} />
 						Continue Shopping
@@ -64,7 +62,7 @@ export default function CartPage() {
 				<div className="grid lg:grid-cols-3 gap-10">
 					{/* Cart Items */}
 					<div className="lg:col-span-2 space-y-6">
-						{cart.map((item) => {
+						{cart.map((item, idx) => {
 							const discountedPrice =
 								(item.selectedVariant?.price || 0) *
 								(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
@@ -72,7 +70,7 @@ export default function CartPage() {
 							const subtotal = price * item.quantity;
 							return (
 								<div
-									key={item.id}
+									key={`${item.id}-${idx}`}
 									className="flex flex-col sm:flex-row items-center gap-6 max-md:gap-4 border p-4 rounded-lg">
 									<BaseImage
 										src={

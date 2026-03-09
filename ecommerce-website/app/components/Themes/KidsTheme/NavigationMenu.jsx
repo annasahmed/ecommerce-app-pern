@@ -250,7 +250,9 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 												<ul className="space-y-2 pl-8">
 													{cat.children?.map((subCat, idx) => (
 														<li key={idx}>
-															<Link href={`/products?category=${subCat.slug}`}>
+															<Link
+																href={`/products?category=${subCat.slug}`}
+																onClick={() => setIsMenuOpen(false)}>
 																{subCat.title}
 															</Link>
 														</li>
@@ -269,7 +271,8 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 													<li key={idx}>
 														<Link
 															href={`/products?category=${subCat.slug}`}
-															className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
+															className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer"
+															onClick={() => setIsMenuOpen(false)}>
 															{subCat.title}
 														</Link>
 													</li>
@@ -287,6 +290,7 @@ const NavigationMenu = ({ isMenuOpen, setIsMenuOpen }) => {
 												<li key={idx}>
 													<Link
 														href={`/products?brand=${brand.slug}`}
+														onClick={() => setIsMenuOpen(false)}
 														className="text-sm text-light/70 hover:text-secondary transition-colors cursor-pointer">
 														{brand.title}
 													</Link>

@@ -40,7 +40,7 @@ export default function BaseDrawer({
 					leave="transition-opacity duration-200"
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0">
-					<div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
+					<div className="fixed inset-0 bg-black/25 backdrop-blur-sm/" />
 				</TransitionChild>
 
 				{/* Drawer */}

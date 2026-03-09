@@ -25,6 +25,8 @@ export default function CartDrawer({ open, setOpen }) {
 		return acc + discountedPrice * item.quantity;
 	}, 0);
 
+	const router = useRouter();
+
 	const onClose = () => {
 		setOpen(false);
 	};
@@ -43,14 +45,14 @@ export default function CartDrawer({ open, setOpen }) {
 					{cart.length === 0 ? (
 						<p className="text-center text-muted mt-10">Your cart is empty</p>
 					) : (
-						cart.map((item) => {
+						cart.map((item, idx) => {
 							const discountedPrice =
 								(item.selectedVariant?.price || 0) *
 								(1 - (item.selectedVariant?.discount_percentage || 0) / 100);
 
 							return (
 								<div
-									key={item.id}
+									key={`${item.id}-${idx}`}
 									className="flex items-center gap-4 border-b pb-4">
 									<BaseImage
 										src={
@@ -128,9 +130,12 @@ export default function CartDrawer({ open, setOpen }) {
 					<CheckoutButton onClose={onClose} />
 
 					<PrimaryButton
-						link="/cart"
+						// link="/cart"
 						className="w-full bg-primary text-white"
-						onClick={onClose}>
+						onClick={() => {
+							router.push("/cart");
+							onClose();
+						}}>
 						View Cart
 					</PrimaryButton>
 				</div>
