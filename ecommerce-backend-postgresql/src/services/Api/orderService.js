@@ -128,7 +128,8 @@ async function confirmOrder(req) {
 		await sendEmail({
 			// to: 'annasahmed1609@gmail.com',
 			// to: 'salmanazeemkhan@gmail.com',
-			to: 'orders@babiesnbaba.com',
+			// to: 'orders@babiesnbaba.com',
+			to: 'babiesnbaba@gmail.com',
 			subject: `New Order #${orderId}`,
 			html: orderConfirmationAdminTemplate({
 				orderId,
