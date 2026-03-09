@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 //internal import
 import Error from "@/components/form/others/Error";
 import LabelArea from "@/components/form/selectOption/LabelArea";
-import InputArea from "@/components/form/input/InputArea";
+import InputAreaLogin from "@/components/form/input/InputAreaLogin";
 import ImageLight from "@/assets/img/login-office.jpeg";
 import ImageDark from "@/assets/img/login-office-dark.jpeg";
 import useLoginSubmit from "@/hooks/useLoginSubmit";
@@ -17,7 +17,6 @@ const Login = () => {
 	const { t } = useTranslation();
 	const { onSubmit, register, handleSubmit, errors, loading } =
 		useLoginSubmit();
-
 	return (
 		<>
 			<div className="flex items-center min-h-screen p-6 bg-customGray-50 dark:bg-customGray-900">
@@ -44,7 +43,7 @@ const Login = () => {
 								</h1>
 								<form onSubmit={handleSubmit(onSubmit)}>
 									<LabelArea label="Email" />
-									<InputArea
+									<InputAreaLogin
 										required={true}
 										register={register}
 										// defaultValue="admin@example.com"
@@ -57,14 +56,15 @@ const Login = () => {
 									<Error errorName={errors.email} />
 									<div className="mt-6"></div>
 									<LabelArea label="Password" />
-									<InputArea
+									<InputAreaLogin
 										required={true}
 										register={register}
 										// defaultValue="12345678a"
 										label="Password"
 										name="password"
 										type="password"
-										autocomplete="current-password"
+										// autocomplete="current-password"
+										autoComplete="current-password"
 										placeholder="***************"
 									/>
 									<Error errorName={errors.password} />
@@ -74,14 +74,15 @@ const Login = () => {
 											disabled={loading}
 											type="submit"
 											className={`bg-customTeal-600 rounded-md mt-4 h-12 w-full`}
-											to="/dashboard"
+											// to="/dashboard"
 										/>
 									) : (
 										<Button
 											disabled={loading}
 											type="submit"
 											className="mt-4 h-12 w-full"
-											to="/dashboard">
+											// to="/dashboard"
+										>
 											{t("LoginTitle")}
 										</Button>
 									)}

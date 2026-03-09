@@ -188,8 +188,6 @@ const ProductDrawer = ({ id, data }) => {
 	const baseDiscount = watch("base_discount_percentage");
 	const sku = watch("sku");
 
-	console.log(sku, "chkking sku111");
-
 	useEffect(() => {
 		setDefaultValues((prev) => ({
 			...prev,
@@ -226,6 +224,10 @@ const ProductDrawer = ({ id, data }) => {
 
 	const onSubmit = async (data) => {
 		try {
+			if (data?.translations[0]?.slug) {
+				data.translations[0].slug = data.translations[0].slug.trim();
+			}
+
 			setIsSubmitting(true);
 			const cleanedData = Object.fromEntries(
 				Object.entries(data).filter(([_, value]) => value !== ""),
