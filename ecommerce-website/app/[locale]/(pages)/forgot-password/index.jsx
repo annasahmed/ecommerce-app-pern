@@ -4,7 +4,7 @@ import AuthLayout from "@/app/components/Themes/KidsTheme/AuthLayout";
 import InputArea from "@/app/components/Shared/form/InputArea";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
-import requests from "@/app/services/httpServices";
+import AuthServices from "@/app/services/AuthServices";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -18,9 +18,7 @@ const ForgotPasswordPage = () => {
 
 	const onSubmit = async (values) => {
 		try {
-			await requests.post("/auth/forgot-password", {
-				email: values.email,
-			});
+			await AuthServices.forgotPassword({ email: values.email });
 			toast.success("Password reset link sent to your email");
 			reset();
 		} catch (err) {

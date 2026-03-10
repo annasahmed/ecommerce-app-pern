@@ -4,7 +4,7 @@ import AuthLayout from "@/app/components/Themes/KidsTheme/AuthLayout";
 import InputArea from "@/app/components/Shared/form/InputArea";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
-import requests from "@/app/services/httpServices";
+import AuthServices from "@/app/services/AuthServices";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -25,10 +25,7 @@ const ResetPasswordPage = () => {
 			return;
 		}
 		try {
-			const encodedToken = encodeURIComponent(token);
-			await requests.post(`/auth/reset-password?token=${encodedToken}`, {
-				password: values.password,
-			});
+			await AuthServices.resetPassword(token, { password: values.password });
 			toast.success("Password updated. Please sign in.");
 			router.push("/login");
 		} catch (err) {

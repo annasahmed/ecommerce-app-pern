@@ -1,12 +1,11 @@
 const catchAsync = require('../../utils/catchAsync');
 const { apiAuthService, apiAppUserService } = require('../../services/Api');
-const { tokenService, emailService } = require('../../services');
+const { tokenService } = require('../../services');
 const {
 	setCookie,
 	generateExpires,
 	verifyToken,
 	clearCookie,
-	encryptData,
 } = require('../../utils/auth');
 const config = require('../../config/config');
 const ApiError = require('../../utils/ApiError');
@@ -14,6 +13,10 @@ const httpStatus = require('http-status');
 const db = require('../../db/models');
 const { Op } = require('sequelize');
 const { tokenTypes } = require('../../config/tokens');
+const {
+	forgotPasswordTemplate,
+} = require('../../config/emailTemplates/forgotPassword');
+const { sendEmail } = require('../../services/email.service');
 
 const login = catchAsync(async (req, res) => {
 	const user = await apiAuthService.loginUserWithEmailAndPassword(req);
@@ -36,14 +39,20 @@ const login = catchAsync(async (req, res) => {
 });
 
 const forgotPassword = catchAsync(async (req, res) => {
+	const { email } = req.body;
 	const resetPasswordToken = await tokenService.generateResetPasswordToken(
-		req.body.email,
-		false
+		email
 	);
-	await emailService.sendResetPasswordEmail(
-		req.body.email,
-		resetPasswordToken
-	);
+	const resetUrl = `${config.websiteUrl}/reset-password?token=${resetPasswordToken}`;
+	await sendEmail({
+		to: email,
+		subject: 'Reset your password',
+		html: forgotPasswordTemplate({
+			customerName: '',
+			resetUrl,
+			expiresMinutes: config.jwt.resetPasswordExpirationMinutes,
+		}),
+	});
 	res.send({ success: true });
 });
 
@@ -52,14 +61,7 @@ const resetPassword = catchAsync(async (req, res) => {
 		req.query.token,
 		tokenTypes.RESET_PASSWORD
 	);
-	const hashedPassword = await encryptData(req.body.password);
-	await db.app_user.update(
-		{ password: hashedPassword },
-		{ where: { id: userId } }
-	);
-	await db.token.destroy({
-		where: { app_user_id: userId, type: tokenTypes.RESET_PASSWORD },
-	});
+	await apiAppUserService.resetPassword(userId, req.body.password);
 	res.send({ success: true });
 });
 
