@@ -172,7 +172,7 @@ const Profile = () => {
 									name="currentPassword"
 									placeholder="Enter current password"
 									type="password"
-									value={resetPasswordFormData.currentPassword}
+									value={resetPasswordFormData.currentPassword || ""}
 									onChange={handleResetPasswordChange}
 									className="w-full border rounded-lg px-3 py-2"
 								/>
@@ -187,7 +187,7 @@ const Profile = () => {
 									name="newPassword"
 									placeholder="Enter new password"
 									type="password"
-									value={resetPasswordFormData.newPassword}
+									value={resetPasswordFormData.newPassword || ""}
 									onChange={handleResetPasswordChange}
 									className="w-full border rounded-lg px-3 py-2"
 								/>
@@ -200,7 +200,7 @@ const Profile = () => {
 									name="confirmPassword"
 									placeholder="Confirm password"
 									type="password"
-									value={resetPasswordFormData.confirmPassword}
+									value={resetPasswordFormData.confirmPassword || ""}
 									onChange={handleResetPasswordChange}
 									className="w-full border rounded-lg px-3 py-2"
 								/>

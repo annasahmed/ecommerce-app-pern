@@ -7,6 +7,8 @@ const {
 	tokenService,
 } = require('../services');
 const { verifyToken } = require('../utils/auth');
+const { tokenTypes } = require('../config/tokens');
+const db = require('../db/models');
 
 const register = catchAsync(async (req, res) => {
 	const user = await userService.createUser(req);
@@ -29,7 +31,8 @@ const login = catchAsync(async (req, res) => {
 
 const forgotPassword = catchAsync(async (req, res) => {
 	const resetPasswordToken = await tokenService.generateResetPasswordToken(
-		req.body.email
+		req.body.email,
+		true
 	);
 	await emailService.sendResetPasswordEmail(
 		req.body.email,
@@ -39,9 +42,15 @@ const forgotPassword = catchAsync(async (req, res) => {
 });
 
 const resetPassword = catchAsync(async (req, res) => {
-	const { id } = await verifyToken(req.query.token);
-	req.body.id = id;
+	const { userId } = await verifyToken(
+		req.query.token,
+		tokenTypes.RESET_PASSWORD
+	);
+	req.body.id = userId;
 	await userService.updateUser(req);
+	await db.token.destroy({
+		where: { user_id: userId, type: tokenTypes.RESET_PASSWORD },
+	});
 	res.send({ success: true });
 });
 

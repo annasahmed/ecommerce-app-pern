@@ -1,11 +1,12 @@
 const catchAsync = require('../../utils/catchAsync');
 const { apiAuthService, apiAppUserService } = require('../../services/Api');
-const { tokenService } = require('../../services');
+const { tokenService, emailService } = require('../../services');
 const {
 	setCookie,
 	generateExpires,
 	verifyToken,
 	clearCookie,
+	encryptData,
 } = require('../../utils/auth');
 const config = require('../../config/config');
 const ApiError = require('../../utils/ApiError');
@@ -32,6 +33,34 @@ const login = catchAsync(async (req, res) => {
 		generateExpires(config.jwt.accessExpirationMinutes / 60)
 	);
 	res.send({ user });
+});
+
+const forgotPassword = catchAsync(async (req, res) => {
+	const resetPasswordToken = await tokenService.generateResetPasswordToken(
+		req.body.email,
+		false
+	);
+	await emailService.sendResetPasswordEmail(
+		req.body.email,
+		resetPasswordToken
+	);
+	res.send({ success: true });
+});
+
+const resetPassword = catchAsync(async (req, res) => {
+	const { userId } = await verifyToken(
+		req.query.token,
+		tokenTypes.RESET_PASSWORD
+	);
+	const hashedPassword = await encryptData(req.body.password);
+	await db.app_user.update(
+		{ password: hashedPassword },
+		{ where: { id: userId } }
+	);
+	await db.token.destroy({
+		where: { app_user_id: userId, type: tokenTypes.RESET_PASSWORD },
+	});
+	res.send({ success: true });
 });
 
 const sendOtp = catchAsync(async (req, res) => {
@@ -168,4 +197,6 @@ module.exports = {
 	me,
 	sendOtp,
 	changePassword,
+	forgotPassword,
+	resetPassword,
 };

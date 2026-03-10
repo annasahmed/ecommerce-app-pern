@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 const logger = require('../config/logger');
+const {
+	forgotPasswordTemplate,
+} = require('../config/emailTemplates/forgotPassword');
 
 const { host, port, auth, from } = config.brevoEmail;
 
@@ -34,14 +37,28 @@ const sendEmail = async ({ to, subject, text, html }) => {
 	await transport.sendMail({
 		from,
 		to,
-		bcc: ['salmanazeemkhan@gmail.com', 'annasahmed1609@gmail.com'],
+		// bcc: ['salmanazeemkhan@gmail.com', 'annasahmed1609@gmail.com'],
 		subject,
 		text,
 		html,
 	});
 };
 
+const sendResetPasswordEmail = async (to, resetToken) => {
+	const resetUrl = `${config.websiteUrl}/reset-password?token=${resetToken}`;
+	await sendEmail({
+		to,
+		subject: 'Reset your password',
+		html: forgotPasswordTemplate({
+			customerName: '',
+			resetUrl,
+			expiresMinutes: config.jwt.resetPasswordExpirationMinutes,
+		}),
+	});
+};
+
 module.exports = {
 	transport,
 	sendEmail,
+	sendResetPasswordEmail,
 };
