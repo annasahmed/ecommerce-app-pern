@@ -9,6 +9,7 @@ const db = require('../../db/models');
 const ApiError = require('../../utils/ApiError');
 const { sendEmail } = require('../email.service');
 const { addOrUpdateAddress } = require('./appUserService');
+const config = require('../../config/config');
 
 async function confirmOrder(req) {
 	const { customer, billingAddress, items, summary, userId } = req.body;
@@ -129,7 +130,7 @@ async function confirmOrder(req) {
 			// to: 'annasahmed1609@gmail.com',
 			// to: 'salmanazeemkhan@gmail.com',
 			// to: 'orders@babiesnbaba.com',
-			to: 'babiesnbaba@gmail.com',
+			to: config.env === 'development' ? 'devsts26@gmail.com' : 'babiesnbaba@gmail.com',
 			subject: `New Order #${orderId}`,
 			html: orderConfirmationAdminTemplate({
 				orderId,

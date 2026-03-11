@@ -2,7 +2,7 @@ import React from "react";
 
 const SpinLoader = ({ size = 40 }) => {
 	return (
-		<div className="flex justify-center items-center py-10">
+		<div className="min-h-[50dvh] flex justify-center items-center py-10">
 			<div
 				className="relative"
 				style={{ width: size, height: size }}
