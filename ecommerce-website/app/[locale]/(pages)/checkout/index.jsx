@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCartStore } from "@/app/store/cartStore";
 import BasePrice from "@/app/components/BaseComponents/BasePrice";
 import PrimaryButton from "@/app/components/Shared/PrimaryButton";
@@ -11,10 +11,14 @@ import OrderService from "@/app/services/OrderService";
 import ThankYouScreen from "./ThankYouScreen";
 import SpinLoader from "@/app/components/Shared/SpinLoader";
 import { trackEvent } from "@/app/utils/trackEvent";
+import Link from "next/link";
+import { triggerAuthDrawer } from "@/app/store/authEvents";
+import { useAuth } from "@/app/providers/AuthProvider";
 
 export default function CheckoutPage() {
 	const { cart, clearCart } = useCartStore();
 	const [loading, setLoading] = useState(false);
+	const { isAuthenticated, user } = useAuth();
 	const paymentMethods = [
 		{
 			id: "cod",
@@ -62,29 +66,80 @@ export default function CheckoutPage() {
 	const [voucher, setVoucher] = useState("");
 	const [orderSuccess, setOrderSuccess] = useState(false);
 	const [orderSummary, setOrderSummary] = useState(null);
+	const savedAddress = useMemo(() => {
+		if (user?.addresses?.length > 0) {
+			const shipping =
+				user.addresses.find(
+					(a) => a.type === "shipping" || a.type === "general",
+				) || user.addresses[0];
+
+			const billing =
+				user.addresses.find(
+					(a) => a.type === "billing" || a.type === "general",
+				) || null;
+
+			return { shipping, billing };
+		}
+		return null;
+	}, [user]);
 	const [formData, setFormData] = useState({
-		email: "",
-		name: "",
-		// firstName: "",
-		// lastName: "",
-		address: "",
+		email: user?.email || "",
+		name: user?.name || "",
+		phone: user?.phone || "",
 		city: "Karachi",
+		address: "",
 		postalCode: "",
 		country: "Pakistan",
-		phone: "",
 		paymentMethod: "cod",
 		billingSameAsShipping: true,
 	});
 	const [billingAddress, setBillingAddress] = useState({
 		country: "Pakistan",
-		// firstName: "",
-		// lastName: "",
-		name: "",
+		name: user?.name || "",
 		address: "",
 		city: "Karachi",
 		postalCode: "",
-		phone: "",
+		phone: user?.phone || "",
 	});
+
+	useEffect(() => {
+		if (user) {
+			setFormData((prev) => ({
+				...prev,
+				email: user.email || "",
+				name: user.name || "",
+				phone: user.phone || "",
+			}));
+
+			setBillingAddress((prev) => ({
+				...prev,
+				name: user.name || "",
+				phone: user.phone || "",
+			}));
+		}
+	}, [user]);
+
+	useEffect(() => {
+		if (!savedAddress?.shipping) return;
+
+		setFormData((prev) => ({
+			...prev,
+			address: savedAddress.shipping?.address || "",
+			city: savedAddress.shipping?.city || "Karachi",
+			postalCode: savedAddress.shipping?.postal_code || "",
+			country: savedAddress.shipping?.country || "Pakistan",
+		}));
+
+		if (savedAddress?.billing) {
+			setBillingAddress((prev) => ({
+				...prev,
+				address: savedAddress.billing?.address || "",
+				city: savedAddress.billing?.city || "Karachi",
+				postalCode: savedAddress.billing?.postal_code || "",
+				country: savedAddress.billing?.country || "Pakistan",
+			}));
+		}
+	}, [savedAddress]);
 
 	// ------------------ CALCULATIONS ------------------
 	const subtotal = cart.reduce((acc, item) => {
@@ -172,6 +227,17 @@ export default function CheckoutPage() {
 				total,
 			},
 		};
+
+		setOrderSummary({
+			...orderPayload,
+			paymentMethod: formData.paymentMethod,
+			orderId: Date.now(), // fallback safe ID
+			// orderId: res?.order?.tracking_id || Date.now(), // fallback safe ID
+		});
+
+		setOrderSuccess(true);
+		setLoading(false);
+		return;
 
 		await OrderService.confirmOrder(orderPayload)
 			.then((res) => {
@@ -272,7 +338,19 @@ export default function CheckoutPage() {
 						<div className="lg:col-span-7 space-y-8">
 							{/* Contact */}
 							<section>
-								<h2 className="text-lg font-semibold mb-3">Contact</h2>
+								<div className="flex justify-between items-center">
+									<h2 className="text-lg font-semibold mb-3">Contact</h2>
+									{!isAuthenticated && (
+										<button
+											type="button"
+											onClick={() => {
+												triggerAuthDrawer();
+											}}
+											className="text-primary p4 mb-3 underline cursor-pointer">
+											Sign in
+										</button>
+									)}
+								</div>
 								<input
 									type="email"
 									name="email"
@@ -371,12 +449,12 @@ export default function CheckoutPage() {
 									All transactions are secure and encrypted.
 								</p>
 
-								{paymentMethods.map((method) => {
+								{paymentMethods.map((method, idx) => {
 									const isSelected = formData.paymentMethod === method.id;
 
 									return (
 										<label
-											key={method.id}
+											key={`payment-method-${idx}`}
 											className={`block border rounded-md mb-3 cursor-pointer transition-all
           ${isSelected ? "border-secondary bg-secondary/10" : "border-gray-300"}
           ${method.disabled ? "opacity-50 cursor-not-allowed" : ""}
@@ -581,8 +659,8 @@ export default function CheckoutPage() {
 						<div className="lg:col-span-5 bg-gray-50 p-6 rounded-lg">
 							{/* Cart */}
 							<div className="space-y-4 mb-6">
-								{cart.map((item) => (
-									<div key={item.id} className="flex gap-4">
+								{cart.map((item, idx) => (
+									<div key={`item-${idx}`} className="flex gap-4">
 										<div className="relative">
 											<BaseImage
 												src={

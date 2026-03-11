@@ -18,8 +18,8 @@ function ThankYouScreen({ order, paymentLabelMap }) {
 
 			{/* ORDER ITEMS */}
 			<div className="space-y-4 mb-6">
-				{order.items.map((item) => (
-					<div key={item.id} className="flex justify-between">
+				{order.items.map((item, idx) => (
+					<div key={`item-${idx}`} className="flex justify-between">
 						<div>
 							<p className="font-medium">{item.title}</p>
 							<p className="text-sm text-gray-500">Sku: {item.sku||'-'}</p>
