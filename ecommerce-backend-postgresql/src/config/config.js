@@ -59,6 +59,7 @@ const envVarsSchema = Joi.object()
 		BREVO_SMTP_PASS: Joi.string().description('BREVO SMTP password'),
 		BREVO_SENDER_EMAIL: Joi.string().description('BREVO SENDER EMAIL'),
 		BREVO_SENDER_NAME: Joi.string().description('BREVO SENDER NAME'),
+		WEBSITE_URL: Joi.string().description('Website base URL'),
 	})
 	.unknown();
 
@@ -133,6 +134,7 @@ module.exports = {
 		},
 		from: `"${envVars.BREVO_SENDER_NAME}" <${envVars.BREVO_SENDER_EMAIL}>`,
 	},
+	websiteUrl: envVars.WEBSITE_URL || 'http://localhost:3000',
 	s3Bucket: {
 		accessKeyId: envVars.AWS_ACCESS_KEY_ID,
 		secretAccessKey: envVars.AWS_SECRET_ACCESS_KEY,
