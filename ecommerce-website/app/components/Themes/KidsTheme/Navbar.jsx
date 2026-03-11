@@ -25,8 +25,9 @@ const Navbar = () => {
     cartDrawerOpen,
     openCartDrawer,
     closeCartDrawer,
+    searchOpen,
+    toggleSearch,
   } = useAuthUIStore();
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const store = useStore();
   const { cart, favourites } = useCartStore();
@@ -138,7 +139,7 @@ const Navbar = () => {
               {/* Search Icon for Mobile */}
               <button
                 className="sm:hidden"
-                onClick={() => setShowMobileSearch((prev) => !prev)}
+                onClick={() => toggleSearch()}
               >
                 <Search className="cursor-pointer hover:text-primary transition" />
               </button>
@@ -183,7 +184,7 @@ const Navbar = () => {
           </section>
 
           {/* Mobile Search Dropdown */}
-          {showMobileSearch && (
+          {searchOpen && (
             <div className="absolute left-0 top-full w-full bg-white border-t border-gray-200 px-4 py-3 shadow-md sm:hidden z-50">
               <SearchInput
                 className="w-full"
