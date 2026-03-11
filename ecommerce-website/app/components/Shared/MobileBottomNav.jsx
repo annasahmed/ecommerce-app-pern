@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/app/providers/AuthProvider";
 import { useCartStore } from "@/app/store/cartStore";
+import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -18,6 +19,7 @@ export default function MobileBottomNav() {
   const favCount = favourites?.length || 0;
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
+  const { searchOpen, toggleSearch } = useAuthUIStore();
 
   const getActive = () => {
     if (pathname.includes("favourites")) return "wishlist";
@@ -63,12 +65,31 @@ export default function MobileBottomNav() {
           label="Account"
           active={active === "account"}
         />
-        <NavItem
-          href="/products"
-          icon={FiSearch}
-          label="Search"
-          active={active === "search"}
-        />
+        <li>
+          <button
+            onClick={toggleSearch}
+            className="flex flex-col items-center gap-1 text-xs transition-all active:scale-90"
+          >
+            <div
+              className={`relative text-xl ${
+                searchOpen
+                  ? "text-secondary/ text-primary"
+                  : "text-gray-400/ text-secondary "
+              }`}
+            >
+              <FiSearch />
+            </div>
+            <span
+              className={`${
+                searchOpen
+                  ? "text-secondary/ text-primary font-medium"
+                  : "text-gray-400/ text-secondary "
+              }`}
+            >
+              Search
+            </span>
+          </button>
+        </li>
       </ul>
     </nav>
   );
@@ -83,7 +104,9 @@ function NavItem({ href, icon: Icon, label, count, active }) {
       >
         <div
           className={`relative text-xl ${
-            active ? "text-secondary/ text-primary" : "text-gray-400/ text-secondary "
+            active
+              ? "text-secondary/ text-primary"
+              : "text-gray-400/ text-secondary "
           }`}
         >
           <Icon />
@@ -95,7 +118,9 @@ function NavItem({ href, icon: Icon, label, count, active }) {
         </div>
         <span
           className={`${
-            active ? "text-secondary/ text-primary font-medium" : "text-gray-400/ text-secondary "
+            active
+              ? "text-secondary/ text-primary font-medium"
+              : "text-gray-400/ text-secondary "
           }`}
         >
           {label}
