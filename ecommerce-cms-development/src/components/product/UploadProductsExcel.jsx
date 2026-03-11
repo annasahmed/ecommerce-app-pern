@@ -5,6 +5,7 @@ import { Upload, FileSpreadsheet, Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { excelFeilds } from "./excelFields";
+import { Es } from "react-flags-select";
 
 const UploadProductsExcel = () => {
 	const safeStr = (val) =>
@@ -46,7 +47,6 @@ const UploadProductsExcel = () => {
 	const parsePrice = (val) => {
 		const priceWithSku = parseSizesWithSku(safeStr(val));
 		const price = priceWithSku[0]?.sku;
-		console.log(priceWithSku, "chkking price sku");
 
 		return {
 			price,
@@ -88,7 +88,6 @@ const UploadProductsExcel = () => {
 				`Row ${excelRowNumber}: discount must be a number or percentage (e.g. 20 or 20%)`,
 			);
 		}
-		console.log(parsedDiscount, "chkking parse");
 
 		if (
 			parsedDiscount !== null &&
@@ -348,24 +347,54 @@ const UploadProductsExcel = () => {
 								});
 							}
 
-							variants.push({
-								sku: sizeObj?.sku || productSku,
-								branch_data: [
-									{
-										branch_id: 1,
-										cost_price: price.find((v) => v.size === sizeObj?.sku)?.sku,
-										stock:
-											stock.find((v) => v.size === sizeObj?.sku)?.sku || 100,
-										low_stock:
-											stockThreshold.find((v) => v.size === sizeObj?.sku)
-												?.sku || 100,
-										reorder_quantity: 100,
-										sale_price: price.find((v) => v.size === sizeObj?.sku)?.sku,
-										discount_percentage: parsedDiscount,
-									},
-								],
-								attribute_data: attributeData,
-							});
+							console.log(
+								price,
+								price.find((v) => v.size == productSku)?.sku,
+								price.find((v) => v.size === productSku)?.sku,
+								productSku,
+								"chkking price skuss",
+							);
+							if (sizeObj?.sku) {
+								variants.push({
+									sku: sizeObj?.sku || productSku,
+									branch_data: [
+										{
+											branch_id: 1,
+											cost_price: price.find((v) => v.size === sizeObj?.sku)
+												?.sku,
+											stock:
+												stock.find((v) => v.size === sizeObj?.sku)?.sku || 100,
+											low_stock:
+												stockThreshold.find((v) => v.size === sizeObj?.sku)
+													?.sku || 100,
+											reorder_quantity: 100,
+											sale_price: price.find((v) => v.size === sizeObj?.sku)
+												?.sku,
+											discount_percentage: parsedDiscount,
+										},
+									],
+									attribute_data: attributeData,
+								});
+							} else {
+								variants.push({
+									sku: sizeObj?.sku || productSku,
+									branch_data: [
+										{
+											branch_id: 1,
+											cost_price: price.find((v) => v.size === productSku)?.sku,
+											stock:
+												stock.find((v) => v.size === productSku)?.sku || 100,
+											low_stock:
+												stockThreshold.find((v) => v.size === productSku)
+													?.sku || 100,
+											reorder_quantity: 100,
+											sale_price: price.find((v) => v.size === productSku)?.sku,
+											discount_percentage: parsedDiscount,
+										},
+									],
+									attribute_data: attributeData,
+								});
+							}
 						});
 					});
 
