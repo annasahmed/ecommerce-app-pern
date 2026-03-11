@@ -15,178 +15,198 @@ import { useRouter } from "next/navigation";
 import { useAuthUIStore } from "@/app/store/useAuthUIStore";
 
 const Navbar = () => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	// const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-	// const [authDrawerOpen, setAuthDrawerOpen] = useState(false);
-	const {
-		authDrawerOpen,
-		openAuthDrawer,
-		closeAuthDrawer,
-		cartDrawerOpen,
-		openCartDrawer,
-		closeCartDrawer,
-	} = useAuthUIStore();
-	const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  // const [authDrawerOpen, setAuthDrawerOpen] = useState(false);
+  const {
+    authDrawerOpen,
+    openAuthDrawer,
+    closeAuthDrawer,
+    cartDrawerOpen,
+    openCartDrawer,
+    closeCartDrawer,
+  } = useAuthUIStore();
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-	const store = useStore();
-	const { cart, favourites } = useCartStore();
+  const store = useStore();
+  const { cart, favourites } = useCartStore();
 
-	const { isAuthenticated, user } = useAuth();
-	const router = useRouter();
+  const { isAuthenticated, user } = useAuth();
+  const router = useRouter();
 
-	const cartCount = cart?.length || 0;
-	const favCount = favourites?.length || 0;
+  const cartCount = cart?.length || 0;
+  const favCount = favourites?.length || 0;
 
-	useEffect(() => {
-		if (isMenuOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "auto";
-		}
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
-		return () => {
-			document.body.style.overflow = "auto";
-		};
-	}, [isMenuOpen]);
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMenuOpen]);
 
-	return (
-		<>
-			{/* Top Header */}
+  useEffect(() => {
+    if (cartDrawerOpen) {
+      window.history.pushState({ cart: true }, "");
+    }
+  }, [cartDrawerOpen]);
 
-			<header className="text-headerText bg-header w-full py-2 p4">
-				<section className="container-layout text-center p4 flex items-center justify-center">
-					<div className="max-md:hidden flex gap-2">
-						<BaseLink href="/about-us" className="hover:underline">
-							About Us
-						</BaseLink>
-						<BaseLink href="/contact-us" className="hover:underline">
-							Contact Us
-						</BaseLink>
-					</div>
-					<p className="flex-1">{store.content.header.text}</p>
-					<ul className="max-md:hidden flex gap-3 text-lg flex-wrap justify-center items-center text-primary">
-						{SOCIAL_CONFIG.slice(0, 3).map(({ key, icon: Icon, label }) => {
-							const href = store.socialLinks?.[key];
-							if (!href) return null;
+  useEffect(() => {
+    const handlePopState = () => {
+      if (cartDrawerOpen) {
+        closeCartDrawer();
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [cartDrawerOpen]);
 
-							return (
-								<li key={key}>
-									<BaseLink
-										href={href}
-										target="_blank"
-										rel="noopener noreferrer"
-										aria-label={label}
-										className="
+  return (
+    <>
+      {/* Top Header */}
+
+      <header className="text-headerText bg-header w-full py-2 p4">
+        <section className="container-layout text-center p4 flex items-center justify-center">
+          <div className="max-md:hidden flex gap-2">
+            <BaseLink href="/about-us" className="hover:underline">
+              About Us
+            </BaseLink>
+            <BaseLink href="/contact-us" className="hover:underline">
+              Contact Us
+            </BaseLink>
+          </div>
+          <p className="flex-1">{store.content.header.text}</p>
+          <ul className="max-md:hidden flex gap-3 text-lg flex-wrap justify-center items-center text-primary">
+            {SOCIAL_CONFIG.slice(0, 3).map(({ key, icon: Icon, label }) => {
+              const href = store.socialLinks?.[key];
+              if (!href) return null;
+
+              return (
+                <li key={key}>
+                  <BaseLink
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="
 										text-light hover:text-primary transition
-									">
-										<Icon />
-									</BaseLink>
-								</li>
-							);
-						})}
-					</ul>
-				</section>
-			</header>
-			<div className="sticky top-0 z-40">
-				{/* Main Navbar */}
-				<div className="border-b border-border-color py-3 sm:py-5 bg-light relative">
-					<section className="flex container-layout items-center justify-between gap-3 sm:gap-10">
-						{/* Left Section */}
-						<div className="flex items-center gap-3 flex-1">
-							{/* Mobile Menu Button */}
-							<button
-								className="sm:hidden p-2 rounded-md hover:bg-gray-100 transition"
-								onClick={() => setIsMenuOpen((prev) => !prev)}>
-								{isMenuOpen ? <X size={22} /> : <Menu size={22} />}
-							</button>
-							<Logo
-								src={store.content.logo}
-								className="w-40 max-md:w-28 h-auto object-contain mx-auto max-md:hidden"
-							/>
-						</div>
-						{/* Logo */}
-						<div className="flex-1 md:flex-2">
-							{/* Desktop Search */}
-							<div className="hidden md:block flex-1 md:w-3/4/">
-								<SearchInput className="w-full" />
-							</div>
-							<Logo
-								src={store.content.logo}
-								className="w-40 max-md:w-28 h-auto object-contain mx-auto md:hidden"
-							/>
-						</div>
-						{/* Right Section (Icons) */}
-						<div className="flex flex-1 justify-end items-center gap-4 sm:gap-6 relative">
-							{/* Search Icon for Mobile */}
-							<button
-								className="sm:hidden"
-								onClick={() => setShowMobileSearch((prev) => !prev)}>
-								<Search className="cursor-pointer hover:text-primary transition" />
-							</button>
+									"
+                  >
+                    <Icon />
+                  </BaseLink>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      </header>
+      <div className="sticky top-0 z-40">
+        {/* Main Navbar */}
+        <div className="border-b border-border-color py-3 sm:py-5 bg-light relative">
+          <section className="flex container-layout items-center justify-between gap-3 sm:gap-10">
+            {/* Left Section */}
+            <div className="flex items-center gap-3 flex-1">
+              {/* Mobile Menu Button */}
+              <button
+                className="sm:hidden p-2 rounded-md hover:bg-gray-100 transition"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+              >
+                {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+              <Logo
+                src={store.content.logo}
+                className="w-40 max-md:w-28 h-auto object-contain mx-auto max-md:hidden"
+              />
+            </div>
+            {/* Logo */}
+            <div className="flex-1 md:flex-2">
+              {/* Desktop Search */}
+              <div className="hidden md:block flex-1 md:w-3/4/">
+                <SearchInput className="w-full" />
+              </div>
+              <Logo
+                src={store.content.logo}
+                className="w-40 max-md:w-28 h-auto object-contain mx-auto md:hidden"
+              />
+            </div>
+            {/* Right Section (Icons) */}
+            <div className="flex flex-1 justify-end items-center gap-4 sm:gap-6 relative">
+              {/* Search Icon for Mobile */}
+              <button
+                className="sm:hidden"
+                onClick={() => setShowMobileSearch((prev) => !prev)}
+              >
+                <Search className="cursor-pointer hover:text-primary transition" />
+              </button>
 
-							{/* Favourites */}
-							<BaseLink href="/favourites" className="relative hidden sm:block">
-								<Heart className="cursor-pointer hover:text-primary transition stroke-1" />
-								{favCount > 0 && (
-									<span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
-										{favCount}
-									</span>
-								)}
-							</BaseLink>
+              {/* Favourites */}
+              <BaseLink href="/favourites" className="relative hidden sm:block">
+                <Heart className="cursor-pointer hover:text-primary transition stroke-1" />
+                {favCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
+                    {favCount}
+                  </span>
+                )}
+              </BaseLink>
 
-							{/* Cart */}
-							<button
-								// href="/cart"
-								onClick={() => {
-									openCartDrawer();
-								}}
-								className="relative">
-								<ShoppingCartIcon className="cursor-pointer hover:text-primary transition stroke-1" />
-								{cartCount > 0 && (
-									<span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
-										{cartCount}
-									</span>
-								)}
-							</button>
+              {/* Cart */}
+              <button
+                // href="/cart"
+                onClick={() => {
+                  openCartDrawer();
+                }}
+                className="relative"
+              >
+                <ShoppingCartIcon className="cursor-pointer hover:text-primary transition stroke-1" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-light text-[10px] font-medium rounded-full w-4 h-4 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
 
-							{/* User */}
+              {/* User */}
 
-							<button
-								onClick={() => {
-									!isAuthenticated ? openAuthDrawer() : router.push("/profile");
-								}}
-								// href={!isAuthenticated ? "/login" : "/profile"}
-							>
-								<User className="cursor-pointer hover:text-primary transition hidden sm:block stroke-1" />
-							</button>
-						</div>
-					</section>
+              <button
+                onClick={() => {
+                  !isAuthenticated ? openAuthDrawer() : router.push("/profile");
+                }}
+                // href={!isAuthenticated ? "/login" : "/profile"}
+              >
+                <User className="cursor-pointer hover:text-primary transition hidden sm:block stroke-1" />
+              </button>
+            </div>
+          </section>
 
-					{/* Mobile Search Dropdown */}
-					{showMobileSearch && (
-						<div className="absolute left-0 top-full w-full bg-white border-t border-gray-200 px-4 py-3 shadow-md sm:hidden z-50">
-							<SearchInput
-								className="w-full"
-								placeholder="Search products..."
-							/>
-						</div>
-					)}
-				</div>
+          {/* Mobile Search Dropdown */}
+          {showMobileSearch && (
+            <div className="absolute left-0 top-full w-full bg-white border-t border-gray-200 px-4 py-3 shadow-md sm:hidden z-50">
+              <SearchInput
+                className="w-full"
+                placeholder="Search products..."
+              />
+            </div>
+          )}
+        </div>
 
-				{/* <AuthDrawer open={authDrawerOpen} setOpen={setAuthDrawerOpen} /> */}
-				<AuthDrawer
-					open={authDrawerOpen}
-					setOpen={(val) => (val ? openAuthDrawer() : closeAuthDrawer())}
-				/>
-				<CartDrawer
-					open={cartDrawerOpen}
-					setOpen={(val) => (val ? openCartDrawer() : closeCartDrawer())}
-				/>
-				{/* Navigation Menu */}
-				<NavigationMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-			</div>
-		</>
-	);
+        {/* <AuthDrawer open={authDrawerOpen} setOpen={setAuthDrawerOpen} /> */}
+        <AuthDrawer
+          open={authDrawerOpen}
+          setOpen={(val) => (val ? openAuthDrawer() : closeAuthDrawer())}
+        />
+        <CartDrawer
+          open={cartDrawerOpen}
+          setOpen={(val) => (val ? openCartDrawer() : closeCartDrawer())}
+        />
+        {/* Navigation Menu */}
+        <NavigationMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      </div>
+    </>
+  );
 };
 
 export default Navbar;
