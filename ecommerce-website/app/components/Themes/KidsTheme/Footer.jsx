@@ -54,13 +54,13 @@ export const SOCIAL_CONFIG = [
 	},
 ];
 
-const Footer = () => {
+const Footer = ({ showOnMobile = true }) => {
 	const store = useStore();
 	const footerContent = store.content.footer;
 
 	return (
 		<footer
-			className="bg-footer text-light bg-no-repeat bg-cover bg-center"
+			className={`bg-footer text-light bg-no-repeat bg-cover bg-center ${showOnMobile ? "" : "max-md:hidden"}`}
 			style={{
 				backgroundImage: footerContent.background
 					? `url('${footerContent.background.src}')`

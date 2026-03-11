@@ -19,7 +19,7 @@ export default function FavouritesPage() {
 			{favourites.length === 0 ? (
 				<div className="text-center py-20 text-muted">
 					<p>You don&apos;t have any favorite items yet.</p>
-					<Link href="/">
+					<Link href="/" className="flex justify-center">
 						<Button className="mt-4 flex items-center gap-2">
 							<ArrowLeft size={18} />
 							Browse Products

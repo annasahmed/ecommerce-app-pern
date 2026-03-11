@@ -5,7 +5,7 @@ import WhatsAppButton from "../WhatsAppButton";
 import MobileBottomNav from "../MobileBottomNav";
 import BackToTop from "../BackToTop";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, withFooter = true }) => {
 	const store = useStore();
 	const { Navbar, Footer } = loadThemeComponents(store.themeName);
 	return (
@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
 			<WhatsAppButton />
 			<BackToTop />
 			<MobileBottomNav />
-			<Footer />
+			<Footer showOnMobile={withFooter} />
 		</>
 	);
 };
