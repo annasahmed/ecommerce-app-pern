@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import BaseLink from "@/app/components/BaseComponents/BaseLink";
 import Logo from "@/app/components/Shared/Logo";
 import { useStore } from "@/app/providers/StoreProvider";
@@ -27,6 +27,7 @@ const Navbar = () => {
     closeCartDrawer,
     searchOpen,
     toggleSearch,
+    closeSearch,
   } = useAuthUIStore();
 
   const store = useStore();
@@ -37,6 +38,20 @@ const Navbar = () => {
 
   const cartCount = cart?.length || 0;
   const favCount = favourites?.length || 0;
+
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        closeSearch();
+      }
+    };
+    if (searchOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchOpen]);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -137,10 +152,7 @@ const Navbar = () => {
             {/* Right Section (Icons) */}
             <div className="flex flex-1 justify-end items-center gap-4 sm:gap-6 relative">
               {/* Search Icon for Mobile */}
-              <button
-                className="sm:hidden"
-                onClick={() => toggleSearch()}
-              >
+              <button className="sm:hidden" onClick={() => toggleSearch()}>
                 <Search className="cursor-pointer hover:text-primary transition" />
               </button>
 
@@ -185,7 +197,10 @@ const Navbar = () => {
 
           {/* Mobile Search Dropdown */}
           {searchOpen && (
-            <div className="absolute left-0 top-full w-full bg-white border-t border-gray-200 px-4 py-3 shadow-md sm:hidden z-50">
+            <div
+              ref={searchRef}
+              className="absolute left-0 top-full w-full bg-white border-t border-gray-200 px-4 py-3 shadow-md sm:hidden z-50"
+            >
               <SearchInput
                 className="w-full"
                 placeholder="Search products..."

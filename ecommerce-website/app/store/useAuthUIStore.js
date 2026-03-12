@@ -10,6 +10,7 @@ export const useAuthUIStore = create((set) => {
     closeAuthDrawer: () => set({ authDrawerOpen: false }),
     openCartDrawer: () => set({ cartDrawerOpen: true }),
     closeCartDrawer: () => set({ cartDrawerOpen: false }),
+    closeSearch: () => set({ searchOpen: false }),
     toggleSearch: () => set((state) => ({ searchOpen: !state.searchOpen })),
   };
 });
