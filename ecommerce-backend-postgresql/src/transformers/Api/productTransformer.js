@@ -91,6 +91,8 @@ function transformProduct(product, lang, multipleProducts = false) {
 		meta_description: product.meta_description,
 		base_price: product.base_price,
 		base_discount_percentage: product.base_discount_percentage,
+		avg_rating: product.avg_rating,
+		total_reviews: product.total_reviews,
 		is_featured: product.is_featured,
 		thumbnail: product.thumbnailImage ? product.thumbnailImage.url : null,
 		images: [
@@ -119,6 +121,19 @@ function transformProduct(product, lang, multipleProducts = false) {
 			transformVariant(v, lang, multipleProducts)
 		),
 
+		...(multipleProducts
+			? {}
+			: {
+					reviews: (product.reviews || []).map((review) => ({
+						id: review.id,
+						rating: review.rating,
+						comment: review.comment,
+						user:
+							review.user?.name ||
+							review.guest_name ||
+							'Anonymous',
+					})),
+			  }),
 		created_at: product.created_at,
 	};
 }

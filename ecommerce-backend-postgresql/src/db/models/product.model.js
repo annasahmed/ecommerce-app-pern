@@ -150,6 +150,9 @@ module.exports = (sequelize, DataTypes) => {
 		product.hasMany(models.product_translation, {
 			foreignKey: 'product_id',
 		});
+		product.hasMany(models.review, {
+			foreignKey: 'product_id',
+		});
 		baseAssociation(product, models);
 	};
 

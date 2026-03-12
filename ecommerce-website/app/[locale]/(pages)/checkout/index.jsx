@@ -237,7 +237,7 @@ export default function CheckoutPage() {
 
 		setOrderSuccess(true);
 		setLoading(false);
-		return;
+		// return;
 
 		await OrderService.confirmOrder(orderPayload)
 			.then((res) => {
