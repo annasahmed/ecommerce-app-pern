@@ -1,7 +1,7 @@
 import { useGlobalSettings } from "@/context/GlobalSettingsContext";
 import useUtilsFunction from "@/hooks/useUtilsFunction";
 import AttributeServices from "@/services/AttributeServices";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InputMultipleSelectField from "../form/fields/InputMultipleSelectField";
 import VariantTable from "./VariantTable";
 import ProductServices from "@/services/ProductServices";
@@ -108,8 +108,7 @@ const ProductVariantForm = ({
 	const [selectedVariants, setSelectedVariants] = useState([]);
 	const [defaultVariants, setDefaultVariants] = useState([]);
 	const [generatedVariants, setGeneratedVariants] = useState([]);
-
-	console.log(generatedVariants, "chkking generatedVariants");
+	const isInitialEditLoad = useRef(true);
 
 	useEffect(() => {
 		AttributeServices.getActiveAttributes().then((v) =>
@@ -127,8 +126,6 @@ const ProductVariantForm = ({
 
 	useEffect(() => {
 		const tempArr = finalVariants?.map((v) => {
-			console.log(v, "chkking vvv");
-
 			return {
 				sku: v.sku,
 				image: v.imageId,
@@ -155,10 +152,19 @@ const ProductVariantForm = ({
 			};
 		});
 		setVariantsToSend(tempArr);
-	}, [finalVariants]);
+	}, [finalVariants, settings.defaultBranchId]);
 
 	// only for setting defaultValue to attributesInput feild
+	const sameCombo = (a, b) => {
+		if (!a.combo || !b.combo) return false;
 
+		return a.combo.every((aItem) => {
+			const bItem = b.combo.find((x) => x.id === aItem.id);
+			if (!bItem) return false;
+
+			return aItem.value.en === bItem.value.en;
+		});
+	};
 	useEffect(() => {
 		const { variantDetails, defaultValues, attributes } =
 			transformProductForEdit(productVariants);
@@ -167,12 +173,48 @@ const ProductVariantForm = ({
 		setDefaultValues({
 			...defaultValues,
 		});
+		// ⭐ populate selectedVariants for edit
+		const populatedSelectedVariants = attributes.map((attr) => ({
+			id: attr.id,
+			name: attr.name,
+			values: attr.values,
+		}));
+
+		setSelectedVariants(populatedSelectedVariants);
+		isInitialEditLoad.current = true;
 	}, [productVariants]);
 
+	// useEffect(() => {
+	// 	if (selectedVariants.length > 0) {
+	// 		setGeneratedVariants(generateVariants(selectedVariants, sku));
+	// 	}
+	// }, [selectedVariants]);
 	useEffect(() => {
-		if (selectedVariants.length > 0) {
-			setGeneratedVariants(generateVariants(selectedVariants, sku));
+		if (selectedVariants.length === 0) return;
+
+		// 🚫 Skip during initial edit load
+		if (isInitialEditLoad.current) {
+			isInitialEditLoad.current = false;
+			return;
 		}
+
+		const newGenerated = generateVariants(selectedVariants, sku);
+		setGeneratedVariants((prev) => {
+			return newGenerated.map((newVariant) => {
+				// const existing = prev.find((v) => v.name === newVariant.name);
+				const existing = prev.find((v) => sameCombo(v, newVariant));
+				// const existing = prev.find((v) => sameCombo(v, newVariant));
+				// Preserve existing values
+				if (existing) {
+					return {
+						...existing,
+						...newVariant,
+					};
+				}
+
+				return newVariant;
+			});
+		});
 	}, [selectedVariants]);
 
 	//reset all states after drawer close
@@ -181,11 +223,6 @@ const ProductVariantForm = ({
 		setDefaultVariants([]);
 		setGeneratedVariants([]);
 	}, [resetKey]);
-
-	console.log(
-		{ selectedVariants, generatedVariants },
-		"chkkin generatedVariants",
-	);
 
 	return (
 		<section className="flex flex-col gap-8">
