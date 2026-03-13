@@ -560,7 +560,7 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 		model: db.review,
 		required: false,
 		separate: true,
-		where: { status: 'APPROVED' },
+		// where: { status: 'APPROVED' },
 		attributes: ['id', 'rating', 'guest_name', 'comment'],
 		include: [
 			{
