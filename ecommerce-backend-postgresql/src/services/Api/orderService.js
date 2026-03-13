@@ -23,19 +23,19 @@ async function confirmOrder(req) {
 
 		billing_address: customer.billingSameAsShipping
 			? customer.address
-			: billingAddress.address,
+			: billingAddress?.address,
 		billing_apartment: customer.billingSameAsShipping
 			? customer.apartment
-			: billingAddress.apartment || customer.apartment || null,
+			: billingAddress?.apartment || customer.apartment || null,
 		billing_city: customer.billingSameAsShipping
 			? customer.city
-			: billingAddress.city || customer.city,
+			: billingAddress?.city || customer.city,
 		billing_country: customer.billingSameAsShipping
 			? customer.country
-			: billingAddress.country || customer.country,
+			: billingAddress?.country || customer.country,
 		billing_postal_code: customer.billingSameAsShipping
 			? customer.postalCode
-			: billingAddress.postalCode || customer.postalCode,
+			: billingAddress?.postalCode || customer.postalCode,
 
 		payment_method: customer.paymentMethod,
 
@@ -99,6 +99,7 @@ async function confirmOrder(req) {
 			product_variant_id: item.selectedVariant
 				? item.selectedVariant.id
 				: null,
+			sku: item.selectedVariant ? item.selectedVariant.sku : item.sku,
 		}));
 
 		await db.order_item.bulkCreate(orderItemsData, {
@@ -130,7 +131,10 @@ async function confirmOrder(req) {
 			// to: 'annasahmed1609@gmail.com',
 			// to: 'salmanazeemkhan@gmail.com',
 			// to: 'orders@babiesnbaba.com',
-			to: config.env === 'development' ? 'devsts26@gmail.com' : 'babiesnbaba@gmail.com',
+			to:
+				config.env === 'development'
+					? 'annasahmed1609@gmail.com'
+					: 'babiesnbaba@gmail.com',
 			subject: `New Order #${orderId}`,
 			html: orderConfirmationAdminTemplate({
 				orderId,

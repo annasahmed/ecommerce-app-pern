@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
 					key: 'id',
 				},
 			},
+			sku: {
+				type: DataTypes.STRING, // add this column migration
+				allowNull: false,
+			},
 			product_title: { type: DataTypes.STRING, allowNull: false },
 			price: {
 				type: DataTypes.DECIMAL(10, 2),

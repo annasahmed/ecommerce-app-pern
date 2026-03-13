@@ -363,48 +363,91 @@ async function updateProduct(req, existingTransaction) {
 		}
 
 		// Handle variants
-		// For simplicity, remove old variants and re-add (you can do smarter diffing later)
-		const oldVariants = await db.product_variant.findAll({
+		// update existing, remove extra, add new
+		// Fetch existing variants
+		const existingVariants = await db.product_variant.findAll({
 			where: { product_id: product.id },
 			transaction,
 		});
-		const oldVariantIds = oldVariants.map((v) => v.id);
 
-		if (oldVariantIds.length > 0) {
+		// Map existing variants by SKU
+		const existingVariantMap = new Map();
+		existingVariants.forEach((v) => existingVariantMap.set(v.sku, v));
+
+		// Incoming SKUs
+		const incomingSkus = variants.map((v) => v.sku);
+
+		// Find variants to delete (sku not present anymore)
+		const variantsToDelete = existingVariants.filter(
+			(v) => !incomingSkus.includes(v.sku)
+		);
+
+		if (variantsToDelete.length) {
+			const deleteIds = variantsToDelete.map((v) => v.id);
+
 			await db.product_variant_to_branch.destroy({
-				where: { product_variant_id: oldVariantIds },
+				where: { product_variant_id: deleteIds },
 				transaction,
 			});
+
 			await db.product_variant_to_attribute.destroy({
-				where: { product_variant_id: oldVariantIds },
+				where: { product_variant_id: deleteIds },
 				transaction,
 			});
+
 			await db.product_variant.destroy({
-				where: { id: oldVariantIds },
+				where: { id: deleteIds },
 				transaction,
 			});
 		}
 
+		// Loop incoming variants
 		for (const variant of variants) {
 			const {
+				sku,
 				branch_data = [],
 				attribute_data = [],
 				...variantData
 			} = variant;
 
-			const newVariant = await db.product_variant.create(
-				{
-					...variantData,
-					product_id: product.id,
-				},
-				{ transaction }
-			);
+			let variantRecord;
 
-			if (attribute_data.length > 0) {
+			// UPDATE existing variant
+			if (existingVariantMap.has(sku)) {
+				variantRecord = existingVariantMap.get(sku);
+
+				await variantRecord.update(variantData, { transaction });
+
+				// Remove old relations
+				await db.product_variant_to_branch.destroy({
+					where: { product_variant_id: variantRecord.id },
+					transaction,
+				});
+
+				await db.product_variant_to_attribute.destroy({
+					where: { product_variant_id: variantRecord.id },
+					transaction,
+				});
+			}
+			// CREATE new variant
+			else {
+				variantRecord = await db.product_variant.create(
+					{
+						...variantData,
+						sku,
+						product_id: product.id,
+					},
+					{ transaction }
+				);
+			}
+
+			// Insert attributes
+			if (attribute_data.length) {
 				const attributeEntries = attribute_data.map((entry) => ({
 					...entry,
-					product_variant_id: newVariant.id,
+					product_variant_id: variantRecord.id,
 				}));
+
 				await db.product_variant_to_attribute.bulkCreate(
 					attributeEntries,
 					{
@@ -412,11 +455,14 @@ async function updateProduct(req, existingTransaction) {
 					}
 				);
 			}
-			if (branch_data.length > 0) {
+
+			// Insert branch data
+			if (branch_data.length) {
 				const branchEntries = branch_data.map((entry) => ({
 					...entry,
-					product_variant_id: newVariant.id,
+					product_variant_id: variantRecord.id,
 				}));
+
 				await db.product_variant_to_branch.bulkCreate(branchEntries, {
 					transaction,
 				});

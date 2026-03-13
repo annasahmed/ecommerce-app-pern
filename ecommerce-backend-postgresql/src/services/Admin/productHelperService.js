@@ -685,3 +685,180 @@ async function importVariantDiscountFromSheet(req) {
 		);
 	}
 }
+
+async function updateProduct(req, existingTransaction) {
+	const {
+		categories = [],
+		branches = [],
+		usps = [],
+		vendors = [],
+		translations = [],
+		variants = [],
+		images = [],
+		similarProducts = [],
+		...productData
+	} = req.body;
+	let transactionCreatedHere = false;
+	const transaction =
+		existingTransaction || (await db.sequelize.transaction());
+	if (!existingTransaction) transactionCreatedHere = true;
+	const userId = commonUtils.getUserId(req);
+	const productId = req.params.productId;
+
+	try {
+		// Fetch the product
+		const product = await db.product.findByPk(productId, { transaction });
+		if (!product) throw new Error('Product not found');
+
+		// Update main product
+		await product.update(
+			{ ...productData, user_id: userId },
+			{ transaction }
+		);
+
+		if (translations.length > 0) {
+			// Update translations: remove old, add new
+			await db.product_translation.destroy({
+				where: { product_id: product.id },
+				transaction,
+			});
+			const translationsWithProductId = translations.map((t) => ({
+				...t,
+				product_id: product.id,
+			}));
+			await db.product_translation.bulkCreate(translationsWithProductId, {
+				transaction,
+			});
+		}
+
+		// Update associations
+		if (images?.length) await product.setImages(images, { transaction });
+		if (categories?.length)
+			await product.setCategories(categories, { transaction });
+		if (branches?.length)
+			await product.setBranches(branches, { transaction });
+		if (usps?.length) await product.setUsps(usps, { transaction });
+		if (vendors?.length) await product.setVendors(vendors, { transaction });
+
+		// handle similar products
+		// 2️⃣ Update similar products
+		if (similarProducts.length > 0) {
+			const bulkData = [];
+
+			for (const sim of similarProducts) {
+				// it accepts both [1,2,3,4] or [{id:1},{id:2},{id:3},{id:4}]
+				const similarId = typeof sim === 'object' ? sim.id : sim;
+				if (similarId === productId) continue; // skip self
+
+				// Both directions
+				bulkData.push({
+					product_id: productId,
+					similar_product_id: similarId,
+				});
+				bulkData.push({
+					product_id: similarId,
+					similar_product_id: productId,
+				});
+			}
+
+			// Delete old similar products for this product (both directions)
+			await db.similar_product.destroy({
+				where: {
+					[Op.or]: [
+						{ product_id: productId },
+						{ similar_product_id: productId },
+					],
+				},
+				transaction,
+			});
+
+			// Insert new similar products
+			if (bulkData.length) {
+				await db.similar_product.bulkCreate(bulkData, {
+					ignoreDuplicates: true,
+					transaction,
+				});
+			}
+		} else {
+			// If similarProducts is empty, remove all old similar products
+			// await db.similar_product.destroy({
+			// 	where: {
+			// 		[Op.or]: [
+			// 			{ product_id: productId },
+			// 			{ similar_product_id: productId },
+			// 		],
+			// 	},
+			// 	transaction,
+			// });
+		}
+
+		// Handle variants
+		// For simplicity, remove old variants and re-add (you can do smarter diffing later)
+		const oldVariants = await db.product_variant.findAll({
+			where: { product_id: product.id },
+			transaction,
+		});
+		const oldVariantIds = oldVariants.map((v) => v.id);
+
+		if (oldVariantIds.length > 0) {
+			await db.product_variant_to_branch.destroy({
+				where: { product_variant_id: oldVariantIds },
+				transaction,
+			});
+			await db.product_variant_to_attribute.destroy({
+				where: { product_variant_id: oldVariantIds },
+				transaction,
+			});
+			await db.product_variant.destroy({
+				where: { id: oldVariantIds },
+				transaction,
+			});
+		}
+
+		for (const variant of variants) {
+			const {
+				branch_data = [],
+				attribute_data = [],
+				...variantData
+			} = variant;
+
+			const newVariant = await db.product_variant.create(
+				{
+					...variantData,
+					product_id: product.id,
+				},
+				{ transaction }
+			);
+
+			if (attribute_data.length > 0) {
+				const attributeEntries = attribute_data.map((entry) => ({
+					...entry,
+					product_variant_id: newVariant.id,
+				}));
+				await db.product_variant_to_attribute.bulkCreate(
+					attributeEntries,
+					{
+						transaction,
+					}
+				);
+			}
+			if (branch_data.length > 0) {
+				const branchEntries = branch_data.map((entry) => ({
+					...entry,
+					product_variant_id: newVariant.id,
+				}));
+				await db.product_variant_to_branch.bulkCreate(branchEntries, {
+					transaction,
+				});
+			}
+		}
+
+		// await transaction.commit();
+		if (transactionCreatedHere) await transaction.commit();
+		return product;
+	} catch (error) {
+		// await transaction.rollback();
+		if (transactionCreatedHere) await transaction.rollback();
+		throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error);
+	}
+}

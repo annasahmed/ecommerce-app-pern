@@ -572,6 +572,3 @@ const getProductsIncludes = (req, includeSlugCond = false) => [
 		],
 	},
 ];
-
-console.log('db.review:', !!db.review);
-console.log('product hasMany review:', !!db.product.associations?.reviews);
