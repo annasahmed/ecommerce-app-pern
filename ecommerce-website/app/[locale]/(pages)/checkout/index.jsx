@@ -228,15 +228,15 @@ export default function CheckoutPage() {
 			},
 		};
 
-		setOrderSummary({
-			...orderPayload,
-			paymentMethod: formData.paymentMethod,
-			orderId: Date.now(), // fallback safe ID
-			// orderId: res?.order?.tracking_id || Date.now(), // fallback safe ID
-		});
+		// setOrderSummary({
+		// 	...orderPayload,
+		// 	paymentMethod: formData.paymentMethod,
+		// 	// orderId: Date.now(), // fallback safe ID
+		// 	orderId: res?.order?.tracking_id || Date.now(), // fallback safe ID
+		// });
 
-		setOrderSuccess(true);
-		setLoading(false);
+		// setOrderSuccess(true);
+		// setLoading(false);
 		// return;
 
 		await OrderService.confirmOrder(orderPayload)
@@ -659,7 +659,8 @@ export default function CheckoutPage() {
 						<div className="lg:col-span-5 bg-gray-50 p-6 rounded-lg">
 							{/* Cart */}
 							<div className="space-y-4 mb-6">
-								{cart.map((item, idx) => (
+								{cart.map((item, idx) => {
+									return(
 									<div key={`item-${idx}`} className="flex gap-4">
 										<div className="relative">
 											<BaseImage
@@ -697,7 +698,7 @@ export default function CheckoutPage() {
 											).toFixed(2)}
 										/>
 									</div>
-								))}
+								)})}
 							</div>
 
 							{/* Voucher */}

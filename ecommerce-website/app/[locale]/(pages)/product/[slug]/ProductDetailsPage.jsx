@@ -234,11 +234,11 @@ export default function ProductDetailsPage() {
 					{/* Rating */}
 					<div className="flex items-center gap-2 mb-4">
 						<Ratings rating={product.avg_rating || randomRating} />
-						{product.total_reviews && (
+						{product.total_reviews ? (
 							<span className="p5 text-muted text-sm sm:text-base">
 								({product.total_reviews} reviews)
 							</span>
-						)}
+						) : null}
 					</div>
 
 					{/* Price */}
